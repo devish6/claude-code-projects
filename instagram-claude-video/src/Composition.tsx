@@ -1,6 +1,8 @@
 import {
   AbsoluteFill,
+  Audio,
   Sequence,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
   interpolate,
@@ -712,6 +714,12 @@ export const MyComposition: React.FC = () => {
 
       <Grain />
       <ProgressBar />
+
+      {/* Background music (low volume, sits under VO) */}
+      <Audio src={staticFile("music.mp3")} volume={0.35} />
+
+      {/* Voiceover (full mix, already pre-timed with adelay) */}
+      <Audio src={staticFile("voiceover.mp3")} volume={1.0} />
     </AbsoluteFill>
   );
 };
