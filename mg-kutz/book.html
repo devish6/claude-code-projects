@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MG Kutz | Book Appointment</title>
+  <meta name="description" content="Book your appointment at MG Kutz — Windsor's premier barbershop. Choose your barber, service, and time slot online." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Supabase CDN (must load before supabase.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js" defer></script>
+  <script src="js/gcal.js" defer></script>
+
+  <style>
+    /* ── Booking Layout ──────────────────────────────────────── */
+    .booking-container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    .step-title {
+      font-family: Georgia, serif;
+      font-size: 26px;
+      font-weight: 900;
+      margin-bottom: 32px;
+    }
+
+    /* Step indicator wrapper */
+    .steps-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 40px 0;
+    }
+
+    /* ── Barber select cards ─────────────────────────────────── */
+    .barber-select-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .barber-select-card {
+      cursor: pointer;
+      padding: 20px;
+      text-align: center;
+      background: var(--gold-dim);
+      border: 2px solid var(--gold-border);
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+
+    .barber-select-card:hover {
+      border-color: var(--gold);
+    }
+
+    .barber-select-card.selected {
+      border-color: var(--gold);
+      background: rgba(201, 168, 76, 0.15);
+    }
+
+    .barber-select-card .card-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8b6914);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: #000;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .barber-select-card .card-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .barber-select-card .card-name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .barber-select-card .card-specialty {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── Service cards ───────────────────────────────────────── */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .service-card {
+      cursor: pointer;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      background: var(--gold-dim);
+      border: 2px solid var(--gold-border);
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+
+    .service-card:hover {
+      border-color: var(--gold);
+    }
+
+    .service-card.selected {
+      border-color: var(--gold);
+      background: rgba(201, 168, 76, 0.15);
+    }
+
+    .service-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .service-name {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .service-price {
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .service-duration {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .best-value-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--gold);
+      color: #000;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* ── Time slots ──────────────────────────────────────────── */
+    .slots-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .slot-btn {
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .slot-btn:hover {
+      border-color: var(--gold);
+    }
+
+    .slot-btn.selected {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+
+    .slots-hint {
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 20px 0;
+    }
+
+    .slots-loading {
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slots-empty {
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 20px 0;
+      font-style: italic;
+    }
+
+    /* ── Booking summary ─────────────────────────────────────── */
+    .booking-summary {
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      color: var(--text-muted);
+    }
+
+    .summary-value {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ── Step nav ────────────────────────────────────────────── */
+    .step-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 32px;
+    }
+
+    /* ── Success screen ──────────────────────────────────────── */
+    #success-screen {
+      text-align: center;
+      padding: 80px 40px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .success-icon {
+      font-size: 64px;
+      margin-bottom: 24px;
+    }
+
+    #success-screen h2 {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      font-weight: 900;
+      margin-bottom: 24px;
+      color: var(--gold);
+    }
+
+    #success-details {
+      margin-bottom: 36px;
+    }
+
+    /* ── Date picker ─────────────────────────────────────────── */
+    .date-picker-row {
+      margin-bottom: 24px;
+    }
+
+    input[type="date"] {
+      color-scheme: dark;
+    }
+
+    /* ── Error message ───────────────────────────────────────── */
+    .booking-error {
+      color: var(--color-error);
+      font-size: 14px;
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: rgba(233, 69, 96, 0.08);
+      border: 1px solid rgba(233, 69, 96, 0.3);
+      border-radius: 6px;
+      display: none;
+    }
+
+    .booking-error.visible {
+      display: block;
+    }
+
+    /* ── Disabled state for btn-primary ─────────────────────── */
+    .btn-primary:disabled,
+    .btn-primary[disabled] {
+      opacity: 0.35;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .barber-select-grid,
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-container {
+        padding: 40px 20px;
+      }
+
+      .steps-wrapper {
+        padding: 32px 20px 0;
+      }
+
+      #success-screen {
+        padding: 60px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ NAV ═══ -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">MG KUTZ</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="barbers.html">Barbers</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="book.html" class="btn-nav">Book Now</a>
+    <button class="nav-hamburger" onclick="document.querySelector('.nav-drawer').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+  </nav>
+
+  <div class="nav-drawer">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="barbers.html">Barbers</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="book.html" class="btn-nav" style="display:inline-block;margin-top:8px;">Book Now</a></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════ STEP INDICATOR ═══ -->
+  <div class="steps-wrapper" id="step-indicator-wrapper">
+    <div class="steps" id="step-indicator">
+      <div class="step active" data-step="1">
+        <div class="step-circle">1</div>
+        <span class="step-label">Barber</span>
+      </div>
+      <div class="step" data-step="2">
+        <div class="step-circle">2</div>
+        <span class="step-label">Service</span>
+      </div>
+      <div class="step" data-step="3">
+        <div class="step-circle">3</div>
+        <span class="step-label">Date &amp; Time</span>
+      </div>
+      <div class="step" data-step="4">
+        <div class="step-circle">4</div>
+        <span class="step-label">Your Details</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ BOOKING FLOW ═══ -->
+  <div class="booking-container">
+
+    <!-- ── Step 1: Choose Your Barber ── -->
+    <div class="step-panel" id="panel-1">
+      <h2 class="step-title">Choose Your Barber</h2>
+      <div class="barber-select-grid" id="barber-select-grid">
+        <!-- JS populates from Supabase or placeholders -->
+        <div style="grid-column:1/-1;text-align:center;padding:32px 0;">
+          <span class="spinner"></span>
+          <p class="slots-hint" style="margin-top:12px;">Loading barbers…</p>
+        </div>
+      </div>
+      <div class="step-nav">
+        <div></div>
+        <button class="btn-primary" onclick="goToStep(2)" id="next-1" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Step 2: Choose Service ── -->
+    <div class="step-panel" id="panel-2" hidden>
+      <h2 class="step-title">Choose a Service</h2>
+      <div class="service-grid">
+        <div class="service-card" data-service="Men's Haircut" data-duration="60" onclick="selectService(this)">
+          <div class="service-icon">✂️</div>
+          <div class="service-name">Men's Haircut</div>
+          <div class="service-price">$25</div>
+          <div class="service-duration">~60 min</div>
+        </div>
+        <div class="service-card" data-service="Kids Haircut" data-duration="30" onclick="selectService(this)">
+          <div class="service-icon">👦</div>
+          <div class="service-name">Kids Haircut</div>
+          <div class="service-price">$15</div>
+          <div class="service-duration">~30 min</div>
+        </div>
+        <div class="service-card" data-service="Beard Trim" data-duration="30" onclick="selectService(this)">
+          <div class="service-icon">🪒</div>
+          <div class="service-name">Beard Trim</div>
+          <div class="service-price">$20</div>
+          <div class="service-duration">~30 min</div>
+        </div>
+        <div class="service-card best-value" data-service="Beard + Haircut" data-duration="60" onclick="selectService(this)">
+          <span class="best-value-badge">BEST VALUE</span>
+          <div class="service-icon">👑</div>
+          <div class="service-name">Beard + Haircut</div>
+          <div class="service-price">$40</div>
+          <div class="service-duration">~60 min</div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="goToStep(1)">← Back</button>
+        <button class="btn-primary" onclick="goToStep(3)" id="next-2" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Step 3: Pick Date & Time ── -->
+    <div class="step-panel" id="panel-3" hidden>
+      <h2 class="step-title">Pick a Date &amp; Time</h2>
+      <div class="date-picker-row">
+        <label class="form-label" for="date-input">Select Date</label>
+        <input type="date" class="form-input" id="date-input" onchange="loadTimeSlots()" />
+      </div>
+      <div id="slots-container">
+        <p class="slots-hint">Select a date to see available times.</p>
+      </div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="goToStep(2)">← Back</button>
+        <button class="btn-primary" onclick="goToStep(4)" id="next-3" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- ── Step 4: Your Details ── -->
+    <div class="step-panel" id="panel-4" hidden>
+      <h2 class="step-title">Your Details</h2>
+      <div class="booking-summary" id="booking-summary">
+        <!-- JS fills in barber name, service, date, time -->
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="client-name">Your Name</label>
+        <input type="text" class="form-input" id="client-name" placeholder="Full name" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="client-phone">Phone Number</label>
+        <input type="tel" class="form-input" id="client-phone" placeholder="(519) 000-0000" autocomplete="tel" />
+      </div>
+      <div class="booking-error" id="booking-error"></div>
+      <div class="step-nav">
+        <button class="btn-ghost" onclick="goToStep(3)">← Back</button>
+        <button class="btn-primary" onclick="confirmBooking()" id="confirm-btn">CONFIRM BOOKING</button>
+      </div>
+    </div>
+
+    <!-- ── Success Screen ── -->
+    <div id="success-screen" hidden>
+      <div class="success-icon">✅</div>
+      <h2>Booking Confirmed!</h2>
+      <div id="success-details" class="booking-summary"></div>
+      <a class="btn-primary" href="index.html">Back to Home</a>
+    </div>
+
+  </div><!-- /.booking-container -->
+
+  <!-- ═══════════════════════════════════════ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+
+        <!-- Col 1: Location -->
+        <div class="footer-col">
+          <p class="footer-col-title">Location</p>
+          <address>
+            5467 Tecumseh Rd E #2<br>
+            Windsor, ON N8T 1C8
+          </address>
+          <p style="margin-top:12px;">
+            <a href="tel:+15199449797" style="color:#c9a84c;text-decoration:none;">(519) 944-9797</a>
+          </p>
+        </div>
+
+        <!-- Col 2: Hours -->
+        <div class="footer-col">
+          <p class="footer-col-title">Hours</p>
+          <ul class="hours-list">
+            <li><span>Monday</span><span>12:00 – 7:30 PM</span></li>
+            <li><span>Tuesday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Wednesday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Thursday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Friday</span><span>9:30 AM – 8:30 PM</span></li>
+            <li><span>Saturday</span><span>9:30 AM – 8:30 PM</span></li>
+            <li><span>Sunday</span><span>9:30 AM – 8:00 PM</span></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Follow -->
+        <div class="footer-col">
+          <p class="footer-col-title">Follow</p>
+          <p>
+            <a href="https://www.instagram.com/mgcuts1/" target="_blank" rel="noopener"
+               style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s ease;"
+               onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+              📸 @mgcuts1
+            </a>
+          </p>
+          <a href="book.html" class="btn-primary" style="margin-top:20px;display:inline-block;">Book Now</a>
+        </div>
+
+      </div>
+
+      <p class="footer-copy">© 2025 MG Kutz · Windsor, Ontario</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════ JS ═══ -->
+  <script>
+    // ── State ────────────────────────────────────────────────────────────
+    const state = {
+      barberId: null,
+      barberName: null,
+      barberToken: null,     // { access_token, expiry_date, ... } or null
+      barberCalendarId: null,
+      service: null,
+      duration: null,
+      date: null,
+      time: null,        // ISO string
+      timeDisplay: null, // "9:30 AM"
+    };
+
+    // ── Utilities ────────────────────────────────────────────────────────
+
+    /** Format an ISO date string to "Mon, Jun 10 2024" */
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr + 'T12:00:00');
+      return d.toLocaleDateString('en-CA', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    /** Format an ISO datetime to "9:30 AM" */
+    function formatTime(isoStr) {
+      if (!isoStr) return '';
+      const d = new Date(isoStr);
+      return d.toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit', hour12: true });
+    }
+
+    // ── Step navigation ──────────────────────────────────────────────────
+
+    function goToStep(n) {
+      // Hide all panels
+      document.querySelectorAll('.step-panel').forEach(p => p.hidden = true);
+
+      // Update step indicator
+      document.querySelectorAll('#step-indicator .step').forEach(s => {
+        const num = parseInt(s.dataset.step, 10);
+        s.classList.remove('active', 'completed');
+        if (num === n) s.classList.add('active');
+        if (num < n)  s.classList.add('completed');
+      });
+
+      // Show the target panel
+      const panel = document.getElementById(`panel-${n}`);
+      if (panel) {
+        panel.hidden = false;
+      }
+
+      // Step-specific side effects
+      if (n === 3) initDatePicker();
+      if (n === 4) renderSummary();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Step 1: Barbers ──────────────────────────────────────────────────
+
+    async function loadBarbers() {
+      const grid = document.getElementById('barber-select-grid');
+      try {
+        if (typeof db === 'undefined') throw new Error('db not available');
+        const { data: barbers, error } = await db
+          .from('barbers')
+          .select('id, name, specialties, profile_photo, gcal_token, gcal_calendar_id')
+          .order('created_at');
+        if (error || !barbers?.length) throw new Error('no data');
+        renderBarberCards(grid, barbers);
+      } catch {
+        renderPlaceholderBarberCards(grid);
+      }
+    }
+
+    function renderBarberCards(grid, barbers) {
+      grid.innerHTML = barbers.map(b => {
+        const initial = b.name.charAt(0).toUpperCase();
+        const avatar = b.profile_photo
+          ? `<img src="${b.profile_photo}" alt="${b.name}">`
+          : initial;
+        const specialty = (b.specialties || [])[0] || '';
+        // Store gcal data as data attributes (JSON-encoded)
+        const tokenAttr = b.gcal_token ? `data-token='${JSON.stringify(b.gcal_token)}'` : '';
+        const calAttr   = b.gcal_calendar_id ? `data-calendar="${b.gcal_calendar_id}"` : '';
+        return `
+          <div class="barber-select-card"
+               data-id="${b.id}"
+               data-name="${b.name}"
+               ${tokenAttr}
+               ${calAttr}
+               onclick="selectBarber(this)">
+            <div class="card-avatar">${avatar}</div>
+            <div class="card-name">${b.name}</div>
+            ${specialty ? `<div class="card-specialty">${specialty}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      // Auto-select from URL param after cards are rendered
+      checkUrlBarber();
+    }
+
+    function renderPlaceholderBarberCards(grid) {
+      const placeholders = [
+        { id: 'p1', name: 'Barber 1' },
+        { id: 'p2', name: 'Barber 2' },
+        { id: 'p3', name: 'Barber 3' },
+        { id: 'p4', name: 'Barber 4' },
+      ];
+      grid.innerHTML = placeholders.map((b, i) => `
+        <div class="barber-select-card"
+             data-id="${b.id}"
+             data-name="${b.name}"
+             onclick="selectBarber(this)">
+          <div class="card-avatar">B${i + 1}</div>
+          <div class="card-name">${b.name}</div>
+          <div class="card-specialty">Available for booking</div>
+        </div>
+      `).join('');
+
+      // Still check URL param
+      checkUrlBarber();
+    }
+
+    function selectBarber(card) {
+      // Deselect all
+      document.querySelectorAll('.barber-select-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+
+      state.barberId       = card.dataset.id;
+      state.barberName     = card.dataset.name;
+      state.barberCalendarId = card.dataset.calendar || null;
+
+      // Parse token safely
+      try {
+        state.barberToken = card.dataset.token ? JSON.parse(card.dataset.token) : null;
+      } catch {
+        state.barberToken = null;
+      }
+
+      document.getElementById('next-1').disabled = false;
+    }
+
+    /** Check URL for ?barber=ID and auto-select + advance to step 2 */
+    function checkUrlBarber() {
+      const params = new URLSearchParams(window.location.search);
+      const barberId = params.get('barber');
+      if (!barberId) return;
+
+      const card = document.querySelector(`.barber-select-card[data-id="${barberId}"]`);
+      if (card) {
+        selectBarber(card);
+        goToStep(2);
+      }
+    }
+
+    // ── Step 2: Services ─────────────────────────────────────────────────
+
+    function selectService(card) {
+      // Deselect all
+      document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+
+      state.service  = card.dataset.service;
+      state.duration = parseInt(card.dataset.duration, 10);
+
+      document.getElementById('next-2').disabled = false;
+    }
+
+    // ── Step 3: Date & Time ──────────────────────────────────────────────
+
+    /** Called when entering step 3 — set date constraints */
+    function initDatePicker() {
+      const input = document.getElementById('date-input');
+      const today = new Date();
+      const max   = new Date();
+      max.setDate(today.getDate() + 60);
+
+      input.min = today.toISOString().split('T')[0];
+      input.max = max.toISOString().split('T')[0];
+
+      // Restore previously selected date if navigating back
+      if (state.date) {
+        input.value = state.date;
+        loadTimeSlots();
+      } else {
+        document.getElementById('slots-container').innerHTML =
+          '<p class="slots-hint">Select a date to see available times.</p>';
+        document.getElementById('next-3').disabled = true;
+      }
+    }
+
+    async function loadTimeSlots() {
+      const input = document.getElementById('date-input');
+      const date  = input.value;
+      if (!date) return;
+
+      state.date = date;
+      state.time = null;
+      state.timeDisplay = null;
+      document.getElementById('next-3').disabled = true;
+
+      const container = document.getElementById('slots-container');
+      container.innerHTML = '<div class="slots-loading"><span class="spinner"></span> Checking availability…</div>';
+
+      let busyIntervals = [];
+
+      // If barber has a GCal token, fetch free/busy; otherwise show all shop slots
+      if (state.barberToken && state.barberToken.access_token && state.barberCalendarId) {
+        const token = await refreshTokenIfNeeded(state.barberToken);
+        busyIntervals = await checkFreeBusy(token.access_token, state.barberCalendarId, date);
+      }
+
+      const slots = getAvailableSlots(busyIntervals, date, state.duration);
+
+      if (!slots.length) {
+        container.innerHTML = '<p class="slots-empty">No available times for this date. Try another day.</p>';
+        return;
+      }
+
+      const slotBtns = slots.map(iso => {
+        const label = formatTime(iso);
+        return `<button class="slot-btn" data-iso="${iso}" data-label="${label}" onclick="selectSlot(this)">${label}</button>`;
+      }).join('');
+
+      container.innerHTML = `<div class="slots-grid">${slotBtns}</div>`;
+    }
+
+    function selectSlot(btn) {
+      document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      state.time        = btn.dataset.iso;
+      state.timeDisplay = btn.dataset.label;
+
+      document.getElementById('next-3').disabled = false;
+    }
+
+    // ── Step 4: Summary & Confirm ────────────────────────────────────────
+
+    function renderSummary() {
+      const el = document.getElementById('booking-summary');
+      el.innerHTML = `
+        <div class="summary-row">
+          <span class="summary-label">Barber</span>
+          <span class="summary-value">${state.barberName || '—'}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Service</span>
+          <span class="summary-value">${state.service || '—'}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Date</span>
+          <span class="summary-value">${formatDate(state.date)}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Time</span>
+          <span class="summary-value">${state.timeDisplay || '—'}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Duration</span>
+          <span class="summary-value">~${state.duration} min</span>
+        </div>
+      `;
+    }
+
+    function showBookingError(msg) {
+      const el = document.getElementById('booking-error');
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+
+    function hideBookingError() {
+      const el = document.getElementById('booking-error');
+      el.classList.remove('visible');
+    }
+
+    async function confirmBooking() {
+      hideBookingError();
+
+      const name  = document.getElementById('client-name').value.trim();
+      const phone = document.getElementById('client-phone').value.trim();
+
+      if (!name) {
+        showBookingError('Please enter your name.');
+        document.getElementById('client-name').focus();
+        return;
+      }
+      if (!phone) {
+        showBookingError('Please enter your phone number.');
+        document.getElementById('client-phone').focus();
+        return;
+      }
+
+      const btn = document.getElementById('confirm-btn');
+      btn.disabled = true;
+      btn.textContent = 'BOOKING…';
+
+      // Calculate end time from state.time + state.duration
+      const startISO = state.time;
+      const endISO   = new Date(new Date(startISO).getTime() + state.duration * 60000).toISOString();
+
+      try {
+        // 1. Insert booking into Supabase
+        let bookingId = null;
+        let gcalEventId = null;
+
+        if (typeof db !== 'undefined') {
+          const { data, error } = await db
+            .from('bookings')
+            .insert({
+              barber_id:    state.barberId,
+              service:      state.service,
+              duration_min: state.duration,
+              start_at:     startISO,
+              end_at:       endISO,
+              client_name:  name,
+              client_phone: phone,
+            })
+            .select('id')
+            .single();
+
+          if (error) {
+            console.error('Supabase insert error:', error);
+            // Non-fatal: continue to show success with a warning
+          } else {
+            bookingId = data?.id;
+          }
+
+          // 2. Create Google Calendar event if barber has GCal configured
+          if (state.barberToken?.access_token && state.barberCalendarId) {
+            gcalEventId = await createCalendarEvent(
+              state.barberToken.access_token,
+              state.barberCalendarId,
+              {
+                service:     state.service,
+                clientName:  name,
+                clientPhone: phone,
+                startISO,
+                endISO,
+              }
+            );
+
+            // 3. Update booking row with gcal_event_id
+            if (bookingId && gcalEventId) {
+              await db
+                .from('bookings')
+                .update({ gcal_event_id: gcalEventId })
+                .eq('id', bookingId);
+            }
+          }
+        }
+
+        // 4. Show success
+        showSuccess(name, gcalEventId);
+
+      } catch (err) {
+        console.error('Booking error:', err);
+        showBookingError('Something went wrong. Please call us at (519) 944-9797 to book.');
+        btn.disabled = false;
+        btn.textContent = 'CONFIRM BOOKING';
+      }
+    }
+
+    function showSuccess(clientName, gcalEventId) {
+      // Hide step indicator and booking container panels
+      document.getElementById('step-indicator-wrapper').hidden = true;
+      document.querySelectorAll('.step-panel').forEach(p => p.hidden = true);
+
+      const details = document.getElementById('success-details');
+      details.innerHTML = `
+        <div class="summary-row">
+          <span class="summary-label">Name</span>
+          <span class="summary-value">${clientName}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Barber</span>
+          <span class="summary-value">${state.barberName}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Service</span>
+          <span class="summary-value">${state.service}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Date</span>
+          <span class="summary-value">${formatDate(state.date)}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Time</span>
+          <span class="summary-value">${state.timeDisplay}</span>
+        </div>
+        ${gcalEventId
+          ? '<div class="summary-row"><span class="summary-label">Calendar</span><span class="summary-value">Added ✓</span></div>'
+          : ''}
+      `;
+
+      document.getElementById('success-screen').hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Bootstrap ────────────────────────────────────────────────────────
+    function init() {
+      loadBarbers();
+    }
+
+    // Wait for deferred scripts (supabase.js, gcal.js) to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+
+</body>
+</html>
