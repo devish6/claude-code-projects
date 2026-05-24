@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MG Kutz | Barber Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <!-- Supabase CDN — must load before supabase.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/supabase.js" defer></script>
+  <script src="js/gcal.js" defer></script>
+
+  <style>
+    /* ── Admin-specific styles ───────────────────────────────── */
+    body { min-height: 100vh; }
+
+    /* ── Login Screen ──────────────────────────────────────────── */
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0a0a;
+    }
+    .login-box {
+      background: #111;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      padding: 48px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .login-logo {
+      font-family: Georgia, serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #c9a84c;
+      letter-spacing: 4px;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .login-subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .login-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    /* ── Form elements ─────────────────────────────────────────── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #c9a84c;
+    }
+    .form-input::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 88px;
+    }
+    .form-error {
+      background: rgba(233,69,96,0.1);
+      color: #e94560;
+      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Portal Header ─────────────────────────────────────────── */
+    .portal-header {
+      background: #050505;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .portal-logo {
+      font-family: Georgia, serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: #c9a84c;
+      letter-spacing: 4px;
+    }
+    .portal-subtitle {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+    }
+    .portal-user {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      margin-right: 12px;
+    }
+
+    /* ── Tab Navigation ────────────────────────────────────────── */
+    .portal-tabs {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 0 40px;
+      display: flex;
+      gap: 0;
+      background: #0a0a0a;
+    }
+    .tab {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab:hover { color: #fff; }
+    .tab.active {
+      color: #c9a84c;
+      border-bottom-color: #c9a84c;
+    }
+
+    /* ── Tab Panel ─────────────────────────────────────────────── */
+    .tab-panel {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+    .tab-panel h2 {
+      font-family: Georgia, serif;
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .tab-desc {
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .label-hint {
+      color: rgba(255,255,255,0.3);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    /* ── Tag Input ─────────────────────────────────────────────── */
+    .tag-input-wrap {
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      cursor: text;
+    }
+    .tag-input-wrap:focus-within { border-color: #c9a84c; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(201,168,76,0.12);
+      color: #c9a84c;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      gap: 4px;
+    }
+    .tag-removable { display: flex; align-items: center; gap: 4px; }
+    .tag-remove {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 0 2px;
+    }
+    .tag-remove:hover { color: #fff; }
+    .tag-text-input {
+      background: none;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 13px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    /* ── Google Calendar Status ────────────────────────────────── */
+    .gcal-status-box {
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .gcal-ok {
+      background: rgba(0,200,100,0.06);
+      border-color: rgba(0,200,100,0.2);
+    }
+    .gcal-status-icon { font-size: 32px; flex-shrink: 0; }
+    .gcal-status-text { flex: 1; }
+    .gcal-status-text strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .gcal-status-text p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 4px;
+    }
+    .gcal-info {
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .gcal-info h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+    .gcal-info ol {
+      padding-left: 20px;
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    /* ── Upload Zone ───────────────────────────────────────────── */
+    .upload-zone {
+      border: 2px dashed rgba(201,168,76,0.3);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      margin-bottom: 16px;
+    }
+    .upload-zone:hover { border-color: #c9a84c; }
+    .upload-icon { font-size: 36px; margin-bottom: 12px; }
+    .upload-zone p {
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      margin: 4px 0;
+    }
+    .upload-zone strong { color: #c9a84c; }
+    .upload-status-msg {
+      font-size: 13px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: rgba(201,168,76,0.1);
+      color: #c9a84c;
+      margin-bottom: 16px;
+    }
+
+    /* ── Portfolio Grid ────────────────────────────────────────── */
+    .portfolio-manage-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .manage-photo-wrap {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(201,168,76,0.15);
+    }
+    .manage-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .delete-photo-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .manage-photo-wrap:hover .delete-photo-btn { opacity: 1; }
+
+    /* ── Bookings Table ────────────────────────────────────────── */
+    .bookings-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .bookings-table th {
+      text-align: left;
+      color: #c9a84c;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0 12px 12px;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .bookings-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.8);
+    }
+    .bookings-table a {
+      color: #c9a84c;
+      text-decoration: none;
+    }
+
+    /* ── Status Messages ───────────────────────────────────────── */
+    .status-msg {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    .status-ok { background: rgba(0,200,100,0.1); color: #00c864; }
+    .status-err { background: rgba(220,50,50,0.1); color: #e94560; }
+
+    .hint { color: rgba(255,255,255,0.35); font-size: 12px; }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .tab-panel { padding: 32px 20px; }
+      .portal-tabs { padding: 0 20px; overflow-x: auto; }
+      .portal-header { padding: 0 20px; }
+      .gcal-status-box { flex-direction: column; align-items: flex-start; }
+      .portfolio-manage-grid { grid-template-columns: repeat(2, 1fr); }
+      .login-box { margin: 20px; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LOGIN SCREEN — shown when logged out
+  ════════════════════════════════════════════════════════════════ -->
+  <div id="login-screen" class="login-container">
+    <div class="login-box">
+      <div class="login-logo">MG KUTZ</div>
+      <p class="login-subtitle">Barber Portal</p>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="login-email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="login-password" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter') signIn()">
+      </div>
+      <div id="login-error" class="form-error" hidden></div>
+      <button class="btn-primary" style="width:100%" onclick="signIn()">SIGN IN</button>
+      <p class="login-note">Contact the shop owner to get your login credentials.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PORTAL — shown after login
+  ════════════════════════════════════════════════════════════════ -->
+  <div id="portal" hidden>
+
+    <!-- Header -->
+    <div class="portal-header">
+      <span class="portal-logo">MG KUTZ</span>
+      <span class="portal-subtitle">Barber Portal</span>
+      <div style="display:flex;align-items:center;">
+        <span class="portal-user" id="portal-user-email"></span>
+        <button class="btn-ghost" onclick="signOut()">Sign Out</button>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="portal-tabs">
+      <button class="tab active" onclick="showTab('profile')">My Profile</button>
+      <button class="tab" onclick="showTab('calendar')">Google Calendar</button>
+      <button class="tab" onclick="showTab('portfolio')">My Portfolio</button>
+      <button class="tab" onclick="showTab('bookings')">Bookings</button>
+    </div>
+
+    <!-- ── TAB: My Profile ───────────────────────────────────── -->
+    <div class="tab-panel" id="tab-profile">
+      <h2>My Profile</h2>
+      <p class="tab-desc">This info shows on your public profile page.</p>
+
+      <div class="form-group">
+        <label class="form-label">Display Name</label>
+        <input type="text" class="form-input" id="profile-name" placeholder="Your name" autocomplete="name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Bio</label>
+        <textarea class="form-input form-textarea" id="profile-bio" rows="3"
+          placeholder="Tell clients about yourself..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          Specialties <span class="label-hint">(press Enter to add)</span>
+        </label>
+        <div class="tag-input-wrap" onclick="document.getElementById('specialty-input').focus()">
+          <div class="tag-input-tags" id="specialty-tags"></div>
+          <input type="text" class="tag-text-input" id="specialty-input" placeholder="e.g. Fades"
+            onkeydown="handleSpecialtyInput(event)">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Years of Experience</label>
+        <input type="number" class="form-input" id="profile-years" min="0" max="50" style="max-width:120px">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">
+          Profile Photo URL <span class="label-hint">(paste a direct image URL)</span>
+        </label>
+        <input type="url" class="form-input" id="profile-photo" placeholder="https://...">
+      </div>
+
+      <div id="profile-status" hidden></div>
+      <button class="btn-primary" onclick="saveProfile()">SAVE PROFILE</button>
+    </div>
+
+    <!-- ── TAB: Google Calendar ──────────────────────────────── -->
+    <div class="tab-panel" id="tab-calendar" hidden>
+      <h2>Google Calendar</h2>
+      <p class="tab-desc">Connect your Google Calendar so clients can book real time slots and you get reminder notifications on your phone.</p>
+
+      <div id="gcal-not-connected" class="gcal-status-box">
+        <div class="gcal-status-icon">📅</div>
+        <div class="gcal-status-text">
+          <strong>Not connected</strong>
+          <p>Connect your Google account to enable live availability and phone reminders.</p>
+        </div>
+        <button class="btn-primary" onclick="connectGoogleCalendar()">Connect Google Account</button>
+      </div>
+
+      <div id="gcal-connected" class="gcal-status-box gcal-ok" hidden>
+        <div class="gcal-status-icon">✅</div>
+        <div class="gcal-status-text">
+          <strong>Connected</strong>
+          <p id="gcal-connected-email"></p>
+          <p class="hint">Reminders set: 30 min before each appointment (popup + email)</p>
+        </div>
+        <button class="btn-ghost" onclick="disconnectGCalendar()">Disconnect</button>
+      </div>
+
+      <div class="gcal-info">
+        <h3>How it works</h3>
+        <ol>
+          <li>Click "Connect Google Account" above</li>
+          <li>Sign in and allow MG Kutz to access your calendar</li>
+          <li>When a client books with you, an event is added to your Google Calendar</li>
+          <li>Google sends a reminder to your phone 30 minutes before each appointment</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ── TAB: My Portfolio ─────────────────────────────────── -->
+    <div class="tab-panel" id="tab-portfolio" hidden>
+      <h2>My Portfolio</h2>
+      <p class="tab-desc">Upload photos of your work. These appear on your public profile.</p>
+
+      <!-- Upload zone -->
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+        <div class="upload-icon">📷</div>
+        <p>Drag &amp; drop photos or <strong>click to upload</strong></p>
+        <p class="hint">JPG, PNG, WEBP — max 5MB each</p>
+      </div>
+      <input type="file" id="file-input" accept="image/*" multiple hidden onchange="handlePhotoUpload(event)">
+      <div id="upload-status" hidden></div>
+
+      <!-- Photo grid -->
+      <div class="portfolio-manage-grid" id="portfolio-manage-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- ── TAB: Upcoming Bookings ────────────────────────────── -->
+    <div class="tab-panel" id="tab-bookings" hidden>
+      <h2>Upcoming Bookings</h2>
+      <p class="tab-desc">Your scheduled appointments.</p>
+      <div id="bookings-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+  </div><!-- /#portal -->
+
+
+  <script>
+    /* ============================================================
+       State
+    ============================================================ */
+    let currentBarber = null; // { id, name, specialties, gcal_token, gcal_calendar_id, ... }
+    let currentUser   = null;
+    let specialties   = [];
+
+    /* ============================================================
+       Auth flow
+    ============================================================ */
+    async function initAuth() {
+      const { data: { session } } = await db.auth.getSession();
+      if (session?.user) {
+        await onLogin(session.user);
+      }
+
+      db.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN')  await onLogin(session.user);
+        if (event === 'SIGNED_OUT') onLogout();
+      });
+    }
+
+    async function signIn() {
+      const email    = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errEl    = document.getElementById('login-error');
+      errEl.hidden   = true;
+
+      if (!email || !password) {
+        errEl.textContent = 'Please enter your email and password.';
+        errEl.hidden = false;
+        return;
+      }
+
+      const { error } = await db.auth.signInWithPassword({ email, password });
+      if (error) {
+        errEl.textContent = error.message;
+        errEl.hidden = false;
+      }
+    }
+
+    async function signOut() {
+      await db.auth.signOut();
+    }
+
+    async function onLogin(user) {
+      currentUser = user;
+
+      // Fetch or create barber row
+      let { data: barber } = await db
+        .from('barbers')
+        .select('*')
+        .eq('auth_id', user.id)
+        .single();
+
+      if (!barber) {
+        // First login — create barber row
+        const { data: newBarber } = await db
+          .from('barbers')
+          .insert({ auth_id: user.id, name: user.email })
+          .select()
+          .single();
+        barber = newBarber;
+      }
+
+      currentBarber = barber;
+      specialties   = barber?.specialties || [];
+
+      // Switch screens
+      document.getElementById('login-screen').hidden = true;
+      document.getElementById('portal').hidden       = false;
+      document.getElementById('portal-user-email').textContent = user.email;
+
+      // Load all tab data
+      loadProfileForm();
+      updateGCalStatus();
+      loadPortfolio();
+      loadBookings();
+    }
+
+    function onLogout() {
+      currentBarber = null;
+      currentUser   = null;
+      specialties   = [];
+      document.getElementById('portal').hidden       = true;
+      document.getElementById('login-screen').hidden = false;
+      // Reset to profile tab for next login
+      showTab('profile');
+    }
+
+    /* ============================================================
+       Tab System
+    ============================================================ */
+    function showTab(name) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.hidden = true);
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + name).hidden = false;
+      document.querySelector(`.tab[onclick="showTab('${name}')"]`).classList.add('active');
+    }
+
+    /* ============================================================
+       Status helper
+    ============================================================ */
+    function showStatus(id, msg, success) {
+      const el      = document.getElementById(id);
+      el.textContent = msg;
+      el.className   = 'status-msg ' + (success ? 'status-ok' : 'status-err');
+      el.hidden      = false;
+      setTimeout(() => { el.hidden = true; }, 4000);
+    }
+
+    /* ============================================================
+       Profile Tab
+    ============================================================ */
+    function loadProfileForm() {
+      if (!currentBarber) return;
+      document.getElementById('profile-name').value  = currentBarber.name  || '';
+      document.getElementById('profile-bio').value   = currentBarber.bio   || '';
+      document.getElementById('profile-years').value = currentBarber.years_exp || '';
+      document.getElementById('profile-photo').value = currentBarber.profile_photo || '';
+      specialties = currentBarber.specialties || [];
+      renderSpecialtyTags();
+    }
+
+    async function saveProfile() {
+      const updates = {
+        name:          document.getElementById('profile-name').value.trim(),
+        bio:           document.getElementById('profile-bio').value.trim(),
+        specialties,
+        years_exp:     parseInt(document.getElementById('profile-years').value) || 0,
+        profile_photo: document.getElementById('profile-photo').value.trim(),
+      };
+
+      const { error } = await db
+        .from('barbers')
+        .update(updates)
+        .eq('id', currentBarber.id);
+
+      showStatus('profile-status', error ? `Error: ${error.message}` : 'Profile saved!', !error);
+      if (!error) currentBarber = { ...currentBarber, ...updates };
+    }
+
+    /* ── Specialty Tags ──────────────────────────────────────── */
+    function handleSpecialtyInput(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = e.target.value.trim();
+        if (val && !specialties.includes(val)) {
+          specialties.push(val);
+          renderSpecialtyTags();
+        }
+        e.target.value = '';
+      }
+    }
+
+    function removeSpecialty(s) {
+      specialties = specialties.filter(x => x !== s);
+      renderSpecialtyTags();
+    }
+
+    function renderSpecialtyTags() {
+      document.getElementById('specialty-tags').innerHTML = specialties
+        .map(s => `<span class="tag tag-removable">${escapeHtml(s)}<button onclick="removeSpecialty('${escapeHtml(s)}')" class="tag-remove" title="Remove">×</button></span>`)
+        .join('');
+    }
+
+    /* ============================================================
+       Google Calendar Tab
+    ============================================================ */
+    function connectGoogleCalendar() {
+      if (typeof google === 'undefined') {
+        // Load Google Identity Services script dynamically
+        const script = document.createElement('script');
+        script.src   = 'https://accounts.google.com/gsi/client';
+        script.onload = () => doGoogleConnect();
+        script.onerror = () => alert('Failed to load Google Identity Services. Check your internet connection.');
+        document.head.appendChild(script);
+      } else {
+        doGoogleConnect();
+      }
+    }
+
+    async function doGoogleConnect() {
+      if (typeof GOOGLE_CLIENT_ID === 'undefined' || GOOGLE_CLIENT_ID.includes('YOUR_GOOGLE')) {
+        alert('Google Client ID not configured yet. See SETUP.md for instructions.');
+        return;
+      }
+
+      const tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: GOOGLE_CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/userinfo.email',
+        callback: async (tokenResp) => {
+          if (tokenResp.error) {
+            alert('Google sign-in failed: ' + tokenResp.error);
+            return;
+          }
+
+          const tokenObj = {
+            access_token: tokenResp.access_token,
+            expiry_date:  Date.now() + (tokenResp.expires_in || 3600) * 1000,
+          };
+
+          // Get the barber's Google email (used as primary calendar ID)
+          try {
+            const profileResp = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+              headers: { Authorization: `Bearer ${tokenResp.access_token}` }
+            });
+            const profile = await profileResp.json();
+
+            await db.from('barbers').update({
+              gcal_token:       tokenObj,
+              gcal_calendar_id: profile.email,
+            }).eq('id', currentBarber.id);
+
+            currentBarber.gcal_token       = tokenObj;
+            currentBarber.gcal_calendar_id = profile.email;
+            updateGCalStatus();
+          } catch (err) {
+            alert('Failed to fetch Google profile: ' + err.message);
+          }
+        }
+      });
+
+      tokenClient.requestAccessToken({ prompt: 'consent' });
+    }
+
+    function updateGCalStatus() {
+      const connected = !!(currentBarber?.gcal_token && currentBarber?.gcal_calendar_id);
+      document.getElementById('gcal-not-connected').hidden = connected;
+      document.getElementById('gcal-connected').hidden     = !connected;
+      if (connected) {
+        document.getElementById('gcal-connected-email').textContent =
+          `Connected as: ${currentBarber.gcal_calendar_id}`;
+      }
+    }
+
+    async function disconnectGCalendar() {
+      if (!confirm('Disconnect Google Calendar? Clients will no longer get live availability checks.')) return;
+
+      await db.from('barbers')
+        .update({ gcal_token: null, gcal_calendar_id: '' })
+        .eq('id', currentBarber.id);
+
+      currentBarber.gcal_token       = null;
+      currentBarber.gcal_calendar_id = '';
+      updateGCalStatus();
+    }
+
+    /* ============================================================
+       Portfolio Tab
+    ============================================================ */
+
+    // Drag-and-drop support on upload zone
+    const uploadZoneEl = document.getElementById('upload-zone');
+    if (uploadZoneEl) {
+      uploadZoneEl.addEventListener('dragover', e => {
+        e.preventDefault();
+        uploadZoneEl.style.borderColor = '#c9a84c';
+      });
+      uploadZoneEl.addEventListener('dragleave', () => {
+        uploadZoneEl.style.borderColor = '';
+      });
+      uploadZoneEl.addEventListener('drop', e => {
+        e.preventDefault();
+        uploadZoneEl.style.borderColor = '';
+        const dt = e.dataTransfer;
+        if (dt?.files?.length) handlePhotoUpload({ target: { files: dt.files, value: '' } });
+      });
+    }
+
+    async function handlePhotoUpload(event) {
+      const files    = Array.from(event.target.files);
+      const statusEl = document.getElementById('upload-status');
+
+      if (!files.length) return;
+
+      statusEl.hidden    = false;
+      statusEl.textContent = `Uploading ${files.length} photo(s)...`;
+      statusEl.className = 'upload-status-msg';
+
+      let successCount = 0;
+      for (const file of files) {
+        if (file.size > 5 * 1024 * 1024) {
+          statusEl.textContent = `"${file.name}" is too large (max 5MB). Skipped.`;
+          continue;
+        }
+
+        const safeName = file.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9._-]/g, '');
+        const path     = `${currentBarber.id}/${Date.now()}-${safeName}`;
+
+        const { error: uploadErr } = await db.storage
+          .from('portfolio-photos')
+          .upload(path, file);
+
+        if (uploadErr) {
+          statusEl.textContent = `Upload failed: ${uploadErr.message}`;
+          continue;
+        }
+
+        // Determine next display_order
+        const { data: existing } = await db
+          .from('portfolio_photos')
+          .select('display_order')
+          .eq('barber_id', currentBarber.id)
+          .order('display_order', { ascending: false })
+          .limit(1);
+
+        const nextOrder = (existing?.[0]?.display_order ?? -1) + 1;
+
+        await db.from('portfolio_photos').insert({
+          barber_id:     currentBarber.id,
+          storage_path:  path,
+          display_order: nextOrder,
+        });
+
+        successCount++;
+      }
+
+      statusEl.textContent = successCount
+        ? `Upload complete! ${successCount} photo(s) added.`
+        : 'No photos were uploaded.';
+
+      // Reset file input
+      if (event.target.value !== undefined) event.target.value = '';
+
+      loadPortfolio();
+    }
+
+    async function loadPortfolio() {
+      if (!currentBarber) return;
+
+      const { data: photos } = await db
+        .from('portfolio_photos')
+        .select('*')
+        .eq('barber_id', currentBarber.id)
+        .order('display_order');
+
+      const grid = document.getElementById('portfolio-manage-grid');
+
+      if (!photos?.length) {
+        grid.innerHTML = '<p class="hint" style="text-align:center;padding:20px;">No photos yet. Upload some above!</p>';
+        return;
+      }
+
+      grid.innerHTML = photos.map(p => {
+        const url = db.storage.from('portfolio-photos').getPublicUrl(p.storage_path).data.publicUrl;
+        return `
+          <div class="manage-photo-wrap" data-id="${p.id}">
+            <img src="${escapeHtml(url)}" alt="Portfolio photo" loading="lazy">
+            <button class="delete-photo-btn" onclick="deletePhoto('${p.id}', '${escapeHtml(p.storage_path)}')" title="Delete photo">×</button>
+          </div>`;
+      }).join('');
+    }
+
+    async function deletePhoto(photoId, storagePath) {
+      if (!confirm('Delete this photo? This cannot be undone.')) return;
+
+      await db.storage.from('portfolio-photos').remove([storagePath]);
+      await db.from('portfolio_photos').delete().eq('id', photoId);
+      loadPortfolio();
+    }
+
+    /* ============================================================
+       Bookings Tab
+    ============================================================ */
+    async function loadBookings() {
+      if (!currentBarber) return;
+
+      const now  = new Date().toISOString();
+      const { data: bookings } = await db
+        .from('bookings')
+        .select('*')
+        .eq('barber_id', currentBarber.id)
+        .gte('start_time', now)
+        .order('start_time');
+
+      const listEl = document.getElementById('bookings-list');
+
+      if (!bookings?.length) {
+        listEl.innerHTML = '<p class="hint" style="text-align:center;padding:20px;">No upcoming bookings.</p>';
+        return;
+      }
+
+      listEl.innerHTML = `
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Date &amp; Time</th>
+              <th>Client</th>
+              <th>Phone</th>
+              <th>Service</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${bookings.map(b => `
+              <tr>
+                <td>${formatDateTime(b.start_time)}</td>
+                <td>${escapeHtml(b.client_name)}</td>
+                <td><a href="tel:${escapeHtml(b.client_phone)}">${escapeHtml(b.client_phone)}</a></td>
+                <td>${escapeHtml(b.service)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    function formatDateTime(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-CA', { weekday: 'short', month: 'short', day: 'numeric' })
+        + ' · '
+        + d.toLocaleTimeString('en-CA', { hour: 'numeric', minute: '2-digit' });
+    }
+
+    /* ============================================================
+       Utility
+    ============================================================ */
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /* ============================================================
+       Boot
+    ============================================================ */
+    // Wait for deferred scripts (supabase.js + gcal.js) to load
+    window.addEventListener('load', () => {
+      if (typeof db !== 'undefined') {
+        initAuth();
+      } else {
+        document.getElementById('login-screen').innerHTML = `
+          <div class="login-container">
+            <div class="login-box">
+              <div class="login-logo">MG KUTZ</div>
+              <p style="color:#c9a84c;text-align:center;margin-top:16px;">
+                Supabase not configured yet.<br>
+                See SETUP.md to get started.
+              </p>
+            </div>
+          </div>`;
+      }
+    });
+  </script>
+
+</body>
+</html>
