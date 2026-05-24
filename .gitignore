@@ -1,0 +1,6 @@
+.superpowers/
+superpowers/
+.agents/
+.claude/skills/
+.DS_Store
+node_modules/
