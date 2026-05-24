@@ -380,9 +380,10 @@
     }
 
     function renderBarberCard(b, photos) {
+      const initial = b.name.charAt(0).toUpperCase();
       const avatar = b.profile_photo
-        ? `<img src="${b.profile_photo}" alt="${b.name}">`
-        : b.name.charAt(0).toUpperCase();
+        ? `<img src="${b.profile_photo}" alt="${b.name}" onerror="this.parentElement.textContent='${initial}'">`
+        : initial;
 
       const badge = b.years_exp > 0
         ? `<span class="barber-badge">${b.years_exp} YRS EXP</span>` : '';
