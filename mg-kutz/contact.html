@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MG Kutz | Contact &amp; Location</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js" defer></script>
+
+  <style>
+    /* ── Page Hero ─────────────────────────────────────── */
+    .page-hero {
+      background: linear-gradient(160deg, #0a0a0a, #111, #1a1507);
+      min-height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px;
+    }
+
+    /* ── Info Cards ────────────────────────────────────── */
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .info-card {
+      text-align: center;
+    }
+
+    .info-card-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .info-card-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .info-card-value {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .info-card-value a {
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .info-card-value a:hover {
+      opacity: 0.8;
+    }
+
+    /* ── Hours Table ───────────────────────────────────── */
+    .hours-table {
+      width: 100%;
+      max-width: 500px;
+      margin: 24px auto;
+      border-collapse: collapse;
+    }
+
+    .hours-table tr {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .hours-table tr.today {
+      background: rgba(201,168,76,0.12);
+    }
+
+    .hours-table td {
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    .hours-table td:first-child {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .hours-table td:last-child {
+      color: var(--gold);
+      text-align: right;
+      font-weight: 600;
+    }
+
+    .hours-table tr.today td {
+      color: var(--gold);
+    }
+
+    /* ── Contact Form ──────────────────────────────────── */
+    .contact-form {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .form-note {
+      text-align: center;
+      margin-top: 16px;
+      color: rgba(255,255,255,0.4);
+      font-size: 13px;
+    }
+
+    .form-note a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── Map wrapper ───────────────────────────────────── */
+    .map-wrapper {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+    }
+
+    /* ── Hours list (reused in footer) ────────────────── */
+    .hours-list {
+      list-style: none;
+    }
+
+    .hours-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .hours-list li:last-child {
+      border-bottom: none;
+    }
+
+    .hours-list li span:first-child {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .hours-list li span:last-child {
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ── Responsive ────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .info-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ NAV ═══ -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">MG KUTZ</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="barbers.html">Barbers</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <a href="book.html" class="btn-nav">Book Now</a>
+    <button class="nav-hamburger" onclick="document.querySelector('.nav-drawer').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+  </nav>
+
+  <div class="nav-drawer">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="barbers.html">Barbers</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="book.html" class="btn-nav" style="display:inline-block;margin-top:8px;">Book Now</a></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════ PAGE HERO ═══ -->
+  <section class="page-hero">
+    <div class="page-hero-glow"></div>
+    <div class="page-hero-content">
+      <p class="section-label">Get In Touch</p>
+      <h1 class="section-title" style="font-size:clamp(2rem,6vw,3.5rem);margin:12px 0;">Find Us in Windsor</h1>
+      <p style="color:rgba(255,255,255,0.45);font-size:15px;margin-top:8px;">5467 Tecumseh Rd E #2, Windsor, ON N8T 1C8</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ MAP ═══ -->
+  <div class="map-wrapper">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2950.3!2d-82.9!3d42.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s5467+Tecumseh+Rd+E%2C+Windsor%2C+ON!5e0!3m2!1sen!2sca!4v1"
+      width="100%" height="400" style="border:0; display:block;"
+      allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+  <!-- ═══════════════════════════════════════ INFO CARDS ═══ -->
+  <section class="section">
+    <div class="info-cards">
+
+      <!-- Location -->
+      <div class="card info-card">
+        <div class="info-card-icon">📍</div>
+        <div class="info-card-label">Location</div>
+        <div class="info-card-value">
+          5467 Tecumseh Rd E #2<br>
+          Windsor, ON N8T 1C8
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="card info-card">
+        <div class="info-card-icon">📞</div>
+        <div class="info-card-label">Phone</div>
+        <div class="info-card-value">
+          <a href="tel:+15199449797" style="color:var(--gold);">(519) 944-9797</a>
+        </div>
+      </div>
+
+      <!-- Instagram -->
+      <div class="card info-card">
+        <div class="info-card-icon">📸</div>
+        <div class="info-card-label">Instagram</div>
+        <div class="info-card-value">
+          <a href="https://www.instagram.com/mgcuts1/" target="_blank" rel="noopener" style="color:var(--gold);">@mgcuts1</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ HOURS ═══ -->
+  <div class="section-bg">
+    <section class="section">
+      <div class="section-header centered">
+        <p class="section-label">Hours</p>
+        <h2 class="section-title">We're Open</h2>
+        <hr class="divider" />
+      </div>
+
+      <table class="hours-table" id="hours-table">
+        <tbody>
+          <tr data-day="0"><td>Sunday</td><td>9:30 AM – 8:00 PM</td></tr>
+          <tr data-day="1"><td>Monday</td><td>12:00 PM – 7:30 PM</td></tr>
+          <tr data-day="2"><td>Tuesday</td><td>9:30 AM – 8:00 PM</td></tr>
+          <tr data-day="3"><td>Wednesday</td><td>9:30 AM – 8:00 PM</td></tr>
+          <tr data-day="4"><td>Thursday</td><td>9:30 AM – 8:00 PM</td></tr>
+          <tr data-day="5"><td>Friday</td><td>9:30 AM – 8:30 PM</td></tr>
+          <tr data-day="6"><td>Saturday</td><td>9:30 AM – 8:30 PM</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════ CONTACT FORM ═══ -->
+  <section class="section">
+    <div class="section-header centered">
+      <p class="section-label">Reach Out</p>
+      <h2 class="section-title">Send a Message</h2>
+      <hr class="divider" />
+    </div>
+
+    <form class="contact-form card" id="contact-form" style="padding:36px;" novalidate>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label class="form-label" for="contact-name">Your Name</label>
+        <input
+          type="text"
+          id="contact-name"
+          class="form-input"
+          placeholder="e.g. John Smith"
+          required
+        />
+      </div>
+
+      <div class="form-group" style="margin-bottom:24px;">
+        <label class="form-label" for="contact-message">Message</label>
+        <textarea
+          id="contact-message"
+          class="form-input"
+          rows="4"
+          placeholder="What can we help you with?"
+          style="resize:vertical;min-height:100px;"
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary" style="width:100%;">SEND MESSAGE</button>
+    </form>
+
+    <p class="form-note">
+      Or call us directly at <a href="tel:+15199449797">(519) 944-9797</a>
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+
+        <!-- Col 1: Location -->
+        <div class="footer-col">
+          <p class="footer-col-title">Location</p>
+          <address>
+            5467 Tecumseh Rd E #2<br>
+            Windsor, ON N8T 1C8
+          </address>
+          <p style="margin-top:12px;">
+            <a href="tel:+15199449797" style="color:#c9a84c;text-decoration:none;">(519) 944-9797</a>
+          </p>
+        </div>
+
+        <!-- Col 2: Hours -->
+        <div class="footer-col">
+          <p class="footer-col-title">Hours</p>
+          <ul class="hours-list">
+            <li><span>Monday</span><span>12:00 – 7:30 PM</span></li>
+            <li><span>Tuesday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Wednesday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Thursday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Friday</span><span>9:30 AM – 8:30 PM</span></li>
+            <li><span>Saturday</span><span>9:30 AM – 8:30 PM</span></li>
+            <li><span>Sunday</span><span>9:30 AM – 8:00 PM</span></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Follow -->
+        <div class="footer-col">
+          <p class="footer-col-title">Follow</p>
+          <p>
+            <a href="https://www.instagram.com/mgcuts1/" target="_blank" rel="noopener"
+               style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s ease;"
+               onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+              📸 @mgcuts1
+            </a>
+          </p>
+          <a href="book.html" class="btn-primary" style="margin-top:20px;display:inline-block;">Book Now</a>
+        </div>
+
+      </div>
+
+      <p class="footer-copy">© 2025 MG Kutz · Windsor, Ontario</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════ JS ═══ -->
+  <script>
+    // ── Highlight today's hours row ────────────────────────────
+    (function highlightToday() {
+      const today = new Date().getDay(); // 0=Sun, 1=Mon, …, 6=Sat
+      const rows = document.querySelectorAll('#hours-table tbody tr');
+      rows.forEach(function(row) {
+        if (parseInt(row.getAttribute('data-day'), 10) === today) {
+          row.classList.add('today');
+        }
+      });
+    })();
+
+    // ── Contact form mailto handler ────────────────────────────
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('contact-name').value.trim();
+      var message = document.getElementById('contact-message').value.trim();
+      if (!name || !message) return;
+      var subject = encodeURIComponent('Message from ' + name);
+      var body = encodeURIComponent(message);
+      window.location.href = 'mailto:info@mgkutz.com?subject=' + subject + '&body=' + body;
+    });
+  </script>
+
+</body>
+</html>
