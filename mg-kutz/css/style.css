@@ -12,8 +12,11 @@
   --bg-deep:       #0a0a0a;
   --bg-card:       #111;
   --bg-section:    #0f0f0f;
+  --bg-footer:     #050505;
   --text:          #ffffff;
+  --text-dark:     #000;
   --text-muted:    rgba(255, 255, 255, 0.45);
+  --color-error:   #e94560;
   --radius:        12px;
   --transition:    0.2s ease;
 }
@@ -157,7 +160,7 @@ a {
 /* ── Buttons ────────────────────────────────────────────────── */
 .btn-nav {
   background: var(--gold);
-  color: #000;
+  color: var(--text-dark);
   font-weight: 800;
   font-size: 11px;
   letter-spacing: 2px;
@@ -179,7 +182,7 @@ a {
 .btn-primary {
   display: inline-block;
   background: var(--gold);
-  color: #000;
+  color: var(--text-dark);
   font-weight: 800;
   font-size: 13px;
   letter-spacing: 2px;
@@ -308,7 +311,7 @@ a {
 
 /* ── Footer ─────────────────────────────────────────────────── */
 .footer {
-  background: #050505;
+  background: var(--bg-footer);
   border-top: 1px solid rgba(201, 168, 76, 0.15);
   padding: 60px 40px 30px;
 }
@@ -545,7 +548,7 @@ a {
 }
 
 .form-error {
-  color: #e94560;
+  color: var(--color-error);
   font-size: 12px;
   margin-top: 2px;
 }
