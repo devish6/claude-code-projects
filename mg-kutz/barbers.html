@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MG Kutz | Our Barbers</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+
+  <!-- Design System -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Supabase CDN (must load before supabase.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js" defer></script>
+
+  <style>
+    /* ── Page Hero ─────────────────────────────────────── */
+    .barbers-hero {
+      min-height: 40vh;
+      background: linear-gradient(160deg, #0a0a0a 0%, #111 50%, #1a1507 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .barbers-hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.09) 0%, transparent 70%);
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    .barbers-hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px;
+    }
+
+    /* ── Barbers Section ───────────────────────────────── */
+    .barbers-section {
+      padding: 60px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .barbers-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ── Barber Card ───────────────────────────────────── */
+    .barber-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .barber-card-top {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      padding: 32px;
+    }
+
+    /* ── Avatar ────────────────────────────────────────── */
+    .barber-avatar-wrap {
+      flex-shrink: 0;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8b6914);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 900;
+      color: #000;
+      border: 3px solid var(--gold);
+      box-shadow: 0 0 20px rgba(201,168,76,0.3);
+      overflow: hidden;
+    }
+
+    .barber-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .barber-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .barber-name {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .barber-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .barber-badge {
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .barber-bio {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .barber-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .barber-book-btn {
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* ── Divider ───────────────────────────────────────── */
+    .barber-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25), transparent);
+      margin: 0 32px;
+    }
+
+    /* ── Portfolio ─────────────────────────────────────── */
+    .barber-portfolio {
+      padding: 20px 32px 28px;
+    }
+
+    .portfolio-toggle {
+      font-size: 12px;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .portfolio-photo {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .portfolio-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── Loading / Hours ───────────────────────────────── */
+    .loading-state {
+      text-align: center;
+      padding: 60px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .hours-list {
+      list-style: none;
+    }
+
+    .hours-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .hours-list li:last-child {
+      border-bottom: none;
+    }
+
+    .hours-list li span:first-child {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .hours-list li span:last-child {
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ── Responsive ────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .barber-card-top {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .barber-tags {
+        justify-content: center;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .barbers-section {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ NAV ═══ -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">MG KUTZ</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="barbers.html" class="active">Barbers</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="book.html" class="btn-nav">Book Now</a>
+    <button class="nav-hamburger" onclick="document.querySelector('.nav-drawer').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+  </nav>
+
+  <div class="nav-drawer">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="barbers.html" class="active">Barbers</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="book.html" class="btn-nav" style="display:inline-block;margin-top:8px;">Book Now</a></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════ HERO ═══ -->
+  <section class="barbers-hero">
+    <div class="barbers-hero-glow"></div>
+    <div class="barbers-hero-content">
+      <p class="section-label">The Crew</p>
+      <h1 class="section-title" style="font-size:clamp(32px,5vw,52px);margin:12px 0 16px;">Meet Your Barbers</h1>
+      <p class="section-subtitle">Windsor's finest — choose your barber and book your chair.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ BARBERS ═══ -->
+  <section class="barbers-section">
+    <div id="barbers-list" class="barbers-list">
+      <!-- Loading state -->
+      <div class="loading-state">
+        <span class="spinner"></span>
+        <p style="margin-top:16px;">Loading barbers…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+
+        <!-- Col 1: Location -->
+        <div class="footer-col">
+          <p class="footer-col-title">Location</p>
+          <address>
+            5467 Tecumseh Rd E #2<br>
+            Windsor, ON N8T 1C8
+          </address>
+          <p style="margin-top:12px;">
+            <a href="tel:+15199449797" style="color:#c9a84c;text-decoration:none;">(519) 944-9797</a>
+          </p>
+        </div>
+
+        <!-- Col 2: Hours -->
+        <div class="footer-col">
+          <p class="footer-col-title">Hours</p>
+          <ul class="hours-list">
+            <li><span>Monday</span><span>12:00 – 7:30 PM</span></li>
+            <li><span>Tuesday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Wednesday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Thursday</span><span>9:30 AM – 8:00 PM</span></li>
+            <li><span>Friday</span><span>9:30 AM – 8:30 PM</span></li>
+            <li><span>Saturday</span><span>9:30 AM – 8:30 PM</span></li>
+            <li><span>Sunday</span><span>9:30 AM – 8:00 PM</span></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Follow -->
+        <div class="footer-col">
+          <p class="footer-col-title">Follow</p>
+          <p>
+            <a href="https://www.instagram.com/mgcuts1/" target="_blank" rel="noopener"
+               style="color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s ease;"
+               onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+              📸 @mgcuts1
+            </a>
+          </p>
+          <a href="book.html" class="btn-primary" style="margin-top:20px;display:inline-block;">Book Now</a>
+        </div>
+
+      </div>
+
+      <p class="footer-copy">© 2025 MG Kutz · Windsor, Ontario</p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════ JS ═══ -->
+  <script>
+    async function loadBarbers() {
+      const list = document.getElementById('barbers-list');
+
+      try {
+        if (typeof db === 'undefined') throw new Error('Supabase not configured');
+
+        // Load barbers
+        const { data: barbers, error } = await db
+          .from('barbers')
+          .select('id, name, bio, specialties, years_exp, profile_photo')
+          .order('created_at');
+
+        if (error || !barbers?.length) throw new Error('No barbers');
+
+        // For each barber, also load their portfolio photos
+        const cardPromises = barbers.map(async (b) => {
+          const { data: photos } = await db
+            .from('portfolio_photos')
+            .select('storage_path')
+            .eq('barber_id', b.id)
+            .order('display_order');
+          return renderBarberCard(b, photos || []);
+        });
+
+        const cards = await Promise.all(cardPromises);
+        list.innerHTML = cards.join('');
+
+      } catch {
+        // Fallback to placeholders
+        list.innerHTML = [1, 2, 3, 4].map(n => renderPlaceholderCard(n)).join('');
+      }
+    }
+
+    function renderBarberCard(b, photos) {
+      const avatar = b.profile_photo
+        ? `<img src="${b.profile_photo}" alt="${b.name}">`
+        : b.name.charAt(0).toUpperCase();
+
+      const badge = b.years_exp > 0
+        ? `<span class="barber-badge">${b.years_exp} YRS EXP</span>` : '';
+
+      const tags = (b.specialties || [])
+        .map(s => `<span class="tag">${s}</span>`).join('');
+
+      const photoGrid = photos.length
+        ? photos.map(p => {
+            const url = db.storage.from('portfolio-photos').getPublicUrl(p.storage_path).data.publicUrl;
+            return `<div class="portfolio-photo"><img src="${url}" alt="Portfolio photo" loading="lazy"></div>`;
+          }).join('')
+        : [1, 2, 3, 4].map(() => `<div class="portfolio-photo">📷</div>`).join('');
+
+      return `
+        <div class="barber-card card">
+          <div class="barber-card-top">
+            <div class="barber-avatar-wrap">${avatar}</div>
+            <div class="barber-info">
+              <div class="barber-header">
+                <h2 class="barber-name">${b.name}</h2>
+                ${badge}
+              </div>
+              <p class="barber-bio">${b.bio || 'Profile coming soon.'}</p>
+              <div class="barber-tags">${tags}</div>
+              <a href="book.html?barber=${b.id}" class="btn-primary barber-book-btn">BOOK WITH ${b.name.split(' ')[0].toUpperCase()}</a>
+            </div>
+          </div>
+          <div class="barber-divider"></div>
+          <div class="barber-portfolio">
+            <button class="btn-ghost portfolio-toggle" onclick="togglePortfolio(this)">View Portfolio ↓</button>
+            <div class="portfolio-grid" hidden>${photoGrid}</div>
+          </div>
+        </div>`;
+    }
+
+    function renderPlaceholderCard(n) {
+      return `
+        <div class="barber-card card">
+          <div class="barber-card-top">
+            <div class="barber-avatar-wrap">B${n}</div>
+            <div class="barber-info">
+              <div class="barber-header"><h2 class="barber-name">Barber ${n}</h2></div>
+              <p class="barber-bio">This barber's profile is coming soon. Check back after setup!</p>
+              <div class="barber-tags"><span class="tag">Profile coming soon</span></div>
+              <a href="book.html" class="btn-primary barber-book-btn">BOOK NOW</a>
+            </div>
+          </div>
+          <div class="barber-divider"></div>
+          <div class="barber-portfolio">
+            <button class="btn-ghost portfolio-toggle" onclick="togglePortfolio(this)">View Portfolio ↓</button>
+            <div class="portfolio-grid" hidden>${[1, 2, 3, 4].map(() => `<div class="portfolio-photo">📷</div>`).join('')}</div>
+          </div>
+        </div>`;
+    }
+
+    function togglePortfolio(btn) {
+      const grid = btn.nextElementSibling;
+      const hidden = grid.hasAttribute('hidden');
+      if (hidden) {
+        grid.removeAttribute('hidden');
+        btn.textContent = 'Hide Portfolio ↑';
+      } else {
+        grid.setAttribute('hidden', '');
+        btn.textContent = 'View Portfolio ↓';
+      }
+    }
+
+    loadBarbers();
+  </script>
+
+</body>
+</html>
