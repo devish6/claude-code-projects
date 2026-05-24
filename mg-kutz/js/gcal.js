@@ -2,7 +2,7 @@
 // ⚠️  Replace GOOGLE_CLIENT_ID with your OAuth Client ID from Google Cloud Console
 // Found at: console.cloud.google.com → APIs & Services → Credentials → OAuth 2.0 Client IDs
 const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
-const GOOGLE_SCOPES = 'https://www.googleapis.com/auth/calendar.events';
+const GOOGLE_SCOPES = 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events';
 
 /**
  * Refresh a barber's Google Calendar access token if expired.
@@ -74,6 +74,7 @@ async function checkFreeBusy(accessToken, calendarId, date) {
  * slotMinutes: duration of the appointment in minutes (30 or 60)
  */
 function getAvailableSlots(busyIntervals, date, slotMinutes) {
+  if (!slotMinutes || slotMinutes <= 0) return [];
   const shopHours = {
     0: { open: '09:30', close: '20:00' },
     1: { open: '12:00', close: '19:30' },

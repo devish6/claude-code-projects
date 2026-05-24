@@ -826,6 +826,11 @@
         return;
       }
 
+      if (!state.time || !state.duration) {
+        showBookingError('Please go back and select a time slot.');
+        return;
+      }
+
       const btn = document.getElementById('confirm-btn');
       btn.disabled = true;
       btn.textContent = 'BOOKING…';
