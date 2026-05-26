@@ -4,3 +4,5 @@ superpowers/
 .claude/skills/
 .DS_Store
 node_modules/
+assets/
+tiktok-ai-avatar/public/avatar-video.mp4
