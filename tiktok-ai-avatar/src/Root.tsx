@@ -6,7 +6,7 @@ export const RemotionRoot: React.FC = () => {
     <Composition
       id="TikTokAIAvatar"
       component={TikTokAIAvatar}
-      durationInFrames={450}
+      durationInFrames={390}
       fps={30}
       width={1080}
       height={1920}

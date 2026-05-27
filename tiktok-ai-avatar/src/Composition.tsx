@@ -8,8 +8,8 @@ import { CTAButton } from "./components/CTAButton";
 export const TikTokAIAvatar: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Global fade-out: frame 420 → 450
-  const globalOpacity = interpolate(frame, [420, 450], [1, 0], {
+  // Global fade-out: frame 360 → 390
+  const globalOpacity = interpolate(frame, [360, 390], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
