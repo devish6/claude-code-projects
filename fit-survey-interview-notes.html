@@ -149,13 +149,6 @@
     font-size: 13px;
   }
 
-  .verdict-option .box {
-    width: 18px;
-    height: 18px;
-    border: 1.5px solid #999;
-    flex-shrink: 0;
-  }
-
   .tag-row {
     display: flex;
     gap: 10px;
@@ -171,13 +164,6 @@
     display: flex;
     align-items: center;
     gap: 6px;
-  }
-
-  .tag .box {
-    width: 12px;
-    height: 12px;
-    border: 1px solid #999;
-    flex-shrink: 0;
   }
 
   footer {
@@ -259,6 +245,7 @@
   @media print {
     body { background: white; padding: 20px; }
     .no-print { display: none; }
+    #form-actions { display: none; }
   }
 </style>
 </head>
@@ -367,7 +354,7 @@
       <label class="tag"><input type="checkbox" name="category" value="trousers"> Trousers</label>
       <label class="tag"><input type="checkbox" name="category" value="button_down"> Button-down shirts</label>
       <label class="tag"><input type="checkbox" name="category" value="dresses"> Dresses</label>
-      <label class="tag"><input type="checkbox" name="category" value="other"> Other: <input type="text" name="category_other" style="width:80px; display:inline-block;"></label>
+      <label class="tag"><input type="checkbox" name="category" value="other"> Other:</label> <input type="text" name="category_other" style="width:80px;">
     </div>
   </div>
 </div>
@@ -453,6 +440,10 @@ function getChecked(name) {
 }
 
 function submitForm() {
+  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
+    alert('Submit URL not configured — contact your coordinator.');
+    return;
+  }
   const btn = document.getElementById('submit-btn');
   const errMsg = document.getElementById('error-msg');
   errMsg.style.display = 'none';
@@ -475,7 +466,7 @@ function submitForm() {
     workarounds: getChecked('workaround'),
     q5: document.getElementById('q5').value,
     categories: getChecked('category'),
-    category_other: document.querySelector('input[name="category_other"]').value,
+    category_other: getChecked('category').includes('other') ? document.querySelector('input[name="category_other"]').value : '',
     q6: document.getElementById('q6').value,
     q7: document.getElementById('q7').value,
     closer: document.getElementById('closer').value,
