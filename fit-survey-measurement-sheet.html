@@ -176,63 +176,63 @@
     justify-content: space-between;
   }
 
-input[type="text"],
-input[type="number"],
-input[type="date"] {
-  border: none;
-  border-bottom: 1.5px solid #999;
-  background: transparent;
-  font-family: 'Georgia', serif;
-  font-size: 13px;
-  padding: 2px 0 4px 0;
-  width: 100%;
-  color: #1a1a1a;
-  outline: none;
-}
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="date"]:focus { border-bottom-color: #1a1a1a; }
-.measure-row input[type="number"] { width: 64px; text-align: right; }
-textarea {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  background: transparent;
-  font-family: 'Georgia', serif;
-  font-size: 13px;
-  padding: 4px 0;
-  resize: vertical;
-  color: #1a1a1a;
-  outline: none;
-  min-height: 52px;
-}
-textarea:focus { border-bottom-color: #1a1a1a; }
-.submit-btn {
-  background: #1a1a1a;
-  color: #fff;
-  border: none;
-  padding: 10px 28px;
-  font-family: 'Georgia', serif;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-top: 24px;
-  display: block;
-}
-.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.error-msg {
-  display: none;
-  color: #c0392b;
-  font-size: 12px;
-  margin-top: 8px;
-  font-style: italic;
-}
-@media (max-width: 600px) {
-  body { padding: 16px; }
-  .meta-row { grid-template-columns: 1fr; }
-  .measure-row { grid-template-columns: 1fr; gap: 4px; }
-}
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    border: none;
+    border-bottom: 1.5px solid #999;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    padding: 2px 0 4px 0;
+    width: 100%;
+    color: #1a1a1a;
+    outline: none;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:focus { border-bottom-color: #1a1a1a; }
+  .measure-row input[type="number"] { width: 64px; text-align: right; }
+  textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    padding: 4px 0;
+    resize: vertical;
+    color: #1a1a1a;
+    outline: none;
+    min-height: 52px;
+  }
+  textarea:focus { border-bottom-color: #1a1a1a; }
+  .submit-btn {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    font-family: 'Georgia', serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 24px;
+    display: block;
+  }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .error-msg {
+    display: none;
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  @media (max-width: 600px) {
+    body { padding: 16px; }
+    .meta-row { grid-template-columns: 1fr; }
+    .measure-row { grid-template-columns: 1fr; gap: 4px; }
+  }
 
   @media print {
     body { background: white; padding: 20px; }
@@ -387,17 +387,18 @@ textarea:focus { border-bottom-color: #1a1a1a; }
   </div>
 </div>
 
-<footer>
-  <span>EuClo · Fit Survey · Ontario, Canada</span>
-  <span>Sheet v1 · Confidential</span>
-</footer>
-
 <div id="form-actions" style="margin-top: 24px;">
   <button class="submit-btn" id="submit-btn" onclick="submitForm()">Submit to Sheet →</button>
   <div class="error-msg" id="error-msg">Something went wrong — please try again.</div>
 </div>
 
+<footer>
+  <span>EuClo · Fit Survey · Ontario, Canada</span>
+  <span>Sheet v1 · Confidential</span>
+</footer>
+
 <script>
+// Replace with your deployed Google Apps Script URL (see docs/plans/2026-06-03-euclo-forms-and-brand.md Task 3)
 const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
 
 function submitForm() {
@@ -429,17 +430,27 @@ function submitForm() {
     fit_notes: document.getElementById('fit-notes').value
   };
 
+  if (!data.participant_num || !data.date) {
+    btn.textContent = 'Submit to Sheet →';
+    btn.disabled = false;
+    errMsg.textContent = 'Please fill in Participant # and Date before submitting.';
+    errMsg.style.display = 'block';
+    return;
+  }
+
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify(data)
   })
-  .then(() => {
+  .then(response => {
+    if (!response.ok) throw new Error('HTTP ' + response.status);
     document.body.innerHTML = '<div style="text-align:center; padding:80px 32px; font-family:Georgia,serif;"><p style="font-size:18px; letter-spacing:0.04em;">Submitted.</p><p style="font-size:13px; color:#888; margin-top:8px;">Thank you.</p></div>';
   })
   .catch(() => {
     btn.textContent = 'Submit to Sheet →';
     btn.disabled = false;
+    errMsg.textContent = 'Something went wrong — please try again.';
     errMsg.style.display = 'block';
   });
 }
