@@ -176,6 +176,64 @@
     justify-content: space-between;
   }
 
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  border: none;
+  border-bottom: 1.5px solid #999;
+  background: transparent;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  padding: 2px 0 4px 0;
+  width: 100%;
+  color: #1a1a1a;
+  outline: none;
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus { border-bottom-color: #1a1a1a; }
+.measure-row input[type="number"] { width: 64px; text-align: right; }
+textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: transparent;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  padding: 4px 0;
+  resize: vertical;
+  color: #1a1a1a;
+  outline: none;
+  min-height: 52px;
+}
+textarea:focus { border-bottom-color: #1a1a1a; }
+.submit-btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  font-family: 'Georgia', serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 24px;
+  display: block;
+}
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.error-msg {
+  display: none;
+  color: #c0392b;
+  font-size: 12px;
+  margin-top: 8px;
+  font-style: italic;
+}
+@media (max-width: 600px) {
+  body { padding: 16px; }
+  .meta-row { grid-template-columns: 1fr; }
+  .measure-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
   @media print {
     body { background: white; padding: 20px; }
     .no-print { display: none; }
@@ -191,38 +249,38 @@
   </div>
   <div style="text-align:right;">
     <div class="sub">Participant #</div>
-    <div style="border-bottom:1.5px solid #999; width:60px; height:28px; margin-top:4px;"></div>
+    <input type="text" id="participant-num" name="participant_num" style="width:60px; margin-top:4px;" placeholder="01">
   </div>
 </header>
 
 <!-- Meta -->
 <div class="meta-row">
   <div class="field">
-    <label>Date</label>
-    <div class="line"></div>
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date">
   </div>
   <div class="field">
-    <label>Age</label>
-    <div class="line"></div>
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" min="16" max="80" placeholder="—">
   </div>
   <div class="field">
-    <label>Ethnicity / Background</label>
-    <div class="line"></div>
+    <label for="ethnicity">Ethnicity / Background</label>
+    <input type="text" id="ethnicity" name="ethnicity" placeholder="—">
   </div>
 </div>
 
 <div class="meta-row">
   <div class="field">
-    <label>Height (self-reported)</label>
-    <div class="line"></div>
+    <label for="height-reported">Height (self-reported)</label>
+    <input type="text" id="height-reported" name="height_reported" placeholder="e.g. 5'4&quot;">
   </div>
   <div class="field">
-    <label>Height (measured)</label>
-    <div class="line"></div>
+    <label for="height-measured">Height (measured)</label>
+    <input type="text" id="height-measured" name="height_measured" placeholder="—">
   </div>
   <div class="field">
-    <label>Usual clothing size</label>
-    <div class="line"></div>
+    <label for="clothing-size">Usual clothing size</label>
+    <input type="text" id="clothing-size" name="clothing_size" placeholder="e.g. XS, 0, 2">
   </div>
 </div>
 
@@ -232,12 +290,12 @@
   I voluntarily agree to participate in this fit research session. My measurements will be used only for sizing research and will not be shared with third parties.
   <div class="consent-sign">
     <div class="field">
-      <label>Signature</label>
-      <div class="line"></div>
+      <label for="signature">Signature</label>
+      <input type="text" id="signature" name="signature" placeholder="Type full name">
     </div>
     <div class="field">
-      <label>Date</label>
-      <div class="line"></div>
+      <label for="consent-date">Date</label>
+      <input type="date" id="consent-date" name="consent_date">
     </div>
   </div>
 </div>
@@ -252,7 +310,7 @@
       <div class="measure-label">Bust</div>
       <div class="measure-note">Fullest point, tape parallel to floor</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="bust" name="bust" step="0.25" min="0" max="100" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -261,7 +319,7 @@
       <div class="measure-label">Waist</div>
       <div class="measure-note">Natural waist (~1" above navel), tape snug not tight</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="waist" name="waist" step="0.25" min="0" max="100" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -270,7 +328,7 @@
       <div class="measure-label">Hip</div>
       <div class="measure-note">Fullest point, usually 7–9" below natural waist</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="hip" name="hip" step="0.25" min="0" max="100" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -279,7 +337,7 @@
       <div class="measure-label">Inseam</div>
       <div class="measure-note">Crotch to floor, standing, feet together</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="inseam" name="inseam" step="0.25" min="0" max="60" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -288,7 +346,7 @@
       <div class="measure-label">Torso Length</div>
       <div class="measure-note">Nape of neck (base of skull) to natural waist</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="torso" name="torso" step="0.25" min="0" max="60" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -297,7 +355,7 @@
       <div class="measure-label">Shoulder Width</div>
       <div class="measure-note">Shoulder point to shoulder point across back</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="shoulder" name="shoulder" step="0.25" min="0" max="40" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -306,7 +364,7 @@
       <div class="measure-label">Arm Length</div>
       <div class="measure-note">Shoulder point to wrist, arm slightly bent</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="arm" name="arm" step="0.25" min="0" max="40" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -315,7 +373,7 @@
       <div class="measure-label">Thigh Circumference</div>
       <div class="measure-note">Fullest point, 1" below crotch seam</div>
     </div>
-    <div class="measure-line"></div>
+    <input type="number" id="thigh" name="thigh" step="0.25" min="0" max="60" placeholder="—">
     <div class="unit-label">in</div>
   </div>
 
@@ -324,19 +382,68 @@
 <!-- Notes -->
 <div class="section-title">Fit Notes</div>
 <div class="notes-area">
-  <div style="font-size:11px; color:#888; margin-bottom:8px;">Fit problems observed or mentioned during measurement. Note any asymmetry, posture, or unusual proportions.</div>
   <div class="notes-lines">
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="fit-notes" name="fit_notes" rows="5" placeholder="Fit problems observed or mentioned during measurement. Note any asymmetry, posture, or unusual proportions."></textarea>
   </div>
 </div>
 
 <footer>
-  <span>Fit Survey · South Asian Sizing Research · Ontario, Canada</span>
+  <span>EuClo · Fit Survey · Ontario, Canada</span>
   <span>Sheet v1 · Confidential</span>
 </footer>
+
+<div id="form-actions" style="margin-top: 24px;">
+  <button class="submit-btn" id="submit-btn" onclick="submitForm()">Submit to Sheet →</button>
+  <div class="error-msg" id="error-msg">Something went wrong — please try again.</div>
+</div>
+
+<script>
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+
+function submitForm() {
+  const btn = document.getElementById('submit-btn');
+  const errMsg = document.getElementById('error-msg');
+  errMsg.style.display = 'none';
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const data = {
+    form_type: 'measurement',
+    participant_num: document.getElementById('participant-num').value,
+    date: document.getElementById('date').value,
+    age: document.getElementById('age').value,
+    ethnicity: document.getElementById('ethnicity').value,
+    height_reported: document.getElementById('height-reported').value,
+    height_measured: document.getElementById('height-measured').value,
+    clothing_size: document.getElementById('clothing-size').value,
+    signature: document.getElementById('signature').value,
+    consent_date: document.getElementById('consent-date').value,
+    bust: document.getElementById('bust').value,
+    waist: document.getElementById('waist').value,
+    hip: document.getElementById('hip').value,
+    inseam: document.getElementById('inseam').value,
+    torso: document.getElementById('torso').value,
+    shoulder: document.getElementById('shoulder').value,
+    arm: document.getElementById('arm').value,
+    thigh: document.getElementById('thigh').value,
+    fit_notes: document.getElementById('fit-notes').value
+  };
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    document.body.innerHTML = '<div style="text-align:center; padding:80px 32px; font-family:Georgia,serif;"><p style="font-size:18px; letter-spacing:0.04em;">Submitted.</p><p style="font-size:13px; color:#888; margin-top:8px;">Thank you.</p></div>';
+  })
+  .catch(() => {
+    btn.textContent = 'Submit to Sheet →';
+    btn.disabled = false;
+    errMsg.style.display = 'block';
+  });
+}
+</script>
 
 </body>
 </html>
