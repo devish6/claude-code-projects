@@ -432,7 +432,7 @@
 
 <script>
 // Replace with your deployed Google Apps Script URL (see docs/plans/2026-06-03-euclo-forms-and-brand.md Task 3)
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyScCO1CK7sKG5V694e5pVy7YjP9whjuUtDc82i-jkX9qrLaYAYRbsDMJ3ESQJyukb/exec';
+const SHEETDB_URL = 'https://sheetdb.io/api/v1/2eupvy0y7omwg?sheet=Interview+Notes';
 
 function getChecked(name) {
   return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
@@ -440,10 +440,6 @@ function getChecked(name) {
 }
 
 function submitForm() {
-  if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
-    alert('Submit URL not configured — contact your coordinator.');
-    return;
-  }
   const btn = document.getElementById('submit-btn');
   const errMsg = document.getElementById('error-msg');
   errMsg.style.display = 'none';
@@ -451,7 +447,6 @@ function submitForm() {
   btn.disabled = true;
 
   const data = {
-    form_type: 'interview',
     participant_num: document.getElementById('participant-num').value,
     date: document.getElementById('date').value,
     location: document.getElementById('location').value,
@@ -485,10 +480,10 @@ function submitForm() {
     return;
   }
 
-  fetch(APPS_SCRIPT_URL, {
+  fetch(SHEETDB_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(data)
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ data: [data] })
   })
   .then(response => {
     if (!response.ok) throw new Error('HTTP ' + response.status);
