@@ -190,6 +190,72 @@
     justify-content: space-between;
   }
 
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    border: none;
+    border-bottom: 1.5px solid #999;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    padding: 2px 0 4px 0;
+    width: 100%;
+    color: #1a1a1a;
+    outline: none;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:focus { border-bottom-color: #1a1a1a; }
+  textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    padding: 4px 0;
+    resize: vertical;
+    color: #1a1a1a;
+    outline: none;
+    min-height: 52px;
+  }
+  textarea:focus { border-bottom-color: #1a1a1a; }
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: #1a1a1a;
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+  .tag { cursor: pointer; }
+  .verdict-option { cursor: pointer; }
+  .submit-btn {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    font-family: 'Georgia', serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 24px;
+    display: block;
+  }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .error-msg {
+    display: none;
+    color: #c0392b;
+    font-size: 12px;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  @media (max-width: 600px) {
+    body { padding: 16px; }
+    .meta-row { grid-template-columns: 1fr; }
+  }
   @media print {
     body { background: white; padding: 20px; }
     .no-print { display: none; }
@@ -205,38 +271,38 @@
   </div>
   <div style="text-align:right;">
     <div class="sub">Participant #</div>
-    <div style="border-bottom:1.5px solid #999; width:60px; height:28px; margin-top:4px;"></div>
+    <input type="text" id="participant-num" name="participant_num" style="width:60px; margin-top:4px;" placeholder="01">
   </div>
 </header>
 
 <!-- Meta -->
 <div class="meta-row">
   <div class="field">
-    <label>Date</label>
-    <div class="line"></div>
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date">
   </div>
   <div class="field">
-    <label>Location</label>
-    <div class="line"></div>
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location" placeholder="—">
   </div>
   <div class="field">
-    <label>How recruited</label>
-    <div class="line"></div>
+    <label for="recruited">How recruited</label>
+    <input type="text" id="recruited" name="recruited" placeholder="—">
   </div>
 </div>
 
 <div class="meta-row">
   <div class="field">
-    <label>Age</label>
-    <div class="line"></div>
+    <label for="age">Age</label>
+    <input type="number" id="age" name="age" min="16" max="80" placeholder="—">
   </div>
   <div class="field">
-    <label>Occupation</label>
-    <div class="line"></div>
+    <label for="occupation">Occupation</label>
+    <input type="text" id="occupation" name="occupation" placeholder="—">
   </div>
   <div class="field">
-    <label>City / Neighbourhood</label>
-    <div class="line"></div>
+    <label for="city">City / Neighbourhood</label>
+    <input type="text" id="city" name="city" placeholder="—">
   </div>
 </div>
 
@@ -247,9 +313,7 @@
   <div class="q-label">Q1 — Opening</div>
   <div class="question">"Walk me through the last time you bought jeans or work pants. What happened?"</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="q1" name="q1" rows="3" placeholder="Notes…"></textarea>
   </div>
 </div>
 
@@ -258,9 +322,7 @@
   <div class="question">"Where did the fit fail — or what made you keep looking?"</div>
   <div class="prompt">Listen for: waist gap, short inseam, long sleeves, shoulder pull, torso length, thigh tightness</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="q2" name="q2" rows="3" placeholder="Notes…"></textarea>
   </div>
 </div>
 
@@ -268,8 +330,7 @@
   <div class="q-label">Q3 — What Works</div>
   <div class="question">"When you find something that fits well, what specifically is right about it?"</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="q3" name="q3" rows="2" placeholder="Notes…"></textarea>
   </div>
 </div>
 
@@ -277,18 +338,17 @@
   <div class="q-label">Q4 — Workaround</div>
   <div class="question">"When something almost fits — do you alter it, return it, or just live with it?"</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="q4" name="q4" rows="2" placeholder="Notes…"></textarea>
   </div>
   <div style="margin-top:10px;">
     <div style="font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#aaa; margin-bottom:8px;">Current workaround (check all that apply)</div>
     <div class="tag-row">
-      <div class="tag"><div class="box"></div> Custom tailor</div>
-      <div class="tag"><div class="box"></div> Returns frequently</div>
-      <div class="tag"><div class="box"></div> Lives with poor fit</div>
-      <div class="tag"><div class="box"></div> Avoids category</div>
-      <div class="tag"><div class="box"></div> Buys petite line</div>
-      <div class="tag"><div class="box"></div> Orders from India</div>
+      <label class="tag"><input type="checkbox" name="workaround" value="custom_tailor"> Custom tailor</label>
+      <label class="tag"><input type="checkbox" name="workaround" value="returns_frequently"> Returns frequently</label>
+      <label class="tag"><input type="checkbox" name="workaround" value="lives_with_poor_fit"> Lives with poor fit</label>
+      <label class="tag"><input type="checkbox" name="workaround" value="avoids_category"> Avoids category</label>
+      <label class="tag"><input type="checkbox" name="workaround" value="buys_petite"> Buys petite line</label>
+      <label class="tag"><input type="checkbox" name="workaround" value="orders_from_india"> Orders from India</label>
     </div>
   </div>
 </div>
@@ -297,18 +357,17 @@
   <div class="q-label">Q5 — Avoidance</div>
   <div class="question">"Is there a category you've basically given up on buying off the rack?"</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="q5" name="q5" rows="2" placeholder="Notes…"></textarea>
   </div>
   <div style="margin-top:10px;">
     <div style="font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#aaa; margin-bottom:8px;">Category mentioned</div>
     <div class="tag-row">
-      <div class="tag"><div class="box"></div> Jeans</div>
-      <div class="tag"><div class="box"></div> Blazers / Jackets</div>
-      <div class="tag"><div class="box"></div> Trousers</div>
-      <div class="tag"><div class="box"></div> Button-down shirts</div>
-      <div class="tag"><div class="box"></div> Dresses</div>
-      <div class="tag"><div class="box"></div> Other: ____________</div>
+      <label class="tag"><input type="checkbox" name="category" value="jeans"> Jeans</label>
+      <label class="tag"><input type="checkbox" name="category" value="blazers"> Blazers / Jackets</label>
+      <label class="tag"><input type="checkbox" name="category" value="trousers"> Trousers</label>
+      <label class="tag"><input type="checkbox" name="category" value="button_down"> Button-down shirts</label>
+      <label class="tag"><input type="checkbox" name="category" value="dresses"> Dresses</label>
+      <label class="tag"><input type="checkbox" name="category" value="other"> Other: <input type="text" name="category_other" style="width:80px; display:inline-block;"></label>
     </div>
   </div>
 </div>
@@ -317,8 +376,7 @@
   <div class="q-label">Q6 — Tailoring</div>
   <div class="question">"Have you ever had something tailored? What was it for?"</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="q6" name="q6" rows="2" placeholder="Notes…"></textarea>
   </div>
 </div>
 
@@ -326,8 +384,7 @@
   <div class="q-label">Q7 — Brands</div>
   <div class="question">"What brands have worked best for you, even partially?"</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="q7" name="q7" rows="2" placeholder="Notes…"></textarea>
   </div>
 </div>
 
@@ -336,9 +393,7 @@
   <div class="q-label">The Closer — Verbatim Answer Required</div>
   <div class="question">"If someone built a brand that solved this one fit problem for you — what would that one thing be?"</div>
   <div class="answer-lines">
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
+    <textarea id="closer" name="closer" rows="3" placeholder="Verbatim answer…"></textarea>
   </div>
 </div>
 
@@ -348,43 +403,113 @@
 <div style="margin-bottom: 20px;">
   <div style="font-size:11px; color:#888; margin-bottom:12px;">Would this person buy from this brand?</div>
   <div class="verdict">
-    <div class="verdict-option"><div class="box"></div> Yes — said so directly</div>
-    <div class="verdict-option"><div class="box"></div> Maybe — interested, hesitant</div>
-    <div class="verdict-option"><div class="box"></div> No — not the target customer</div>
+    <label class="verdict-option"><input type="radio" name="verdict_buy" value="yes"> Yes — said so directly</label>
+    <label class="verdict-option"><input type="radio" name="verdict_buy" value="maybe"> Maybe — interested, hesitant</label>
+    <label class="verdict-option"><input type="radio" name="verdict_buy" value="no"> No — not the target customer</label>
   </div>
 </div>
 
 <div style="margin-bottom: 20px;">
   <div style="font-size:11px; color:#888; margin-bottom:12px;">Would they refer others or join a community?</div>
   <div class="verdict">
-    <div class="verdict-option"><div class="box"></div> Yes</div>
-    <div class="verdict-option"><div class="box"></div> Maybe</div>
-    <div class="verdict-option"><div class="box"></div> No</div>
+    <label class="verdict-option"><input type="radio" name="verdict_refer" value="yes"> Yes</label>
+    <label class="verdict-option"><input type="radio" name="verdict_refer" value="maybe"> Maybe</label>
+    <label class="verdict-option"><input type="radio" name="verdict_refer" value="no"> No</label>
   </div>
 </div>
 
 <div class="field" style="margin-bottom:24px;">
-  <label>Top fit complaint — 5 words or fewer</label>
-  <div class="line" style="margin-top:4px;"></div>
+  <label for="top-complaint">Top fit complaint — 5 words or fewer</label>
+  <input type="text" id="top-complaint" name="top_complaint" placeholder="—">
 </div>
 
 <div class="field" style="margin-bottom:24px;">
-  <label>One memorable quote from this session</label>
-  <div class="line" style="margin-top:4px;"></div>
-  <div class="line" style="margin-top:2px;"></div>
+  <label for="memorable-quote">One memorable quote from this session</label>
+  <textarea id="memorable-quote" name="memorable_quote" rows="2" placeholder="—"></textarea>
 </div>
 
 <div class="field">
-  <label>Interviewer notes / follow-up</label>
-  <div class="line" style="margin-top:4px;"></div>
-  <div class="line" style="margin-top:2px;"></div>
-  <div class="line" style="margin-top:2px;"></div>
+  <label for="interviewer-notes">Interviewer notes / follow-up</label>
+  <textarea id="interviewer-notes" name="interviewer_notes" rows="3" placeholder="—"></textarea>
 </div>
 
 <footer>
-  <span>Fit Survey · South Asian Sizing Research · Ontario, Canada</span>
+  <span>EuClo · Fit Survey · Ontario, Canada</span>
   <span>Notes v1 · Confidential</span>
 </footer>
 
+<div id="form-actions" style="margin-top: 24px;">
+  <button class="submit-btn" id="submit-btn" onclick="submitForm()">Submit to Sheet →</button>
+  <div class="error-msg" id="error-msg">Something went wrong — please try again.</div>
+</div>
+
+<script>
+// Replace with your deployed Google Apps Script URL (see docs/plans/2026-06-03-euclo-forms-and-brand.md Task 3)
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+
+function getChecked(name) {
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+    .map(el => el.value).join(', ');
+}
+
+function submitForm() {
+  const btn = document.getElementById('submit-btn');
+  const errMsg = document.getElementById('error-msg');
+  errMsg.style.display = 'none';
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const data = {
+    form_type: 'interview',
+    participant_num: document.getElementById('participant-num').value,
+    date: document.getElementById('date').value,
+    location: document.getElementById('location').value,
+    recruited: document.getElementById('recruited').value,
+    age: document.getElementById('age').value,
+    occupation: document.getElementById('occupation').value,
+    city: document.getElementById('city').value,
+    q1: document.getElementById('q1').value,
+    q2: document.getElementById('q2').value,
+    q3: document.getElementById('q3').value,
+    q4: document.getElementById('q4').value,
+    workarounds: getChecked('workaround'),
+    q5: document.getElementById('q5').value,
+    categories: getChecked('category'),
+    category_other: document.querySelector('input[name="category_other"]').value,
+    q6: document.getElementById('q6').value,
+    q7: document.getElementById('q7').value,
+    closer: document.getElementById('closer').value,
+    verdict_buy: getChecked('verdict_buy'),
+    verdict_refer: getChecked('verdict_refer'),
+    top_complaint: document.getElementById('top-complaint').value,
+    memorable_quote: document.getElementById('memorable-quote').value,
+    interviewer_notes: document.getElementById('interviewer-notes').value
+  };
+
+  if (!data.participant_num || !data.date) {
+    btn.textContent = 'Submit to Sheet →';
+    btn.disabled = false;
+    errMsg.textContent = 'Please fill in Participant # and Date before submitting.';
+    errMsg.style.display = 'block';
+    return;
+  }
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    document.body.innerHTML = '<div style="text-align:center; padding:80px 32px; font-family:Georgia,serif;"><p style="font-size:18px; letter-spacing:0.04em;">Submitted.</p><p style="font-size:13px; color:#888; margin-top:8px;">Thank you.</p></div>';
+  })
+  .catch(() => {
+    btn.textContent = 'Submit to Sheet →';
+    btn.disabled = false;
+    errMsg.textContent = 'Something went wrong — please try again.';
+    errMsg.style.display = 'block';
+  });
+}
+</script>
 </body>
 </html>
