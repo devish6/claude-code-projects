@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fit Survey — Measurement Sheet</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #f9f7f4;
+    color: #1a1a1a;
+    padding: 32px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  header {
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  header h1 {
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  header .sub {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .field .line {
+    border-bottom: 1.5px solid #999;
+    min-height: 28px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+  }
+
+  .measurements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 32px;
+    margin-bottom: 28px;
+  }
+
+  .measure-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 8px;
+  }
+
+  .measure-item .label-block {}
+
+  .measure-item .measure-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+
+  .measure-item .measure-note {
+    font-size: 10px;
+    color: #888;
+    font-style: italic;
+  }
+
+  .measure-item .measure-line {
+    border-bottom: 1.5px solid #999;
+    width: 64px;
+    min-height: 28px;
+    text-align: right;
+    font-size: 13px;
+    padding-bottom: 2px;
+  }
+
+  .unit-label {
+    font-size: 10px;
+    color: #aaa;
+    align-self: end;
+    padding-bottom: 4px;
+  }
+
+  .measure-row {
+    display: grid;
+    grid-template-columns: 1fr 72px 24px;
+    align-items: end;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .notes-area {
+    margin-top: 4px;
+  }
+
+  .notes-lines {
+    margin-top: 8px;
+  }
+
+  .notes-lines .line {
+    border-bottom: 1px solid #ccc;
+    min-height: 28px;
+    margin-bottom: 10px;
+  }
+
+  .consent-box {
+    border: 1px solid #ccc;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 11px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .consent-box strong {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    color: #333;
+  }
+
+  .consent-sign {
+    display: flex;
+    gap: 32px;
+    margin-top: 10px;
+  }
+
+  .consent-sign .field { flex: 1; }
+
+  footer {
+    margin-top: 32px;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+    font-size: 10px;
+    color: #aaa;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media print {
+    body { background: white; padding: 20px; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Fit Survey</h1>
+    <div class="sub">Measurement Sheet — Confidential</div>
+  </div>
+  <div style="text-align:right;">
+    <div class="sub">Participant #</div>
+    <div style="border-bottom:1.5px solid #999; width:60px; height:28px; margin-top:4px;"></div>
+  </div>
+</header>
+
+<!-- Meta -->
+<div class="meta-row">
+  <div class="field">
+    <label>Date</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>Age</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>Ethnicity / Background</label>
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="meta-row">
+  <div class="field">
+    <label>Height (self-reported)</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>Height (measured)</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>Usual clothing size</label>
+    <div class="line"></div>
+  </div>
+</div>
+
+<!-- Consent -->
+<div class="consent-box">
+  <strong>Consent</strong>
+  I voluntarily agree to participate in this fit research session. My measurements will be used only for sizing research and will not be shared with third parties.
+  <div class="consent-sign">
+    <div class="field">
+      <label>Signature</label>
+      <div class="line"></div>
+    </div>
+    <div class="field">
+      <label>Date</label>
+      <div class="line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Measurements -->
+<div class="section-title">Body Measurements &nbsp;·&nbsp; All in inches</div>
+
+<div style="margin-bottom: 28px;">
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Bust</div>
+      <div class="measure-note">Fullest point, tape parallel to floor</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Waist</div>
+      <div class="measure-note">Natural waist (~1" above navel), tape snug not tight</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Hip</div>
+      <div class="measure-note">Fullest point, usually 7–9" below natural waist</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Inseam</div>
+      <div class="measure-note">Crotch to floor, standing, feet together</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Torso Length</div>
+      <div class="measure-note">Nape of neck (base of skull) to natural waist</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Shoulder Width</div>
+      <div class="measure-note">Shoulder point to shoulder point across back</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Arm Length</div>
+      <div class="measure-note">Shoulder point to wrist, arm slightly bent</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+  <div class="measure-row">
+    <div>
+      <div class="measure-label">Thigh Circumference</div>
+      <div class="measure-note">Fullest point, 1" below crotch seam</div>
+    </div>
+    <div class="measure-line"></div>
+    <div class="unit-label">in</div>
+  </div>
+
+</div>
+
+<!-- Notes -->
+<div class="section-title">Fit Notes</div>
+<div class="notes-area">
+  <div style="font-size:11px; color:#888; margin-bottom:8px;">Fit problems observed or mentioned during measurement. Note any asymmetry, posture, or unusual proportions.</div>
+  <div class="notes-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<footer>
+  <span>Fit Survey · South Asian Sizing Research · Ontario, Canada</span>
+  <span>Sheet v1 · Confidential</span>
+</footer>
+
+</body>
+</html>

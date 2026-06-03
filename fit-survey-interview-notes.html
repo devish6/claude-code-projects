@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fit Survey — Interview Notes</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #f9f7f4;
+    color: #1a1a1a;
+    padding: 32px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  header {
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  header h1 {
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  header .sub {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  .field .line {
+    border-bottom: 1.5px solid #999;
+    min-height: 28px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+    margin-bottom: 20px;
+  }
+
+  .question-block {
+    margin-bottom: 28px;
+  }
+
+  .question-block .q-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 4px;
+  }
+
+  .question-block .question {
+    font-size: 14px;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .question-block .prompt {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 10px;
+  }
+
+  .answer-lines .line {
+    border-bottom: 1px solid #ccc;
+    min-height: 26px;
+    margin-bottom: 8px;
+  }
+
+  .highlight-box {
+    border-left: 3px solid #1a1a1a;
+    padding: 14px 16px;
+    background: #fff;
+    margin-bottom: 28px;
+  }
+
+  .highlight-box .q-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .highlight-box .question {
+    font-size: 15px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .highlight-box .answer-lines .line {
+    border-bottom: 1.5px solid #aaa;
+    min-height: 30px;
+    margin-bottom: 10px;
+  }
+
+  .verdict {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .verdict-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .verdict-option .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #999;
+    flex-shrink: 0;
+  }
+
+  .tag-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .tag {
+    border: 1px solid #ccc;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tag .box {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #999;
+    flex-shrink: 0;
+  }
+
+  footer {
+    margin-top: 32px;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+    font-size: 10px;
+    color: #aaa;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media print {
+    body { background: white; padding: 20px; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Fit Survey</h1>
+    <div class="sub">Interview Notes — Confidential</div>
+  </div>
+  <div style="text-align:right;">
+    <div class="sub">Participant #</div>
+    <div style="border-bottom:1.5px solid #999; width:60px; height:28px; margin-top:4px;"></div>
+  </div>
+</header>
+
+<!-- Meta -->
+<div class="meta-row">
+  <div class="field">
+    <label>Date</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>Location</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>How recruited</label>
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="meta-row">
+  <div class="field">
+    <label>Age</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>Occupation</label>
+    <div class="line"></div>
+  </div>
+  <div class="field">
+    <label>City / Neighbourhood</label>
+    <div class="line"></div>
+  </div>
+</div>
+
+<!-- Conversation -->
+<div class="section-title">Conversation</div>
+
+<div class="question-block">
+  <div class="q-label">Q1 — Opening</div>
+  <div class="question">"Walk me through the last time you bought jeans or work pants. What happened?"</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="question-block">
+  <div class="q-label">Q2 — The Fail</div>
+  <div class="question">"Where did the fit fail — or what made you keep looking?"</div>
+  <div class="prompt">Listen for: waist gap, short inseam, long sleeves, shoulder pull, torso length, thigh tightness</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="question-block">
+  <div class="q-label">Q3 — What Works</div>
+  <div class="question">"When you find something that fits well, what specifically is right about it?"</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="question-block">
+  <div class="q-label">Q4 — Workaround</div>
+  <div class="question">"When something almost fits — do you alter it, return it, or just live with it?"</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+  <div style="margin-top:10px;">
+    <div style="font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#aaa; margin-bottom:8px;">Current workaround (check all that apply)</div>
+    <div class="tag-row">
+      <div class="tag"><div class="box"></div> Custom tailor</div>
+      <div class="tag"><div class="box"></div> Returns frequently</div>
+      <div class="tag"><div class="box"></div> Lives with poor fit</div>
+      <div class="tag"><div class="box"></div> Avoids category</div>
+      <div class="tag"><div class="box"></div> Buys petite line</div>
+      <div class="tag"><div class="box"></div> Orders from India</div>
+    </div>
+  </div>
+</div>
+
+<div class="question-block">
+  <div class="q-label">Q5 — Avoidance</div>
+  <div class="question">"Is there a category you've basically given up on buying off the rack?"</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+  <div style="margin-top:10px;">
+    <div style="font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#aaa; margin-bottom:8px;">Category mentioned</div>
+    <div class="tag-row">
+      <div class="tag"><div class="box"></div> Jeans</div>
+      <div class="tag"><div class="box"></div> Blazers / Jackets</div>
+      <div class="tag"><div class="box"></div> Trousers</div>
+      <div class="tag"><div class="box"></div> Button-down shirts</div>
+      <div class="tag"><div class="box"></div> Dresses</div>
+      <div class="tag"><div class="box"></div> Other: ____________</div>
+    </div>
+  </div>
+</div>
+
+<div class="question-block">
+  <div class="q-label">Q6 — Tailoring</div>
+  <div class="question">"Have you ever had something tailored? What was it for?"</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<div class="question-block">
+  <div class="q-label">Q7 — Brands</div>
+  <div class="question">"What brands have worked best for you, even partially?"</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<!-- Closer — highlighted -->
+<div class="highlight-box">
+  <div class="q-label">The Closer — Verbatim Answer Required</div>
+  <div class="question">"If someone built a brand that solved this one fit problem for you — what would that one thing be?"</div>
+  <div class="answer-lines">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
+
+<!-- Verdict -->
+<div class="section-title">Verdict</div>
+
+<div style="margin-bottom: 20px;">
+  <div style="font-size:11px; color:#888; margin-bottom:12px;">Would this person buy from this brand?</div>
+  <div class="verdict">
+    <div class="verdict-option"><div class="box"></div> Yes — said so directly</div>
+    <div class="verdict-option"><div class="box"></div> Maybe — interested, hesitant</div>
+    <div class="verdict-option"><div class="box"></div> No — not the target customer</div>
+  </div>
+</div>
+
+<div style="margin-bottom: 20px;">
+  <div style="font-size:11px; color:#888; margin-bottom:12px;">Would they refer others or join a community?</div>
+  <div class="verdict">
+    <div class="verdict-option"><div class="box"></div> Yes</div>
+    <div class="verdict-option"><div class="box"></div> Maybe</div>
+    <div class="verdict-option"><div class="box"></div> No</div>
+  </div>
+</div>
+
+<div class="field" style="margin-bottom:24px;">
+  <label>Top fit complaint — 5 words or fewer</label>
+  <div class="line" style="margin-top:4px;"></div>
+</div>
+
+<div class="field" style="margin-bottom:24px;">
+  <label>One memorable quote from this session</label>
+  <div class="line" style="margin-top:4px;"></div>
+  <div class="line" style="margin-top:2px;"></div>
+</div>
+
+<div class="field">
+  <label>Interviewer notes / follow-up</label>
+  <div class="line" style="margin-top:4px;"></div>
+  <div class="line" style="margin-top:2px;"></div>
+  <div class="line" style="margin-top:2px;"></div>
+</div>
+
+<footer>
+  <span>Fit Survey · South Asian Sizing Research · Ontario, Canada</span>
+  <span>Notes v1 · Confidential</span>
+</footer>
+
+</body>
+</html>
