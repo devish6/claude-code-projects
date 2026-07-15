@@ -12,6 +12,7 @@ export type MoolankData = {
   quote: string; // planet-flavoured line under the strengths
   flips: [string, string][]; // exactly 4 [challenge, reframe] pairs
   music?: string; // public/ path e.g. "music/orbital-drift.mp3" — set when provided
+  musicStartFrame?: number; // trim the track's head; frames at 30fps (e.g. 360 = start at 0:12)
 };
 
 export const MOOLANKS: Record<number, MoolankData> = {
@@ -119,6 +120,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Impatient?", "You move while others wait."],
     ],
     music: "music/mool-5.mp3",
+    musicStartFrame: 360, // start at 0:12
   },
   6: {
     n: 6,
@@ -139,6 +141,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Possessive?", "It's devotion. Give it freely."],
       ["People-pleaser?", "Charm is power — use it for you too."],
     ],
+    music: "music/mool-2.mp3",
   },
   7: {
     n: 7,
@@ -159,6 +162,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Restless within?", "You're seeking mastery — chase it."],
       ["Misunderstood?", "Depth is rare. Don't dilute it."],
     ],
+    music: "music/mool-3.mp3",
   },
   8: {
     n: 8,
@@ -200,5 +204,6 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Impatient?", "Your urgency gets things done."],
       ["Always fighting?", "Then fight for what matters."],
     ],
+    music: "music/mool-4.mp3",
   },
 };

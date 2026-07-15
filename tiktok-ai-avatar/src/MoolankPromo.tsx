@@ -381,6 +381,7 @@ export const MoolankPromo: React.FC<{ data: MoolankData }> = ({ data }) => {
       {data.music ? (
         <Audio
           src={staticFile(data.music)}
+          startFrom={data.musicStartFrame ?? 0}
           volume={(f) =>
             interpolate(f, [0, 30, 860, 900], [0, 0.55, 0.55, 0], {
               extrapolateLeft: "clamp",
