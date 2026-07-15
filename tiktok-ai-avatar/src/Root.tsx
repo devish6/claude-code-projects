@@ -1,26 +1,24 @@
 import { Composition } from "remotion";
-import { TikTokAIAvatar } from "./Composition";
-import { TikTokPromo } from "./TikTokPromo";
+import { MoolankPromo } from "./MoolankPromo";
+import { MOOLANKS } from "./moolank-data";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      <Composition
-        id="TikTokAIAvatar"
-        component={TikTokAIAvatar}
-        durationInFrames={390}
-        fps={30}
-        width={1080}
-        height={1920}
-      />
-      <Composition
-        id="TikTokPromo"
-        component={TikTokPromo}
-        durationInFrames={900}
-        fps={30}
-        width={1080}
-        height={1920}
-      />
+      {Object.values(MOOLANKS)
+        .sort((a, b) => a.n - b.n)
+        .map((data) => (
+          <Composition
+            key={data.n}
+            id={`Moolank-${data.n}`}
+            component={MoolankPromo}
+            durationInFrames={900}
+            fps={30}
+            width={1080}
+            height={1920}
+            defaultProps={{ data }}
+          />
+        ))}
     </>
   );
 };
