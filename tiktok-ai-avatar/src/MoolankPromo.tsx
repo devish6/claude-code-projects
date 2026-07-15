@@ -14,98 +14,104 @@ import type { MoolankData } from "./moolank-data";
 /**
  * Numevix "Moolank N" TikTok promo — parameterized by MoolankData.
  * 1080x1920, 30fps, 900 frames (30s). Promotes Numevix.
- * All motion is Remotion-native (useCurrentFrame / interpolate / spring).
+ * Uses the Numevix brand palette (cream + antique gold + deep green,
+ * oklch tokens from vedic-numerology app/globals.css). Chromium (Remotion's
+ * renderer) supports oklch() directly. All motion is Remotion-native.
  */
 
-// ── Brand palette ───────────────────────────────────────────────────────────
-const GOLD = "#E8C879";
-const CREAM = "#F5EFE0";
-const GREEN = "#6FA585";
-const GREEN_DEEP = "#3F6B4F";
-const MUTED = "#A79CC0";
+// ── Numevix brand palette ───────────────────────────────────────────────────
+const CREAM_A = "#F3F2EC"; // hero gradient cool
+const CREAM_B = "#F8F2E5"; // hero gradient warm
+const INK = "oklch(0.24 0.012 60)"; // foreground
+const INK_SOFT = "oklch(0.34 0.012 60)";
+const MUTED = "oklch(0.47 0.02 70)"; // muted-foreground
+const GOLD = "oklch(0.72 0.10 80)"; // accent — large text / number / wordmark
+const GOLD_TEXT = "oklch(0.56 0.11 74)"; // deeper gold for smaller text on cream (AA)
+const GREEN = "oklch(0.52 0.085 158)"; // accent-2 — actions
+const GREEN_FG = "oklch(0.97 0.02 155)"; // on green
+const CARD = "oklch(0.995 0.004 85)";
+const BORDER = "oklch(0.87 0.02 85)";
 
 const SERIF = "Georgia, 'Times New Roman', serif";
 const SANS = "system-ui, -apple-system, 'Segoe UI', Arial, sans-serif";
 
-// ── Deterministic starfield ─────────────────────────────────────────────────
-function mulberry32(seed: number) {
-  return function () {
-    seed |= 0;
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-const STARS = (() => {
-  const rand = mulberry32(88);
-  return new Array(70).fill(0).map(() => ({
-    x: rand() * 100,
-    y: rand() * 100,
-    r: 0.6 + rand() * 2.2,
-    phase: rand() * Math.PI * 2,
-    speed: 0.4 + rand() * 1.1,
-  }));
-})();
+// ── Background: cream + rotating faint-gold numerology dial ──────────────────
+const Dial: React.FC<{ rot: number; opacity: number }> = ({ rot, opacity }) => {
+  const circles = [480, 372, 264, 156];
+  const spokes = Array.from({ length: 12 }, (_, i) => i * 30);
+  const ticks = Array.from({ length: 36 }, (_, i) => i * 10);
+  return (
+    <svg
+      viewBox="0 0 1000 1000"
+      style={{
+        position: "absolute",
+        width: 1500,
+        height: 1500,
+        left: "50%",
+        top: "42%",
+        transform: `translate(-50%, -50%) rotate(${rot}deg)`,
+        opacity,
+      }}
+    >
+      <g stroke="currentColor" fill="none" strokeWidth={1.4}>
+        {circles.map((r) => (
+          <circle key={r} cx={500} cy={500} r={r} />
+        ))}
+        {spokes.map((a) => {
+          const rad = (a * Math.PI) / 180;
+          return (
+            <line
+              key={`s${a}`}
+              x1={500}
+              y1={500}
+              x2={500 + 480 * Math.cos(rad)}
+              y2={500 + 480 * Math.sin(rad)}
+              strokeWidth={0.9}
+            />
+          );
+        })}
+        {ticks.map((a) => {
+          const rad = (a * Math.PI) / 180;
+          const r1 = a % 30 === 0 ? 452 : 468;
+          return (
+            <line
+              key={`t${a}`}
+              x1={500 + r1 * Math.cos(rad)}
+              y1={500 + r1 * Math.sin(rad)}
+              x2={500 + 480 * Math.cos(rad)}
+              y2={500 + 480 * Math.sin(rad)}
+              strokeWidth={1.6}
+            />
+          );
+        })}
+      </g>
+    </svg>
+  );
+};
 
 const Background: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
-  const glowX = 50 + Math.sin(t * 0.25) * 10;
-  const glowY = 32 + Math.cos(t * 0.2) * 6;
-  const ringRot = t * 6;
-
+  const glowY = 30 + Math.cos(t * 0.2) * 5;
   return (
-    <AbsoluteFill
-      style={{
-        background:
-          "radial-gradient(ellipse 90% 70% at 50% 28%, #2a1a52 0%, #150c30 42%, #08040f 100%)",
-      }}
-    >
+    <AbsoluteFill style={{ background: `linear-gradient(158deg, ${CREAM_A}, ${CREAM_B})` }}>
+      {/* soft warm gold glow near the top */}
       <AbsoluteFill
         style={{
-          background: `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(232,200,121,0.16), transparent 45%)`,
+          background: `radial-gradient(ellipse 70% 45% at 50% ${glowY}%, oklch(0.72 0.10 80 / 0.18), transparent 60%)`,
         }}
       />
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-        <div
-          style={{
-            width: 1400,
-            height: 1400,
-            borderRadius: "50%",
-            border: `2px solid rgba(232,200,121,0.06)`,
-            transform: `rotate(${ringRot}deg)`,
-            boxShadow: "0 0 120px rgba(111,165,133,0.06) inset",
-            marginTop: -220,
-          }}
-        />
+      {/* rotating faint-gold dials (two layers, opposite spin) */}
+      <AbsoluteFill style={{ color: GOLD }}>
+        <Dial rot={t * 3} opacity={0.1} />
+        <Dial rot={-t * 2 + 15} opacity={0.06} />
       </AbsoluteFill>
-      <AbsoluteFill>
-        {STARS.map((s, i) => {
-          const tw = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
-          return (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                left: `${s.x}%`,
-                top: `${s.y}%`,
-                width: s.r,
-                height: s.r,
-                borderRadius: "50%",
-                background: CREAM,
-                opacity: tw * 0.8,
-                boxShadow: `0 0 ${s.r * 2}px rgba(245,239,224,${tw * 0.6})`,
-              }}
-            />
-          );
-        })}
-      </AbsoluteFill>
+      {/* gentle warm vignette to seat the content */}
       <AbsoluteFill
         style={{
           background:
-            "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+            "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 60%, oklch(0.80 0.03 80 / 0.28) 100%)",
         }}
       />
     </AbsoluteFill>
@@ -131,26 +137,15 @@ const Pop: React.FC<{
 }> = ({ delay = 0, children, y = 40, style }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const s = spring({
-    frame: frame - delay,
-    fps,
-    config: { damping: 200, mass: 0.8, stiffness: 120 },
-  });
+  const s = spring({ frame: frame - delay, fps, config: { damping: 200, mass: 0.8, stiffness: 120 } });
   const opacity = interpolate(frame - delay, [0, 8], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-  return (
-    <div style={{ opacity, transform: `translateY(${(1 - s) * y}px)`, ...style }}>
-      {children}
-    </div>
-  );
+  return <div style={{ opacity, transform: `translateY(${(1 - s) * y}px)`, ...style }}>{children}</div>;
 };
 
-const Eyebrow: React.FC<{ children: React.ReactNode; color?: string }> = ({
-  children,
-  color = GOLD,
-}) => (
+const Eyebrow: React.FC<{ children: React.ReactNode; color?: string }> = ({ children, color = GOLD_TEXT }) => (
   <div
     style={{
       color,
@@ -174,18 +169,16 @@ const SceneHook: React.FC<{ data: MoolankData }> = ({ data }) => {
   const ringRot = interpolate(frame, [0, 130], [0, 60]);
 
   return (
-    <AbsoluteFill
-      style={{ opacity, alignItems: "center", justifyContent: "center", padding: 80, textAlign: "center" }}
-    >
+    <AbsoluteFill style={{ opacity, alignItems: "center", justifyContent: "center", padding: 80, textAlign: "center" }}>
       <div style={{ position: "relative", marginBottom: 40 }}>
         <div
           style={{
             position: "absolute",
             inset: -70,
             borderRadius: "50%",
-            border: `3px solid rgba(232,200,121,0.35)`,
+            border: `3px solid oklch(0.72 0.10 80 / 0.5)`,
             transform: `rotate(${ringRot}deg) scale(${0.6 + big * 0.4})`,
-            boxShadow: "0 0 60px rgba(232,200,121,0.25)",
+            boxShadow: "0 0 60px oklch(0.72 0.10 80 / 0.25)",
           }}
         />
         <div
@@ -196,25 +189,25 @@ const SceneHook: React.FC<{ data: MoolankData }> = ({ data }) => {
             fontWeight: 700,
             color: GOLD,
             transform: `scale(${0.3 + big * 0.7})`,
-            textShadow: "0 0 50px rgba(232,200,121,0.5)",
+            textShadow: "0 6px 30px oklch(0.72 0.10 80 / 0.35)",
           }}
         >
           {data.n}
         </div>
       </div>
       <Pop delay={16}>
-        <div style={{ fontFamily: SERIF, fontSize: 96, fontWeight: 700, color: CREAM, letterSpacing: 4 }}>
+        <div style={{ fontFamily: SERIF, fontSize: 96, fontWeight: 700, color: INK, letterSpacing: 4 }}>
           MOOLANK {data.n}
         </div>
       </Pop>
       <Pop delay={26} y={26}>
-        <div style={{ marginTop: 14, color: GOLD, fontFamily: SANS, fontSize: 34, letterSpacing: 3 }}>
+        <div style={{ marginTop: 14, color: GOLD_TEXT, fontFamily: SANS, fontSize: 34, letterSpacing: 3, fontWeight: 600 }}>
           Driver Number · Ruled by {data.planet}
         </div>
       </Pop>
       <Pop delay={40} y={22}>
         <div style={{ marginTop: 46, color: MUTED, fontFamily: SANS, fontSize: 38, lineHeight: 1.4 }}>
-          Born on the <span style={{ color: CREAM, fontWeight: 700 }}>{data.born}?</span>
+          Born on the <span style={{ color: INK, fontWeight: 700 }}>{data.born}?</span>
           <br />
           This is your number.
         </div>
@@ -232,8 +225,8 @@ const SceneStrengths: React.FC<{ data: MoolankData }> = ({ data }) => {
         <Eyebrow>The strengths of {data.n}</Eyebrow>
       </Pop>
       <Pop delay={6}>
-        <div style={{ fontFamily: SERIF, fontSize: 84, fontWeight: 700, color: CREAM, marginTop: 14, lineHeight: 1.05 }}>
-          {data.titlePlain} <span style={{ color: GOLD }}>{data.titleGold}</span>
+        <div style={{ fontFamily: SERIF, fontSize: 84, fontWeight: 700, color: INK, marginTop: 14, lineHeight: 1.05 }}>
+          {data.titlePlain} <span style={{ color: GOLD_TEXT }}>{data.titleGold}</span>
         </div>
       </Pop>
       <div style={{ marginTop: 70, display: "flex", flexDirection: "column", gap: 34 }}>
@@ -245,7 +238,7 @@ const SceneStrengths: React.FC<{ data: MoolankData }> = ({ data }) => {
                   width: 54,
                   height: 54,
                   borderRadius: "50%",
-                  background: "rgba(111,165,133,0.18)",
+                  background: "oklch(0.52 0.085 158 / 0.14)",
                   border: `2px solid ${GREEN}`,
                   display: "flex",
                   alignItems: "center",
@@ -258,13 +251,13 @@ const SceneStrengths: React.FC<{ data: MoolankData }> = ({ data }) => {
               >
                 ✓
               </div>
-              <div style={{ color: CREAM, fontFamily: SANS, fontSize: 46, fontWeight: 600 }}>{s}</div>
+              <div style={{ color: INK, fontFamily: SANS, fontSize: 46, fontWeight: 600 }}>{s}</div>
             </div>
           </Pop>
         ))}
       </div>
       <Pop delay={124} y={18}>
-        <div style={{ marginTop: 64, color: GOLD, fontFamily: SERIF, fontStyle: "italic", fontSize: 40 }}>
+        <div style={{ marginTop: 64, color: GOLD_TEXT, fontFamily: SERIF, fontStyle: "italic", fontSize: 40 }}>
           "{data.quote}"
         </div>
       </Pop>
@@ -281,8 +274,8 @@ const SceneFlip: React.FC<{ data: MoolankData }> = ({ data }) => {
         <Eyebrow color={GREEN}>The flip side → your edge</Eyebrow>
       </Pop>
       <Pop delay={6}>
-        <div style={{ fontFamily: SERIF, fontSize: 84, fontWeight: 700, color: CREAM, marginTop: 14, lineHeight: 1.05 }}>
-          Your <span style={{ color: GOLD }}>weakness</span> is
+        <div style={{ fontFamily: SERIF, fontSize: 84, fontWeight: 700, color: INK, marginTop: 14, lineHeight: 1.05 }}>
+          Your <span style={{ color: GOLD_TEXT }}>weakness</span> is
           <br />
           your <span style={{ color: GREEN }}>weapon.</span>
         </div>
@@ -292,16 +285,17 @@ const SceneFlip: React.FC<{ data: MoolankData }> = ({ data }) => {
           <Pop key={bad} delay={26 + i * 24} y={34}>
             <div
               style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(232,200,121,0.18)",
+                background: CARD,
+                border: `1px solid ${BORDER}`,
                 borderRadius: 22,
                 padding: "26px 30px",
+                boxShadow: "0 10px 30px -18px oklch(0.24 0.012 60 / 0.35)",
               }}
             >
               <div style={{ color: MUTED, fontFamily: SANS, fontSize: 38, fontWeight: 600 }}>{bad}</div>
               <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginTop: 8 }}>
-                <span style={{ color: GOLD, fontSize: 40, fontFamily: SANS }}>→</span>
-                <span style={{ color: CREAM, fontFamily: SANS, fontSize: 42, fontWeight: 700 }}>{good}</span>
+                <span style={{ color: GOLD_TEXT, fontSize: 40, fontFamily: SANS }}>→</span>
+                <span style={{ color: INK, fontFamily: SANS, fontSize: 42, fontWeight: 700 }}>{good}</span>
               </div>
             </div>
           </Pop>
@@ -324,7 +318,7 @@ const ScenePromo: React.FC = () => {
         <div style={{ color: MUTED, fontFamily: SANS, fontSize: 42, lineHeight: 1.4 }}>
           Your numbers hold
           <br />
-          <span style={{ color: CREAM, fontWeight: 700 }}>far more than one digit.</span>
+          <span style={{ color: INK, fontWeight: 700 }}>far more than one digit.</span>
         </div>
       </Pop>
       <Pop delay={20} y={30}>
@@ -336,7 +330,7 @@ const ScenePromo: React.FC = () => {
               fontWeight: 700,
               color: GOLD,
               letterSpacing: 3,
-              textShadow: "0 0 50px rgba(232,200,121,0.45)",
+              textShadow: "0 6px 30px oklch(0.72 0.10 80 / 0.3)",
             }}
           >
             Numevix
@@ -345,10 +339,10 @@ const ScenePromo: React.FC = () => {
         </div>
       </Pop>
       <Pop delay={34} y={22}>
-        <div style={{ marginTop: 40, color: CREAM, fontFamily: SANS, fontSize: 42, lineHeight: 1.4 }}>
+        <div style={{ marginTop: 40, color: INK_SOFT, fontFamily: SANS, fontSize: 42, lineHeight: 1.4 }}>
           AI numerology readings,
           <br />
-          <span style={{ color: GOLD }}>reviewed by real experts.</span>
+          <span style={{ color: GOLD_TEXT, fontWeight: 700 }}>reviewed by real experts.</span>
         </div>
       </Pop>
       <Pop delay={50} y={24}>
@@ -356,23 +350,23 @@ const ScenePromo: React.FC = () => {
           style={{
             marginTop: 66,
             transform: `scale(${pulse})`,
-            background: GREEN_DEEP,
+            background: GREEN,
             border: `2px solid ${GOLD}`,
-            color: CREAM,
+            color: GREEN_FG,
             fontFamily: SANS,
             fontWeight: 800,
             fontSize: 52,
             letterSpacing: 1,
             padding: "26px 56px",
             borderRadius: 60,
-            boxShadow: "0 12px 40px rgba(63,107,79,0.5)",
+            boxShadow: "0 16px 40px -14px oklch(0.52 0.085 158 / 0.6)",
           }}
         >
           numevix.com
         </div>
       </Pop>
       <Pop delay={64} y={18}>
-        <div style={{ marginTop: 34, color: GOLD, fontFamily: SANS, fontSize: 34, letterSpacing: 2 }}>
+        <div style={{ marginTop: 34, color: GOLD_TEXT, fontFamily: SANS, fontSize: 34, letterSpacing: 2, fontWeight: 600 }}>
           Decode your Moolank today →
         </div>
       </Pop>
@@ -383,7 +377,7 @@ const ScenePromo: React.FC = () => {
 // ── Main composition ────────────────────────────────────────────────────────
 export const MoolankPromo: React.FC<{ data: MoolankData }> = ({ data }) => {
   return (
-    <AbsoluteFill style={{ backgroundColor: "#08040f" }}>
+    <AbsoluteFill style={{ backgroundColor: CREAM_A }}>
       {data.music ? (
         <Audio
           src={staticFile(data.music)}

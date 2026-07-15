@@ -34,6 +34,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Hate taking orders?", "Then build your own throne."],
       ["Impatient?", "It's drive — aim it at one goal."],
     ],
+    music: "music/mool-1.mp3",
   },
   2: {
     n: 2,
@@ -54,6 +55,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Indecisive?", "You weigh what others miss."],
       ["Overthink it?", "Trust the gut that's rarely wrong."],
     ],
+    music: "music/mool-2.mp3",
   },
   3: {
     n: 3,
@@ -74,6 +76,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Too bossy?", "You see the plan — lead it."],
       ["Workaholic?", "Channel it, then rest to grow."],
     ],
+    music: "music/mool-3.mp3",
   },
   4: {
     n: 4,
@@ -94,6 +97,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Unpredictable?", "It's adaptability. Flex it."],
       ["Misunderstood?", "Pioneers always are. Keep going."],
     ],
+    music: "music/mool-4.mp3",
   },
   5: {
     n: 5,
@@ -114,6 +118,7 @@ export const MOOLANKS: Record<number, MoolankData> = {
       ["Feel scattered?", "Pick one lane — you're unstoppable."],
       ["Impatient?", "You move while others wait."],
     ],
+    music: "music/mool-5.mp3",
   },
   6: {
     n: 6,
