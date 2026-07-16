@@ -12,6 +12,7 @@ import { ProductDemo, PRODUCT_DEMO_DURATION } from "./promos/ProductDemo";
 import { BirthVsDestiny, BIRTH_VS_DESTINY_DURATION } from "./promos/BirthVsDestiny";
 import { WhySeven, WHY_SEVEN_DURATION } from "./promos/WhySeven";
 import { BornWithStrengths, BORN_WITH_STRENGTHS_DURATION } from "./promos/BornWithStrengths";
+import { Cover } from "./promos/Cover";
 
 // 1080x1920, 30fps — vertical short-form for TikTok / Reels / Shorts.
 const V = { fps: 30, width: 1080, height: 1920 } as const;
@@ -79,6 +80,24 @@ export const RemotionRoot: React.FC = () => {
           component={BornWithStrengths}
           durationInFrames={BORN_WITH_STRENGTHS_DURATION}
           {...V}
+        />
+      </Folder>
+
+      <Folder name="Covers">
+        <Composition
+          id="Cover"
+          component={Cover}
+          durationInFrames={60}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{
+            variant: "ink" as const,
+            kicker: "Numerology",
+            title: "IS YOUR NAME",
+            accent: "BLOCKING YOU?",
+            watermark: "",
+          }}
         />
       </Folder>
 
