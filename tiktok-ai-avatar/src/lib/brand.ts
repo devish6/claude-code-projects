@@ -37,17 +37,19 @@ export const SANS = "system-ui, -apple-system, 'Segoe UI', Arial, sans-serif";
 
 // ── Music (public/music/*) ──────────────────────────────────────────────────
 // Pixabay tracks (free, no attribution required), chosen per-video by mood.
+// Files were renamed to N.mp3 by number; paths below point to the file that holds
+// each video's original song (verified by duration + md5), so beat-sync stays valid.
 export const MUSIC = {
-  darkCinematic: "music/leberch-dark-cinematic-509801.mp3", // 01 hook, dramatic
-  perfectMoment: "music/denys_brodovskyi-the-perfect-moment-199479.mp3", // 02 uplifting reveal
-  darkMystical: "music/universfield-dark-mystical-background-143163.mp3", // 03 mystery
-  miracle: "music/emmraan-waiting-for-a-miracle-282908.mp3", // 04 hopeful curiosity
-  dark: "music/leberch-dark-509787.mp3", // 05 empire / builder
-  inspiringCorporate: "music/jonasblakewood-inspiring-corporate-562848.mp3", // 06 energetic
-  ambientAtmosphere: "music/atlasaudio-ambient-atmosphere-511882.mp3", // 07 AI demo
-  ambientHorizon: "music/the_mountain-ambient-horizon-159118.mp3", // 08 educational
-  tribalRitual: "music/inhaleexhalestudio-shivoham-deep-techno-tribal-ritual-559682.mp3", // 09 spiritual 7
-  sweetMemories: "music/cold_fire-sweet-memories-241192.mp3", // 10 emotional
+  darkCinematic: "music/7.mp3", // 01 hook, dramatic (leberch dark cinematic, 186s)
+  perfectMoment: "music/9.mp3", // 02 uplifting reveal (denys the perfect moment, 185s)
+  darkMystical: "music/universfield-dark-mystical-background-143163.mp3", // 03 mystery (kept long name)
+  miracle: "music/5.mp3", // 04 hopeful curiosity (emmraan waiting for a miracle, 60s)
+  dark: "music/10.mp3", // 05 empire / builder (leberch dark, 222s)
+  inspiringCorporate: "music/1.mp3", // 06 energetic (jonasblakewood inspiring corporate, 169s)
+  ambientAtmosphere: "music/4.mp3", // 07 AI demo (atlasaudio ambient atmosphere, 110s)
+  ambientHorizon: "music/the_mountain-ambient-horizon-159118.mp3", // 08 educational (kept long name)
+  tribalRitual: "music/3.mp3", // 09 spiritual 7 (shivoham tribal ritual, 212s)
+  sweetMemories: "music/2.mp3", // 10 emotional (cold_fire sweet memories, 120s)
   ambientNature: "music/musicinmedia-ambient-nature-222158.mp3", // spare
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
