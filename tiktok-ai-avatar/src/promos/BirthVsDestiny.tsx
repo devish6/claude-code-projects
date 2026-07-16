@@ -126,7 +126,7 @@ const CTA: React.FC = () => {
 
 export const BirthVsDestiny: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.ambientHorizon} total={BIRTH_VS_DESTINY_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.ambientHorizon} total={BIRTH_VS_DESTINY_DURATION} start={96} fadeIn={8} vol={0.5} />
     <Surface variant="cream" />
     <Sequence durationInFrames={96}>
       <Hook />

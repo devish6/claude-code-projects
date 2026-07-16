@@ -147,7 +147,7 @@ const CTA: React.FC = () => {
 
 export const NameVibration: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.miracle} total={NAME_VIBRATION_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.miracle} total={NAME_VIBRATION_DURATION} start={0} fadeIn={16} vol={0.5} />
     <Surface variant="cream" particles />
     <Sequence durationInFrames={96}>
       <Hook />

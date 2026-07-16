@@ -166,17 +166,20 @@ export const GlowRing: React.FC<{
 };
 
 // ── Brand audio bed with head-trim + fade in/out ────────────────────────────
+// `start` trims the track head (frames) so its energy entry lands on the hook.
+// `fadeIn` is short on punchy hooks so transients aren't muffled.
 export const BrandAudio: React.FC<{
   src: string;
   total: number;
   start?: number;
   vol?: number;
-}> = ({ src, total, start = 0, vol = 0.5 }) => (
+  fadeIn?: number;
+}> = ({ src, total, start = 0, vol = 0.5, fadeIn = 20 }) => (
   <Audio
     src={staticFile(src)}
     startFrom={start}
     volume={(f) =>
-      interpolate(f, [0, 20, total - 25, total], [0, vol, vol, 0], {
+      interpolate(f, [0, fadeIn, total - 25, total], [0, vol, vol, 0], {
         extrapolateLeft: "clamp",
         extrapolateRight: "clamp",
       })

@@ -124,7 +124,7 @@ const CTA: React.FC = () => {
 
 export const BornWithStrengths: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.sweetMemories} total={BORN_WITH_STRENGTHS_DURATION} vol={0.46} />
+    <BrandAudio src={MUSIC.sweetMemories} total={BORN_WITH_STRENGTHS_DURATION} start={0} fadeIn={24} vol={0.46} />
     <Surface variant="cream" particles />
     <Sequence durationInFrames={120}>
       <Hook />

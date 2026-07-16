@@ -50,51 +50,65 @@ const Hook: React.FC = () => {
 const Reduce: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = useSceneFade(264);
-  // 14 → 1 + 4 → 5
+  // Phase A: 14 → 1 + 4  ·  Phase B (crossfade): reveal Moolank 5
   const step2 = interpolate(frame, [40, 60], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  const step3 = interpolate(frame, [110, 132], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const mathOut = interpolate(frame, [104, 126], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const reveal = interpolate(frame, [110, 140], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <AbsoluteFill style={{ opacity, alignItems: "center", justifyContent: "center", padding: 80 }}>
-      <Pop>
-        <Eyebrow>Born on the 14th?</Eyebrow>
-      </Pop>
-      <Pop delay={8}>
-        <div style={{ marginTop: 40, fontFamily: SERIF, fontSize: 150, fontWeight: 700, color: INK, letterSpacing: 6 }}>
-          14
-        </div>
-      </Pop>
-      <div style={{ marginTop: 20, opacity: step2, fontFamily: SANS, fontSize: 88, fontWeight: 700, color: MUTED }}>
-        1 + 4
-      </div>
-      <div
+    <AbsoluteFill style={{ opacity }}>
+      {/* Eyebrow pinned to the upper third */}
+      <AbsoluteFill style={{ alignItems: "center", justifyContent: "flex-start", paddingTop: 360 }}>
+        <Pop>
+          <Eyebrow>Born on the 14th?</Eyebrow>
+        </Pop>
+      </AbsoluteFill>
+
+      {/* Phase A — the math (fades up and out) */}
+      <AbsoluteFill
         style={{
-          marginTop: 26,
-          opacity: step3,
-          transform: `scale(${0.6 + step3 * 0.4})`,
-          display: "flex",
-          flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
+          opacity: mathOut,
+          transform: `translateY(${(1 - mathOut) * -40}px)`,
         }}
       >
-        <div style={{ fontFamily: SANS, fontSize: 40, letterSpacing: 5, color: GOLD_TEXT, fontWeight: 700 }}>
-          YOUR MOOLANK
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontFamily: SERIF, fontSize: 170, fontWeight: 700, color: INK, letterSpacing: 6 }}>14</div>
+          <div style={{ opacity: step2, fontFamily: SANS, fontSize: 96, fontWeight: 700, color: MUTED, marginTop: 16 }}>
+            1 + 4
+          </div>
         </div>
-        <div
-          style={{
-            fontFamily: SERIF,
-            fontSize: 300,
-            lineHeight: 0.9,
-            fontWeight: 700,
-            color: GOLD,
-            textShadow: "0 6px 30px oklch(0.72 0.10 80 / 0.35)",
-          }}
-        >
-          5
+      </AbsoluteFill>
+
+      {/* Phase B — the Moolank reveal (fades in, centered, no overlap) */}
+      <AbsoluteFill
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: reveal,
+          transform: `scale(${0.72 + reveal * 0.28})`,
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontFamily: SANS, fontSize: 40, letterSpacing: 5, color: GOLD_TEXT, fontWeight: 700 }}>
+            YOUR MOOLANK
+          </div>
+          <div
+            style={{
+              fontFamily: SERIF,
+              fontSize: 250,
+              lineHeight: 1,
+              fontWeight: 700,
+              color: GOLD,
+              margin: "8px 0 18px",
+              textShadow: "0 6px 30px oklch(0.72 0.10 80 / 0.35)",
+            }}
+          >
+            5
+          </div>
+          <div style={{ fontFamily: SANS, fontSize: 44, color: INK, fontWeight: 600 }}>Ruled by Mercury</div>
         </div>
-        <div style={{ fontFamily: SANS, fontSize: 40, color: INK, fontWeight: 600 }}>
-          Ruled by Mercury
-        </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -133,7 +147,7 @@ const CTA: React.FC = () => {
 
 export const BirthDateNotRandom: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.perfectMoment} total={BIRTHDATE_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.perfectMoment} total={BIRTHDATE_DURATION} start={0} fadeIn={16} vol={0.5} />
     <Surface variant="cream" />
     <Sequence durationInFrames={96}>
       <Hook />

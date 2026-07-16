@@ -117,7 +117,7 @@ const CTA: React.FC = () => {
 
 export const SecretNumberSuccess: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.dark} total={SECRET_NUMBER_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.dark} total={SECRET_NUMBER_DURATION} start={0} fadeIn={4} vol={0.5} />
     <Surface variant="ink" />
     <Sequence durationInFrames={110}>
       <Hook />

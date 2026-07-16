@@ -23,7 +23,6 @@ export const PRODUCT_DEMO_DURATION = 780;
 const FIELDS = [
   { label: "Full name", value: "Arjun Mehta" },
   { label: "Date of birth", value: "14 · 08 · 1996" },
-  { label: "Time of birth", value: "07:42 AM" },
 ];
 
 const REPORT = [
@@ -166,7 +165,7 @@ const CTA: React.FC = () => {
 
 export const ProductDemo: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: "#F3F2EC" }}>
-    <BrandAudio src={MUSIC.ambientAtmosphere} total={PRODUCT_DEMO_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.ambientAtmosphere} total={PRODUCT_DEMO_DURATION} start={0} fadeIn={20} vol={0.5} />
     <Sequence durationInFrames={210}>
       <AbsoluteFill>
         <Surface variant="cream" />

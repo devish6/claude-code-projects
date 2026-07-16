@@ -113,7 +113,7 @@ const CTA: React.FC = () => {
 
 export const WhySeven: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.tribalRitual} total={WHY_SEVEN_DURATION} vol={0.44} />
+    <BrandAudio src={MUSIC.tribalRitual} total={WHY_SEVEN_DURATION} start={0} fadeIn={6} vol={0.44} />
     <Surface variant="ink" />
     <Sequence durationInFrames={96}>
       <Hook />

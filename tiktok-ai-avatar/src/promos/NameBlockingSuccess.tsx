@@ -252,7 +252,7 @@ const CTA: React.FC = () => {
 
 export const NameBlockingSuccess: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.darkCinematic} total={NAME_BLOCKING_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.darkCinematic} total={NAME_BLOCKING_DURATION} start={96} fadeIn={4} vol={0.52} />
     <Surface variant="ink" />
     <Sequence durationInFrames={100}>
       <Hook />

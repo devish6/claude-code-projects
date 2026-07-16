@@ -144,7 +144,7 @@ const CTA: React.FC = () => {
 
 export const TrueNumber: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.darkMystical} total={TRUE_NUMBER_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.darkMystical} total={TRUE_NUMBER_DURATION} start={0} fadeIn={6} vol={0.5} />
     <Surface variant="ink" />
     <Sequence durationInFrames={96}>
       <Hook />

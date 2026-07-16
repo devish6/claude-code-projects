@@ -145,7 +145,7 @@ const CTA: React.FC = () => {
 
 export const CommentBirthday: React.FC = () => (
   <AbsoluteFill>
-    <BrandAudio src={MUSIC.inspiringCorporate} total={COMMENT_BIRTHDAY_DURATION} vol={0.5} />
+    <BrandAudio src={MUSIC.inspiringCorporate} total={COMMENT_BIRTHDAY_DURATION} start={0} fadeIn={12} vol={0.5} />
     <Surface variant="cream" />
     <Sequence durationInFrames={96}>
       <Hook />
