@@ -1,0 +1,67 @@
+/**
+ * Numevix brand system for short-form promos.
+ * Palette mirrors the vedic-numerology app tokens (app/globals.css):
+ * cream + antique gold + deep green light-luxury, plus an on-brand deep-ink
+ * (pine + gold) dark-luxury surface for scroll-stopping hooks.
+ * Chromium (Remotion's renderer) supports oklch() directly.
+ */
+
+// ── Light-luxury (cream) surface ────────────────────────────────────────────
+export const CREAM_A = "#F3F2EC";
+export const CREAM_B = "#F8F2E5";
+export const CARD = "oklch(0.995 0.004 85)";
+export const BORDER = "oklch(0.87 0.02 85)";
+
+// ── Ink foreground family ───────────────────────────────────────────────────
+export const INK = "oklch(0.24 0.012 60)";
+export const INK_SOFT = "oklch(0.34 0.012 60)";
+export const MUTED = "oklch(0.47 0.02 70)";
+
+// ── Accents ─────────────────────────────────────────────────────────────────
+export const GOLD = "oklch(0.72 0.10 80)"; // primary accent — big numbers / wordmark
+export const GOLD_BRIGHT = "oklch(0.84 0.12 86)"; // spark highlights on dark
+export const GOLD_TEXT = "oklch(0.56 0.11 74)"; // AA gold for small text on cream
+export const GREEN = "oklch(0.52 0.085 158)"; // action accent
+export const GREEN_FG = "oklch(0.97 0.02 155)"; // text on green
+export const ALERT = "oklch(0.58 0.15 28)"; // muted terracotta for "blocked / weak" states
+
+// ── Dark-luxury (ink) surface — deep pine + gold, still on-brand ────────────
+export const DARK_A = "oklch(0.235 0.028 162)"; // deep pine ink
+export const DARK_B = "oklch(0.155 0.022 165)"; // near-black green
+export const CREAM_ON_DARK = "oklch(0.95 0.012 85)"; // primary text on ink
+export const MUTED_ON_DARK = "oklch(0.74 0.02 85)"; // secondary text on ink
+
+// ── Type ────────────────────────────────────────────────────────────────────
+export const SERIF = "Georgia, 'Times New Roman', serif";
+export const SANS = "system-ui, -apple-system, 'Segoe UI', Arial, sans-serif";
+
+// ── Music (public/music/*) ──────────────────────────────────────────────────
+// Pixabay tracks (free, no attribution required), chosen per-video by mood.
+export const MUSIC = {
+  darkCinematic: "music/leberch-dark-cinematic-509801.mp3", // 01 hook, dramatic
+  perfectMoment: "music/denys_brodovskyi-the-perfect-moment-199479.mp3", // 02 uplifting reveal
+  darkMystical: "music/universfield-dark-mystical-background-143163.mp3", // 03 mystery
+  miracle: "music/emmraan-waiting-for-a-miracle-282908.mp3", // 04 hopeful curiosity
+  dark: "music/leberch-dark-509787.mp3", // 05 empire / builder
+  inspiringCorporate: "music/jonasblakewood-inspiring-corporate-562848.mp3", // 06 energetic
+  ambientAtmosphere: "music/atlasaudio-ambient-atmosphere-511882.mp3", // 07 AI demo
+  ambientHorizon: "music/the_mountain-ambient-horizon-159118.mp3", // 08 educational
+  tribalRitual: "music/inhaleexhalestudio-shivoham-deep-techno-tribal-ritual-559682.mp3", // 09 spiritual 7
+  sweetMemories: "music/cold_fire-sweet-memories-241192.mp3", // 10 emotional
+  ambientNature: "music/musicinmedia-ambient-nature-222158.mp3", // spare
+  // legacy tracks (still available)
+  ambient: "music/orbital-drift.mp3",
+  mool1: "music/mool-1.mp3",
+  mool2: "music/mool-2.mp3",
+  mool3: "music/mool-3.mp3",
+  mool4: "music/mool-4.mp3",
+  mool5: "music/mool-5.mp3",
+} as const;
+
+// ── Deterministic pseudo-random (frame-stable; never Math.random in render) ──
+export const hash = (n: number): number => {
+  const x = Math.sin(n * 12.9898) * 43758.5453;
+  return x - Math.floor(x); // 0..1
+};
+export const hashRange = (n: number, min: number, max: number): number =>
+  min + hash(n) * (max - min);
