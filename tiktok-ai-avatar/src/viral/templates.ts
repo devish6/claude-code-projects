@@ -73,8 +73,126 @@ export const CONTRARIAN_EIGHT: ViralVideoProps = {
   music: MUSIC.dark,
 };
 
+/**
+ * IDENTITY — Moolank 1 (Sun). Traits taken from MOOLANKS[1].strengths so the
+ * video cannot drift from what the app and the earlier promos already say.
+ */
+export const IDENTITY_ONE: ViralVideoProps = {
+  hookText: "BORN ON THE 1st, 10th",
+  hookAccent: "19th OR 28th?",
+  hookSub: "You hate being told what to do",
+  variant: "identity",
+  buildSetup: "There's a reason authority grates on you…",
+  buildReveal: "You were built to be the authority.",
+  number: 1,
+  numberLabel: "Ruled by the Sun",
+  traits: [
+    "A natural-born leader",
+    "Fiercely independent",
+    "Bold, original, driven",
+    "Radiates quiet confidence",
+  ],
+  ctaText: "Are you a 1? Comment your date",
+  music: MUSIC.inspiringCorporate,
+};
+
+/** CURIOSITY — Moolank 3 (Jupiter). The number people assume they want. */
+export const CURIOSITY_THREE: ViralVideoProps = {
+  hookText: "EVERYONE WANTS TO BE",
+  hookAccent: "A NUMBER 3",
+  hookSub: "Almost nobody knows why",
+  variant: "mystery",
+  buildSetup: "3 is called the luckiest number in numerology…",
+  buildReveal: "Luck isn't what Jupiter actually gives you.",
+  number: 3,
+  numberLabel: "Ruled by Jupiter",
+  traits: [
+    "Wise beyond your years",
+    "A natural teacher",
+    "Disciplined and ambitious",
+    "Optimistic, expansive thinking",
+  ],
+  ctaText: "Born on the 3rd, 12th, 21st or 30th?",
+  music: MUSIC.perfectMoment,
+};
+
+/**
+ * CONTRARIAN — Moolank 9 (Mars). Reframes the "angry 9" cliché.
+ * Kept deliberately non-fatalistic: the flip is that the fire is directed,
+ * not that the person is dangerous.
+ */
+export const CONTRARIAN_NINE: ViralVideoProps = {
+  hookText: "NUMBER 9 IS NOT",
+  hookAccent: "ANGRY",
+  hookSub: "That's Mars being misread",
+  variant: "contrarian",
+  buildSetup: "People call 9s aggressive and impatient…",
+  buildReveal: "It's fire with nowhere to go yet.",
+  number: 9,
+  numberLabel: "Ruled by Mars",
+  traits: [
+    "Courageous and bold",
+    "Relentless energy",
+    "A disciplined fighter",
+    "A fierce protector",
+  ],
+  ctaText: "Comment 9 if this is you",
+  music: MUSIC.darkCinematic,
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
   "Viral-03-Contrarian-Eight": CONTRARIAN_EIGHT,
+  "Viral-04-Identity-One": IDENTITY_ONE,
+  "Viral-05-Curiosity-Three": CURIOSITY_THREE,
+  "Viral-06-Contrarian-Nine": CONTRARIAN_NINE,
 } as const;
+
+/**
+ * Cover copy per video. Deliberately shorter than the hook — a thumbnail is
+ * read at a glance in a grid, not at full size.
+ */
+export const VIRAL_COVERS: Record<
+  keyof typeof VIRAL_TEMPLATES,
+  { kicker: string; title: string; accent: string; number: number }
+> = {
+  "Viral-01-Identity-Seven": {
+    // Kicker names the ruling planet on every single-number cover, so the set
+    // reads as one series in a grid.
+    kicker: "Ketu",
+    title: "BORN ON THE 7th, 16th OR 25th?",
+    accent: "YOU'RE A 7",
+    number: 7,
+  },
+  "Viral-02-Curiosity-Hidden": {
+    kicker: "Birth Number",
+    title: "MOST PEOPLE CALCULATE",
+    accent: "THIS WRONG",
+    number: 8,
+  },
+  "Viral-03-Contrarian-Eight": {
+    kicker: "Saturn",
+    title: "NUMBER 8 IS NOT",
+    accent: "UNLUCKY",
+    number: 8,
+  },
+  "Viral-04-Identity-One": {
+    kicker: "The Sun",
+    title: "YOU HATE BEING TOLD",
+    accent: "WHAT TO DO",
+    number: 1,
+  },
+  "Viral-05-Curiosity-Three": {
+    kicker: "Jupiter",
+    title: "EVERYONE WANTS TO BE",
+    accent: "A NUMBER 3",
+    number: 3,
+  },
+  "Viral-06-Contrarian-Nine": {
+    kicker: "Mars",
+    title: "NUMBER 9 IS NOT",
+    accent: "ANGRY",
+    number: 9,
+  },
+};

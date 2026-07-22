@@ -15,7 +15,8 @@ import { BornWithStrengths, BORN_WITH_STRENGTHS_DURATION } from "./promos/BornWi
 import { Cover } from "./promos/Cover";
 
 import { ViralVideo } from "./viral/ViralVideo";
-import { VIRAL_TEMPLATES } from "./viral/templates";
+import { ViralCover } from "./viral/ViralCover";
+import { VIRAL_COVERS, VIRAL_TEMPLATES } from "./viral/templates";
 import { ACT } from "./viral/timing";
 
 // 1080x1920, 30fps — vertical short-form for TikTok / Reels / Shorts.
@@ -38,6 +39,22 @@ export const RemotionRoot: React.FC = () => {
             component={ViralVideo}
             durationInFrames={ACT.total}
             defaultProps={props}
+            {...V}
+          />
+        ))}
+      </Folder>
+
+      <Folder name="Viral-Covers">
+        {Object.entries(VIRAL_COVERS).map(([id, cover]) => (
+          <Composition
+            key={id}
+            id={`${id}-Cover`}
+            component={ViralCover}
+            durationInFrames={60}
+            defaultProps={{
+              ...cover,
+              variant: VIRAL_TEMPLATES[id as keyof typeof VIRAL_TEMPLATES].variant,
+            }}
             {...V}
           />
         ))}
