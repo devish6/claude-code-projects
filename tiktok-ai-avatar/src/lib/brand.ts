@@ -51,6 +51,10 @@ export const MUSIC = {
   tribalRitual: "music/3.mp3", // 09 spiritual 7 (shivoham tribal ritual, 212s)
   sweetMemories: "music/2.mp3", // 10 emotional (cold_fire sweet memories, 120s)
   ambientNature: "music/musicinmedia-ambient-nature-222158.mp3", // spare
+  // Viral system — driving violin, energetic from bar 1 (allworldmusic, 109s).
+  // No head-trim needed: the track opens at full energy, so frame 0 of the
+  // hook lands on the track's own opening statement.
+  violinEnergetic: "music/violin-energetic.mp3",
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
   mool1: "music/mool-1.mp3",

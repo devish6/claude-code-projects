@@ -31,7 +31,7 @@ export const IDENTITY_SEVEN: ViralVideoProps = {
     "Happy alone, quietly magnetic",
   ],
   ctaText: "Comment your birth date",
-  music: MUSIC.tribalRitual,
+  music: MUSIC.violinEnergetic,
 };
 
 /** CURIOSITY — knowledge gap */
