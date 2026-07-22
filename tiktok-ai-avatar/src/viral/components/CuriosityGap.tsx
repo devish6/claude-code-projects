@@ -24,8 +24,8 @@ export const CuriosityGap: React.FC<{
 }> = ({
   setup,
   reveal,
-  pauseDuration = 10,
-  setupDuration = 66,
+  pauseDuration = 8,
+  setupDuration = 53,
   durationInFrames,
 }) => {
   const revealStart = setupDuration + pauseDuration;

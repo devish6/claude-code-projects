@@ -11,7 +11,7 @@ import { TraitBullet } from "./components/TraitBullet";
 import { ViralHook, type HookVariant } from "./components/ViralHook";
 import { useShake } from "./motion";
 import { TEXT } from "./palette";
-import { ACT } from "./timing";
+import { ACT, BULLET_STAGGER } from "./timing";
 
 export type ViralVideoProps = {
   /** 5–8 words. The first thing on screen, at full size, on frame 0. */
@@ -31,16 +31,20 @@ export type ViralVideoProps = {
   music: string;
 };
 
-// Value act is split into four scenes so nothing holds longer than ~1.5s.
-const V_NUMBER = 90; // 3.0s  digit scramble + burst
-const V_PAIR = 90; // 3.0s  two traits (one lands every 1.5s)
-// 1.75s. Was 1.0s, which gave each trait ~0.23s — below reading threshold.
-// Each trait now holds ~0.43s, still fast enough to spike rewatches.
-const V_MONTAGE = 53;
-const MONTAGE_STRIDE = 13;
-// Hold MUST equal stride. Any overlap double-exposes two traits on the seam
-// frame, which reads as a printing error rather than a cut.
-const MONTAGE_HOLD = MONTAGE_STRIDE;
+// Value act is split into four scenes so nothing holds longer than ~1.2s.
+// All durations are the 21.75s cut scaled by 0.8 (the 1.25x speed-up).
+const V_NUMBER = 72; // 2.4s  digit scramble + burst
+const V_PAIR = 72; // 2.4s  two traits (one lands every 1.2s)
+// 1.4s recap. The 1.0s original gave each trait ~0.23s, which was below
+// reading threshold; at 4 traits over 1.4s each holds ~0.35s — near the floor
+// but still legible. Do not shorten this further.
+const V_MONTAGE = 42;
+const MONTAGE_STRIDE = 10;
+// Hold MUST NOT exceed stride — any overlap double-exposes two traits on the
+// seam frame, which reads as a printing error rather than a cut. The last
+// trait absorbs the remainder so the section ends on content, not a blank.
+const montageHold = (i: number, count: number) =>
+  i === count - 1 ? V_MONTAGE - MONTAGE_STRIDE * (count - 1) : MONTAGE_STRIDE;
 
 /**
  * The viral composition engine.
@@ -141,7 +145,7 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   );
 };
 
-/** Two traits, the second landing 1.5s after the first. */
+/** Two traits, the second landing BULLET_STAGGER (1.2s) after the first. */
 const TraitPair: React.FC<{ traits: string[]; startIndex: number }> = ({
   traits,
   startIndex,
@@ -154,16 +158,20 @@ const TraitPair: React.FC<{ traits: string[]; startIndex: number }> = ({
     }}
   >
     {traits.map((t, i) => (
-      <TraitBullet key={t} text={t} delay={i * 45} index={startIndex + i} />
+      <TraitBullet key={t} text={t} delay={i * BULLET_STAGGER} index={startIndex + i} />
     ))}
   </AbsoluteFill>
 );
 
-/** Rapid recap — 4 traits flash past in 1 second to spike rewatches. */
+/** Rapid recap — 4 traits flash past in 1.4s to spike rewatches. */
 const Montage: React.FC<{ traits: string[] }> = ({ traits }) => (
   <AbsoluteFill>
     {traits.map((t, i) => (
-      <Sequence key={t} from={i * MONTAGE_STRIDE} durationInFrames={MONTAGE_HOLD}>
+      <Sequence
+        key={t}
+        from={i * MONTAGE_STRIDE}
+        durationInFrames={montageHold(i, traits.length)}
+      >
         <CinematicTransition type="zoomIn" durationInFrames={3}>
           <AbsoluteFill
             style={{

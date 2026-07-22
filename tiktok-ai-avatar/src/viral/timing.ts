@@ -16,11 +16,11 @@ export const sec = (s: number): number => Math.round(s * FPS);
 
 // ── Act structure (seconds) ─────────────────────────────────────────────────
 export const VIRAL_TIMING = {
-  hook: 2, // 0–2s       stop the scroll
-  build: 6, // 2–8s       open a curiosity loop, never fully resolve
-  value: 10.75, // 8–18.75s  the actual payload, rapid-fire
-  cta: 3, // 18.75–21.75s branding is allowed ONLY here
-  total: 21.75,
+  hook: 1.6, // 0–1.6s      stop the scroll
+  build: 4.8, // 1.6–6.4s    open a curiosity loop, never fully resolve
+  value: 8.6, // 6.4–15.0s   the actual payload, rapid-fire
+  cta: 2.4, // 15.0–17.4s  branding is allowed ONLY here
+  total: 17.4,
 } as const;
 
 /** Frame offsets for each act. */
@@ -41,9 +41,11 @@ export const TRANSITION = 4; // 0.13s
 /** Text entrance. */
 export const TEXT_APPEAR = 6; // 0.20s
 /** Hard ceiling on how long one composition may hold. */
-export const SCENE_CHANGE = 45; // 1.5s
+export const SCENE_CHANGE = 36; // 1.2s
 /** Attention reset cadence — fire a PatternInterrupt at least this often. */
-export const INTERRUPT_EVERY = sec(3.5);
+export const INTERRUPT_EVERY = sec(2.8);
 
 /** A trait bullet may never sit on screen longer than this. */
-export const BULLET_HOLD = sec(2);
+export const BULLET_HOLD = sec(1.6);
+/** Frames between the two traits inside a pair scene. */
+export const BULLET_STAGGER = 36; // 1.2s
