@@ -14,12 +14,35 @@ import { WhySeven, WHY_SEVEN_DURATION } from "./promos/WhySeven";
 import { BornWithStrengths, BORN_WITH_STRENGTHS_DURATION } from "./promos/BornWithStrengths";
 import { Cover } from "./promos/Cover";
 
+import { ViralVideo } from "./viral/ViralVideo";
+import { VIRAL_TEMPLATES } from "./viral/templates";
+import { ACT } from "./viral/timing";
+
 // 1080x1920, 30fps — vertical short-form for TikTok / Reels / Shorts.
 const V = { fps: 30, width: 1080, height: 1920 } as const;
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/*
+        Viral system (src/viral/*) — rebuilt to short-form retention timing:
+        hard-cut hooks, ≤1.5s scenes, spring snaps instead of cross-fades.
+        The Numevix-Promos folder below is the original slower cut, kept as an
+        A/B baseline.
+      */}
+      <Folder name="Viral">
+        {Object.entries(VIRAL_TEMPLATES).map(([id, props]) => (
+          <Composition
+            key={id}
+            id={id}
+            component={ViralVideo}
+            durationInFrames={ACT.total}
+            defaultProps={props}
+            {...V}
+          />
+        ))}
+      </Folder>
+
       <Folder name="Numevix-Promos">
         <Composition
           id="01-NameBlockingSuccess"

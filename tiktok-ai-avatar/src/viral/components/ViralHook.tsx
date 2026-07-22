@@ -1,0 +1,132 @@
+import React from "react";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { CREAM_ON_DARK, GOLD, ALERT } from "../../lib/brand";
+import { DISPLAY, TEXT_STROKE, UI } from "../fonts";
+import { Burst, useAberration, useCameraDrift, useGlowPulse } from "../motion";
+
+export type HookVariant = "identity" | "contrarian" | "mystery";
+
+/**
+ * Frame 0 of every video. There is no intro, no logo, no fade — the first
+ * rendered frame already contains large readable text that is already moving.
+ *
+ * `accent` is the word that carries the curiosity gap; it gets the gold + glow
+ * so the eye lands on it before reading the rest of the line.
+ */
+export const ViralHook: React.FC<{
+  text: string;
+  accent?: string;
+  subtext?: string;
+  variant?: HookVariant;
+  durationInFrames?: number;
+}> = ({ text, accent, subtext, variant = "identity", durationInFrames = 60 }) => {
+  const frame = useCurrentFrame();
+  const scale = useCameraDrift(durationInFrames, 1, 1.08);
+  const ab = useAberration(0, 8, 10);
+  const glow = useGlowPulse(
+    variant === "contrarian" ? "rgba(255,90,70,0.55)" : "rgba(212,175,55,0.6)",
+    1.2,
+  );
+
+  const accentColor = variant === "contrarian" ? ALERT : GOLD;
+
+  // Hard cut: text is at full size on frame 0, then settles. No opacity ramp.
+  const settle = interpolate(frame, [0, 5], [1.12, 1], {
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    <AbsoluteFill
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 70,
+        textAlign: "center",
+        transform: `scale(${scale})`,
+      }}
+    >
+      <Burst>
+        <div
+          style={{
+            fontFamily: DISPLAY,
+            fontSize: 112,
+            fontWeight: 900,
+            lineHeight: 1.02,
+            color: CREAM_ON_DARK,
+            letterSpacing: -1,
+            textShadow: TEXT_STROKE,
+            transform: `scale(${settle})`,
+          }}
+        >
+          {/* Chromatic aberration: offset colour ghosts that decay in ~8 frames */}
+          {ab > 0 ? (
+            <>
+              <span
+                style={{
+                  position: "absolute",
+                  left: `calc(50% - ${ab}px)`,
+                  transform: "translateX(-50%)",
+                  color: "rgba(255,60,60,0.5)",
+                  width: "100%",
+                }}
+                aria-hidden
+              >
+                {text}
+              </span>
+              <span
+                style={{
+                  position: "absolute",
+                  left: `calc(50% + ${ab}px)`,
+                  transform: "translateX(-50%)",
+                  color: "rgba(60,200,255,0.5)",
+                  width: "100%",
+                }}
+                aria-hidden
+              >
+                {text}
+              </span>
+            </>
+          ) : null}
+          <span style={{ position: "relative" }}>{text}</span>
+        </div>
+      </Burst>
+
+      {accent ? (
+        <Burst delay={5}>
+          <div
+            style={{
+              marginTop: 26,
+              fontFamily: DISPLAY,
+              fontSize: 128,
+              fontWeight: 900,
+              lineHeight: 1,
+              color: accentColor,
+              letterSpacing: -1,
+              textShadow: glow,
+            }}
+          >
+            {accent}
+          </div>
+        </Burst>
+      ) : null}
+
+      {subtext ? (
+        <Burst delay={10}>
+          <div
+            style={{
+              marginTop: 34,
+              fontFamily: UI,
+              fontSize: 52,
+              fontWeight: 700,
+              color: CREAM_ON_DARK,
+              opacity: 0.86,
+              textShadow: TEXT_STROKE,
+            }}
+          >
+            {subtext}
+          </div>
+        </Burst>
+      ) : null}
+    </AbsoluteFill>
+  );
+};
