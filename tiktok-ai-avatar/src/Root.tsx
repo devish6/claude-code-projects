@@ -16,7 +16,11 @@ import { Cover } from "./promos/Cover";
 
 import { ViralVideo } from "./viral/ViralVideo";
 import { ViralCover } from "./viral/ViralCover";
-import { VIRAL_COVERS, VIRAL_TEMPLATES } from "./viral/templates";
+import {
+  HOOK_TEST_COMPOSITIONS,
+  VIRAL_COVERS,
+  VIRAL_TEMPLATES,
+} from "./viral/templates";
 import { ACT } from "./viral/timing";
 
 // 1080x1920, 30fps — vertical short-form for TikTok / Reels / Shorts.
@@ -33,6 +37,24 @@ export const RemotionRoot: React.FC = () => {
       */}
       <Folder name="Viral">
         {Object.entries(VIRAL_TEMPLATES).map(([id, props]) => (
+          <Composition
+            key={id}
+            id={id}
+            component={ViralVideo}
+            durationInFrames={ACT.total}
+            defaultProps={props}
+            {...V}
+          />
+        ))}
+      </Folder>
+
+      {/*
+        A/B set: ten hooks on the SAME V01 body. Ship 2-3 at a time, days
+        apart — posting ten near-identical videos at once reads as repetitive
+        and splits your own audience across them.
+      */}
+      <Folder name="Viral-HookTests">
+        {Object.entries(HOOK_TEST_COMPOSITIONS).map(([id, props]) => (
           <Composition
             key={id}
             id={id}

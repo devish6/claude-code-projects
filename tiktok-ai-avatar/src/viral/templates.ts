@@ -1,4 +1,5 @@
 import { MUSIC } from "../lib/brand";
+import { HOOK_TEST_SEVEN, type Hook } from "./hooks";
 import type { ViralVideoProps } from "./ViralVideo";
 
 /**
@@ -148,6 +149,29 @@ export const VIRAL_TEMPLATES = {
   "Viral-05-Curiosity-Three": CURIOSITY_THREE,
   "Viral-06-Contrarian-Nine": CONTRARIAN_NINE,
 } as const;
+
+/**
+ * Swap only the hook on an existing video.
+ *
+ * This is the whole point of fixing the act structure: an A/B pair differs by
+ * the first 1.6 seconds and shares every other frame, so a difference in
+ * 3-second view rate is attributable to the hook and nothing else.
+ */
+export const withHook = (base: ViralVideoProps, hook: Hook): ViralVideoProps => ({
+  ...base,
+  hookText: hook.text,
+  hookAccent: hook.accent,
+  hookSub: hook.sub,
+  variant: hook.variant,
+});
+
+/** The ten Moolank-7 hook variants, all on the V01 body. */
+export const HOOK_TEST_COMPOSITIONS = Object.fromEntries(
+  HOOK_TEST_SEVEN.map((hook, i) => [
+    `HookTest-7${String.fromCharCode(65 + i)}-${hook.id.split("-").pop()}`,
+    withHook(IDENTITY_SEVEN, hook),
+  ]),
+) as Record<string, ViralVideoProps>;
 
 /**
  * Cover copy per video. Deliberately shorter than the hook — a thumbnail is
