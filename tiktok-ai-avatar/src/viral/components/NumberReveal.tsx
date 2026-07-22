@@ -1,7 +1,8 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { GOLD, GOLD_BRIGHT, CREAM_ON_DARK, hash } from "../../lib/brand";
-import { DISPLAY, TEXT_STROKE, UI } from "../fonts";
+import { hash } from "../../lib/brand";
+import { DISPLAY, UI } from "../fonts";
+import { ACCENT, MOTE, TEXT, TEXT_SHADOW } from "../palette";
 import { Snap, useCameraDrift, useGlowPulse, useSpringAt } from "../motion";
 
 /**
@@ -22,7 +23,7 @@ export const NumberReveal: React.FC<{
   const { width, height } = useVideoConfig();
   const s = useSpringAt(settleAt, "burst");
   const scale = useCameraDrift(durationInFrames, 1.02, 1.09);
-  const glow = useGlowPulse("rgba(212,175,55,0.75)", 1.3);
+  const glow = useGlowPulse("rgba(120,88,24,0.42)", 1.3);
 
   const settled = frame >= settleAt;
   const shown = settled ? number : (Math.floor(hash(frame * 3.7) * 9) + 1);
@@ -62,9 +63,9 @@ export const NumberReveal: React.FC<{
                   width: size,
                   height: size,
                   borderRadius: "50%",
-                  background: GOLD_BRIGHT,
+                  background: MOTE,
                   opacity: interpolate(burst, [0, 0.2, 1], [0, 1, 0]),
-                  boxShadow: `0 0 ${size * 3}px ${GOLD_BRIGHT}`,
+                  boxShadow: `0 1px 4px rgba(60,50,20,0.35)`,
                 }}
               />
             );
@@ -82,7 +83,7 @@ export const NumberReveal: React.FC<{
           marginLeft: -ringSize / 2,
           marginTop: -ringSize / 2,
           borderRadius: "50%",
-          border: `4px solid ${GOLD}`,
+          border: `4px solid ${ACCENT}`,
           opacity: ringOpacity,
         }}
       />
@@ -95,7 +96,7 @@ export const NumberReveal: React.FC<{
           fontFamily: DISPLAY,
           fontSize: 460,
           fontWeight: 900,
-          color: GOLD,
+          color: ACCENT,
           textShadow: glow,
           lineHeight: 1,
         }}
@@ -112,8 +113,8 @@ export const NumberReveal: React.FC<{
               fontWeight: 800,
               letterSpacing: 4,
               textTransform: "uppercase",
-              color: CREAM_ON_DARK,
-              textShadow: TEXT_STROKE,
+              color: TEXT,
+              textShadow: TEXT_SHADOW,
               textAlign: "center",
             }}
           >

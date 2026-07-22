@@ -1,7 +1,7 @@
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
-import { CREAM_ON_DARK, GOLD, GREEN } from "../../lib/brand";
-import { TEXT_STROKE, UI } from "../fonts";
+import { UI } from "../fonts";
+import { ACCENT, ACCENT_GREEN, TEXT, TEXT_SHADOW } from "../palette";
 import { SlideIn, useFloat, useSpringAt } from "../motion";
 
 /**
@@ -44,17 +44,17 @@ export const TraitBullet: React.FC<{
             cy={32}
             r={26}
             fill="none"
-            stroke={GREEN}
+            stroke={ACCENT_GREEN}
             strokeWidth={3}
             strokeDasharray={CIRC}
             strokeDashoffset={drawn}
             transform="rotate(-90 32 32)"
-            style={{ filter: "drop-shadow(0 0 10px rgba(80,200,140,0.5))" }}
+            style={{ filter: "drop-shadow(0 1px 4px rgba(40,70,50,0.35))" }}
           />
           <path
             d="M20 33 L28 41 L44 24"
             fill="none"
-            stroke={GOLD}
+            stroke={ACCENT}
             strokeWidth={4}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -67,9 +67,9 @@ export const TraitBullet: React.FC<{
             fontFamily: UI,
             fontSize: 64,
             fontWeight: 800,
-            color: CREAM_ON_DARK,
+            color: TEXT,
             lineHeight: 1.2,
-            textShadow: TEXT_STROKE,
+            textShadow: TEXT_SHADOW,
           }}
         >
           {text}

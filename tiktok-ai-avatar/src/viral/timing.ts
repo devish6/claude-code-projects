@@ -16,11 +16,11 @@ export const sec = (s: number): number => Math.round(s * FPS);
 
 // ── Act structure (seconds) ─────────────────────────────────────────────────
 export const VIRAL_TIMING = {
-  hook: 2, // 0–2s    stop the scroll
-  build: 6, // 2–8s    open a curiosity loop, never fully resolve
-  value: 10, // 8–18s   the actual payload, rapid-fire
-  cta: 3, // 18–21s  branding is allowed ONLY here
-  total: 21,
+  hook: 2, // 0–2s       stop the scroll
+  build: 6, // 2–8s       open a curiosity loop, never fully resolve
+  value: 10.75, // 8–18.75s  the actual payload, rapid-fire
+  cta: 3, // 18.75–21.75s branding is allowed ONLY here
+  total: 21.75,
 } as const;
 
 /** Frame offsets for each act. */

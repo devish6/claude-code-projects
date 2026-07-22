@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { CREAM_ON_DARK, GOLD, GREEN, GREEN_FG } from "../../lib/brand";
-import { DISPLAY, TEXT_STROKE, UI } from "../fonts";
+import { DISPLAY, UI } from "../fonts";
+import { ACCENT, ACCENT_GREEN, ON_GREEN, TEXT, TEXT_SHADOW } from "../palette";
 import { Snap, useFloat, useGlowPulse } from "../motion";
 
 /**
@@ -20,7 +20,7 @@ export const CTAEnding: React.FC<{
 }> = ({ text, url = "numevix.com", brandName = "Numevix", durationInFrames }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const glow = useGlowPulse("rgba(212,175,55,0.55)", 1.2);
+  const glow = useGlowPulse("rgba(120,88,24,0.36)", 1.2);
   const arrowY = useFloat(14, 0.9);
   const pulse = 1 + 0.035 * Math.sin((frame / fps) * 7);
 
@@ -46,8 +46,8 @@ export const CTAEnding: React.FC<{
             fontSize: 76,
             fontWeight: 900,
             lineHeight: 1.12,
-            color: CREAM_ON_DARK,
-            textShadow: TEXT_STROKE,
+            color: TEXT,
+            textShadow: TEXT_SHADOW,
           }}
         >
           {text}
@@ -71,7 +71,7 @@ export const CTAEnding: React.FC<{
             fontFamily: DISPLAY,
             fontSize: 104,
             fontWeight: 900,
-            color: GOLD,
+            color: ACCENT,
             letterSpacing: 3,
             textShadow: glow,
           }}
@@ -85,15 +85,15 @@ export const CTAEnding: React.FC<{
           style={{
             marginTop: 26,
             transform: `scale(${pulse})`,
-            background: GREEN,
-            border: `2px solid ${GOLD}`,
-            color: GREEN_FG,
+            background: ACCENT_GREEN,
+            border: `2px solid ${ACCENT}`,
+            color: ON_GREEN,
             fontFamily: UI,
             fontWeight: 900,
             fontSize: 48,
             padding: "22px 52px",
             borderRadius: 60,
-            boxShadow: "0 16px 44px -14px oklch(0.52 0.085 158 / 0.6)",
+            boxShadow: "0 16px 40px -14px rgba(40,60,45,0.55)",
           }}
         >
           {url}
@@ -106,7 +106,7 @@ export const CTAEnding: React.FC<{
           height: 4,
           width: 300 * underline,
           borderRadius: 4,
-          background: GOLD,
+          background: ACCENT,
           opacity: 0.9,
         }}
       />

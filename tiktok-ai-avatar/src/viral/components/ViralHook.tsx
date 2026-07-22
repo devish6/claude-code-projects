@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { CREAM_ON_DARK, GOLD, ALERT } from "../../lib/brand";
-import { DISPLAY, TEXT_STROKE, UI } from "../fonts";
+import { DISPLAY, UI } from "../fonts";
+import { ACCENT, ACCENT_ALERT, TEXT, TEXT_SHADOW } from "../palette";
 import { Burst, useAberration, useCameraDrift, useGlowPulse } from "../motion";
 
 export type HookVariant = "identity" | "contrarian" | "mystery";
@@ -24,11 +24,11 @@ export const ViralHook: React.FC<{
   const scale = useCameraDrift(durationInFrames, 1, 1.08);
   const ab = useAberration(0, 8, 10);
   const glow = useGlowPulse(
-    variant === "contrarian" ? "rgba(255,90,70,0.55)" : "rgba(212,175,55,0.6)",
+    variant === "contrarian" ? "rgba(150,40,20,0.35)" : "rgba(120,88,24,0.38)",
     1.2,
   );
 
-  const accentColor = variant === "contrarian" ? ALERT : GOLD;
+  const accentColor = variant === "contrarian" ? ACCENT_ALERT : ACCENT;
 
   // Hard cut: text is at full size on frame 0, then settles. No opacity ramp.
   const settle = interpolate(frame, [0, 5], [1.12, 1], {
@@ -52,9 +52,9 @@ export const ViralHook: React.FC<{
             fontSize: 112,
             fontWeight: 900,
             lineHeight: 1.02,
-            color: CREAM_ON_DARK,
+            color: TEXT,
             letterSpacing: -1,
-            textShadow: TEXT_STROKE,
+            textShadow: TEXT_SHADOW,
             transform: `scale(${settle})`,
           }}
         >
@@ -66,7 +66,7 @@ export const ViralHook: React.FC<{
                   position: "absolute",
                   left: `calc(50% - ${ab}px)`,
                   transform: "translateX(-50%)",
-                  color: "rgba(255,60,60,0.5)",
+                  color: "rgba(150,40,30,0.32)",
                   width: "100%",
                 }}
                 aria-hidden
@@ -78,7 +78,7 @@ export const ViralHook: React.FC<{
                   position: "absolute",
                   left: `calc(50% + ${ab}px)`,
                   transform: "translateX(-50%)",
-                  color: "rgba(60,200,255,0.5)",
+                  color: "rgba(30,90,120,0.32)",
                   width: "100%",
                 }}
                 aria-hidden
@@ -118,9 +118,9 @@ export const ViralHook: React.FC<{
               fontFamily: UI,
               fontSize: 52,
               fontWeight: 700,
-              color: CREAM_ON_DARK,
-              opacity: 0.86,
-              textShadow: TEXT_STROKE,
+              color: TEXT,
+              opacity: 0.9,
+              textShadow: TEXT_SHADOW,
             }}
           >
             {subtext}

@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { GOLD_BRIGHT } from "../../lib/brand";
+
 
 export type InterruptType = "flash" | "shake" | "zoom" | "colorShift";
 
@@ -24,8 +24,9 @@ export const PatternInterrupt: React.FC<{
   const p = frame / durationInFrames;
 
   if (type === "flash") {
-    const opacity = interpolate(p, [0, 0.25, 1], [0, 0.55, 0]);
-    return <AbsoluteFill style={{ background: GOLD_BRIGHT, opacity }} />;
+    // Warm white bloom — a gold flash is invisible against a gold ground.
+    const opacity = interpolate(p, [0, 0.25, 1], [0, 0.62, 0]);
+    return <AbsoluteFill style={{ background: "#FFF8E4", opacity }} />;
   }
 
   if (type === "colorShift") {
@@ -34,7 +35,7 @@ export const PatternInterrupt: React.FC<{
       <AbsoluteFill
         style={{
           background:
-            "linear-gradient(120deg, rgba(255,60,60,0.8), rgba(60,200,255,0.8))",
+            "linear-gradient(120deg, rgba(160,60,30,0.75), rgba(30,110,140,0.75))",
           mixBlendMode: "overlay",
           opacity,
         }}
@@ -48,7 +49,7 @@ export const PatternInterrupt: React.FC<{
     <AbsoluteFill
       style={{
         background:
-          "radial-gradient(ellipse 60% 60% at 50% 45%, transparent 40%, rgba(0,0,0,0.9) 100%)",
+          "radial-gradient(ellipse 60% 60% at 50% 45%, transparent 40%, rgba(60,50,20,0.72) 100%)",
         opacity,
       }}
     />

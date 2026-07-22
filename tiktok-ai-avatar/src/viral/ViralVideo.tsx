@@ -10,6 +10,7 @@ import { PatternInterrupt } from "./components/PatternInterrupt";
 import { TraitBullet } from "./components/TraitBullet";
 import { ViralHook, type HookVariant } from "./components/ViralHook";
 import { useShake } from "./motion";
+import { TEXT } from "./palette";
 import { ACT } from "./timing";
 
 export type ViralVideoProps = {
@@ -33,7 +34,13 @@ export type ViralVideoProps = {
 // Value act is split into four scenes so nothing holds longer than ~1.5s.
 const V_NUMBER = 90; // 3.0s  digit scramble + burst
 const V_PAIR = 90; // 3.0s  two traits (one lands every 1.5s)
-const V_MONTAGE = 30; // 1.0s  all four flash past
+// 1.75s. Was 1.0s, which gave each trait ~0.23s — below reading threshold.
+// Each trait now holds ~0.43s, still fast enough to spike rewatches.
+const V_MONTAGE = 53;
+const MONTAGE_STRIDE = 13;
+// Hold MUST equal stride. Any overlap double-exposes two traits on the seam
+// frame, which reads as a printing error rather than a cut.
+const MONTAGE_HOLD = MONTAGE_STRIDE;
 
 /**
  * The viral composition engine.
@@ -156,7 +163,7 @@ const TraitPair: React.FC<{ traits: string[]; startIndex: number }> = ({
 const Montage: React.FC<{ traits: string[] }> = ({ traits }) => (
   <AbsoluteFill>
     {traits.map((t, i) => (
-      <Sequence key={t} from={i * 7} durationInFrames={8}>
+      <Sequence key={t} from={i * MONTAGE_STRIDE} durationInFrames={MONTAGE_HOLD}>
         <CinematicTransition type="zoomIn" durationInFrames={3}>
           <AbsoluteFill
             style={{
@@ -180,9 +187,9 @@ const MontageWord: React.FC<{ text: string }> = ({ text }) => (
       fontFamily: "inherit",
       fontSize: 88,
       fontWeight: 900,
-      color: "oklch(0.95 0.012 85)",
+      color: TEXT,
       lineHeight: 1.1,
-      textShadow: "0 2px 0 rgba(0,0,0,0.55), 0 0 26px rgba(212,175,55,0.5)",
+      textShadow: "0 2px 12px rgba(52,44,18,0.32)",
     }}
   >
     {text}
