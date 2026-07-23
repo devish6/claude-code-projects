@@ -55,6 +55,9 @@ export const MUSIC = {
   // No head-trim needed: the track opens at full energy, so frame 0 of the
   // hook lands on the track's own opening statement.
   violinEnergetic: "music/violin-energetic.mp3",
+  // Viral V02 — trending audio pulled from TikTok by the user (60s, AAC
+  // transcoded to mp3). Full-energy from frame 0, so no head-trim needed.
+  trendV02: "music/trend-v02.mp3",
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
   mool1: "music/mool-1.mp3",

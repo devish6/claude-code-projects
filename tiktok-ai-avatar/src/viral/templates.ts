@@ -51,7 +51,7 @@ export const CURIOSITY_HIDDEN: ViralVideoProps = {
     "The clash explains a lot",
   ],
   ctaText: "Drop your date — I'll break it down",
-  music: MUSIC.darkMystical,
+  music: MUSIC.trendV02,
 };
 
 /** CONTRARIAN — attack the received wisdom */
