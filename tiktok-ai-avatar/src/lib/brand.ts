@@ -58,6 +58,10 @@ export const MUSIC = {
   // Viral V02 — trending audio pulled from TikTok by the user (60s, AAC
   // transcoded to mp3). Full-energy from frame 0, so no head-trim needed.
   trendV02: "music/trend-v02.mp3",
+  // Viral V04 — "Ready", supplied by the user (34s, AAC transcoded to mp3).
+  // Reaches full level within ~50ms, so frame 0 of the hook lands on the
+  // track's own downbeat and no head-trim is needed.
+  readyV04: "music/ready-v04.mp3",
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
   mool1: "music/mool-1.mp3",

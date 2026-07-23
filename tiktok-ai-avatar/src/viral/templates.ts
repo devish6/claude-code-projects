@@ -94,7 +94,7 @@ export const IDENTITY_ONE: ViralVideoProps = {
     "Radiates quiet confidence",
   ],
   ctaText: "Are you a 1? Comment your date",
-  music: MUSIC.inspiringCorporate,
+  music: MUSIC.readyV04,
 };
 
 /** CURIOSITY — Moolank 3 (Jupiter). The number people assume they want. */
