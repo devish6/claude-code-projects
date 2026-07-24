@@ -593,3 +593,18 @@ export const HOOK_TEST_SEVEN: Hook[] = [
     number: 7,
   },
 ];
+
+/**
+ * DAILY_HOOKS — overflow pool for the automated pipeline.
+ *
+ * HOOK_LIBRARY is fixed at 50 (see hooks.test.ts) so the copy-rule tests stay
+ * meaningful and V01-V06 stay reproducible. Once `npm run daily:viral` has
+ * used every unused-in-21-days hook in a category, it writes new hooks HERE
+ * instead of touching HOOK_LIBRARY. Same copy rules apply by convention
+ * (checked by scripts/lib/hook-rules.mjs at generation time): text/accent
+ * ≤ 22 chars, anchored to a number/date/"you", one idea per hook.
+ */
+export const DAILY_HOOKS: Hook[] = [];
+
+/** Every hook the picker is allowed to draw from, in one place. */
+export const ALL_HOOKS: Hook[] = [...HOOK_LIBRARY, ...DAILY_HOOKS];

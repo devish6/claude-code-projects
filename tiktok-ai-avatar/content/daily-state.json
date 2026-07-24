@@ -1,0 +1,203 @@
+{
+  "_comment": "Ledger for npm run daily:viral. V01-V06 are source:'seed-existing' -- history only, never regenerated as compositions (they live in src/viral/templates.ts, hand-authored, locked). Everything V07+ is source:'weekly-plan-w1' (days 1-7, hand-authored) or 'algorithmic' (day 8+, picked by scripts/daily-viral.mjs). Dates for V01-V06 are backfilled placeholders -- correct them if you have the real post dates, it only affects 21-day no-repeat math.",
+  "videos": [
+    {
+      "v": "V01",
+      "title": "Born On The 7th, 16th or 25th",
+      "date": "2026-07-08",
+      "category": "identity",
+      "moolank": 7,
+      "hookId": "id-7-room",
+      "music": "violinEnergetic",
+      "status": "shipped",
+      "source": "seed-existing"
+    },
+    {
+      "v": "V02",
+      "title": "Most People Calculate This Wrong",
+      "date": "2026-07-11",
+      "category": "knowledge-gap",
+      "moolank": 8,
+      "hookId": "kg-calculate-wrong",
+      "music": "trendV02",
+      "status": "shipped",
+      "source": "seed-existing"
+    },
+    {
+      "v": "V03",
+      "title": "Number 8 Is Not Unlucky",
+      "date": "2026-07-14",
+      "category": "story",
+      "moolank": 8,
+      "hookId": null,
+      "music": "starlightV03",
+      "status": "shipped",
+      "source": "seed-existing"
+    },
+    {
+      "v": "V04",
+      "title": "You Hate Being Told What To Do",
+      "date": "2026-07-17",
+      "category": "identity",
+      "moolank": 1,
+      "hookId": "id-1-authority",
+      "music": "readyV04",
+      "status": "shipped",
+      "source": "seed-existing"
+    },
+    {
+      "v": "V05",
+      "title": "Everyone Wants To Be A Number 3",
+      "date": "2026-07-20",
+      "category": "knowledge-gap",
+      "moolank": 3,
+      "hookId": "kg-everyone-wants-3",
+      "music": "perfectMoment",
+      "status": "shipped",
+      "source": "seed-existing"
+    },
+    {
+      "v": "V06",
+      "title": "Number 9 Is Not Angry",
+      "date": "2026-07-22",
+      "category": "story",
+      "moolank": 9,
+      "hookId": null,
+      "music": "darkCinematic",
+      "status": "shipped",
+      "source": "seed-existing"
+    },
+    {
+      "v": "V07",
+      "title": "Drop Your Birth Date",
+      "date": "2026-07-24",
+      "category": "comment-bait",
+      "moolank": "general",
+      "hookId": "cb-drop-date",
+      "music": "violinEnergetic",
+      "variant": "identity",
+      "status": "generated",
+      "source": "weekly-plan-w1",
+      "planDay": 1,
+      "needsReview": false,
+      "whyComment": "Direct, zero-friction ask — no quiz, no gate, just 'tell me your date.' Replying with their real Moolank in the comments multiplies replies in the thread.",
+      "tiktokCaption": "Drop your birth date and I'll actually read it — no, really. Comment it below and I'll break down your number 👇",
+      "instagramCaption": "Every birth date reduces to one number, and most people have never actually done the math on their own. Add the digits of the day you were born down to one digit — that's your Moolank. Comment your birth date below and I'll tell you yours 👇",
+      "hashtags": [
+        "#numerology",
+        "#moolank",
+        "#birthnumber",
+        "#numerologytok",
+        "#vedicnumerology"
+      ],
+      "suggestedPostTime": "6:00-7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "DROP YOUR BIRTH DATE.",
+        "hookAccent": "I'LL READ IT",
+        "hookSub": "No, really — comment it",
+        "variant": "identity",
+        "buildSetup": "Every birth date reduces to one number...",
+        "buildReveal": "Most people have never actually done the math.",
+        "number": 2,
+        "numberLabel": "Worked example",
+        "traits": [
+          "Add the digits of your day",
+          "Keep going until one digit",
+          "That's your Moolank number",
+          "Comment yours below"
+        ],
+        "ctaText": "Comment your birth date",
+        "music": "violinEnergetic"
+      }
+    },
+    {
+      "v": "V08",
+      "title": "5s Don't Get Bored",
+      "date": "2026-07-24",
+      "category": "identity",
+      "moolank": 5,
+      "hookId": "id-5-restless",
+      "music": "trendV02",
+      "variant": "identity",
+      "status": "generated",
+      "source": "weekly-plan-w1",
+      "planDay": 1,
+      "needsReview": false,
+      "whyComment": "Identity hooks trigger self-recognition — the restless/adaptable framing is highly relatable and begs a yes/no comment plus tags to friends who fit.",
+      "tiktokCaption": "5s don't get bored — they outgrow things fast, and it's not the same problem. Are you a 5? Comment your birth date 👇",
+      "instagramCaption": "Born on the 5th, 14th or 23rd? Your Moolank is 5, ruled by Mercury — quick, adaptable, built for business, and allergic to staying in one lane too long. What gets called restless in a 5 is usually just a mind that's already three steps ahead. Are you a 5? Comment your birth date below 👇",
+      "hashtags": [
+        "#numerology",
+        "#moolank5",
+        "#mercury",
+        "#birthnumber",
+        "#vedicnumerology"
+      ],
+      "suggestedPostTime": "6:00-7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "5s DON'T GET BORED.",
+        "hookAccent": "THEY OUTGROW IT",
+        "hookSub": "Different problem entirely",
+        "variant": "identity",
+        "buildSetup": "Everyone assumes restlessness is a flaw...",
+        "buildReveal": "For a 5, it's just Mercury moving at its own speed.",
+        "number": 5,
+        "numberLabel": "Ruled by Mercury",
+        "traits": [
+          "Sharp & quick-witted",
+          "A magnetic communicator",
+          "Adaptable to anything",
+          "Born for business"
+        ],
+        "ctaText": "Are you a 5? Comment below",
+        "music": "trendV02"
+      }
+    },
+    {
+      "v": "V09",
+      "title": "Your Birth Date Holds Two Numbers",
+      "date": "2026-07-24",
+      "category": "knowledge-gap",
+      "moolank": 2,
+      "hookId": "kg-second-number",
+      "music": "starlightV03",
+      "variant": "mystery",
+      "status": "generated",
+      "source": "weekly-plan-w1",
+      "planDay": 1,
+      "needsReview": false,
+      "whyComment": "Opens an unresolved gap ('you only know one') — the only way to close it is to hand over data in the comments.",
+      "tiktokCaption": "Your birth date holds two numbers, not one — and you probably only know the first. Comment your full date and I'll find both 👇",
+      "instagramCaption": "Most people know their Moolank — the number from the day you were born. Fewer know their Bhagyank, calculated from the whole date, which can pull in a completely different direction. That disagreement between the two is often where the 'I want two opposite things' feeling comes from. Comment your full birth date below and I'll break down both 👇",
+      "hashtags": [
+        "#numerology",
+        "#birthnumber",
+        "#destinynumber",
+        "#vedicnumerology",
+        "#numerologyreading"
+      ],
+      "suggestedPostTime": "6:00-7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "YOUR BIRTH DATE HOLDS",
+        "hookAccent": "TWO NUMBERS",
+        "hookSub": "You probably know one",
+        "variant": "mystery",
+        "buildSetup": "You know your Moolank. There's a second number hiding in the same date...",
+        "buildReveal": "It's calculated differently, and it doesn't always agree with the first.",
+        "number": 2,
+        "numberLabel": "Driver vs Conductor",
+        "traits": [
+          "Moolank = your day alone",
+          "Bhagyank = the full date",
+          "They can pull opposite ways",
+          "The clash explains a lot"
+        ],
+        "ctaText": "Comment your full date — I'll find both",
+        "music": "starlightV03"
+      }
+    }
+  ],
+  "pipelineMeta": {
+    "firstRunDate": "2026-07-24"
+  }
+}
