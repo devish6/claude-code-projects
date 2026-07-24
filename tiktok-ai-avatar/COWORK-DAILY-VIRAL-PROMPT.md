@@ -177,10 +177,11 @@ TikTok. So build the pipeline this way:
   and whether it needed a head-trim.
 - The daily job **picks from the pool** and never reuses the same bed two days
   running.
-- When the pool drops below **6 usable upbeat tracks**, the run must emit a
-  `MUSIC-RESTOCK.md` in that day's folder: the sound-library link, what mood is
-  missing, and clear instructions for me to download 5–10 tracks and drop them in.
-  Then you register and trim them on the next run.
+- When the pool drops below **6 usable upbeat tracks**, the run must write
+  `~/Desktop/Numevix Videos/Viral/MUSIC-RESTOCK.md`: the sound-library link, what
+  mood is missing, and clear instructions for me to download 5–10 tracks and drop
+  them in. Then you register and trim them on the next run, and delete the file
+  once the pool is healthy again.
 - Also add one line to every caption pack: **"If TikTok offers a trending sound
   on upload, use it — swapping to trending audio in-app beats the baked-in bed
   for reach."** Trending audio genuinely cannot be baked into the render; say so
@@ -206,19 +207,45 @@ Build a **`npm run daily:viral`** pipeline in `tiktok-ai-avatar/` that, on each 
    words, ends in a question), Instagram caption (longer), 3–5 hashtags,
    suggested post time, and a one-line note on why this hook should work.
    Match the voice in `content/viral-captions.md` exactly.
-6. **Outputs one dated folder** ready to upload:
+6. **Saves into `~/Desktop/Numevix Videos/Viral/`, one folder per video.**
+   This folder already exists and already has a convention — V01 through V06 are
+   in it. **Follow it exactly**, do not invent a new one and do not add a
+   `Daily/` or date-nested layer:
 
 ```
-~/Desktop/Numevix Videos/Viral/Daily/2026-07-25/
-  ├── 1 - <Title>/
-  │     ├── <Title> - v1.mp4
-  │     ├── <Title> - cover.png
-  │     └── caption.md
-  ├── 2 - <Title>/
-  ├── 3 - <Title>/
-  ├── POST-ORDER.md        ← which to post first, and why
-  └── RUN-LOG.md           ← what ran, what was picked, what failed
+~/Desktop/Numevix Videos/Viral/
+  ├── V01 - Born On The 7th, 16th or 25th/     ← existing, leave alone
+  ├── …
+  ├── V06 - Number 9 Is Not Angry/             ← existing, leave alone
+  ├── V07 - <Title>/                           ← today's first video
+  │     ├── V07 - <Title> - v1.mp4
+  │     ├── V07 - <Title> - cover.png
+  │     └── V07 - <Title> - caption.txt
+  ├── V08 - <Title>/                           ← today's second
+  ├── V09 - <Title>/                           ← today's third
+  ├── Captions.md                              ← existing rollup, append to it
+  ├── Hook Library.md                          ← existing, regenerate on change
+  ├── POST-ORDER.md                            ← rolling, newest day at the top
+  └── RUN-LOG.md                               ← rolling, newest run at the top
 ```
+
+   Rules that fall out of that:
+   - **Numbering is one continuous series.** Scan the folder for the highest
+     existing `V<nn>` and carry on from there — the first daily batch is V07,
+     V08, V09, the next day V10, V11, V12. Never restart at 1, never reuse a
+     number.
+   - Every file inside a video folder is **prefixed with that folder's full
+     name** — that is what the existing export script does, and it means a file
+     dragged out of its folder is still identifiable.
+   - `caption.txt` holds the TikTok caption, the Instagram caption, the
+     hashtags, the suggested post time and the one-line "why this hook" note.
+   - The cover is **unversioned** (one current thumbnail per video); the MP4 is
+     **versioned** (`- v1`, `- v2`, …) and never overwritten.
+   - `POST-ORDER.md` and `RUN-LOG.md` are **appended to**, newest day first, so
+     I have one place to see what shipped and in what order — not a new file per
+     day scattered through the folder.
+   - Extend `scripts/export-viral.mjs` rather than writing a second exporter.
+     It already builds this exact layout and already handles version numbering.
 
 7. **Commits and pushes** the new hooks/templates/state to the repo (per the
    repo's CLAUDE.md, every change gets committed and pushed). The rendered MP4s
@@ -243,8 +270,10 @@ writes to my Desktop, so the reliable home for it is my Mac:
 
 A failed render must not poison the day. If one of the three fails, finish the
 other two, write the failure into `RUN-LOG.md` with the actual error, and exit
-non-zero so the log shows it. Never ship a folder that silently contains two
-videos when it should contain three.
+non-zero so the log shows it. Never leave a half-built video folder behind — a
+folder with a cover and no MP4 looks finished in Finder and isn't. Either the
+folder is complete or it is not created, and the failed slot keeps its V number
+reserved so tomorrow's batch doesn't quietly reuse it.
 
 ## Step 6 — The quality bar
 
