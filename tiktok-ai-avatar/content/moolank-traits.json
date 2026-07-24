@@ -1,0 +1,12 @@
+{
+  "_comment": "Plain-JSON mirror of src/moolank-data.ts strengths/planet, for scripts/daily-viral.mjs's algorithmic fallback (weeks after the hand-authored week 1 plan runs out). Node scripts here are plain .mjs and can't import .ts directly. If src/moolank-data.ts strengths change, update this file to match -- it is the same content, not a different source of truth.",
+  "1": { "planet": "the Sun", "planetShort": "Ruled by the Sun", "born": "1st, 10th, 19th or 28th", "strengths": ["A natural-born leader", "Fiercely independent", "Bold, original & driven", "Radiates confidence"] },
+  "2": { "planet": "the Moon", "planetShort": "Ruled by the Moon", "born": "2nd, 11th, 20th or 29th", "strengths": ["Deeply intuitive", "Reads people instantly", "Gentle & diplomatic", "Creative & imaginative"] },
+  "3": { "planet": "Jupiter", "planetShort": "Ruled by Jupiter", "born": "3rd, 12th, 21st or 30th", "strengths": ["Wise beyond your years", "Disciplined & ambitious", "A natural teacher", "Optimistic & expansive"] },
+  "4": { "planet": "Rahu", "planetShort": "Ruled by Rahu", "born": "4th, 13th, 22nd or 31st", "strengths": ["You think differently", "Hard-working & systematic", "Loyal and dependable", "Built to disrupt"] },
+  "5": { "planet": "Mercury", "planetShort": "Ruled by Mercury", "born": "5th, 14th or 23rd", "strengths": ["Sharp & quick-witted", "A magnetic communicator", "Adaptable to anything", "Born for business"] },
+  "6": { "planet": "Venus", "planetShort": "Ruled by Venus", "born": "6th, 15th or 24th", "strengths": ["Effortlessly charming", "Artistic & creative", "Loving and magnetic", "Draws beauty & abundance"] },
+  "7": { "planet": "Ketu", "planetShort": "Ruled by Ketu", "born": "7th, 16th or 25th", "strengths": ["Deeply intuitive", "Analytical & philosophical", "An independent thinker", "Quietly magnetic"] },
+  "8": { "planet": "Saturn", "planetShort": "Ruled by Saturn", "born": "8th, 17th or 26th", "strengths": ["Ambitious & disciplined", "Born to lead and build", "Wired for material success", "Unshakable resilience"] },
+  "9": { "planet": "Mars", "planetShort": "Ruled by Mars", "born": "9th, 18th or 27th", "strengths": ["Courageous & bold", "Relentless energy", "A disciplined fighter", "A fierce protector"] }
+}

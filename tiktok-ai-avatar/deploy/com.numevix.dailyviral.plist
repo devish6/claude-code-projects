@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.numevix.dailyviral</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-l</string>
+        <string>-c</string>
+        <string>cd "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar" &amp;&amp; npm run daily:viral</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar</string>
+
+    <!-- Fires at 18:00 local every day. -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>18</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!--
+      Also runs once whenever this job is loaded: at login, at reboot, or
+      whenever you run launchctl load again. Combined with the idempotency
+      guard already built into scripts/daily-viral.mjs (it no-ops with a
+      message if today's date already has a real, non-dry-run batch), this
+      is what makes a missed 6pm run (laptop asleep) catch up on next wake
+      instead of silently skipping the day, without ever double-posting.
+    -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/daily-viral.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/daily-viral.err.log</string>
+
+    <!-- Once-a-day batch job, not a long-running service; don't respawn on exit. -->
+    <key>KeepAlive</key>
+    <false/>
+</dict>
+</plist>

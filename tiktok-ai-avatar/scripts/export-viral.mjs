@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Export the viral compositions to ~/Desktop/Numevix Videos/Viral/.
+ * Export viral compositions to ~/Desktop/Numevix Videos/Viral/.
  *
- * Layout matches the existing promo folders — one directory per video holding
- * the MP4 and its cover:
+ * Layout matches the existing promo folders -- one directory per video
+ * holding the MP4 and its cover:
  *
  *   Viral/V01 - Title/V01 - Title - v1.mp4
  *   Viral/V01 - Title/V01 - Title - cover.png
@@ -12,21 +12,26 @@
  * open in QuickTime leaves the player holding a stale handle, so the window
  * goes blank and reads as a broken render when the file is fine.
  *
- * Covers are unversioned — a still has no such failure mode and a single
+ * Covers are unversioned -- a still has no such failure mode and a single
  * current thumbnail per video is easier to grab.
  *
- * Usage:
+ * Usage (CLI, unchanged -- exports the fixed V01-V06 baseline):
  *   npm run export:viral            # everything
  *   npm run export:viral -- V04     # only ids containing "V04"
+ *
+ * Reused as a module by scripts/daily-viral.mjs, which exports the daily
+ * V07+ compositions through the same `exportOne` / `nextVersion` helpers so
+ * there is exactly one place that knows how to write into the Viral/ folder
+ * safely (no second exporter).
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-const DEST = join(homedir(), "Desktop", "Numevix Videos", "Viral");
+export const DEST = join(homedir(), "Desktop", "Numevix Videos", "Viral");
 
-/** composition id → folder/file title */
+/** composition id → folder/file title, for the fixed V01-V06 baseline. */
 const TARGETS = {
   "Viral-01-Identity-Seven": "V01 - Born On The 7th, 16th or 25th",
   "Viral-02-Curiosity-Hidden": "V02 - Most People Calculate This Wrong",
@@ -36,11 +41,10 @@ const TARGETS = {
   "Viral-06-Contrarian-Nine": "V06 - Number 9 Is Not Angry",
 };
 
-const filter = process.argv[2];
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** Highest vN already in the video's folder, so we never clobber. */
-const nextVersion = (dir, title) => {
+export const nextVersion = (dir, title) => {
   if (!existsSync(dir)) return 1;
   const re = new RegExp(`^${escape(title)} - v(\\d+)\\.mp4$`);
   const versions = readdirSync(dir)
@@ -53,10 +57,15 @@ const nextVersion = (dir, title) => {
 const run = (args) =>
   execFileSync("npx", args, { stdio: ["ignore", "inherit", "inherit"] });
 
-for (const [id, title] of Object.entries(TARGETS)) {
-  if (filter && !`${id} ${title}`.includes(filter)) continue;
-
-  const dir = join(DEST, title);
+/**
+ * Render + still-export ONE composition into DEST/<title>/, versioned MP4 +
+ * unversioned cover. Throws on failure -- callers (daily-viral.mjs) decide
+ * whether one failure should stop the whole batch (the CLI path below does;
+ * the daily pipeline does NOT, so one bad render can't take out the other
+ * two videos in the day's batch).
+ */
+export const exportOne = (id, title, destRoot = DEST) => {
+  const dir = join(destRoot, title);
   mkdirSync(dir, { recursive: true });
 
   const video = join(dir, `${title} - v${nextVersion(dir, title)}.mp4`);
@@ -66,6 +75,16 @@ for (const [id, title] of Object.entries(TARGETS)) {
   run(["remotion", "render", id, video, "--log=error"]);
   // frame 30: the dial has rotated into position and the motes have spread.
   run(["remotion", "still", `${id}-Cover`, cover, "--frame=30", "--log=error"]);
-}
 
-process.stdout.write(`\nDone. ${DEST}\n`);
+  return { dir, video, cover };
+};
+
+// Only run the CLI export when this file is executed directly (not imported).
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const filter = process.argv[2];
+  for (const [id, title] of Object.entries(TARGETS)) {
+    if (filter && !`${id} ${title}`.includes(filter)) continue;
+    exportOne(id, title);
+  }
+  process.stdout.write(`\nDone. ${DEST}\n`);
+}

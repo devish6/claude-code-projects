@@ -29,7 +29,8 @@
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "export:viral": "node scripts/export-viral.mjs",
-    "hooks:doc": "node scripts/hooks-doc.mjs"
+    "hooks:doc": "node scripts/hooks-doc.mjs",
+    "daily:viral": "node scripts/daily-viral.mjs"
   },
   "sideEffects": [
     "*.css"

@@ -1,0 +1,647 @@
+{
+  "_comment": "Week 1 content calendar (V07-V27), authored by hand as the seed for scripts/daily-viral.mjs. Days 1-7 pull from here in order; day index is computed from content/daily-state.json run count (or --date). After day 7 the picker switches to algorithmic rotation. hookId resolves against src/viral/hooks.ts HOOK_LIBRARY at generation time — do not duplicate hook copy here, only reference it.",
+  "days": [
+    {
+      "day": 1,
+      "videos": [
+        {
+          "slot": "comment-bait",
+          "hookId": "cb-drop-date",
+          "title": "Drop Your Birth Date",
+          "category": "comment-bait",
+          "moolank": "general",
+          "buildSetup": "Every birth date reduces to one number...",
+          "buildReveal": "Most people have never actually done the math.",
+          "number": 2,
+          "numberLabel": "Worked example",
+          "traits": [
+            "Add the digits of your day",
+            "Keep going until one digit",
+            "That's your Moolank number",
+            "Comment yours below"
+          ],
+          "ctaText": "Comment your birth date",
+          "whyComment": "Direct, zero-friction ask — no quiz, no gate, just 'tell me your date.' Replying with their real Moolank in the comments multiplies replies in the thread.",
+          "tiktokCaption": "Drop your birth date and I'll actually read it — no, really. Comment it below and I'll break down your number 👇",
+          "instagramCaption": "Every birth date reduces to one number, and most people have never actually done the math on their own. Add the digits of the day you were born down to one digit — that's your Moolank. Comment your birth date below and I'll tell you yours 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank",
+            "#birthnumber",
+            "#numerologytok",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "identity",
+          "hookId": "id-5-restless",
+          "title": "5s Don't Get Bored",
+          "category": "identity",
+          "moolank": 5,
+          "buildSetup": "Everyone assumes restlessness is a flaw...",
+          "buildReveal": "For a 5, it's just Mercury moving at its own speed.",
+          "number": 5,
+          "numberLabel": "Ruled by Mercury",
+          "traits": [
+            "Sharp & quick-witted",
+            "A magnetic communicator",
+            "Adaptable to anything",
+            "Born for business"
+          ],
+          "ctaText": "Are you a 5? Comment below",
+          "whyComment": "Identity hooks trigger self-recognition — the restless/adaptable framing is highly relatable and begs a yes/no comment plus tags to friends who fit.",
+          "tiktokCaption": "5s don't get bored — they outgrow things fast, and it's not the same problem. Are you a 5? Comment your birth date 👇",
+          "instagramCaption": "Born on the 5th, 14th or 23rd? Your Moolank is 5, ruled by Mercury — quick, adaptable, built for business, and allergic to staying in one lane too long. What gets called restless in a 5 is usually just a mind that's already three steps ahead. Are you a 5? Comment your birth date below 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank5",
+            "#mercury",
+            "#birthnumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "knowledge-gap",
+          "hookId": "kg-second-number",
+          "title": "Your Birth Date Holds Two Numbers",
+          "category": "knowledge-gap",
+          "moolank": 2,
+          "buildSetup": "You know your Moolank. There's a second number hiding in the same date...",
+          "buildReveal": "It's calculated differently, and it doesn't always agree with the first.",
+          "number": 2,
+          "numberLabel": "Driver vs Conductor",
+          "traits": [
+            "Moolank = your day alone",
+            "Bhagyank = the full date",
+            "They can pull opposite ways",
+            "The clash explains a lot"
+          ],
+          "ctaText": "Comment your full date — I'll find both",
+          "whyComment": "Opens an unresolved gap ('you only know one') — the only way to close it is to hand over data in the comments.",
+          "tiktokCaption": "Your birth date holds two numbers, not one — and you probably only know the first. Comment your full date and I'll find both 👇",
+          "instagramCaption": "Most people know their Moolank — the number from the day you were born. Fewer know their Bhagyank, calculated from the whole date, which can pull in a completely different direction. That disagreement between the two is often where the 'I want two opposite things' feeling comes from. Comment your full birth date below and I'll break down both 👇",
+          "hashtags": [
+            "#numerology",
+            "#birthnumber",
+            "#destinynumber",
+            "#vedicnumerology",
+            "#numerologyreading"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "videos": [
+        {
+          "slot": "comment-bait",
+          "hookId": "cb-be-honest",
+          "title": "Check If This Matches You",
+          "category": "comment-bait",
+          "moolank": "general",
+          "buildSetup": "Every Moolank has one trait people deny about themselves...",
+          "buildReveal": "The ones who deny it fastest are usually the ones it fits.",
+          "number": 6,
+          "numberLabel": "Read the room",
+          "traits": [
+            "Read the traits below",
+            "One will feel too accurate",
+            "That's the one to comment",
+            "Be honest, not modest"
+          ],
+          "ctaText": "Comment your honest reaction",
+          "whyComment": "A mild dare structure ('be honest') reliably produces confession-style comments, which read well to new viewers scrolling the thread.",
+          "tiktokCaption": "Check if this matches you — and be honest in the comments, not modest. Comment your reaction 👇",
+          "instagramCaption": "Every Moolank has one trait people quietly deny about themselves. Read the traits in this video and notice which one lands a little too accurately — that's usually the real one. Comment your honest reaction below 👇",
+          "hashtags": [
+            "#numerology",
+            "#vedicnumerology",
+            "#birthnumber",
+            "#selfdiscovery",
+            "#numerologytok"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "story",
+          "hookId": "st-100-dates",
+          "title": "I Read 100 Birth Dates This Month",
+          "category": "story",
+          "moolank": 8,
+          "buildSetup": "Same question, different people, all month...",
+          "buildReveal": "It always traced back to the same clash between two numbers.",
+          "number": 8,
+          "numberLabel": "The repeat offender",
+          "traits": [
+            "One number said 'go slow'",
+            "The other said 'go now'",
+            "Most people only hear one",
+            "The fight was the real chart"
+          ],
+          "ctaText": "Comment your date — let's check yours",
+          "whyComment": "Social proof ('100 people') plus an unresolved pattern makes viewers want to know if they're '#101'.",
+          "tiktokCaption": "I read 100 birth dates this month, and one pattern kept repeating. Comment your date and let's check yours 👇",
+          "instagramCaption": "Same question, different people, all month — and it kept tracing back to the same clash between two numbers. One number says slow down, the other says go now, and most people only ever hear one of them. Comment your birth date below and I'll check which one is louder in yours 👇",
+          "hashtags": [
+            "#numerology",
+            "#saturn",
+            "#moolank8",
+            "#birthnumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "educational",
+          "hookId": "ed-lo-shu",
+          "title": "The 3x3 Grid In Your Birth Date",
+          "category": "educational",
+          "moolank": 4,
+          "buildSetup": "Your birth date isn't just a number — it's a grid...",
+          "buildReveal": "Nine boxes. Some of yours are full. Some are empty.",
+          "number": 4,
+          "numberLabel": "Lo Shu box example",
+          "traits": [
+            "Every digit fills one box",
+            "Repeats fill a box twice",
+            "Empty boxes matter too",
+            "It's free on your chart"
+          ],
+          "ctaText": "Comment your date for your grid",
+          "whyComment": "Reveals a free tool feature they didn't know existed; 'empty boxes matter too' is an open loop people want resolved for their own chart.",
+          "tiktokCaption": "Your birth date is secretly a 3x3 grid, and most people have never seen theirs. Comment your date for your grid 👇",
+          "instagramCaption": "Every digit in your birth date fills a box in a 3x3 grid — the Lo Shu grid. Repeats fill a box twice, and empty boxes matter just as much as full ones. It's free on your chart and most people never check it. Comment your birth date below and I'll pull up your grid 👇",
+          "hashtags": [
+            "#numerology",
+            "#loshugrid",
+            "#vedicnumerology",
+            "#birthnumber",
+            "#numerologytok"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "videos": [
+        {
+          "slot": "comment-bait",
+          "hookId": "cb-guess-mine",
+          "title": "Guess My Number From These 4 Traits",
+          "category": "comment-bait",
+          "moolank": "general",
+          "buildSetup": "Four traits. One number. You get one guess...",
+          "buildReveal": "Most people get it wrong on the first try.",
+          "number": 1,
+          "numberLabel": "Mystery number",
+          "traits": [
+            "Doesn't love being told 'no'",
+            "Starts things nobody asked for",
+            "Uncomfortable following someone else's plan",
+            "Quietly assumes they're right"
+          ],
+          "ctaText": "Comment your guess — I'll confirm",
+          "whyComment": "A literal guessing game with a declared 'winner' mechanic is one of the highest-converting comment formats — competitive and low-effort.",
+          "tiktokCaption": "Guess my number from these 4 traits — first correct comment wins. Comment your guess 👇",
+          "instagramCaption": "Four traits, one number, one guess. Most people get it wrong on the first try — comment what you think it is and I'll confirm in the replies 👇",
+          "hashtags": [
+            "#numerology",
+            "#numerologygame",
+            "#vedicnumerology",
+            "#birthnumber"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "identity",
+          "hookId": "id-4-rules",
+          "title": "Born On The 4th You Break Rules",
+          "category": "identity",
+          "moolank": 4,
+          "buildSetup": "4s get called difficult more than any other number...",
+          "buildReveal": "Rahu doesn't do 'because that's how it's done.'",
+          "number": 4,
+          "numberLabel": "Ruled by Rahu",
+          "traits": [
+            "You think differently",
+            "Hard-working & systematic",
+            "Loyal and dependable",
+            "Built to disrupt"
+          ],
+          "ctaText": "Born on the 4th, 13th, 22nd or 31st?",
+          "whyComment": "Names a trait people get criticized for, then reframes it as an asset — 4s want to defend or confirm that reversal in the comments.",
+          "tiktokCaption": "Born on the 4th, 13th, 22nd or 31st? You don't have a rule problem — you have a rebuild problem. Comment your date 👇",
+          "instagramCaption": "4s get called difficult more than almost any other number, and it's a bad read. Rahu doesn't do 'because that's how it's done' — 4s think differently, work hard and systematically, stay loyal to the people who earn it, and are built to disrupt whatever isn't working. Born on the 4th, 13th, 22nd or 31st? Comment your date below 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank4",
+            "#rahu",
+            "#birthnumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "knowledge-gap",
+          "hookId": "kg-3-numbers",
+          "title": "You Don't Have One You Have Three",
+          "category": "knowledge-gap",
+          "moolank": 6,
+          "buildSetup": "Most people can name one number from their chart...",
+          "buildReveal": "There are two more running in the background the whole time.",
+          "number": 6,
+          "numberLabel": "One of three",
+          "traits": [
+            "Birth number — your day",
+            "Destiny number — your full date",
+            "Name number — your letters",
+            "Together, not separately"
+          ],
+          "ctaText": "Comment your birth date for all three",
+          "whyComment": "Directly corrects a common assumption — being told you're missing information is a strong itch to scratch in the comments.",
+          "tiktokCaption": "You don't have one number — you have three. Comment your birth date for all three 👇",
+          "instagramCaption": "Most people can name one number from their chart. There are two more running quietly in the background the whole time: your birth number, your destiny number, and your name number — read together, not separately. Comment your birth date below and I'll pull the first two for you 👇",
+          "hashtags": [
+            "#numerology",
+            "#birthnumber",
+            "#destinynumber",
+            "#namenumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "videos": [
+        {
+          "slot": "comment-bait",
+          "hookId": "cb-which-one",
+          "title": "Which One Are You 1 5 Or 8",
+          "category": "comment-bait",
+          "moolank": "general",
+          "buildSetup": "Three numbers, three completely different engines...",
+          "buildReveal": "Most people relate to pieces of all three — one usually wins.",
+          "number": 1,
+          "numberLabel": "Pick one",
+          "traits": [
+            "1 leads without asking",
+            "5 moves before deciding",
+            "8 grinds until it's undeniable",
+            "Which one sounds like you"
+          ],
+          "ctaText": "Comment 1, 5 or 8",
+          "whyComment": "A forced-choice format is a proven comment driver — three short options make replying nearly effortless, and it re-engages the V03/V04 audience.",
+          "tiktokCaption": "Which one are you — 1, 5 or 8? Comment the number 👇",
+          "instagramCaption": "Three numbers, three completely different engines. 1 leads without asking, 5 moves before deciding, 8 grinds until it's undeniable — and most people relate to pieces of all three, with one usually winning out. Comment 1, 5 or 8 below 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank1",
+            "#moolank5",
+            "#moolank8",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "story",
+          "hookId": "st-late-bloomer",
+          "title": "Nothing Worked Until He Was 40",
+          "category": "story",
+          "moolank": 8,
+          "buildSetup": "A client spent two decades feeling behind everyone his age...",
+          "buildReveal": "Saturn wasn't punishing him. It was still building the foundation.",
+          "number": 8,
+          "numberLabel": "Ruled by Saturn",
+          "traits": [
+            "Early years feel like struggle",
+            "Nothing about it is wasted",
+            "The compounding starts late",
+            "Then it doesn't stop"
+          ],
+          "ctaText": "Are you an 8 waiting on it?",
+          "whyComment": "A specific, slightly vulnerable story pulls 'this is literally me' replies more reliably than a generic trait list.",
+          "tiktokCaption": "Nothing worked for him until he turned 40 — classic 8, Saturn is just slow. Are you an 8 waiting on it? 👇",
+          "instagramCaption": "A client spent two decades feeling behind everyone his age. Saturn wasn't punishing him — it was still building the foundation. Early years feel like struggle for an 8, but none of it is wasted; the compounding just starts late, and then it doesn't stop. Are you an 8 still waiting on it? Comment below 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank8",
+            "#saturn",
+            "#birthnumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "educational",
+          "hookId": "ed-personal-year",
+          "title": "What A Personal Year Actually Is",
+          "category": "educational",
+          "moolank": 2,
+          "buildSetup": "Your Moolank doesn't change. Something else does, every single year...",
+          "buildReveal": "It resets on your birthday, not January 1st.",
+          "number": 2,
+          "numberLabel": "Personal Year example",
+          "traits": [
+            "Adds your birth day + month",
+            "Plus the current year",
+            "Reduced the same way",
+            "Different mood, same you"
+          ],
+          "ctaText": "Comment your birthday for your year number",
+          "whyComment": "Corrects a calendar assumption (resets on your birthday, not Jan 1) — surprising-but-useful facts get people commenting to double-check against their own date.",
+          "tiktokCaption": "Your personal year resets on your birthday, not January 1st — most people don't know this. Comment your birthday for your year number 👇",
+          "instagramCaption": "Your Moolank never changes, but your personal year does — every single year, and it resets on your birthday, not the calendar year. It's your birth day plus your birth month plus the current year, reduced the same way as everything else. Same you, different mood. Comment your birthday below and I'll work out your current personal year 👇",
+          "hashtags": [
+            "#numerology",
+            "#personalyear",
+            "#vedicnumerology",
+            "#birthnumber",
+            "#numerologytok"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "videos": [
+        {
+          "slot": "comment-bait",
+          "hookId": "cb-tag-a-7",
+          "title": "Tag Someone Who Is Definitely A 7",
+          "category": "comment-bait",
+          "moolank": 7,
+          "buildSetup": "There's one person who goes quiet in every group chat...",
+          "buildReveal": "Not because they're bored. Because they're reading the room.",
+          "number": 7,
+          "numberLabel": "Ruled by Ketu",
+          "traits": [
+            "Deeply intuitive",
+            "Analytical & philosophical",
+            "An independent thinker",
+            "Quietly magnetic"
+          ],
+          "ctaText": "Tag your 7 below",
+          "whyComment": "Tag-bait doubles as comment-bait — naming a specific friend pulls both a comment and a share, and re-surfaces V01's audience with a new angle.",
+          "tiktokCaption": "Tag someone who is definitely a 7 — you already thought of them. 👇",
+          "instagramCaption": "There's one person who goes quiet in every group chat. Not because they're bored — because they're reading the room. That's Ketu, that's a 7. Tag your 7 in the comments below 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank7",
+            "#ketu",
+            "#birthnumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "identity",
+          "hookId": "id-6-everyone-leans",
+          "title": "Everyone Leans On You Nobody Asks Why",
+          "category": "identity",
+          "moolank": 6,
+          "buildSetup": "6s become the default person everyone calls first...",
+          "buildReveal": "Venus doesn't just make you likable. It makes you load-bearing.",
+          "number": 6,
+          "numberLabel": "Ruled by Venus",
+          "traits": [
+            "Effortlessly charming",
+            "Artistic & creative",
+            "Loving and magnetic",
+            "Draws beauty & abundance"
+          ],
+          "ctaText": "Born on the 6th, 15th or 24th?",
+          "whyComment": "Names an invisible role that's rarely acknowledged — people comment to feel seen, and to tag the 6 in their life who carries this.",
+          "tiktokCaption": "Everyone leans on you and nobody asks why — that's Venus running the 6. Born on the 6th, 15th or 24th? 👇",
+          "instagramCaption": "6s become the default person everyone calls first, and Venus doesn't just make you likable — it makes you load-bearing. Effortlessly charming, artistic, magnetic, and quietly the one holding things together. Born on the 6th, 15th or 24th? Comment your date below 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank6",
+            "#venus",
+            "#birthnumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "educational",
+          "hookId": "ed-master-numbers",
+          "title": "11 And 22 Don't Reduce Here's Why",
+          "category": "educational",
+          "moolank": 11,
+          "buildSetup": "Every number gets reduced to one digit — except two of them...",
+          "buildReveal": "11 and 22 stay whole because they carry more, not less.",
+          "number": 11,
+          "numberLabel": "Master Number",
+          "traits": [
+            "Most numbers collapse to 1-9",
+            "11 and 22 don't",
+            "They're read as-is",
+            "More intensity, not more luck"
+          ],
+          "ctaText": "Comment your date — check for a master number",
+          "whyComment": "Master numbers feel like a secret exception to a rule they just learned — 'does this apply to me' drives a date-comment.",
+          "tiktokCaption": "11 and 22 don't reduce like every other number — here's why. Comment your date and I'll check for a master number 👇",
+          "instagramCaption": "Every number in numerology gets reduced down to one digit, except two: 11 and 22. They stay whole because they carry more, not less — more intensity, not more luck. Comment your birth date below and I'll check whether a master number is hiding in yours 👇",
+          "hashtags": [
+            "#numerology",
+            "#masternumbers",
+            "#vedicnumerology",
+            "#numerologytok",
+            "#birthnumber"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        }
+      ]
+    },
+    {
+      "day": 6,
+      "videos": [
+        {
+          "slot": "comment-bait",
+          "hookId": "cb-partner-number",
+          "title": "Comment Your Number And Theirs",
+          "category": "comment-bait",
+          "moolank": "general",
+          "buildSetup": "Some number pairs run smooth. Others take real work...",
+          "buildReveal": "Neither one means the relationship is doomed — it means the work is different.",
+          "number": 3,
+          "numberLabel": "Pair example",
+          "traits": [
+            "Some pairs share a rhythm",
+            "Others clash and grow from it",
+            "Neither is the 'bad' pair",
+            "The pairing tells you the work"
+          ],
+          "ctaText": "Comment both numbers below",
+          "whyComment": "Two-number requests double the comment payload and tap directly into relationship curiosity, one of the strongest engagement drivers on the platform.",
+          "tiktokCaption": "Comment your number and theirs — I'll tell you if it works. 👇",
+          "instagramCaption": "Some number pairs run smooth. Others take real work — and neither one means the relationship is doomed, it just means the work looks different. Comment both birth dates below and I'll break down the pairing 👇",
+          "hashtags": [
+            "#numerology",
+            "#compatibility",
+            "#vedicnumerology",
+            "#birthnumber",
+            "#numerologytok"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "story",
+          "hookId": "st-business-name",
+          "title": "His Business Name Added To A 4",
+          "category": "story",
+          "moolank": 4,
+          "buildSetup": "A client's business had stalled for two years straight...",
+          "buildReveal": "One letter change moved the name number — and the year after, it didn't.",
+          "number": 4,
+          "numberLabel": "Name Correction example",
+          "traits": [
+            "The old name summed to a 4",
+            "Rahu blocks before it builds",
+            "One letter shifted the total",
+            "Same business, different number"
+          ],
+          "ctaText": "Comment your business name — I'll check it",
+          "whyComment": "Concrete before/after story ties directly to the paid Name Correction product and invites business owners to submit their own name in the comments.",
+          "tiktokCaption": "His business name added to a 4 — he changed one letter, and the year after was different. Comment your business name 👇",
+          "instagramCaption": "A client's business had stalled for two years straight. The old name summed to a 4 — Rahu blocks before it builds — and one letter shift moved the total. Same business, different number, different year. Comment your business name below and I'll check the total 👇",
+          "hashtags": [
+            "#numerology",
+            "#namecorrection",
+            "#vedicnumerology",
+            "#businessnumerology",
+            "#birthnumber"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "knowledge-gap",
+          "hookId": "kg-clash",
+          "title": "When Your Numbers Fight Each Other",
+          "category": "knowledge-gap",
+          "moolank": 2,
+          "buildSetup": "Sometimes your birth number wants one thing and your destiny number wants another...",
+          "buildReveal": "That tug-of-war has a name, and most people never learn it.",
+          "number": 2,
+          "numberLabel": "The Clash",
+          "traits": [
+            "Two numbers, two agendas",
+            "One wants stability",
+            "One wants change",
+            "You've felt both, on and off"
+          ],
+          "ctaText": "Comment your date — I'll find the clash",
+          "whyComment": "Puts language to an internal contradiction people already feel but can't name — naming an unnamed feeling is a strong comment trigger.",
+          "tiktokCaption": "When your numbers fight each other, it explains more than you'd think. Comment your date and I'll find the clash 👇",
+          "instagramCaption": "Sometimes your birth number wants stability and your destiny number wants change — that tug-of-war has a name, and most people never learn it. You've probably felt both sides of it, on and off. Comment your birth date below and I'll find the clash in yours 👇",
+          "hashtags": [
+            "#numerology",
+            "#birthnumber",
+            "#destinynumber",
+            "#vedicnumerology",
+            "#numerologyreading"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        }
+      ]
+    },
+    {
+      "day": 7,
+      "videos": [
+        {
+          "slot": "comment-bait",
+          "hookId": "cb-rate-accuracy",
+          "title": "Rate This Out Of 10 For Accuracy",
+          "category": "comment-bait",
+          "moolank": "general",
+          "buildSetup": "Every numerology account says 'this is so accurate'...",
+          "buildReveal": "So instead of telling you, I'm asking you to grade it.",
+          "number": 9,
+          "numberLabel": "Example: Moolank 9",
+          "traits": [
+            "Read the four traits below",
+            "Score them 1 to 10",
+            "Say which one missed",
+            "I read every comment"
+          ],
+          "ctaText": "Rate it below — be honest",
+          "whyComment": "Meta framing lowers guard and invites critique rather than just agreement — both critical comments and high scores add to volume.",
+          "tiktokCaption": "Rate this out of 10 for accuracy — I'll take the criticism. 👇",
+          "instagramCaption": "Every numerology account says 'this is so accurate.' So instead of telling you, I'm asking you to grade it. Read the four traits, score them 1 to 10, and tell me which one missed — I read every comment. Rate it below 👇",
+          "hashtags": [
+            "#numerology",
+            "#vedicnumerology",
+            "#numerologytok",
+            "#birthnumber"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "story",
+          "hookId": "st-what-i-got-wrong",
+          "title": "What I Got Wrong About Number 4",
+          "category": "story",
+          "moolank": 4,
+          "buildSetup": "I called 4s 'rigid' in an early post...",
+          "buildReveal": "That's not what Rahu does. Rahu breaks rigid systems, it doesn't build them.",
+          "number": 4,
+          "numberLabel": "Ruled by Rahu",
+          "traits": [
+            "Not rigid — relentless",
+            "Not stubborn — structured",
+            "Builds what didn't exist",
+            "Outsiders change the game"
+          ],
+          "ctaText": "4s — did I get it right this time?",
+          "whyComment": "A public correction is disarming and specific; the direct callback question asks Moolank-4 viewers for a verdict, which they're primed to give.",
+          "tiktokCaption": "What I got wrong about number 4 — I owe 4s an apology. 4s, did I get it right this time? 👇",
+          "instagramCaption": "I called 4s 'rigid' in an early post. That's not what Rahu does — Rahu breaks rigid systems, it doesn't build them. Not rigid, relentless. Not stubborn, structured. 4s, did I get it right this time? Comment below 👇",
+          "hashtags": [
+            "#numerology",
+            "#moolank4",
+            "#rahu",
+            "#birthnumber",
+            "#vedicnumerology"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        },
+        {
+          "slot": "educational",
+          "hookId": "ed-birth-vs-destiny",
+          "title": "Birth Vs Destiny In 15 Seconds",
+          "category": "educational",
+          "moolank": 3,
+          "buildSetup": "Two numbers, one birth date, and everyone mixes them up...",
+          "buildReveal": "One is who you are day to day. The other is where you're headed.",
+          "number": 3,
+          "numberLabel": "Side-by-side example",
+          "traits": [
+            "Birth number = daily instinct",
+            "Destiny number = the long arc",
+            "They can agree or clash",
+            "Both are in your free chart"
+          ],
+          "ctaText": "Comment your date for both numbers",
+          "whyComment": "Closes the week by re-teaching the account's core concept in the clearest framing — a strong 'comment for my numbers' video to cap the week.",
+          "tiktokCaption": "Birth vs destiny, explained in 15 seconds — they are not the same number. Comment your date for both 👇",
+          "instagramCaption": "Two numbers, one birth date, and almost everyone mixes them up. Your birth number is who you are day to day. Your destiny number is where you're headed. They can agree, or they can clash — both are sitting in your free chart already. Comment your birth date below for both numbers 👇",
+          "hashtags": [
+            "#numerology",
+            "#birthnumber",
+            "#destinynumber",
+            "#vedicnumerology",
+            "#numerologytok"
+          ],
+          "suggestedPostTime": "6:00-7:00 PM local, same evening as render"
+        }
+      ]
+    }
+  ]
+}
