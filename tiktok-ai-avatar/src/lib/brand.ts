@@ -62,6 +62,13 @@ export const MUSIC = {
   // Reaches full level within ~50ms, so frame 0 of the hook lands on the
   // track's own downbeat and no head-trim is needed.
   readyV04: "music/ready-v04.mp3",
+  // Viral V03 — "Starlight Forge", supplied by the user (184s AAC, transcoded
+  // to a 30s mp3 slice — the video is 17.4s, so 30s leaves headroom without
+  // carrying a 4MB asset). Unlike the other viral beds this one opens on a
+  // ~2s fade-in swell, which would put the hard-cut hook on near-silence
+  // (-78.8 dB at frame 0), so the slice starts at the 2.1s downbeat where the
+  // swell peaks into full level.
+  starlightV03: "music/starlight-v03.mp3",
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
   mool1: "music/mool-1.mp3",

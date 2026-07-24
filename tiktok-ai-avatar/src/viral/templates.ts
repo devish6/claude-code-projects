@@ -71,7 +71,7 @@ export const CONTRARIAN_EIGHT: ViralVideoProps = {
     "Struggle early, scale later",
   ],
   ctaText: "Are you an 8? Comment below",
-  music: MUSIC.dark,
+  music: MUSIC.starlightV03,
 };
 
 /**
