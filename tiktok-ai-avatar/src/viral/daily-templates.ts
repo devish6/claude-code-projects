@@ -24,7 +24,7 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     numberLabel: "Worked example",
     traits: ["Add the digits of your day", "Keep going until one digit", "That's your Moolank number", "Comment yours below"],
     ctaText: "Comment your birth date",
-    music: MUSIC.violinEnergetic,
+    music: MUSIC.cashFlowAnthem,
   },
 
   "Viral-08-Identity-5sDonTGetBored": {
@@ -38,7 +38,7 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     numberLabel: "Ruled by Mercury",
     traits: ["Sharp & quick-witted", "A magnetic communicator", "Adaptable to anything", "Born for business"],
     ctaText: "Are you a 5? Comment below",
-    music: MUSIC.trendV02,
+    music: MUSIC.voltSlope,
   },
 
   "Viral-09-KnowledgeGap-YourBirthDateHoldsTwoNumbers": {
@@ -52,7 +52,7 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     numberLabel: "Driver vs Conductor",
     traits: ["Moolank = your day alone", "Bhagyank = the full date", "They can pull opposite ways", "The clash explains a lot"],
     ctaText: "Comment your full date — I'll find both",
-    music: MUSIC.starlightV03,
+    music: MUSIC.blackVelvetAria,
   },
 };
 

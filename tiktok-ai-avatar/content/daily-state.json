@@ -74,7 +74,7 @@
       "category": "comment-bait",
       "moolank": "general",
       "hookId": "cb-drop-date",
-      "music": "violinEnergetic",
+      "music": "cashFlowAnthem",
       "variant": "identity",
       "status": "generated",
       "source": "weekly-plan-w1",
@@ -107,7 +107,7 @@
           "Comment yours below"
         ],
         "ctaText": "Comment your birth date",
-        "music": "violinEnergetic"
+        "music": "cashFlowAnthem"
       }
     },
     {
@@ -117,7 +117,7 @@
       "category": "identity",
       "moolank": 5,
       "hookId": "id-5-restless",
-      "music": "trendV02",
+      "music": "voltSlope",
       "variant": "identity",
       "status": "generated",
       "source": "weekly-plan-w1",
@@ -150,7 +150,7 @@
           "Born for business"
         ],
         "ctaText": "Are you a 5? Comment below",
-        "music": "trendV02"
+        "music": "voltSlope"
       }
     },
     {
@@ -160,7 +160,7 @@
       "category": "knowledge-gap",
       "moolank": 2,
       "hookId": "kg-second-number",
-      "music": "starlightV03",
+      "music": "blackVelvetAria",
       "variant": "mystery",
       "status": "generated",
       "source": "weekly-plan-w1",
@@ -193,7 +193,7 @@
           "The clash explains a lot"
         ],
         "ctaText": "Comment your full date — I'll find both",
-        "music": "starlightV03"
+        "music": "blackVelvetAria"
       }
     }
   ],

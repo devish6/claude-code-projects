@@ -69,6 +69,37 @@ export const MUSIC = {
   // (-78.8 dB at frame 0), so the slice starts at the 2.1s downbeat where the
   // swell peaks into full level.
   starlightV03: "music/starlight-v03.mp3",
+  // ── Daily pipeline beds, BEAT-SYNCED to the 30fps cut grid (2026-07-24) ──
+  //
+  // Two-step prep on each: (1) pitch-preserving `atempo` so the beat period is
+  // a WHOLE number of frames — no beat ever falls between two rendered frames;
+  // (2) head-trim so the audible TRANSIENT lands on frame 0, where the hook
+  // hard-cuts in. Step 2 must anchor on the transient, not on a beat-tracker's
+  // phase: those disagreed by 151ms on Volt Slope, and shifting by a whole beat
+  // "to preserve the grid" preserves that error too, since a whole-beat shift
+  // does not change phase relative to frame 0.
+  //
+  // ⭐ TARGET 150 BPM when sourcing new music. At 30fps that is a 12-frame beat,
+  // the ONLY tempo whose beats land on the cuts at frames 48/192/264/336 (the
+  // CTA at 450 falls on an eighth). Every integer-frame tempo from 11 to 18 was
+  // checked; nothing else hits more than one cut. ±6% of 150 can be pulled onto
+  // the grid inaudibly; beyond that the song's character changes, which is
+  // worse than an imperfect seam.
+  //
+  // V07 — "Cash Flow Anthem". 132.5 → 128.57 BPM (−2.96%), beat = 14 frames.
+  // Reaching 150 needed +13%, so frame-locked only; of the cuts, 336 lands on
+  // a beat. Transient on frame 0.
+  cashFlowAnthem: "music/cashflow-v07.mp3",
+  // V08 — "Volt Slope". 143.6 → 150.00 BPM (+4.46%), beat = 12 frames. The one
+  // track close enough to reach the 150 family, so with the transient on frame
+  // 0 the hits land on frames 0/12/24/… — which includes cuts 48, 192, 264 and
+  // 336. Tightest sync of the three.
+  voltSlope: "music/voltslope-v08.mp3",
+  // V09 — "Black Velvet Aria". 136.0 → 138.46 BPM (+1.81%), beat = 13 frames.
+  // Frame-locked, no cut hits. A 14-frame beat would have bought cut 336 but
+  // cost −5.46%, draining the energy it was picked for — a bad trade.
+  blackVelvetAria: "music/blackvelvet-v09.mp3",
+
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
   mool1: "music/mool-1.mp3",
