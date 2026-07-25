@@ -12,7 +12,21 @@
 import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-export const FAST_TRACKS = ["violinEnergetic", "trendV02", "starlightV03", "readyV04"];
+/**
+ * Order is load-bearing: nextTrack() rotates from whatever the previous video
+ * used, so appending in the order the beds were added keeps each new batch on
+ * the newest tracks instead of re-serving the oldest four.
+ */
+export const FAST_TRACKS = [
+  // original four (the only ones this list knew about until 2026-07-25)
+  "violinEnergetic", "trendV02", "starlightV03", "readyV04",
+  // beat-synced beds added 2026-07-24 in 30d4ed0 -- registered in MUSIC and
+  // shipped on V07-V09, but never added here, so the pool under-counted
+  // itself and kept recycling the original four.
+  "cashFlowAnthem", "voltSlope", "blackVelvetAria",
+  // 2026-07-25 restock: first beds sourced natively at ~150 BPM.
+  "hardstyleV10", "executorV11", "aggroTechnoV12",
+];
 export const POOL_FLOOR = 6;
 
 export const poolHealthy = () => FAST_TRACKS.length >= POOL_FLOOR;

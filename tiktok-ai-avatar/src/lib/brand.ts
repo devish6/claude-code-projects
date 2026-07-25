@@ -100,6 +100,41 @@ export const MUSIC = {
   // cost −5.46%, draining the energy it was picked for — a bad trade.
   blackVelvetAria: "music/blackvelvet-v09.mp3",
 
+  // ── 2026-07-25 restock: the first beds sourced NATIVELY at 150 BPM ──────
+  //
+  // Until now `voltSlope` was the only 150 bed we owned, and it was already on
+  // both V05 and V08. The whole fast pool was tempo-measured on 2026-07-24 and
+  // nothing else sat inside the workable 141–159 band, so a 150 request meant
+  // sourcing new music — this is that restock.
+  //
+  // Found by measuring, not by trusting labels: ~60 Pixabay tracks across
+  // phonk / hardstyle / hard-techno searches were pulled and screened on the
+  // two locked criteria (tempo in band, AND opens on a hard transient rather
+  // than a fade). 15 were in band; 5 of those were dropped for fading in.
+  //
+  // ⚠️ NO `atempo` APPLIED TO ANY OF THESE THREE. Two independent methods put
+  // all three within ~1% of 150, but the measurement itself is only good to
+  // ~±0.7% (the long-lag refiner returned 151.06 for voltSlope, which is
+  // exactly 150.00 by construction, and mis-locked entirely on starlight at
+  // +9.2%). Stretching by a factor drawn from an estimate less precise than
+  // the correction would be fitting noise — so these ship at native tempo and
+  // the sync is judged in the render instead. Re-tempo only if a render
+  // actually shows drift.
+  //
+  // ⚠️ No head-trim either: each file's leading ~25ms is mp3 decoder priming
+  // delay, not a fade-in. The transient already sits inside frame 0, and
+  // trimming 25ms cannot move it to a different frame.
+  //
+  // V10 — "Hardstyle" (djdoblina). 149.9 BPM measured, beat ≈ 12.0 frames.
+  hardstyleV10: "music/hardstyle-v10.mp3",
+  // V11 — "Extreme Hardstyle Executor". 151.4 BPM, beat ≈ 11.9 frames. Hardest
+  // opening transient in the whole screened pool (2.07× the track's own 95th
+  // -percentile level, at 23ms), which is why it goes on the story video.
+  executorV11: "music/executor-v11.mp3",
+  // V12 — "Hard Aggressive Techno" (apalonbeats). 149.8 BPM, beat ≈ 12.0
+  // frames; the closest to 150 of the three by both measurement methods.
+  aggroTechnoV12: "music/aggrotechno-v12.mp3",
+
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
   mool1: "music/mool-1.mp3",
