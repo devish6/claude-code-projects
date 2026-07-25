@@ -6,3 +6,20 @@ superpowers/
 node_modules/
 assets/
 tiktok-ai-avatar/public/avatar-video.mp4
+
+# ── Must never enter this repo ────────────────────────────────────────────
+# This repo is PUBLIC and GitHub Pages serves `main` as a live site, so
+# anything committed here is both world-readable and served. See CLAUDE.md.
+
+# Nested repos with their own remotes (adding one records a broken gitlink,
+# not the files — and vedic-numerology holds .env with prod DB + Stripe keys)
+vedic-numerology/
+llm-council/
+
+# Embeds Apps Script / SheetDB endpoints in its .tsx files — write-capable
+# credentials for the CueNique admin portal
+cunique-billiards/
+
+# Loose local copy; the live deshanechiro.ca is served from its OWN repo
+# (devish6/deshane-chiro). Ignoring it here does not affect that site.
+deshane-chiro/
