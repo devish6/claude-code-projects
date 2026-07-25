@@ -54,6 +54,48 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     ctaText: "Comment your full date — I'll find both",
     music: MUSIC.blackVelvetAria,
   },
+
+  "Viral-10-CommentBait-CheckIfThisMatchesYou": {
+    hookText: "CHECK IF THIS",
+    hookAccent: "MATCHES YOU",
+    hookSub: "Be honest in the comments",
+    variant: "identity",
+    buildSetup: "Every Moolank has one trait people deny about themselves...",
+    buildReveal: "The ones who deny it fastest are usually the ones it fits.",
+    number: 6,
+    numberLabel: "Read the room",
+    traits: ["Read the traits below", "One will feel too accurate", "That's the one to comment", "Be honest, not modest"],
+    ctaText: "Comment your honest reaction",
+    music: MUSIC.hardstyleV10,
+  },
+
+  "Viral-11-Story-IRead100BirthDatesThisMonth": {
+    hookText: "I READ 100 BIRTH",
+    hookAccent: "DATES THIS MONTH",
+    hookSub: "One pattern kept repeating",
+    variant: "mystery",
+    buildSetup: "Same question, different people, all month...",
+    buildReveal: "It always traced back to the same clash between two numbers.",
+    number: 8,
+    numberLabel: "The repeat offender",
+    traits: ["One number said 'go slow'", "The other said 'go now'", "Most people only hear one", "The fight was the real chart"],
+    ctaText: "Comment your date — let's check yours",
+    music: MUSIC.executorV11,
+  },
+
+  "Viral-12-Educational-The3x3GridInYourBirthDate": {
+    hookText: "THE 3x3 GRID",
+    hookAccent: "IN YOUR BIRTH DATE",
+    hookSub: "Lo Shu, explained simply",
+    variant: "mystery",
+    buildSetup: "Your birth date isn't just a number — it's a grid...",
+    buildReveal: "Nine boxes. Some of yours are full. Some are empty.",
+    number: 4,
+    numberLabel: "Lo Shu box example",
+    traits: ["Every digit fills one box", "Repeats fill a box twice", "Empty boxes matter too", "It's free on your chart"],
+    ctaText: "Comment your date for your grid",
+    music: MUSIC.aggroTechnoV12,
+  },
 };
 
 export const DAILY_COVERS: Record<
@@ -79,5 +121,26 @@ export const DAILY_COVERS: Record<
     title: "YOUR BIRTH DATE HOLDS",
     accent: "TWO NUMBERS",
     number: 2,
+  },
+
+  "Viral-10-CommentBait-CheckIfThisMatchesYou": {
+    kicker: "Read the room",
+    title: "CHECK IF THIS",
+    accent: "MATCHES YOU",
+    number: 6,
+  },
+
+  "Viral-11-Story-IRead100BirthDatesThisMonth": {
+    kicker: "The repeat offender",
+    title: "I READ 100 BIRTH",
+    accent: "DATES THIS MONTH",
+    number: 8,
+  },
+
+  "Viral-12-Educational-The3x3GridInYourBirthDate": {
+    kicker: "Lo Shu box example",
+    title: "THE 3x3 GRID",
+    accent: "IN YOUR BIRTH DATE",
+    number: 4,
   },
 };

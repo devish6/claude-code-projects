@@ -195,6 +195,135 @@
         "ctaText": "Comment your full date — I'll find both",
         "music": "blackVelvetAria"
       }
+    },
+    {
+      "v": "V10",
+      "title": "Check If This Matches You",
+      "date": "2026-07-25",
+      "category": "comment-bait",
+      "moolank": "general",
+      "hookId": "cb-be-honest",
+      "music": "hardstyleV10",
+      "variant": "identity",
+      "status": "generated",
+      "source": "weekly-plan-w1",
+      "planDay": 2,
+      "needsReview": false,
+      "whyComment": "A mild dare structure ('be honest') reliably produces confession-style comments, which read well to new viewers scrolling the thread.",
+      "tiktokCaption": "Check if this matches you — and be honest in the comments, not modest. Comment your reaction 👇",
+      "instagramCaption": "Every Moolank has one trait people quietly deny about themselves. Read the traits in this video and notice which one lands a little too accurately — that's usually the real one. Comment your honest reaction below 👇",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#selfdiscovery",
+        "#numerologytok"
+      ],
+      "suggestedPostTime": "6:00-7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "CHECK IF THIS",
+        "hookAccent": "MATCHES YOU",
+        "hookSub": "Be honest in the comments",
+        "variant": "identity",
+        "buildSetup": "Every Moolank has one trait people deny about themselves...",
+        "buildReveal": "The ones who deny it fastest are usually the ones it fits.",
+        "number": 6,
+        "numberLabel": "Read the room",
+        "traits": [
+          "Read the traits below",
+          "One will feel too accurate",
+          "That's the one to comment",
+          "Be honest, not modest"
+        ],
+        "ctaText": "Comment your honest reaction",
+        "music": "hardstyleV10"
+      }
+    },
+    {
+      "v": "V11",
+      "title": "I Read 100 Birth Dates This Month",
+      "date": "2026-07-25",
+      "category": "story",
+      "moolank": 8,
+      "hookId": "st-100-dates",
+      "music": "executorV11",
+      "variant": "mystery",
+      "status": "generated",
+      "source": "weekly-plan-w1",
+      "planDay": 2,
+      "needsReview": false,
+      "whyComment": "Social proof ('100 people') plus an unresolved pattern makes viewers want to know if they're '#101'.",
+      "tiktokCaption": "I read 100 birth dates this month, and one pattern kept repeating. Comment your date and let's check yours 👇",
+      "instagramCaption": "Same question, different people, all month — and it kept tracing back to the same clash between two numbers. One number says slow down, the other says go now, and most people only ever hear one of them. Comment your birth date below and I'll check which one is louder in yours 👇",
+      "hashtags": [
+        "#numerology",
+        "#saturn",
+        "#moolank8",
+        "#birthnumber",
+        "#vedicnumerology"
+      ],
+      "suggestedPostTime": "6:00-7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "I READ 100 BIRTH",
+        "hookAccent": "DATES THIS MONTH",
+        "hookSub": "One pattern kept repeating",
+        "variant": "mystery",
+        "buildSetup": "Same question, different people, all month...",
+        "buildReveal": "It always traced back to the same clash between two numbers.",
+        "number": 8,
+        "numberLabel": "The repeat offender",
+        "traits": [
+          "One number said 'go slow'",
+          "The other said 'go now'",
+          "Most people only hear one",
+          "The fight was the real chart"
+        ],
+        "ctaText": "Comment your date — let's check yours",
+        "music": "executorV11"
+      }
+    },
+    {
+      "v": "V12",
+      "title": "The 3x3 Grid In Your Birth Date",
+      "date": "2026-07-25",
+      "category": "educational",
+      "moolank": 4,
+      "hookId": "ed-lo-shu",
+      "music": "aggroTechnoV12",
+      "variant": "mystery",
+      "status": "generated",
+      "source": "weekly-plan-w1",
+      "planDay": 2,
+      "needsReview": false,
+      "whyComment": "Reveals a free tool feature they didn't know existed; 'empty boxes matter too' is an open loop people want resolved for their own chart.",
+      "tiktokCaption": "Your birth date is secretly a 3x3 grid, and most people have never seen theirs. Comment your date for your grid 👇",
+      "instagramCaption": "Every digit in your birth date fills a box in a 3x3 grid — the Lo Shu grid. Repeats fill a box twice, and empty boxes matter just as much as full ones. It's free on your chart and most people never check it. Comment your birth date below and I'll pull up your grid 👇",
+      "hashtags": [
+        "#numerology",
+        "#loshugrid",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#numerologytok"
+      ],
+      "suggestedPostTime": "6:00-7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "THE 3x3 GRID",
+        "hookAccent": "IN YOUR BIRTH DATE",
+        "hookSub": "Lo Shu, explained simply",
+        "variant": "mystery",
+        "buildSetup": "Your birth date isn't just a number — it's a grid...",
+        "buildReveal": "Nine boxes. Some of yours are full. Some are empty.",
+        "number": 4,
+        "numberLabel": "Lo Shu box example",
+        "traits": [
+          "Every digit fills one box",
+          "Repeats fill a box twice",
+          "Empty boxes matter too",
+          "It's free on your chart"
+        ],
+        "ctaText": "Comment your date for your grid",
+        "music": "aggroTechnoV12"
+      }
     }
   ],
   "pipelineMeta": {
