@@ -114,7 +114,10 @@ export const CURIOSITY_THREE: ViralVideoProps = {
     "Optimistic, expansive thinking",
   ],
   ctaText: "Born on the 3rd, 12th, 21st or 30th?",
-  music: MUSIC.perfectMoment,
+  // Beat-synced bed: "Volt Slope" is the only track in the pool at 150 BPM,
+  // i.e. a 12-frame beat at 30fps, so its hits land on the cuts at frames
+  // 48/192/264/336. Replaced MUSIC.perfectMoment, which was an untimed bed.
+  music: MUSIC.voltSlope,
 };
 
 /**

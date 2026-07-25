@@ -27,7 +27,8 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 export const DEST = join(homedir(), "Desktop", "Numevix Videos", "Viral");
 
@@ -80,7 +81,11 @@ export const exportOne = (id, title, destRoot = DEST) => {
 };
 
 // Only run the CLI export when this file is executed directly (not imported).
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Compare DECODED paths: import.meta.url percent-encodes, so the naive
+// `import.meta.url === \`file://${process.argv[1]}\`` check is false for any
+// checkout whose path contains a space -- and this repo lives under
+// "Claude Code Projects". That made the CLI exit 0 having rendered nothing.
+if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   const filter = process.argv[2];
   for (const [id, title] of Object.entries(TARGETS)) {
     if (filter && !`${id} ${title}`.includes(filter)) continue;
