@@ -400,12 +400,19 @@ const STORY: Hook[] = [
     accent: "THAT'S ALL IT TOOK",
     sub: "Her name number moved",
   },
+  // Split after "100", not after "BIRTH": the ink/accent colour break also
+  // forces a line break, and the old split cut the compound "BIRTH DATES"
+  // across both, so the hook read "I READ 100 BIRTH / DATES THIS MONTH".
+  // ⚠️ Keep comments OUTSIDE the object braces — scripts/lib/hooks-source.mjs
+  // parses this file with a regex that allows only whitespace between the
+  // id/category/variant/text/accent keys, so a comment inside the literal
+  // silently drops the hook from the index instead of erroring.
   {
     id: "st-100-dates",
     category: "story",
     variant: "mystery",
-    text: "I READ 100 BIRTH",
-    accent: "DATES THIS MONTH",
+    text: "I READ 100",
+    accent: "BIRTH DATES THIS MONTH",
     sub: "One pattern kept repeating",
   },
   {

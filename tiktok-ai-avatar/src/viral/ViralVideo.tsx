@@ -73,7 +73,11 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
 
   return (
     <AbsoluteFill>
-      <BrandAudio src={music} total={ACT.total} start={0} fadeIn={4} vol={0.46} />
+      {/* fadeFloor: the viral beds are picked for a hard transient ON FRAME 0
+          (see the 150 BPM notes in brand.ts). The old 0-floor fade multiplied
+          exactly that transient by zero. 0.85 over 2 frames keeps the hit
+          audible while still ramping enough to avoid a click. */}
+      <BrandAudio src={music} total={ACT.total} start={0} fadeIn={2} vol={0.46} fadeFloor={0.85} />
 
       <AstrolBackground rotationSpeed={7} particleDensity={95} pulseAt={interruptFrames} />
 

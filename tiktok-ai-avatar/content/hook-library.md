@@ -76,7 +76,7 @@ The bold part is line 1, the rest is the accent line rendered in colour.
 | id | hook | sub | № | variant |
 |---|---|---|---|---|
 | `st-spelling` | **SHE CHANGED 1 LETTER** THAT'S ALL IT TOOK | Her name number moved | — | mystery |
-| `st-100-dates` | **I READ 100 BIRTH** DATES THIS MONTH | One pattern kept repeating | — | mystery |
+| `st-100-dates` | **I READ 100** BIRTH DATES THIS MONTH | One pattern kept repeating | — | mystery |
 | `st-same-number` | **3 CLIENTS THIS WEEK.** THE SAME NUMBER | And the same complaint | — | mystery |
 | `st-didnt-believe` | **YOU DON'T BELIEVE** ANY OF THIS | Run your own date first | — | contrarian |
 | `st-why-it-fits` | **WHY IT FEELS LIKE** IT'S ABOUT YOU | It usually is. Here's why | — | mystery |

@@ -70,8 +70,8 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
   },
 
   "Viral-11-Story-IRead100BirthDatesThisMonth": {
-    hookText: "I READ 100 BIRTH",
-    hookAccent: "DATES THIS MONTH",
+    hookText: "I READ 100",
+    hookAccent: "BIRTH DATES THIS MONTH",
     hookSub: "One pattern kept repeating",
     variant: "mystery",
     buildSetup: "Same question, different people, all month...",
@@ -132,8 +132,8 @@ export const DAILY_COVERS: Record<
 
   "Viral-11-Story-IRead100BirthDatesThisMonth": {
     kicker: "The repeat offender",
-    title: "I READ 100 BIRTH",
-    accent: "DATES THIS MONTH",
+    title: "I READ 100",
+    accent: "BIRTH DATES THIS MONTH",
     number: 8,
   },
 

@@ -264,8 +264,8 @@
       ],
       "suggestedPostTime": "6:00-7:00 PM local, same evening as render",
       "props": {
-        "hookText": "I READ 100 BIRTH",
-        "hookAccent": "DATES THIS MONTH",
+        "hookText": "I READ 100",
+        "hookAccent": "BIRTH DATES THIS MONTH",
         "hookSub": "One pattern kept repeating",
         "variant": "mystery",
         "buildSetup": "Same question, different people, all month...",

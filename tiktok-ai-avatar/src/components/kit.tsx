@@ -168,18 +168,31 @@ export const GlowRing: React.FC<{
 // ── Brand audio bed with head-trim + fade in/out ────────────────────────────
 // `start` trims the track head (frames) so its energy entry lands on the hook.
 // `fadeIn` is short on punchy hooks so transients aren't muffled.
+//
+// `fadeFloor` is the fraction of `vol` the bed already sits at on FRAME 0,
+// before the fade-in ramp begins. It exists because the default of 0 means
+// frame 0 is EXACTLY SILENT: a bed whose opening transient was deliberately
+// aligned to frame 0 gets multiplied by zero, which silently defeats the
+// beat-sync prep the viral beds are chosen for. Measured on the 2026-07-24
+// renders: first strong onset landed at 0.070s / 0.232s / 0.627s despite every
+// bed file peaking at 0.000s.
+//
+// Default stays 0 so the ten promo compositions render byte-identically; only
+// callers that opt in change. Use a small ramp (not a hard start at 1.0) --
+// beginning at full level on a discontinuity can click.
 export const BrandAudio: React.FC<{
   src: string;
   total: number;
   start?: number;
   vol?: number;
   fadeIn?: number;
-}> = ({ src, total, start = 0, vol = 0.5, fadeIn = 20 }) => (
+  fadeFloor?: number;
+}> = ({ src, total, start = 0, vol = 0.5, fadeIn = 20, fadeFloor = 0 }) => (
   <Audio
     src={staticFile(src)}
     startFrom={start}
     volume={(f) =>
-      interpolate(f, [0, fadeIn, total - 25, total], [0, vol, vol, 0], {
+      interpolate(f, [0, fadeIn, total - 25, total], [vol * fadeFloor, vol, vol, 0], {
         extrapolateLeft: "clamp",
         extrapolateRight: "clamp",
       })

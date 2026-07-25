@@ -87,9 +87,42 @@ export const exportOne = (id, title, destRoot = DEST) => {
 // "Claude Code Projects". That made the CLI exit 0 having rendered nothing.
 if (fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   const filter = process.argv[2];
-  for (const [id, title] of Object.entries(TARGETS)) {
+
+  // TARGETS alone is only the hand-authored V01-V06 baseline, so for a long
+  // while the CLI could not re-export ANY daily-pipeline video (V07+): the
+  // filter simply matched nothing and it printed "Done." having rendered
+  // nothing at all. That matters most exactly when it is needed -- after a
+  // change to something shared like BrandAudio, when already-shipped videos
+  // have to be re-rendered. So fold the ledger's generated videos in here.
+  //
+  // Imported inside the CLI block on purpose: daily-viral.mjs imports THIS
+  // file, so a top-level import of the state/templates modules would add an
+  // import cycle and make the daily run read the ledger as a side effect.
+  const { loadState } = await import("./lib/state.mjs");
+  const { compositionId } = await import("./lib/templates-gen.mjs");
+
+  const daily = Object.fromEntries(
+    (loadState().videos ?? [])
+      .filter((v) => v.source !== "seed-existing" && v.status === "generated")
+      .map((v) => [compositionId(v), `${v.v} - ${v.title}`])
+  );
+
+  const all = { ...TARGETS, ...daily };
+  let matched = 0;
+  for (const [id, title] of Object.entries(all)) {
     if (filter && !`${id} ${title}`.includes(filter)) continue;
     exportOne(id, title);
+    matched++;
   }
-  process.stdout.write(`\nDone. ${DEST}\n`);
+
+  // Never exit 0 having done nothing: a silent no-op here reads as success and
+  // has already cost one debugging round (see the decoded-path note above).
+  if (matched === 0) {
+    process.stderr.write(
+      `\nNo composition matched ${JSON.stringify(filter)}.\n` +
+      `Known ids:\n${Object.keys(all).map((k) => `  ${k}`).join("\n")}\n`
+    );
+    process.exit(1);
+  }
+  process.stdout.write(`\nDone (${matched} rendered). ${DEST}\n`);
 }
