@@ -16,8 +16,20 @@ export const CTAEnding: React.FC<{
   text: string;
   url?: string;
   brandName?: string;
+  /**
+   * Part of the contract every caller passes, but unused: this card's motion
+   * is all delay-driven off frame 0, so it needs no knowledge of the scene
+   * length. Deliberately not destructured — it was previously the last
+   * parameter, where the lint rule's `args: after-used` hid the fact.
+   */
   durationInFrames: number;
-}> = ({ text, url = "numevix.com", brandName = "Numevix", durationInFrames }) => {
+  /**
+   * Font override for non-Latin cuts. Only the ask is translated — the
+   * wordmark and URL stay in DISPLAY/UI, because a brand name rendered in a
+   * different face per language stops being one brand.
+   */
+  uiFont?: string;
+}> = ({ text, url = "numevix.com", brandName = "Numevix", uiFont = UI }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const glow = useGlowPulse("rgba(120,88,24,0.36)", 1.2);
@@ -42,7 +54,7 @@ export const CTAEnding: React.FC<{
       <Snap y={60} from={0.75} config="burst">
         <div
           style={{
-            fontFamily: UI,
+            fontFamily: uiFont,
             fontSize: 76,
             fontWeight: 900,
             lineHeight: 1.12,

@@ -19,7 +19,22 @@ export const ViralHook: React.FC<{
   subtext?: string;
   variant?: HookVariant;
   durationInFrames?: number;
-}> = ({ text, accent, subtext, variant = "identity", durationInFrames = 60 }) => {
+  /**
+   * Font overrides for non-Latin cuts. Cinzel and Inter carry no Devanagari,
+   * so Hindi copy set in them renders as tofu boxes. Defaults reproduce the
+   * previous hardcoded values exactly, so every existing video is unchanged.
+   */
+  displayFont?: string;
+  uiFont?: string;
+}> = ({
+  text,
+  accent,
+  subtext,
+  variant = "identity",
+  durationInFrames = 60,
+  displayFont = DISPLAY,
+  uiFont = UI,
+}) => {
   const frame = useCurrentFrame();
   const scale = useCameraDrift(durationInFrames, 1, 1.08);
   const ab = useAberration(0, 8, 10);
@@ -48,7 +63,7 @@ export const ViralHook: React.FC<{
       <Burst>
         <div
           style={{
-            fontFamily: DISPLAY,
+            fontFamily: displayFont,
             fontSize: 112,
             fontWeight: 900,
             lineHeight: 1.02,
@@ -96,7 +111,7 @@ export const ViralHook: React.FC<{
           <div
             style={{
               marginTop: 26,
-              fontFamily: DISPLAY,
+              fontFamily: displayFont,
               fontSize: 128,
               fontWeight: 900,
               lineHeight: 1,
@@ -115,7 +130,7 @@ export const ViralHook: React.FC<{
           <div
             style={{
               marginTop: 34,
-              fontFamily: UI,
+              fontFamily: uiFont,
               fontSize: 52,
               fontWeight: 700,
               color: TEXT,

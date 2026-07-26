@@ -21,18 +21,28 @@ export const CuriosityGap: React.FC<{
   pauseDuration?: number;
   setupDuration?: number;
   durationInFrames: number;
+  /**
+   * Font overrides for non-Latin cuts — Cinzel and Inter have no Devanagari.
+   * Defaults reproduce the previous hardcoded values, so existing videos are
+   * unchanged.
+   */
+  displayFont?: string;
+  uiFont?: string;
 }> = ({
   setup,
   reveal,
   pauseDuration = 8,
   setupDuration = 53,
   durationInFrames,
+  displayFont = DISPLAY,
+  uiFont = UI,
 }) => {
   const revealStart = setupDuration + pauseDuration;
+  const fonts = { displayFont, uiFont };
   return (
     <AbsoluteFill>
       <Sequence durationInFrames={setupDuration} layout="none">
-        <GapLine text={setup} kind="setup" durationInFrames={setupDuration} />
+        <GapLine text={setup} kind="setup" durationInFrames={setupDuration} {...fonts} />
       </Sequence>
 
       <Sequence from={setupDuration} durationInFrames={pauseDuration} layout="none">
@@ -48,6 +58,7 @@ export const CuriosityGap: React.FC<{
           text={reveal}
           kind="reveal"
           durationInFrames={durationInFrames - revealStart}
+          {...fonts}
         />
       </Sequence>
     </AbsoluteFill>
@@ -58,7 +69,9 @@ const GapLine: React.FC<{
   text: string;
   kind: "setup" | "reveal";
   durationInFrames: number;
-}> = ({ text, kind, durationInFrames }) => {
+  displayFont: string;
+  uiFont: string;
+}> = ({ text, kind, durationInFrames, displayFont, uiFont }) => {
   const isReveal = kind === "reveal";
   const scale = useCameraDrift(durationInFrames, 1, isReveal ? 1.07 : 1.04);
   const glow = useGlowPulse("rgba(120,88,24,0.34)", 1.4);
@@ -76,7 +89,7 @@ const GapLine: React.FC<{
       <Snap from={isReveal ? 0.7 : 0.85} y={isReveal ? 20 : 34} config={isReveal ? "burst" : "snap"}>
         <div
           style={{
-            fontFamily: isReveal ? DISPLAY : UI,
+            fontFamily: isReveal ? displayFont : uiFont,
             fontSize: isReveal ? 100 : 80,
             fontWeight: isReveal ? 900 : 700,
             lineHeight: 1.1,

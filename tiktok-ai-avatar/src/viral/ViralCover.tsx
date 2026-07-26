@@ -20,8 +20,16 @@ export type ViralCoverProps = {
   kicker: string;
   title: string;
   accent: string;
-  number: number;
+  /**
+   * The oversized watermark. A string as well as a number because the
+   * announcement covers watermark "UPI" rather than a moolank — it is drawn,
+   * never used in arithmetic.
+   */
+  number: number | string;
   variant: HookVariant;
+  /** Font overrides for non-Latin covers; defaults match the Latin videos. */
+  displayFont?: string;
+  uiFont?: string;
 };
 
 export const ViralCover: React.FC<ViralCoverProps> = ({
@@ -30,6 +38,8 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
   accent,
   number,
   variant,
+  displayFont = DISPLAY,
+  uiFont = UI,
 }) => {
   const accentColor = variant === "contrarian" ? ACCENT_ALERT : ACCENT;
 
@@ -43,7 +53,7 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
           position: "absolute",
           right: -80,
           bottom: 150,
-          fontFamily: DISPLAY,
+          fontFamily: displayFont,
           fontSize: 640,
           fontWeight: 900,
           lineHeight: 1,
@@ -64,7 +74,7 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
       >
         <div
           style={{
-            fontFamily: UI,
+            fontFamily: uiFont,
             fontSize: 34,
             fontWeight: 800,
             letterSpacing: 8,
@@ -78,7 +88,7 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
 
         <div
           style={{
-            fontFamily: DISPLAY,
+            fontFamily: displayFont,
             fontSize: 116,
             fontWeight: 900,
             lineHeight: 1.04,
@@ -93,7 +103,7 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
         <div
           style={{
             marginTop: 28,
-            fontFamily: DISPLAY,
+            fontFamily: displayFont,
             fontSize: 132,
             fontWeight: 900,
             lineHeight: 1,
