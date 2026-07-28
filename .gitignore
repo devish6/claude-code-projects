@@ -23,3 +23,7 @@ cunique-billiards/
 # Loose local copy; the live deshanechiro.ca is served from its OWN repo
 # (devish6/deshane-chiro). Ignoring it here does not affect that site.
 deshane-chiro/
+
+# Personal talking-head source footage — the owner filmed at home. This repo
+# is PUBLIC and Pages-served, so raw footage of a person must not be committed.
+tiktok-ai-avatar/public/talking/

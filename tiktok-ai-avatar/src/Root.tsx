@@ -28,6 +28,8 @@ import {
 import { DAILY_COVERS, DAILY_TEMPLATES } from "./viral/daily-templates";
 import { UpiLaunch } from "./viral/UpiLaunch";
 import { UPI_COVERS, UPI_TEMPLATES } from "./viral/upi-templates";
+import { TalkingHead } from "./talking/TalkingHead";
+import { TOTAL_FRAMES as TALKING_TOTAL } from "./talking/script";
 import { DISPLAY_HI, UI_HI } from "./viral/fonts";
 import { ACT } from "./viral/timing";
 
@@ -209,6 +211,22 @@ export const RemotionRoot: React.FC = () => {
             accent: "BLOCKING YOU?",
             watermark: "",
           }}
+        />
+      </Folder>
+
+      {/*
+        Talking-head cuts (src/talking/*) — real footage of the founder rather
+        than generated scenes. Source clips live in public/talking/, which is
+        gitignored: this repo is public and Pages-served.
+      */}
+      <Folder name="TalkingHead">
+        <Composition
+          id="M-BirthdayIsEnough"
+          component={TalkingHead}
+          durationInFrames={TALKING_TOTAL}
+          fps={V.fps}
+          width={V.width}
+          height={V.height}
         />
       </Folder>
 
