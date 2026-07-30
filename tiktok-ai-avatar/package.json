@@ -28,6 +28,7 @@
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
+    "test": "vitest run",
     "export:viral": "node scripts/export-viral.mjs",
     "hooks:doc": "node scripts/hooks-doc.mjs",
     "daily:viral": "node scripts/daily-viral.mjs"
