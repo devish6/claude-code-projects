@@ -33,7 +33,8 @@
     "hooks:doc": "node scripts/hooks-doc.mjs",
     "daily:viral": "node scripts/daily-viral.mjs",
     "sync:daily-energy": "node scripts/sync-daily-energy.mjs",
-    "publish:youtube": "node scripts/publish-youtube.mjs"
+    "publish:youtube": "node scripts/publish-youtube.mjs",
+    "publish:instagram": "node scripts/publish-instagram.mjs"
   },
   "sideEffects": [
     "*.css"
