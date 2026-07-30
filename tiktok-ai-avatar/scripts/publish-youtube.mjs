@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
  * npm run publish:youtube -- --authorize
+ * npm run publish:youtube -- --check
  * npm run publish:youtube -- --v=V15 [--privacy=public] [--dry-run]
  *
  * Uploads a rendered video to YouTube Shorts via the Data API v3.
@@ -291,8 +292,29 @@ const saveUploadLog = (rows) => {
   writeFileSync(UPLOAD_LOG, JSON.stringify(rows, null, 2) + "\n");
 };
 
+/**
+ * Verifies the stored grant still works, without uploading anything.
+ *
+ * Worth having permanently: the refresh token is the part that silently dies
+ * (after 7 days while the OAuth app sits in Testing), and the first sign of
+ * that would otherwise be a failed batch.
+ */
+const check = async () => {
+  const token = await accessToken();
+  const stored = loadCredentials()?.youtube ?? {};
+
+  log("✅ Refresh grant works — a new access token was issued.");
+  log(`   expires: ${stored.token?.expiry ?? "unknown"}`);
+  log(`   scope:   ${SCOPE}`);
+  log(`   token:   ${token.slice(0, 6)}… (not shown)`);
+  log("\nNote: this proves OAuth only. Whether the YouTube Data API is enabled");
+  log("on the project shows up on the first real upload.");
+};
+
 if (has("authorize")) {
   await authorize();
+} else if (has("check")) {
+  await check();
 } else {
   await upload();
 }
