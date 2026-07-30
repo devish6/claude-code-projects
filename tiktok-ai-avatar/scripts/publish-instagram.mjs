@@ -25,7 +25,12 @@ import { join } from "node:path";
 import { createInterface } from "node:readline/promises";
 
 import { CREDENTIALS_PATH, loadCredentials, saveCredentials } from "./lib/credentials.mjs";
-import { buildInstagramMedia, containerState, validateReelVideo } from "./lib/meta.mjs";
+import {
+  buildInstagramMedia,
+  containerState,
+  pageIdsFromGranularScopes,
+  validateReelVideo,
+} from "./lib/meta.mjs";
 import { hostVideo, unhostVideo } from "./lib/media-host.mjs";
 import { alreadyUploaded } from "./lib/youtube.mjs";
 
@@ -92,21 +97,48 @@ const authorize = async () => {
   const userToken = longLived.access_token;
 
   log("Finding your Pages…");
-  const pages = await graph("/me/accounts", { access_token: userToken }).catch((e) =>
-    die(`Could not list Pages: ${e.message}`),
-  );
-  if (!pages.data?.length) {
+  let candidates = await graph("/me/accounts", { access_token: userToken })
+    .then((r) => r.data ?? [])
+    .catch((e) => die(`Could not list Pages: ${e.message}`));
+
+  // 🪤 /me/accounts can return [] for a token that plainly holds the Page.
+  // Seen 2026-07-30: the debugger showed `pages_show_list → 1239712085890849 :
+  // Numevix` while this edge stayed empty, and no amount of re-consenting
+  // changed it — the grant was never the problem. Granular scopes are the
+  // authoritative record, so fall back to them and address the Page directly.
+  if (!candidates.length) {
+    log("  /me/accounts was empty — reading the token's granular scopes instead…");
+    const debug = await graph("/debug_token", {
+      input_token: userToken,
+      access_token: `${appId}|${appSecret}`,
+    }).catch(() => null);
+
+    for (const id of pageIdsFromGranularScopes(debug)) {
+      const page = await graph(`/${id}`, {
+        fields: "access_token,name",
+        access_token: userToken,
+      }).catch(() => null);
+      if (page?.access_token) candidates.push(page);
+    }
+    if (candidates.length) log(`  recovered ${candidates.length} Page(s) this way.`);
+  }
+
+  if (!candidates.length) {
     // An empty list is ambiguous, and the two causes need different fixes.
     // Distinguishing them here saves a round of guessing.
     die(
-      "/me/accounts returned no Pages.\n\n" +
-        "Two different causes, and they need different fixes:\n\n" +
-        "1. THE PAGE WASN'T GRANTED (most common). The Facebook dialog asks which\n" +
-        "   Pages the app may use, and it is easy to click past. The token then\n" +
-        "   looks valid but can see no Pages.\n" +
-        "   Fix: in Graph API Explorer, regenerate the token and TICK YOUR PAGE in\n" +
-        "   that dialog. Verify before returning here by submitting: me/accounts\n" +
-        "   — it must list the Page. An empty `data: []` means it still wasn't granted.\n\n" +
+      "No Page found — not from /me/accounts, and not from the token's scopes.\n\n" +
+        "The granular-scope fallback already covers the case where /me/accounts\n" +
+        "is empty but the Page was granted, so reaching here means the token\n" +
+        "genuinely carries no Page. Two causes:\n\n" +
+        "1. THE PAGE WASN'T GRANTED. The Facebook dialog asks which Pages the app\n" +
+        "   may use, and it is easy to click past. Note that 'Reconnect' RE-USES\n" +
+        "   the previous choices without asking again — use 'Edit settings' on that\n" +
+        "   dialog, or remove the app under facebook.com/settings?tab=business_tools\n" +
+        "   and authorize fresh.\n" +
+        "   Verify at developers.facebook.com/tools/debug/accesstoken/ — the\n" +
+        "   Granular Scopes table must show a Page id beside pages_show_list.\n" +
+        "   That table, not /me/accounts, is the source of truth.\n\n" +
         "2. THERE IS NO PAGE. Instagram Reels publishing needs one; a Creator or\n" +
         "   Business Instagram account alone is not enough.\n" +
         "   Fix: create a Page at facebook.com/pages/create, then link it in\n" +
@@ -117,7 +149,7 @@ const authorize = async () => {
 
   // Find the Page whose linked Instagram account we can publish to.
   let chosen = null;
-  for (const page of pages.data) {
+  for (const page of candidates) {
     const linked = await graph(`/${page.id}`, {
       fields: "instagram_business_account,name",
       access_token: page.access_token,

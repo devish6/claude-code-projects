@@ -7,6 +7,7 @@ import {
   buildInstagramMedia,
   containerState,
   facebookUploadHeaders,
+  pageIdsFromGranularScopes,
   validateReelVideo,
 } from "./meta.mjs";
 
@@ -159,5 +160,51 @@ describe("facebookUploadHeaders", () => {
 
     expect(h.offset).toBe("0");
     expect(h.file_size).toBe("1234");
+  });
+});
+
+describe("pageIdsFromGranularScopes", () => {
+  /**
+   * The real /debug_token payload from the account that hit this, trimmed to
+   * the fields that matter. /me/accounts returned [] against this very token.
+   */
+  const payload = {
+    data: {
+      app_id: "1035221632741431",
+      scopes: ["pages_show_list", "instagram_basic", "instagram_content_publish"],
+      granular_scopes: [
+        { scope: "pages_show_list", target_ids: ["1239712085890849"] },
+        { scope: "instagram_basic", target_ids: ["17841425392432041"] },
+        { scope: "pages_read_engagement", target_ids: ["1239712085890849"] },
+      ],
+    },
+  };
+
+  test("recovers the Page id the token is scoped to", () => {
+    expect(pageIdsFromGranularScopes(payload)).toEqual(["1239712085890849"]);
+  });
+
+  /**
+   * pages_show_list is the scope that governs Page enumeration. Reading any
+   * other scope's targets would return Instagram ids, which are NOT Pages and
+   * would 404 when addressed as one.
+   */
+  test("reads pages_show_list, not whichever scope comes first", () => {
+    const reordered = {
+      data: {
+        granular_scopes: [
+          { scope: "instagram_basic", target_ids: ["17841425392432041"] },
+          { scope: "pages_show_list", target_ids: ["1239712085890849"] },
+        ],
+      },
+    };
+
+    expect(pageIdsFromGranularScopes(reordered)).toEqual(["1239712085890849"]);
+  });
+
+  test("returns nothing when the token holds no Page at all", () => {
+    expect(pageIdsFromGranularScopes({ data: { granular_scopes: [] } })).toEqual([]);
+    expect(pageIdsFromGranularScopes({ data: {} })).toEqual([]);
+    expect(pageIdsFromGranularScopes({})).toEqual([]);
   });
 });

@@ -83,6 +83,26 @@ export const containerState = (payload) => {
   return { done: false, ok: false };
 };
 
+/**
+ * The Page ids a token is actually scoped to, read from /debug_token.
+ *
+ * 🪤 `/me/accounts` can return an EMPTY list for a token that demonstrably
+ * holds the Page — observed on this account 2026-07-30, where the Page was
+ * ticked in Business Integrations and the debugger showed
+ * `pages_show_list → 1239712085890849 : Numevix`, yet the edge stayed `[]`.
+ * Re-consenting cannot fix it because nothing is actually wrong with the grant.
+ *
+ * Granular scopes are the authoritative record of what a token may touch, so
+ * when the convenience edge comes up empty we read them instead and address
+ * the Page directly. `pages_show_list` is the scope to trust: it is the one
+ * that governs Page enumeration, and it is what /me/accounts itself checks.
+ */
+export const pageIdsFromGranularScopes = (payload) => {
+  const scopes = payload?.data?.granular_scopes ?? [];
+  const pages = scopes.find((s) => s.scope === "pages_show_list");
+  return pages?.target_ids ?? [];
+};
+
 // ── Facebook Reels ──────────────────────────────────────────────────────────
 //
 // Same Meta app and the same Page token as Instagram, but a different
