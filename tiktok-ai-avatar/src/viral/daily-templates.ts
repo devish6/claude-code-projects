@@ -96,6 +96,74 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     ctaText: "Comment your date for your grid",
     music: MUSIC.aggroTechnoV12,
   },
+
+  "Viral-15-CommentBait-RateThisOutOf10ForAccuracy": {
+    hookText: "RATE THIS OUT OF 10",
+    hookAccent: "FOR ACCURACY",
+    hookSub: "I'll take the criticism",
+    variant: "identity",
+    buildSetup: "Every numerology account says 'this is so accurate'...",
+    buildReveal: "So instead of telling you, I'm asking you to grade it.",
+    number: 9,
+    numberLabel: "Example: Moolank 9",
+    traits: ["Read the four traits below", "Score them 1 to 10", "Say which one missed", "I read every comment"],
+    ctaText: "Rate it below — be honest",
+    music: MUSIC.voltSlope,
+    structure: { hook: 1.2, build: 3.6, value: 7.4, cta: 2 },
+    palette: "ember",
+    layout: "centered",
+  },
+
+  "Viral-16-Story-WhatIGotWrongAboutNumber4": {
+    hookText: "WHAT I GOT WRONG",
+    hookAccent: "ABOUT NUMBER 4",
+    hookSub: "I owe 4s an apology",
+    variant: "contrarian",
+    buildSetup: "I called 4s 'rigid' in an early post...",
+    buildReveal: "That's not what Rahu does. Rahu breaks rigid systems, it doesn't build them.",
+    number: 4,
+    numberLabel: "Ruled by Rahu",
+    traits: ["Not rigid — relentless", "Not stubborn — structured", "Builds what didn't exist", "Outsiders change the game"],
+    ctaText: "4s — did I get it right this time?",
+    music: MUSIC.hardstyleV10,
+    structure: { hook: 2.4, build: 7.8, value: 14.8, cta: 2.8 },
+    palette: "ink-violet",
+    layout: "split",
+  },
+
+  "Viral-17-Educational-BirthVsDestinyIn15Seconds": {
+    hookText: "BIRTH vs DESTINY",
+    hookAccent: "IN 15 SECONDS",
+    hookSub: "They are not the same number",
+    variant: "mystery",
+    buildSetup: "Two numbers, one birth date, and everyone mixes them up...",
+    buildReveal: "One is who you are day to day. The other is where you're headed.",
+    number: 3,
+    numberLabel: "Side-by-side example",
+    traits: ["Birth number = daily instinct", "Destiny number = the long arc", "They can agree or clash", "Both are in your free chart"],
+    ctaText: "Comment your date for both numbers",
+    music: MUSIC.cashFlowAnthem,
+    structure: { hook: 2, build: 6.4, value: 12.4, cta: 2.6 },
+    palette: "sage-gold",
+    layout: "grid",
+  },
+
+  "Viral-18-Educational-ThursdayRunsOnJupiter": {
+    hookText: "THURSDAY RUNS ON",
+    hookAccent: "JUPITER",
+    hookSub: "A thoughtful day, well suited to learning, guidance and…",
+    variant: "mystery",
+    buildSetup: "Every weekday answers to a different planet…",
+    buildReveal: "Today's is the one people misread most.",
+    number: 3,
+    numberLabel: "Ruled by Jupiter",
+    traits: ["Jupiter rules the day", "Element: Ether", "Colours: Yellow & Gold", "Numbers: 3, 12, 21, 30"],
+    ctaText: "Today's energy, free — numevix.com/tarot",
+    music: MUSIC.voltSlope,
+    structure: { hook: 2.4, build: 7.8, value: 14.8, cta: 2.8 },
+    palette: "ink-violet",
+    layout: "centered",
+  },
 };
 
 export const DAILY_COVERS: Record<
@@ -142,5 +210,33 @@ export const DAILY_COVERS: Record<
     title: "THE 3x3 GRID",
     accent: "IN YOUR BIRTH DATE",
     number: 4,
+  },
+
+  "Viral-15-CommentBait-RateThisOutOf10ForAccuracy": {
+    kicker: "Example: Moolank 9",
+    title: "RATE THIS OUT OF 10",
+    accent: "FOR ACCURACY",
+    number: 9,
+  },
+
+  "Viral-16-Story-WhatIGotWrongAboutNumber4": {
+    kicker: "Ruled by Rahu",
+    title: "WHAT I GOT WRONG",
+    accent: "ABOUT NUMBER 4",
+    number: 4,
+  },
+
+  "Viral-17-Educational-BirthVsDestinyIn15Seconds": {
+    kicker: "Side-by-side example",
+    title: "BIRTH vs DESTINY",
+    accent: "IN 15 SECONDS",
+    number: 3,
+  },
+
+  "Viral-18-Educational-ThursdayRunsOnJupiter": {
+    kicker: "Ruled by Jupiter",
+    title: "THURSDAY RUNS ON",
+    accent: "JUPITER",
+    number: 3,
   },
 };

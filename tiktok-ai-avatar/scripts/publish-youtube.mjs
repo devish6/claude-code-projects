@@ -66,11 +66,23 @@ const die = (msg) => {
  * desktop clients, so the code comes back to a local server instead.
  */
 const authorize = async () => {
-  const rl = createInterface({ input: process.stdin, output: process.stdout });
-  log("\nPaste the two values from your Google Cloud OAuth client (Desktop app).\n");
-  const clientId = (await rl.question("client_id: ")).trim();
-  const clientSecret = (await rl.question("client_secret: ")).trim();
-  rl.close();
+  // The client id/secret belong to the PROJECT and do not change when you
+  // switch account or channel — only the refresh token does. Reuse them so
+  // re-authorizing a different channel needs no copy-paste.
+  const existing = loadCredentials()?.youtube;
+  let clientId = existing?.client_id;
+  let clientSecret = existing?.client_secret;
+
+  if (clientId && clientSecret) {
+    log(`\nReusing the stored OAuth client (…${clientId.slice(-14)}).`);
+    log("Delete ~/.numevix-publish/credentials.json to enter a different one.\n");
+  } else {
+    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    log("\nPaste the two values from your Google Cloud OAuth client (Desktop app).\n");
+    clientId = (await rl.question("client_id: ")).trim();
+    clientSecret = (await rl.question("client_secret: ")).trim();
+    rl.close();
+  }
 
   if (!clientId || !clientSecret) die("Both values are required.");
 
@@ -87,7 +99,12 @@ const authorize = async () => {
       // Required to get a refresh token at all, and `consent` forces one to be
       // reissued even if this client was authorized before.
       access_type: "offline",
-      prompt: "consent",
+      // `select_account` matters as much as `consent`: without it Google
+      // silently uses whichever account the browser is already signed into,
+      // which is how the wrong channel gets authorized. If the account owns
+      // brand channels, the picker that follows chooses the CHANNEL — the
+      // right Google account can still mean the wrong channel.
+      prompt: "select_account consent",
     });
 
   log("\nOpen this URL, sign in as the channel owner, and grant access:\n");
@@ -122,10 +139,17 @@ const authorize = async () => {
       client_id: clientId,
       client_secret: clientSecret,
       refresh_token: tokens.refresh_token,
+      // 🔴 Must be cleared, not left to merge. saveCredentials merges per
+      // platform, so a cached access token from a PREVIOUS grant would survive
+      // re-authorization and keep working for up to an hour — meaning uploads
+      // would silently keep going to the old channel after you switched.
+      token: null,
     },
   });
 
   log(`\n✅ Stored in ${CREDENTIALS_PATH} (owner-readable only).`);
+  log("   This replaced any previous grant — the channel you just picked is the");
+  log("   one every upload will go to. Run --check to confirm before uploading.");
   log("⚠️  While the OAuth app is in Testing status Google expires refresh tokens");
   log("   after 7 days. Publish the app to Production in the consent screen to");
   log("   keep unattended posting working.");
