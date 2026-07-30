@@ -1,7 +1,8 @@
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
 import { UI } from "../fonts";
-import { ACCENT, ACCENT_GREEN, TEXT, TEXT_SHADOW } from "../palette";
+import { useLayout } from "../layout";
+import { usePalette } from "../PaletteContext";
 import { SlideIn, useFloat, useSpringAt } from "../motion";
 
 /**
@@ -16,6 +17,8 @@ export const TraitBullet: React.FC<{
   delay?: number;
   index?: number;
 }> = ({ text, delay = 0, index = 0 }) => {
+  const P = usePalette();
+  const L = useLayout();
   const frame = useCurrentFrame();
   const s = useSpringAt(delay + 3, "snap");
   const floatY = useFloat(4, 2.6, index * 0.8);
@@ -44,7 +47,7 @@ export const TraitBullet: React.FC<{
             cy={32}
             r={26}
             fill="none"
-            stroke={ACCENT_GREEN}
+            stroke={P.ACCENT_GREEN}
             strokeWidth={3}
             strokeDasharray={CIRC}
             strokeDashoffset={drawn}
@@ -54,7 +57,7 @@ export const TraitBullet: React.FC<{
           <path
             d="M20 33 L28 41 L44 24"
             fill="none"
-            stroke={ACCENT}
+            stroke={P.ACCENT}
             strokeWidth={4}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -65,11 +68,11 @@ export const TraitBullet: React.FC<{
         <span
           style={{
             fontFamily: UI,
-            fontSize: 64,
+            fontSize: L.traitSize,
             fontWeight: 800,
-            color: TEXT,
+            color: P.TEXT,
             lineHeight: 1.2,
-            textShadow: TEXT_SHADOW,
+            textShadow: P.TEXT_SHADOW,
           }}
         >
           {text}

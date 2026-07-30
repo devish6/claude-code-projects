@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { DISPLAY, UI } from "../fonts";
-import { ACCENT, ACCENT_GREEN, ON_GREEN, TEXT, TEXT_SHADOW } from "../palette";
+import { usePalette } from "../PaletteContext";
 import { Snap, useFloat, useGlowPulse } from "../motion";
 
 /**
@@ -30,6 +30,7 @@ export const CTAEnding: React.FC<{
    */
   uiFont?: string;
 }> = ({ text, url = "numevix.com", brandName = "Numevix", uiFont = UI }) => {
+  const P = usePalette();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const glow = useGlowPulse("rgba(120,88,24,0.36)", 1.2);
@@ -58,8 +59,8 @@ export const CTAEnding: React.FC<{
             fontSize: 76,
             fontWeight: 900,
             lineHeight: 1.12,
-            color: TEXT,
-            textShadow: TEXT_SHADOW,
+            color: P.TEXT,
+            textShadow: P.TEXT_SHADOW,
           }}
         >
           {text}
@@ -83,7 +84,7 @@ export const CTAEnding: React.FC<{
             fontFamily: DISPLAY,
             fontSize: 104,
             fontWeight: 900,
-            color: ACCENT,
+            color: P.ACCENT,
             letterSpacing: 3,
             textShadow: glow,
           }}
@@ -97,9 +98,9 @@ export const CTAEnding: React.FC<{
           style={{
             marginTop: 26,
             transform: `scale(${pulse})`,
-            background: ACCENT_GREEN,
-            border: `2px solid ${ACCENT}`,
-            color: ON_GREEN,
+            background: P.ACCENT_GREEN,
+            border: `2px solid ${P.ACCENT}`,
+            color: P.ON_GREEN,
             fontFamily: UI,
             fontWeight: 900,
             fontSize: 48,
@@ -118,7 +119,7 @@ export const CTAEnding: React.FC<{
           height: 4,
           width: 300 * underline,
           borderRadius: 4,
-          background: ACCENT,
+          background: P.ACCENT,
           opacity: 0.9,
         }}
       />

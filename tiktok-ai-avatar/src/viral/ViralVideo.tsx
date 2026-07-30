@@ -10,7 +10,8 @@ import { PatternInterrupt } from "./components/PatternInterrupt";
 import { TraitBullet } from "./components/TraitBullet";
 import { ViralHook, type HookVariant } from "./components/ViralHook";
 import { useShake } from "./motion";
-import { TEXT } from "./palette";
+import { LayoutProvider, useLayout } from "./layout";
+import { PaletteProvider, usePalette } from "./PaletteContext";
 import { ACT, BULLET_STAGGER, makeActs, makeValueScenes, type ActSeconds } from "./timing";
 
 export type ViralVideoProps = {
@@ -36,6 +37,18 @@ export type ViralVideoProps = {
    * content. See scripts/lib/variation.mjs.
    */
   structure?: ActSeconds;
+  /**
+   * Palette name. Optional so the locked baseline keeps the original
+   * sage-gold; every new video sets it. One palette across all 14 videos was
+   * itself part of the duplicate fingerprint.
+   */
+  palette?: string;
+  /**
+   * Layout name. Optional so the locked baseline stays "centered". Varying
+   * duration alone still left every frame sharing one arrangement, which is
+   * the half of the fingerprint a scrolling human actually notices.
+   */
+  layout?: string;
 };
 
 // The value act's scene budgets are computed per video by makeValueScenes in
@@ -76,6 +89,8 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   ctaText,
   music,
   structure,
+  palette,
+  layout,
 }) => {
   const acts = structure ? makeActs(structure) : ACT;
   const scenes = makeValueScenes(acts.valueEnd - acts.valueStart);
@@ -93,7 +108,9 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   const shake = useShake(acts.valueStart, 10, 7);
 
   return (
-    <AbsoluteFill>
+    <PaletteProvider name={palette}>
+      <LayoutProvider name={layout}>
+      <AbsoluteFill>
       {/* fadeFloor: the viral beds are picked for a hard transient ON FRAME 0
           (see the 150 BPM notes in brand.ts). The old 0-floor fade multiplied
           exactly that transient by zero. 0.85 over 2 frames keeps the hit
@@ -172,7 +189,9 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
           <CTAEnding text={ctaText} durationInFrames={acts.total - acts.ctaStart} />
         </CinematicTransition>
       </Sequence>
-    </AbsoluteFill>
+      </AbsoluteFill>
+      </LayoutProvider>
+    </PaletteProvider>
   );
 };
 
@@ -180,19 +199,28 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
 const TraitPair: React.FC<{ traits: string[]; startIndex: number }> = ({
   traits,
   startIndex,
-}) => (
-  <AbsoluteFill
-    style={{
-      justifyContent: "center",
-      padding: "0 80px",
-      gap: 64,
-    }}
-  >
-    {traits.map((t, i) => (
-      <TraitBullet key={t} text={t} delay={i * BULLET_STAGGER} index={startIndex + i} />
-    ))}
-  </AbsoluteFill>
-);
+}) => {
+  const L = useLayout();
+
+  return (
+    <AbsoluteFill
+      style={{
+        justifyContent: L.justify,
+        alignItems: L.align === "center" ? "center" : "flex-start",
+        textAlign: L.align,
+        padding: `0 ${L.padX}px ${L.safeBottom}px`,
+        gap: L.gap,
+        ...(L.traitFlow === "grid"
+          ? { display: "grid", gridTemplateColumns: "1fr 1fr", alignContent: "center" }
+          : {}),
+      }}
+    >
+      {traits.map((t, i) => (
+        <TraitBullet key={t} text={t} delay={i * BULLET_STAGGER} index={startIndex + i} />
+      ))}
+    </AbsoluteFill>
+  );
+};
 
 /** Rapid recap — 4 traits flash past in 1.4s to spike rewatches. */
 const Montage: React.FC<{ traits: string[]; total: number }> = ({ traits, total }) => (
@@ -220,17 +248,23 @@ const Montage: React.FC<{ traits: string[]; total: number }> = ({ traits, total 
   </AbsoluteFill>
 );
 
-const MontageWord: React.FC<{ text: string }> = ({ text }) => (
-  <div
-    style={{
-      fontFamily: "inherit",
-      fontSize: 88,
-      fontWeight: 900,
-      color: TEXT,
-      lineHeight: 1.1,
-      textShadow: "0 2px 12px rgba(52,44,18,0.32)",
-    }}
-  >
-    {text}
-  </div>
-);
+const MontageWord: React.FC<{ text: string }> = ({ text }) => {
+  const P = usePalette();
+
+  return (
+    <div
+      style={{
+        fontFamily: "inherit",
+        fontSize: 88,
+        fontWeight: 900,
+        color: P.TEXT,
+        lineHeight: 1.1,
+        // Was a hardcoded warm drop shadow, which is invisible on the two dark
+        // palettes. The palette owns the treatment now.
+        textShadow: P.TEXT_SHADOW,
+      }}
+    >
+      {text}
+    </div>
+  );
+};

@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { DISPLAY, UI } from "../fonts";
-import { ACCENT, ACCENT_ALERT, TEXT, TEXT_SHADOW } from "../palette";
+import { usePalette } from "../PaletteContext";
 import { Burst, useAberration, useCameraDrift, useGlowPulse } from "../motion";
 
 export type HookVariant = "identity" | "contrarian" | "mystery";
@@ -35,6 +35,7 @@ export const ViralHook: React.FC<{
   displayFont = DISPLAY,
   uiFont = UI,
 }) => {
+  const P = usePalette();
   const frame = useCurrentFrame();
   const scale = useCameraDrift(durationInFrames, 1, 1.08);
   const ab = useAberration(0, 8, 10);
@@ -43,7 +44,7 @@ export const ViralHook: React.FC<{
     1.2,
   );
 
-  const accentColor = variant === "contrarian" ? ACCENT_ALERT : ACCENT;
+  const accentColor = variant === "contrarian" ? P.ACCENT_ALERT : P.ACCENT;
 
   // Hard cut: text is at full size on frame 0, then settles. No opacity ramp.
   const settle = interpolate(frame, [0, 5], [1.12, 1], {
@@ -67,9 +68,9 @@ export const ViralHook: React.FC<{
             fontSize: 112,
             fontWeight: 900,
             lineHeight: 1.02,
-            color: TEXT,
+            color: P.TEXT,
             letterSpacing: -1,
-            textShadow: TEXT_SHADOW,
+            textShadow: P.TEXT_SHADOW,
             transform: `scale(${settle})`,
           }}
         >
@@ -133,9 +134,9 @@ export const ViralHook: React.FC<{
               fontFamily: uiFont,
               fontSize: 52,
               fontWeight: 700,
-              color: TEXT,
+              color: P.TEXT,
               opacity: 0.9,
-              textShadow: TEXT_SHADOW,
+              textShadow: P.TEXT_SHADOW,
             }}
           >
             {subtext}

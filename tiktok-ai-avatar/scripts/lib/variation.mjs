@@ -38,8 +38,14 @@ export const STRUCTURES = [
  */
 export const TEMPOS = [128, 140, 150, 165];
 
-/** Distinct visual arrangements, not one engine with different words. */
-export const LAYOUTS = ["centered", "split", "fullbleed", "grid", "footage"];
+/**
+ * Distinct visual arrangements, not one engine with different words.
+ *
+ * "footage" was considered and dropped: the only footage available is the
+ * owner's personal talking-head files, which are gitignored out of this public
+ * repo, so a layout depending on them could not render on a clean checkout.
+ */
+export const LAYOUTS = ["centered", "split", "fullbleed", "grid", "stack"];
 
 /** One palette across 14 videos was itself a fingerprint. */
 export const PALETTES = ["sage-gold", "ink-violet", "ember", "mono"];

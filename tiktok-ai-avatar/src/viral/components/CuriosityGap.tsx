@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Sequence, useCurrentFrame } from "remotion";
 import { DISPLAY, UI } from "../fonts";
-import { ACCENT, TEXT, TEXT_SHADOW } from "../palette";
+import { usePalette } from "../PaletteContext";
 import { Snap, useCameraDrift, useGlowPulse } from "../motion";
 
 /**
@@ -72,6 +72,7 @@ const GapLine: React.FC<{
   displayFont: string;
   uiFont: string;
 }> = ({ text, kind, durationInFrames, displayFont, uiFont }) => {
+  const P = usePalette();
   const isReveal = kind === "reveal";
   const scale = useCameraDrift(durationInFrames, 1, isReveal ? 1.07 : 1.04);
   const glow = useGlowPulse("rgba(120,88,24,0.34)", 1.4);
@@ -93,8 +94,8 @@ const GapLine: React.FC<{
             fontSize: isReveal ? 100 : 80,
             fontWeight: isReveal ? 900 : 700,
             lineHeight: 1.1,
-            color: isReveal ? ACCENT : TEXT,
-            textShadow: isReveal ? glow : TEXT_SHADOW,
+            color: isReveal ? P.ACCENT : P.TEXT,
+            textShadow: isReveal ? glow : P.TEXT_SHADOW,
           }}
         >
           {text}

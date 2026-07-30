@@ -54,6 +54,8 @@ const propsLiteral = (v) => {
     p.structure
       ? `    structure: { hook: ${p.structure.hook}, build: ${p.structure.build}, value: ${p.structure.value}, cta: ${p.structure.cta} },`
       : null,
+    p.palette ? `    palette: ${litStr(p.palette)},` : null,
+    p.layout ? `    layout: ${litStr(p.layout)},` : null,
     "  }",
   ]
     .filter(Boolean)

@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { hash } from "../../lib/brand";
 import { DISPLAY, UI } from "../fonts";
-import { ACCENT, MOTE, TEXT, TEXT_SHADOW } from "../palette";
+import { usePalette } from "../PaletteContext";
 import { Snap, useCameraDrift, useGlowPulse, useSpringAt } from "../motion";
 
 /**
@@ -19,6 +19,7 @@ export const NumberReveal: React.FC<{
   settleAt?: number;
   durationInFrames: number;
 }> = ({ number, label, settleAt = 12, durationInFrames }) => {
+  const P = usePalette();
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
   const s = useSpringAt(settleAt, "burst");
@@ -63,7 +64,7 @@ export const NumberReveal: React.FC<{
                   width: size,
                   height: size,
                   borderRadius: "50%",
-                  background: MOTE,
+                  background: P.MOTE,
                   opacity: interpolate(burst, [0, 0.2, 1], [0, 1, 0]),
                   boxShadow: `0 1px 4px rgba(60,50,20,0.35)`,
                 }}
@@ -83,7 +84,7 @@ export const NumberReveal: React.FC<{
           marginLeft: -ringSize / 2,
           marginTop: -ringSize / 2,
           borderRadius: "50%",
-          border: `4px solid ${ACCENT}`,
+          border: `4px solid ${P.ACCENT}`,
           opacity: ringOpacity,
         }}
       />
@@ -96,7 +97,7 @@ export const NumberReveal: React.FC<{
           fontFamily: DISPLAY,
           fontSize: 460,
           fontWeight: 900,
-          color: ACCENT,
+          color: P.ACCENT,
           textShadow: glow,
           lineHeight: 1,
         }}
@@ -113,8 +114,8 @@ export const NumberReveal: React.FC<{
               fontWeight: 800,
               letterSpacing: 4,
               textTransform: "uppercase",
-              color: TEXT,
-              textShadow: TEXT_SHADOW,
+              color: P.TEXT,
+              textShadow: P.TEXT_SHADOW,
               textAlign: "center",
             }}
           >

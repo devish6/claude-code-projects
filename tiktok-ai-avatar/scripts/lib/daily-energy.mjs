@@ -103,7 +103,7 @@ const truncate = (text, budget) => {
  * @param {DayEnergy} day
  * @param {{ music: string }} opts
  */
-export const toDailyEnergyProps = (day, { music, structure }) => ({
+export const toDailyEnergyProps = (day, { music, structure, palette, layout }) => ({
   hookText: `${day.weekday.toUpperCase()} RUNS ON`,
   hookAccent: day.planet.toUpperCase(),
   hookSub: truncate(day.tagline, SUB_BUDGET),
@@ -118,6 +118,8 @@ export const toDailyEnergyProps = (day, { music, structure }) => ({
   // Per-video act structure. Without it this renders at the fingerprinted
   // 17.45s like everything else and simply adds to the duplicate pile.
   ...(structure ? { structure } : {}),
+  ...(palette ? { palette } : {}),
+  ...(layout ? { layout } : {}),
 });
 
 /** Where the daily-energy video sends people — the page the content came from. */
@@ -139,7 +141,7 @@ export const composeDailyEnergyEntry = ({ snapshot, weekday, v, music, date, str
     throw new Error(`daily-energy snapshot has no entry for ${weekday}`);
   }
 
-  const props = toDailyEnergyProps(day, { music, structure });
+  const props = toDailyEnergyProps(day, { music, structure, palette: variation?.palette, layout: variation?.layout });
 
   return {
     v,

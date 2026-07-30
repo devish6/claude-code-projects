@@ -128,6 +128,8 @@ const batch = concepts.map((concept, slot) => {
     ctaText: concept.ctaText,
     music,
     structure: structureById(variation.structure),
+    palette: variation.palette,
+    layout: variation.layout,
   };
 
   const entry = {

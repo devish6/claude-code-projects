@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { hash, hashRange } from "../../lib/brand";
 import { Dial } from "../../components/vfx";
-import { DIAL_INK, GRAD_A, GRAD_B, GRAD_MID, HALO, MOTE, VIGNETTE } from "../palette";
+import { usePalette } from "../PaletteContext";
 
 /**
  * Living backdrop — light sage-and-gold gradient with a slowly rotating
@@ -23,6 +23,7 @@ export const AstrolBackground: React.FC<{
   /** Reacts to a beat/text hit — brief warmth lift. */
   pulseAt?: number[];
 }> = ({ rotationSpeed = 6, particleDensity = 70, pulseAt = [] }) => {
+  const P = usePalette();
   const frame = useCurrentFrame();
   const { fps, width, height } = useVideoConfig();
   const t = frame / fps;
@@ -41,7 +42,7 @@ export const AstrolBackground: React.FC<{
   return (
     <AbsoluteFill
       style={{
-        background: `linear-gradient(${angle}deg, ${GRAD_A} 0%, ${GRAD_MID} 48%, ${GRAD_B} 100%)`,
+        background: `linear-gradient(${angle}deg, ${P.GRAD_A} 0%, ${P.GRAD_MID} 48%, ${P.GRAD_B} 100%)`,
       }}
     >
       {/* Warm halo behind the subject */}
@@ -49,12 +50,12 @@ export const AstrolBackground: React.FC<{
         style={{
           background: `radial-gradient(ellipse ${68 * haloScale}% ${
             44 * haloScale
-          }% at 50% ${haloY}%, ${HALO}, transparent 66%)`,
+          }% at 50% ${haloY}%, ${P.HALO}, transparent 66%)`,
         }}
       />
 
       {/* Numerology dial, drawn in ink so it survives the light ground */}
-      <AbsoluteFill style={{ color: DIAL_INK }}>
+      <AbsoluteFill style={{ color: P.DIAL_INK }}>
         <Dial rot={t * rotationSpeed} opacity={0.13 + pulse * 0.06} />
         <Dial rot={-t * (rotationSpeed * 0.6) + 15} opacity={0.07} />
       </AbsoluteFill>
@@ -79,7 +80,7 @@ export const AstrolBackground: React.FC<{
                 width: size,
                 height: size,
                 borderRadius: "50%",
-                background: MOTE,
+                background: P.MOTE,
                 opacity: twinkle,
                 boxShadow: `0 1px 3px rgba(60,50,20,0.25)`,
               }}
@@ -91,7 +92,7 @@ export const AstrolBackground: React.FC<{
       {/* Warm edge darkening — anchors the frame, keeps text off the edges */}
       <AbsoluteFill
         style={{
-          background: `radial-gradient(ellipse 88% 88% at 50% 50%, transparent 54%, ${VIGNETTE} 100%)`,
+          background: `radial-gradient(ellipse 88% 88% at 50% 50%, transparent 54%, ${P.VIGNETTE} 100%)`,
         }}
       />
     </AbsoluteFill>
