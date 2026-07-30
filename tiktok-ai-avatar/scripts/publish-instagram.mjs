@@ -96,7 +96,23 @@ const authorize = async () => {
     die(`Could not list Pages: ${e.message}`),
   );
   if (!pages.data?.length) {
-    die("No Pages on this account. Instagram Reels publishing requires a Facebook Page\nlinked to an Instagram Business or Creator account.");
+    // An empty list is ambiguous, and the two causes need different fixes.
+    // Distinguishing them here saves a round of guessing.
+    die(
+      "/me/accounts returned no Pages.\n\n" +
+        "Two different causes, and they need different fixes:\n\n" +
+        "1. THE PAGE WASN'T GRANTED (most common). The Facebook dialog asks which\n" +
+        "   Pages the app may use, and it is easy to click past. The token then\n" +
+        "   looks valid but can see no Pages.\n" +
+        "   Fix: in Graph API Explorer, regenerate the token and TICK YOUR PAGE in\n" +
+        "   that dialog. Verify before returning here by submitting: me/accounts\n" +
+        "   — it must list the Page. An empty `data: []` means it still wasn't granted.\n\n" +
+        "2. THERE IS NO PAGE. Instagram Reels publishing needs one; a Creator or\n" +
+        "   Business Instagram account alone is not enough.\n" +
+        "   Fix: create a Page at facebook.com/pages/create, then link it in\n" +
+        "   Instagram → Settings → Account type and tools → Sharing to other apps.\n\n" +
+        "Check which one you are in at: facebook.com/pages/?category=your_pages",
+    );
   }
 
   // Find the Page whose linked Instagram account we can publish to.
