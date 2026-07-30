@@ -27,3 +27,9 @@ deshane-chiro/
 # Personal talking-head source footage — the owner filmed at home. This repo
 # is PUBLIC and Pages-served, so raw footage of a person must not be committed.
 tiktok-ai-avatar/public/talking/
+
+# MCP server config. Today it holds one public SSE URL and no secret, but this
+# is the file that grows an API key the moment a keyed server is added — and
+# the rule above is that nothing bearing a key or endpoint enters a public,
+# Pages-served repo. It is per-machine tooling, not part of any project here.
+.mcp.json
