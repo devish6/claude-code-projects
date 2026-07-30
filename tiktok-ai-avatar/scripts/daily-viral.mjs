@@ -33,7 +33,12 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 
 import { DEST, exportOne } from "./export-viral.mjs";
+import {
+  DAILY_ENERGY_DESTINATION,
+  composeDailyEnergyEntry,
+} from "./lib/daily-energy.mjs";
 import { makeHookIndex } from "./lib/hooks-source.mjs";
+import { utmLinksForVideo } from "./lib/utm.mjs";
 import { pickAlgorithmicBatch } from "./lib/picker.mjs";
 import { nextTrack, syncRestockNote, poolHealthy, FAST_TRACKS } from "./lib/music-pool.mjs";
 import { addVideo, formatV, loadState, nextVNumber, saveState } from "./lib/state.mjs";
@@ -46,6 +51,7 @@ const RUN_DATE = dateArg ?? new Date().toISOString().slice(0, 10);
 
 const WEEKLY_PLAN_PATH = "content/weekly-plan-w1.json";
 const HOOKS_PATH = "src/viral/hooks.ts";
+const DAILY_ENERGY_PATH = "content/daily-energy.json";
 
 const log = (...a) => process.stdout.write(a.join(" ") + "\n");
 
@@ -140,6 +146,41 @@ const batch = concepts.map((concept) => {
   return entry;
 });
 
+// ── Today's feed-driven daily-energy video (Slice 6c Part 2) ────────────
+// Additive: the plan/algorithmic picks above are untouched, per the spec.
+// A missing or unusable snapshot costs THIS video only -- never the batch.
+const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const todayWeekday = WEEKDAY_NAMES[new Date(`${RUN_DATE}T00:00:00Z`).getUTCDay()];
+
+if (!existsSync(DAILY_ENERGY_PATH)) {
+  log(`\n! No ${DAILY_ENERGY_PATH} — skipping the daily-energy video.`);
+  log("  Run `npm run sync:daily-energy` to create it. The day's other videos are unaffected.");
+} else {
+  try {
+    const snapshot = JSON.parse(readFileSync(DAILY_ENERGY_PATH, "utf8"));
+    const entry = composeDailyEnergyEntry({
+      snapshot,
+      weekday: todayWeekday,
+      v: formatV(nextVNumber(state, destForNumbering)),
+      music: nextTrack(state),
+      date: RUN_DATE,
+    });
+    addVideo(state, entry);
+    batch.push(entry);
+  } catch (err) {
+    log(`\n! daily-energy video skipped — ${String(err?.message ?? err)}`);
+    log("  The day's other videos are unaffected.");
+  }
+}
+
+// Every video carries a UTM-tagged link. This is the only join between
+// platform analytics (watch time, no site data) and GA4 (sessions and
+// sign-ups, no idea which video sent them). Untagged traffic is unattributable
+// forever -- there is no way to backfill it later.
+for (const entry of batch) {
+  entry.utmLinks ??= utmLinksForVideo(DAILY_ENERGY_DESTINATION, entry.v);
+}
+
 // ── Preview (dry-run stops here after this block) ───────────────────────
 for (const entry of batch) {
   log(`\n${entry.v} - ${entry.title}  [${entry.category} / Moolank ${entry.moolank} / ${entry.music}]`);
@@ -150,6 +191,7 @@ for (const entry of batch) {
   log(`  tiktok caption: ${entry.tiktokCaption}`);
   log(`  hashtags: ${(entry.hashtags ?? []).join(" ")}`);
   log(`  why it earns a comment: ${entry.whyComment}`);
+  log(`  tiktok link: ${entry.utmLinks.tiktok}`);
 }
 
 if (newHooks.length) {
@@ -221,6 +263,12 @@ for (const entry of batch) {
         "",
         `SUGGESTED POST TIME`,
         entry.suggestedPostTime,
+        "",
+        `LINK IN BIO / PROFILE — use the one matching where you post.`,
+        `Each is tagged utm_content=${entry.v}, which is what lets GA4 attribute`,
+        `sessions and sign-ups back to THIS video. Posting a bare numevix.com`,
+        `link instead makes that traffic permanently unattributable.`,
+        ...Object.entries(entry.utmLinks).map(([platform, link]) => `  ${platform}: ${link}`),
         "",
         `WHY THIS HOOK SHOULD WORK`,
         entry.whyComment,

@@ -31,7 +31,8 @@
     "test": "vitest run",
     "export:viral": "node scripts/export-viral.mjs",
     "hooks:doc": "node scripts/hooks-doc.mjs",
-    "daily:viral": "node scripts/daily-viral.mjs"
+    "daily:viral": "node scripts/daily-viral.mjs",
+    "sync:daily-energy": "node scripts/sync-daily-energy.mjs"
   },
   "sideEffects": [
     "*.css"

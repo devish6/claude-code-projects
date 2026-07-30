@@ -1,0 +1,126 @@
+{
+  "source": "https://numevix.com/tarot/feed.json",
+  "syncedAt": "2026-07-30",
+  "weekdays": {
+    "Thursday": {
+      "weekday": "Thursday",
+      "dayNumber": 3,
+      "planet": "Jupiter",
+      "element": "Ether",
+      "tagline": "A thoughtful day, well suited to learning, guidance and honest counsel.",
+      "luckyColors": [
+        "Yellow",
+        "Gold"
+      ],
+      "luckyNumbers": [
+        3,
+        12,
+        21,
+        30
+      ]
+    },
+    "Wednesday": {
+      "weekday": "Wednesday",
+      "dayNumber": 5,
+      "planet": "Mercury",
+      "element": "Earth",
+      "tagline": "A quick, talkative day that suits messages, deals and small moves.",
+      "luckyColors": [
+        "Green",
+        "Grey"
+      ],
+      "luckyNumbers": [
+        5,
+        14,
+        23
+      ]
+    },
+    "Tuesday": {
+      "weekday": "Tuesday",
+      "dayNumber": 9,
+      "planet": "Mars",
+      "element": "Fire",
+      "tagline": "A high-energy day suited to bold moves and direct action.",
+      "luckyColors": [
+        "Red",
+        "Pink",
+        "Crimson"
+      ],
+      "luckyNumbers": [
+        9,
+        18,
+        27
+      ]
+    },
+    "Monday": {
+      "weekday": "Monday",
+      "dayNumber": 2,
+      "planet": "Moon",
+      "element": "Water",
+      "tagline": "A soft, feeling day that suits care, connection and quiet intuition.",
+      "luckyColors": [
+        "White",
+        "Cream",
+        "Silver"
+      ],
+      "luckyNumbers": [
+        2,
+        11,
+        20,
+        29
+      ]
+    },
+    "Sunday": {
+      "weekday": "Sunday",
+      "dayNumber": 1,
+      "planet": "Sun",
+      "element": "Fire",
+      "tagline": "A day that suits standing at the front of your own life.",
+      "luckyColors": [
+        "Gold",
+        "Orange",
+        "Yellow"
+      ],
+      "luckyNumbers": [
+        1,
+        10,
+        19,
+        28
+      ]
+    },
+    "Saturday": {
+      "weekday": "Saturday",
+      "dayNumber": 8,
+      "planet": "Saturn",
+      "element": "Air",
+      "tagline": "A slow, disciplined day built for finishing work, not rushing it.",
+      "luckyColors": [
+        "Blue",
+        "Black",
+        "Purple"
+      ],
+      "luckyNumbers": [
+        8,
+        17,
+        26
+      ]
+    },
+    "Friday": {
+      "weekday": "Friday",
+      "dayNumber": 6,
+      "planet": "Venus",
+      "element": "Water",
+      "tagline": "A warm, sociable day drawn to beauty, connection and small comforts.",
+      "luckyColors": [
+        "White",
+        "Pink",
+        "Blue"
+      ],
+      "luckyNumbers": [
+        6,
+        15,
+        24
+      ]
+    }
+  }
+}
