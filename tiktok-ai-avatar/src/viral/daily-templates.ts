@@ -86,12 +86,12 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
   "Viral-12-Educational-The3x3GridInYourBirthDate": {
     hookText: "THE 3x3 GRID",
     hookAccent: "IN YOUR BIRTH DATE",
-    hookSub: "Lo Shu, explained simply",
+    hookSub: "The Vedic grid, explained",
     variant: "mystery",
     buildSetup: "Your birth date isn't just a number — it's a grid...",
     buildReveal: "Nine boxes. Some of yours are full. Some are empty.",
     number: 4,
-    numberLabel: "Lo Shu box example",
+    numberLabel: "Vedic grid box example",
     traits: ["Every digit fills one box", "Repeats fill a box twice", "Empty boxes matter too", "It's free on your chart"],
     ctaText: "Comment your date for your grid",
     music: MUSIC.aggroTechnoV12,
@@ -138,7 +138,7 @@ export const DAILY_COVERS: Record<
   },
 
   "Viral-12-Educational-The3x3GridInYourBirthDate": {
-    kicker: "Lo Shu box example",
+    kicker: "Vedic grid box example",
     title: "THE 3x3 GRID",
     accent: "IN YOUR BIRTH DATE",
     number: 4,

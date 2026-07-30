@@ -67,7 +67,7 @@ The bold part is line 1, the rest is the accent line rendered in colour.
 | `ed-compound` | **COMPOUND NUMBERS** EXPLAINED FAST | The two-digit one in your chart | — | mystery |
 | `ed-personal-year` | **WHAT A PERSONAL** YEAR ACTUALLY IS | It resets on your birthday | — | mystery |
 | `ed-friendly-numbers` | **WHICH NUMBERS** ACTUALLY GET ALONG | Find yours in 20 seconds | — | mystery |
-| `ed-lo-shu` | **THE 3x3 GRID** IN YOUR BIRTH DATE | Lo Shu, explained simply | — | mystery |
+| `ed-lo-shu` | **THE 3x3 GRID** IN YOUR BIRTH DATE | The Vedic grid, explained | — | mystery |
 | `ed-master-numbers` | **11 AND 22 DON'T** REDUCE. HERE'S WHY | Master numbers, quickly | — | mystery |
 | `ed-read-any-date` | **READ ANY BIRTH DATE** IN 3 STEPS | Steal this method | — | mystery |
 

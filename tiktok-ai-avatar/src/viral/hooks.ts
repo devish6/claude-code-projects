@@ -370,7 +370,7 @@ const EDUCATIONAL: Hook[] = [
     variant: "mystery",
     text: "THE 3x3 GRID",
     accent: "IN YOUR BIRTH DATE",
-    sub: "Lo Shu, explained simply",
+    sub: "The Vedic grid, explained",
   },
   {
     id: "ed-master-numbers",

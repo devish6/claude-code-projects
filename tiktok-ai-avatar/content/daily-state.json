@@ -297,10 +297,10 @@
       "needsReview": false,
       "whyComment": "Reveals a free tool feature they didn't know existed; 'empty boxes matter too' is an open loop people want resolved for their own chart.",
       "tiktokCaption": "Your birth date is secretly a 3x3 grid, and most people have never seen theirs. Comment your date for your grid 👇",
-      "instagramCaption": "Every digit in your birth date fills a box in a 3x3 grid — the Lo Shu grid. Repeats fill a box twice, and empty boxes matter just as much as full ones. It's free on your chart and most people never check it. Comment your birth date below and I'll pull up your grid 👇",
+      "instagramCaption": "Every digit in your birth date fills a box in a 3x3 grid — the Vedic grid. Repeats fill a box twice, and empty boxes matter just as much as full ones. It's free on your chart and most people never check it. Comment your birth date below and I'll pull up your grid 👇",
       "hashtags": [
         "#numerology",
-        "#loshugrid",
+        "#vedicgrid",
         "#vedicnumerology",
         "#birthnumber",
         "#numerologytok"
@@ -309,12 +309,12 @@
       "props": {
         "hookText": "THE 3x3 GRID",
         "hookAccent": "IN YOUR BIRTH DATE",
-        "hookSub": "Lo Shu, explained simply",
+        "hookSub": "The Vedic grid, explained",
         "variant": "mystery",
         "buildSetup": "Your birth date isn't just a number — it's a grid...",
         "buildReveal": "Nine boxes. Some of yours are full. Some are empty.",
         "number": 4,
-        "numberLabel": "Lo Shu box example",
+        "numberLabel": "Vedic grid box example",
         "traits": [
           "Every digit fills one box",
           "Repeats fill a box twice",

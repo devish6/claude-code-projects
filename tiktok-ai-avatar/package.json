@@ -32,7 +32,8 @@
     "export:viral": "node scripts/export-viral.mjs",
     "hooks:doc": "node scripts/hooks-doc.mjs",
     "daily:viral": "node scripts/daily-viral.mjs",
-    "sync:daily-energy": "node scripts/sync-daily-energy.mjs"
+    "sync:daily-energy": "node scripts/sync-daily-energy.mjs",
+    "publish:youtube": "node scripts/publish-youtube.mjs"
   },
   "sideEffects": [
     "*.css"
