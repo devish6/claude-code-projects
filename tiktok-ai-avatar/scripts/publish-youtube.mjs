@@ -40,6 +40,7 @@ import {
 } from "./lib/credentials.mjs";
 import {
   DAILY_UPLOAD_LIMIT,
+  alreadyUploaded,
   buildYouTubeMetadata,
   remainingUploadsToday,
   tokenIsExpired,
@@ -252,6 +253,16 @@ const upload = async () => {
     die(
       `Daily quota reached (${DAILY_UPLOAD_LIMIT} uploads). videos.insert costs 1600 of\n` +
         "10,000 units/day. Try again tomorrow, or request more quota.",
+    );
+  }
+
+  const seen = alreadyUploaded(uploadLog, entry.v);
+  if (seen && !has("force")) {
+    die(
+      `${entry.v} was already uploaded on ${seen.date} — https://youtube.com/watch?v=${seen.videoId}\n` +
+        "videos.insert always creates a NEW video, so re-running would put a SECOND\n" +
+        "copy on the channel rather than changing the first. To change its privacy,\n" +
+        "edit it in YouTube Studio. Pass --force only if a duplicate is genuinely wanted.",
     );
   }
 

@@ -95,3 +95,13 @@ export const tokenIsExpired = (token, now = new Date()) => {
   if (!token?.expiry) return true;
   return new Date(token.expiry).getTime() - REFRESH_MARGIN_MS <= now.getTime();
 };
+
+/**
+ * The upload-log row for a V, if it has already been published.
+ *
+ * videos.insert always creates a NEW video — there is no upsert and no way to
+ * change an existing video's privacy with the upload-only scope. So re-running
+ * an upload silently produces a duplicate on the channel rather than editing
+ * the original.
+ */
+export const alreadyUploaded = (log, v) => (log ?? []).find((row) => row.v === v);
