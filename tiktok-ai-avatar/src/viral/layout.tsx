@@ -22,6 +22,15 @@ export type LayoutSpec = {
   padX: number;
   /** Reserved space at the bottom for the platform's caption bar. */
   safeBottom: number;
+  /**
+   * Reserved space at the top.
+   *
+   * 🔴 Not cosmetic. A `flex-start` layout with no top padding pins text to
+   * y=0, where it is clipped by the frame edge and sits under the platform's
+   * own top chrome. The split layout shipped exactly that until a frame was
+   * pulled from a render and looked at.
+   */
+  safeTop: number;
   /** Where the block sits vertically. */
   justify: "flex-start" | "center" | "flex-end";
   /** Text alignment within the block. */
@@ -36,11 +45,14 @@ export type LayoutSpec = {
 
 /** TikTok's caption bar and action rail eat roughly the bottom 15%. */
 const SAFE_BOTTOM = Math.round(HEIGHT * 0.16);
+/** Clears the frame edge and the platform's top chrome. */
+const SAFE_TOP = Math.round(HEIGHT * 0.12);
 
 export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
   /** The original: everything centred, generous gaps. */
   centered: {
     padX: 80,
+    safeTop: SAFE_TOP,
     safeBottom: SAFE_BOTTOM,
     justify: "center",
     align: "center",
@@ -53,6 +65,7 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
   /** Content pinned high, so the lower third stays clear of the UI entirely. */
   split: {
     padX: 96,
+    safeTop: Math.round(HEIGHT * 0.2),
     safeBottom: Math.round(HEIGHT * 0.3),
     justify: "flex-start",
     align: "left",
@@ -65,6 +78,7 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
   /** Oversized type running edge to edge. Loud, minimal margin. */
   fullbleed: {
     padX: 48,
+    safeTop: SAFE_TOP,
     safeBottom: SAFE_BOTTOM,
     justify: "center",
     align: "left",
@@ -82,6 +96,7 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
    */
   grid: {
     padX: 56,
+    safeTop: SAFE_TOP,
     safeBottom: SAFE_BOTTOM,
     justify: "center",
     align: "left",
@@ -94,6 +109,7 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
   /** Editorial: left-aligned, tight, sitting low above the safe area. */
   stack: {
     padX: 88,
+    safeTop: SAFE_TOP,
     safeBottom: Math.round(HEIGHT * 0.22),
     justify: "flex-end",
     align: "left",

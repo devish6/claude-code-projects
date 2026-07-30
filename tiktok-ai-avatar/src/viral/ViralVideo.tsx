@@ -208,7 +208,7 @@ const TraitPair: React.FC<{ traits: string[]; startIndex: number }> = ({
         justifyContent: L.justify,
         alignItems: L.align === "center" ? "center" : "flex-start",
         textAlign: L.align,
-        padding: `0 ${L.padX}px ${L.safeBottom}px`,
+        padding: `${L.safeTop}px ${L.padX}px ${L.safeBottom}px`,
         gap: L.gap,
         ...(L.traitFlow === "grid"
           ? { display: "grid", gridTemplateColumns: "1fr 1fr", alignContent: "center" }

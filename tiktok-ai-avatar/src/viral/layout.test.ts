@@ -44,6 +44,11 @@ describe("LAYOUT_SPECS", () => {
       expect(s.safeBottom, `${name} sits under the caption bar`).toBeGreaterThanOrEqual(
         HEIGHT * 0.15,
       );
+      // A flex-start layout with no top padding pins text to y=0, where the
+      // frame edge clips it. The split layout shipped exactly that.
+      expect(s.safeTop, `${name} is flush against the top edge`).toBeGreaterThanOrEqual(
+        HEIGHT * 0.08,
+      );
     }
   });
 
