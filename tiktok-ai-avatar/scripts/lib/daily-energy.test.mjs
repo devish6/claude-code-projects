@@ -211,3 +211,23 @@ describe("composeDailyEnergyEntry", () => {
     expect(() => make({ snapshot: { weekdays: {} } })).toThrow(/Thursday/);
   });
 });
+
+describe("composeDailyEnergyEntry — structural variation", () => {
+  const snapshot = { weekdays: reduceFeedToWeekdays(thirtyDayFeed()) };
+  const structure = { hook: 1.2, build: 3.6, value: 7.4, cta: 2.0 };
+
+  test("carries the act structure onto the props, so it is not another 17.45s video", () => {
+    const entry = composeDailyEnergyEntry({
+      snapshot,
+      weekday: "Thursday",
+      v: "V15",
+      music: "hardstyleV10",
+      date: "2026-07-30",
+      structure,
+      variation: { structure: "snap", tempo: 128, layout: "split", palette: "ember" },
+    });
+
+    expect(entry.props.structure).toEqual(structure);
+    expect(entry.variation.layout).toBe("split");
+  });
+});

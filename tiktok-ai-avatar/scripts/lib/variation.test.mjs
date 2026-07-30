@@ -9,6 +9,7 @@ import {
   fingerprint,
   findDuplicateFingerprints,
   pickVariation,
+  structureById,
 } from "./variation.mjs";
 
 /**
@@ -193,5 +194,17 @@ describe("axis independence", () => {
 
     const variedStructures = [...pairs.values()].filter((tempos) => tempos.size > 1);
     expect(variedStructures.length).toBeGreaterThan(0);
+  });
+});
+
+describe("structureById", () => {
+  test("resolves an id to the act seconds ViralVideo needs", () => {
+    const acts = structureById("snap");
+
+    expect(acts).toEqual({ hook: 1.2, build: 3.6, value: 7.4, cta: 2.0 });
+  });
+
+  test("throws on an unknown id rather than rendering a default length", () => {
+    expect(() => structureById("nope")).toThrow(/nope/);
   });
 });

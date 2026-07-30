@@ -99,3 +99,43 @@ restocked; it will reappear if it drops below 6 again._
   writeFileSync(path, body);
   return { wrote: true, path };
 };
+
+/**
+ * Measured native tempo of each fast-track bed (autocorrelation sweep,
+ * 2026-07-24 — do not re-measure, these are recorded in the project notes).
+ *
+ * violinEnergetic reads 198.8, which is 99.4 half-time — the feel the ±6% rule
+ * says to avoid, so it is listed at its perceptual tempo.
+ */
+export const TRACK_BPM = {
+  violinEnergetic: 99.4,
+  trendV02: 123.1,
+  starlightV03: 139.7,
+  readyV04: 139.7,
+  cashFlowAnthem: 129.2,
+  voltSlope: 150.0,
+  blackVelvetAria: 137.8,
+  hardstyleV10: 150.0,
+  executorV11: 150.0,
+  aggroTechnoV12: 150.0,
+};
+
+/**
+ * Picks the bed whose measured tempo is nearest the target.
+ *
+ * Without this the tempo axis of the variation engine would be decorative:
+ * every video would keep using a ~150 BPM bed, transients would keep landing
+ * on the same frames, and half the duplicate signature would survive.
+ *
+ * Deterministic. `avoid` lets the caller refuse an immediate repeat.
+ */
+export const trackForTempo = (targetBpm, avoid) => {
+  const candidates = FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined).filter(
+    (t) => t !== avoid,
+  );
+  const pool = candidates.length ? candidates : FAST_TRACKS;
+
+  return pool.reduce((best, track) =>
+    Math.abs(TRACK_BPM[track] - targetBpm) < Math.abs(TRACK_BPM[best] - targetBpm) ? track : best,
+  );
+};

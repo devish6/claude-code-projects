@@ -23,6 +23,69 @@ export const VIRAL_TIMING = {
   total: 17.4,
 } as const;
 
+export type ActSeconds = {
+  hook: number;
+  build: number;
+  value: number;
+  cta: number;
+};
+
+/**
+ * Frame offsets for one act structure.
+ *
+ * Exists because `durationInFrames` used to be the single constant
+ * `ACT.total`, which made every video EXACTLY 17.450667s. TikTok read the set
+ * as repeated content and withheld it. Duration is the strongest signal a
+ * duplicate detector has, so it must vary per video — see
+ * scripts/lib/variation.mjs for the pool.
+ */
+export const makeActs = ({ hook, build, value, cta }: ActSeconds) => ({
+  hookStart: 0,
+  hookEnd: sec(hook),
+  buildStart: sec(hook),
+  buildEnd: sec(hook + build),
+  valueStart: sec(hook + build),
+  valueEnd: sec(hook + build + value),
+  ctaStart: sec(hook + build + value),
+  total: sec(hook + build + value + cta),
+});
+
+/**
+ * Splits a value act into its four scenes.
+ *
+ * These were hardcoded frame counts (72/72/42) sized for one 8.6s act, so any
+ * other act length would have run the montage past the CTA. Proportional now,
+ * with the montage floor enforced.
+ *
+ * 🔴 The montage floor is not a preference: 4 traits over 1.0s gave each
+ * ~0.23s, below reading threshold. 0.35s each is the measured floor.
+ */
+export const makeValueScenes = (valueFrames: number) => {
+  const MONTAGE_FLOOR = Math.ceil(0.35 * 4 * FPS); // 4 traits, 0.35s each
+
+  const montage = Math.max(MONTAGE_FLOOR, Math.round(valueFrames * 0.16));
+  const afterMontage = valueFrames - montage;
+  const number = Math.round(afterMontage * 0.3);
+  const pairBudget = afterMontage - number;
+
+  // 🔴 A longer act must add SCENES, not seconds. A pair shows two traits, so
+  // its ceiling is 2 x SCENE_CHANGE; stretching past that leaves one trait on
+  // screen beyond the 1.2s limit timing.ts calls governing — which is how a
+  // 14.8s value act ended up holding each trait for 2.05s.
+  const maxPair = SCENE_CHANGE * 2;
+  const count = Math.max(1, Math.ceil(pairBudget / maxPair));
+  // Round UP, so the remainder is absorbed by making the LAST pair shorter.
+  // Rounding down and dumping the remainder on the last pair pushed it over
+  // the ceiling by a frame — 1.217s against a 1.2s limit.
+  const even = Math.ceil(pairBudget / count);
+
+  const pairs = Array.from({ length: count }, (_, i) =>
+    i === count - 1 ? pairBudget - even * (count - 1) : even,
+  );
+
+  return { number, pairs, montage };
+};
+
 /** Frame offsets for each act. */
 export const ACT = {
   hookStart: 0,

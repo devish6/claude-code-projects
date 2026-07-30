@@ -40,7 +40,8 @@ import {
 import { makeHookIndex } from "./lib/hooks-source.mjs";
 import { utmLinksForVideo } from "./lib/utm.mjs";
 import { pickAlgorithmicBatch } from "./lib/picker.mjs";
-import { nextTrack, syncRestockNote, poolHealthy, FAST_TRACKS } from "./lib/music-pool.mjs";
+import { syncRestockNote, poolHealthy, FAST_TRACKS, trackForTempo } from "./lib/music-pool.mjs";
+import { findDuplicateFingerprints, pickVariation, structureById } from "./lib/variation.mjs";
 import { addVideo, formatV, loadState, nextVNumber, saveState } from "./lib/state.mjs";
 import { compositionId, writeDailyTemplates } from "./lib/templates-gen.mjs";
 
@@ -101,11 +102,18 @@ if (dayIndex <= 7) {
 
 // ── Assign V-numbers + music, build full props ──────────────────────────
 const destForNumbering = !DRY_RUN && existsSync(homedir()) ? DEST : null;
-const batch = concepts.map((concept) => {
+const batch = concepts.map((concept, slot) => {
   const vNum = nextVNumber(state, destForNumbering);
   const v = formatV(vNum);
-  const music = nextTrack(state);
   const hook = concept._hook;
+
+  // Structural variation. Every video before 2026-07-30 shared one act
+  // structure, one cut grid and one palette, and TikTok withheld the set as
+  // repeated content. The bed now follows the chosen TEMPO rather than a
+  // round-robin, so transients land in different places too.
+  const variation = pickVariation(state, RUN_DATE, slot);
+  const previousMusic = state.videos.at(-1)?.music;
+  const music = trackForTempo(variation.tempo, previousMusic);
 
   const props = {
     hookText: hook.text,
@@ -119,6 +127,7 @@ const batch = concepts.map((concept) => {
     traits: concept.traits,
     ctaText: concept.ctaText,
     music,
+    structure: structureById(variation.structure),
   };
 
   const entry = {
@@ -129,6 +138,7 @@ const batch = concepts.map((concept) => {
     moolank: concept.moolank,
     hookId: concept.hookId,
     music,
+    variation,
     variant: hook.variant,
     status: "generated", // optimistic; flipped to "failed" below if render fails
     source: concept.source,
@@ -158,12 +168,17 @@ if (!existsSync(DAILY_ENERGY_PATH)) {
 } else {
   try {
     const snapshot = JSON.parse(readFileSync(DAILY_ENERGY_PATH, "utf8"));
+    // Slot 3 — this video needs its own variation too, or it just adds a
+    // fourth identical-length video to the pile.
+    const variation = pickVariation(state, RUN_DATE, batch.length);
     const entry = composeDailyEnergyEntry({
       snapshot,
       weekday: todayWeekday,
       v: formatV(nextVNumber(state, destForNumbering)),
-      music: nextTrack(state),
+      music: trackForTempo(variation.tempo, state.videos.at(-1)?.music),
       date: RUN_DATE,
+      structure: structureById(variation.structure),
+      variation,
     });
     addVideo(state, entry);
     batch.push(entry);
@@ -181,6 +196,16 @@ for (const entry of batch) {
   entry.utmLinks ??= utmLinksForVideo(DAILY_ENERGY_DESTINATION, entry.v);
 }
 
+// The guard. Reusing a structure/tempo/layout/palette combination inside the
+// window is the exact condition that got the last account's videos withheld,
+// so it is reported loudly rather than discovered on the platform.
+const duplicates = findDuplicateFingerprints(state);
+if (duplicates.length) {
+  log(`\n! ${duplicates.length} duplicate variation fingerprint(s) in the last 14 days:`);
+  duplicates.forEach((d) => log(`    ${d.a} and ${d.b} both use ${d.fingerprint}`));
+  log("  Widen the variation pools in scripts/lib/variation.mjs before posting these.");
+}
+
 // ── Preview (dry-run stops here after this block) ───────────────────────
 for (const entry of batch) {
   log(`\n${entry.v} - ${entry.title}  [${entry.category} / Moolank ${entry.moolank} / ${entry.music}]`);
@@ -192,6 +217,10 @@ for (const entry of batch) {
   log(`  hashtags: ${(entry.hashtags ?? []).join(" ")}`);
   log(`  why it earns a comment: ${entry.whyComment}`);
   log(`  tiktok link: ${entry.utmLinks.tiktok}`);
+  if (entry.variation) {
+    const secs = Object.values(entry.props.structure).reduce((a, b) => a + b, 0).toFixed(1);
+    log(`  variation: ${secs}s / ${entry.variation.tempo}bpm / ${entry.variation.layout} / ${entry.variation.palette}`);
+  }
 }
 
 if (newHooks.length) {

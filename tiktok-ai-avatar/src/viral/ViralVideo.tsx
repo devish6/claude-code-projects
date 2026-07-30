@@ -11,7 +11,7 @@ import { TraitBullet } from "./components/TraitBullet";
 import { ViralHook, type HookVariant } from "./components/ViralHook";
 import { useShake } from "./motion";
 import { TEXT } from "./palette";
-import { ACT, BULLET_STAGGER } from "./timing";
+import { ACT, BULLET_STAGGER, makeActs, makeValueScenes, type ActSeconds } from "./timing";
 
 export type ViralVideoProps = {
   /** 5–8 words. The first thing on screen, at full size, on frame 0. */
@@ -29,30 +29,39 @@ export type ViralVideoProps = {
   traits: string[];
   ctaText: string;
   music: string;
+  /**
+   * Per-video act structure. Optional so the locked V01-V06 baseline renders
+   * byte-identically, but every NEW video sets it — a single shared structure
+   * made all 28 renders exactly 17.450667s, which TikTok read as repeated
+   * content. See scripts/lib/variation.mjs.
+   */
+  structure?: ActSeconds;
 };
 
-// Value act is split into four scenes so nothing holds longer than ~1.2s.
-// All durations are the 21.75s cut scaled by 0.8 (the 1.25x speed-up).
-const V_NUMBER = 72; // 2.4s  digit scramble + burst
-const V_PAIR = 72; // 2.4s  two traits (one lands every 1.2s)
-// 1.4s recap. The 1.0s original gave each trait ~0.23s, which was below
-// reading threshold; at 4 traits over 1.4s each holds ~0.35s — near the floor
-// but still legible. Do not shorten this further.
-const V_MONTAGE = 42;
-const MONTAGE_STRIDE = 10;
+// The value act's scene budgets are computed per video by makeValueScenes in
+// timing.ts. They used to be hardcoded 72/72/42 frames sized for one 8.6s act,
+// which is a large part of why every render came out exactly 17.450667s.
+//
 // Hold MUST NOT exceed stride — any overlap double-exposes two traits on the
 // seam frame, which reads as a printing error rather than a cut. The last
 // trait absorbs the remainder so the section ends on content, not a blank.
-const montageHold = (i: number, count: number) =>
-  i === count - 1 ? V_MONTAGE - MONTAGE_STRIDE * (count - 1) : MONTAGE_STRIDE;
+const montageStride = (total: number, count: number) => Math.floor(total / count);
+const montageHold = (i: number, count: number, total: number) =>
+  i === count - 1 ? total - montageStride(total, count) * (count - 1) : montageStride(total, count);
 
 /**
  * The viral composition engine.
  *
- * Act structure is fixed (see timing.ts) because it is the part that governs
- * retention; only the copy and the number change between videos. That is
- * deliberate — it makes hook A/B testing cheap, since two variants differ by a
- * single prop and share every frame of motion.
+ * 🔴 The act structure USED to be fixed, so that "only the copy and the number
+ * change between videos" and two variants "share every frame of motion". That
+ * made hook A/B testing cheap and it cost the account: all 28 renders came out
+ * at exactly 17.450667s with cuts on the same frames, and TikTok withheld them
+ * as repeated content.
+ *
+ * Structure is now per video (`structure` prop, chosen by
+ * scripts/lib/variation.mjs). Act proportions still govern retention — hook
+ * first, CTA last, nothing held past SCENE_CHANGE — but the absolute lengths
+ * and the cut positions differ every time.
  */
 export const ViralVideo: React.FC<ViralVideoProps> = ({
   hookText,
@@ -66,10 +75,22 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   traits,
   ctaText,
   music,
+  structure,
 }) => {
+  const acts = structure ? makeActs(structure) : ACT;
+  const scenes = makeValueScenes(acts.valueEnd - acts.valueStart);
+
+  // Traits spread across however many pair scenes the act affords. A longer
+  // act adds SCENES rather than stretching them past the 1.2s ceiling, so a
+  // long video shows one trait at a time where a short one shows two.
+  const perScene = Math.ceil(traits.length / scenes.pairs.length);
+  const traitChunks = scenes.pairs.map((_, i) =>
+    traits.slice(i * perScene, (i + 1) * perScene),
+  );
+
   // Interrupts land on the beats where attention historically decays.
-  const interruptFrames = [ACT.buildStart, ACT.valueStart, ACT.valueStart + 180];
-  const shake = useShake(ACT.valueStart, 10, 7);
+  const interruptFrames = [acts.buildStart, acts.valueStart, acts.valueStart + 180];
+  const shake = useShake(acts.valueStart, 10, 7);
 
   return (
     <AbsoluteFill>
@@ -77,72 +98,78 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
           (see the 150 BPM notes in brand.ts). The old 0-floor fade multiplied
           exactly that transient by zero. 0.85 over 2 frames keeps the hit
           audible while still ramping enough to avoid a click. */}
-      <BrandAudio src={music} total={ACT.total} start={0} fadeIn={2} vol={0.46} fadeFloor={0.85} />
+      <BrandAudio src={music} total={acts.total} start={0} fadeIn={2} vol={0.46} fadeFloor={0.85} />
 
       <AstrolBackground rotationSpeed={7} particleDensity={95} pulseAt={interruptFrames} />
 
       {/* ── HOOK 0–2s ───────────────────────────────────────────────────── */}
-      <Sequence durationInFrames={ACT.hookEnd}>
+      <Sequence durationInFrames={acts.hookEnd}>
         <ViralHook
           text={hookText}
           accent={hookAccent}
           subtext={hookSub}
           variant={variant}
-          durationInFrames={ACT.hookEnd}
+          durationInFrames={acts.hookEnd}
         />
       </Sequence>
 
       {/* ── BUILD 2–8s ──────────────────────────────────────────────────── */}
-      <Sequence from={ACT.buildStart} durationInFrames={ACT.buildEnd - ACT.buildStart}>
+      <Sequence from={acts.buildStart} durationInFrames={acts.buildEnd - acts.buildStart}>
         <CinematicTransition type="zoomIn">
           <CuriosityGap
             setup={buildSetup}
             reveal={buildReveal}
-            durationInFrames={ACT.buildEnd - ACT.buildStart}
+            durationInFrames={acts.buildEnd - acts.buildStart}
           />
         </CinematicTransition>
       </Sequence>
-      <Sequence from={ACT.buildStart} durationInFrames={10}>
+      <Sequence from={acts.buildStart} durationInFrames={10}>
         <PatternInterrupt type="flash" />
       </Sequence>
 
       {/* ── VALUE 8–18s ─────────────────────────────────────────────────── */}
-      <Sequence from={ACT.valueStart} durationInFrames={V_NUMBER}>
+      <Sequence from={acts.valueStart} durationInFrames={scenes.number}>
         <AbsoluteFill style={{ transform: `translateX(${shake}px)` }}>
           <NumberReveal
             number={number}
             label={numberLabel}
-            durationInFrames={V_NUMBER}
+            durationInFrames={scenes.number}
           />
         </AbsoluteFill>
       </Sequence>
-      <Sequence from={ACT.valueStart} durationInFrames={9}>
+      <Sequence from={acts.valueStart} durationInFrames={9}>
         <PatternInterrupt type="colorShift" />
       </Sequence>
 
-      <Sequence from={ACT.valueStart + V_NUMBER} durationInFrames={V_PAIR}>
-        <CinematicTransition type="slide">
-          <TraitPair traits={traits.slice(0, 2)} startIndex={0} />
-        </CinematicTransition>
-      </Sequence>
-
-      <Sequence from={ACT.valueStart + V_NUMBER + V_PAIR} durationInFrames={V_PAIR}>
-        <CinematicTransition type="zoomOut">
-          <TraitPair traits={traits.slice(2, 4)} startIndex={2} />
-        </CinematicTransition>
-      </Sequence>
+      {traitChunks.map((chunk, i) => (
+        <Sequence
+          key={i}
+          from={
+            acts.valueStart +
+            scenes.number +
+            scenes.pairs.slice(0, i).reduce((a, b) => a + b, 0)
+          }
+          durationInFrames={scenes.pairs[i]}
+        >
+          {/* Alternating transitions, so consecutive scenes don't share a
+              motion signature the way every old video did. */}
+          <CinematicTransition type={i % 2 === 0 ? "slide" : "zoomOut"}>
+            <TraitPair traits={chunk} startIndex={i * chunk.length} />
+          </CinematicTransition>
+        </Sequence>
+      ))}
 
       <Sequence
-        from={ACT.valueStart + V_NUMBER + V_PAIR * 2}
-        durationInFrames={V_MONTAGE}
+        from={acts.valueEnd - scenes.montage}
+        durationInFrames={scenes.montage}
       >
-        <Montage traits={traits} />
+        <Montage traits={traits} total={scenes.montage} />
       </Sequence>
 
       {/* ── CTA 18–21s — the only branded frames ────────────────────────── */}
-      <Sequence from={ACT.ctaStart} durationInFrames={ACT.total - ACT.ctaStart}>
+      <Sequence from={acts.ctaStart} durationInFrames={acts.total - acts.ctaStart}>
         <CinematicTransition type="zoomIn">
-          <CTAEnding text={ctaText} durationInFrames={ACT.total - ACT.ctaStart} />
+          <CTAEnding text={ctaText} durationInFrames={acts.total - acts.ctaStart} />
         </CinematicTransition>
       </Sequence>
     </AbsoluteFill>
@@ -168,13 +195,13 @@ const TraitPair: React.FC<{ traits: string[]; startIndex: number }> = ({
 );
 
 /** Rapid recap — 4 traits flash past in 1.4s to spike rewatches. */
-const Montage: React.FC<{ traits: string[] }> = ({ traits }) => (
+const Montage: React.FC<{ traits: string[]; total: number }> = ({ traits, total }) => (
   <AbsoluteFill>
     {traits.map((t, i) => (
       <Sequence
         key={t}
-        from={i * MONTAGE_STRIDE}
-        durationInFrames={montageHold(i, traits.length)}
+        from={i * montageStride(total, traits.length)}
+        durationInFrames={montageHold(i, traits.length, total)}
       >
         <CinematicTransition type="zoomIn" durationInFrames={3}>
           <AbsoluteFill

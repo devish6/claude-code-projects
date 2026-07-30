@@ -142,3 +142,10 @@ export const findDuplicateFingerprints = (state) => {
 
   return duplicates;
 };
+
+/** Resolves a structure id to the act seconds ViralVideo's `structure` prop wants. */
+export const structureById = (id) => {
+  const found = STRUCTURES.find((s) => s.id === id);
+  if (!found) throw new Error(`unknown structure id: ${id}`);
+  return found.acts;
+};

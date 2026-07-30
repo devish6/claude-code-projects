@@ -31,7 +31,7 @@ import { UPI_COVERS, UPI_TEMPLATES } from "./viral/upi-templates";
 import { TalkingHead } from "./talking/TalkingHead";
 import { TOTAL_FRAMES as TALKING_TOTAL } from "./talking/script";
 import { DISPLAY_HI, UI_HI } from "./viral/fonts";
-import { ACT } from "./viral/timing";
+import { ACT, makeActs } from "./viral/timing";
 
 // 1080x1920, 30fps — vertical short-form for TikTok / Reels / Shorts.
 const V = { fps: 30, width: 1080, height: 1920 } as const;
@@ -51,7 +51,15 @@ export const RemotionRoot: React.FC = () => {
             key={id}
             id={id}
             component={ViralVideo}
+            /* Per video, and derived at render time rather than from
+               defaultProps, so an overridden `structure` actually changes the
+               length. This was `ACT.total` for EVERY composition, which is why
+               all 28 renders measured exactly 17.450667s and TikTok read the
+               set as duplicates. */
             durationInFrames={ACT.total}
+            calculateMetadata={({ props: p }) => ({
+              durationInFrames: p.structure ? makeActs(p.structure).total : ACT.total,
+            })}
             defaultProps={props}
             {...V}
           />

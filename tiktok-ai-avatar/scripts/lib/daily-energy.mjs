@@ -103,7 +103,7 @@ const truncate = (text, budget) => {
  * @param {DayEnergy} day
  * @param {{ music: string }} opts
  */
-export const toDailyEnergyProps = (day, { music }) => ({
+export const toDailyEnergyProps = (day, { music, structure }) => ({
   hookText: `${day.weekday.toUpperCase()} RUNS ON`,
   hookAccent: day.planet.toUpperCase(),
   hookSub: truncate(day.tagline, SUB_BUDGET),
@@ -115,6 +115,9 @@ export const toDailyEnergyProps = (day, { music }) => ({
   traits: buildDayTraits(day),
   ctaText: "Today's energy, free — numevix.com/tarot",
   music,
+  // Per-video act structure. Without it this renders at the fingerprinted
+  // 17.45s like everything else and simply adds to the duplicate pile.
+  ...(structure ? { structure } : {}),
 });
 
 /** Where the daily-energy video sends people — the page the content came from. */
@@ -128,7 +131,7 @@ export const DAILY_ENERGY_DESTINATION = "https://numevix.com/tarot";
  * @param {{ snapshot: { weekdays: Record<string, DayEnergy> }, weekday: string,
  *   v: string, music: string, date: string }} args
  */
-export const composeDailyEnergyEntry = ({ snapshot, weekday, v, music, date }) => {
+export const composeDailyEnergyEntry = ({ snapshot, weekday, v, music, date, structure, variation }) => {
   const day = snapshot?.weekdays?.[weekday];
   if (!day) {
     // Treated as unreachable, not half-built: the caller skips this one video
@@ -136,7 +139,7 @@ export const composeDailyEnergyEntry = ({ snapshot, weekday, v, music, date }) =
     throw new Error(`daily-energy snapshot has no entry for ${weekday}`);
   }
 
-  const props = toDailyEnergyProps(day, { music });
+  const props = toDailyEnergyProps(day, { music, structure });
 
   return {
     v,
@@ -149,6 +152,7 @@ export const composeDailyEnergyEntry = ({ snapshot, weekday, v, music, date }) =
     moolank: "general",
     hookId: "daily-energy",
     music,
+    ...(variation ? { variation } : {}),
     variant: props.variant,
     status: "generated",
     source: "daily-energy",

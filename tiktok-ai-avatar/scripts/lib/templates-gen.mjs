@@ -49,6 +49,11 @@ const propsLiteral = (v) => {
     `    traits: ${litArr(p.traits)},`,
     `    ctaText: ${litStr(p.ctaText)},`,
     `    music: MUSIC.${p.music},`,
+    // Per-video act structure. Its absence is what made every composition
+    // durationInFrames={ACT.total} and every render exactly 17.450667s.
+    p.structure
+      ? `    structure: { hook: ${p.structure.hook}, build: ${p.structure.build}, value: ${p.structure.value}, cta: ${p.structure.cta} },`
+      : null,
     "  }",
   ]
     .filter(Boolean)
