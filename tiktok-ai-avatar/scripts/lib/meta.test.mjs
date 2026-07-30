@@ -3,8 +3,10 @@ import { describe, expect, test } from "vitest";
 import {
   CAPTION_MAX,
   HASHTAG_MAX,
+  buildFacebookReel,
   buildInstagramMedia,
   containerState,
+  facebookUploadHeaders,
   validateReelVideo,
 } from "./meta.mjs";
 
@@ -107,5 +109,55 @@ describe("containerState", () => {
 
   test("treats an expired container as terminal", () => {
     expect(containerState({ status_code: "EXPIRED" }).done).toBe(true);
+  });
+});
+
+describe("buildFacebookReel", () => {
+  /**
+   * Facebook Reels takes the bytes directly rather than fetching a URL, so
+   * unlike Instagram there is nothing to host — but the description still has
+   * to carry this video's own link or the traffic is unattributable.
+   */
+  test("carries this video's Facebook link, not another platform's", () => {
+    const { description } = buildFacebookReel({
+      ...entry,
+      utmLinks: { ...entry.utmLinks, facebook: "https://numevix.com/tarot?utm_source=facebook&utm_content=V17" },
+    });
+
+    expect(description).toContain("utm_source=facebook");
+    expect(description).not.toContain("utm_source=instagram");
+  });
+
+  test("refuses a video with no Facebook link", () => {
+    expect(() => buildFacebookReel(entry)).toThrow(/utm/i);
+  });
+
+  test("includes the hashtags", () => {
+    const { description } = buildFacebookReel({
+      ...entry,
+      utmLinks: { facebook: "https://numevix.com/tarot?utm_source=facebook" },
+    });
+
+    expect(description).toContain("#numerology");
+  });
+});
+
+describe("facebookUploadHeaders", () => {
+  /**
+   * The binary upload phase is not a normal Graph call: it wants an OAuth
+   * header rather than a query parameter, plus the byte offset and total size.
+   * Getting any of the three wrong fails with an opaque error.
+   */
+  test("authorizes with an OAuth header, not a query parameter", () => {
+    const h = facebookUploadHeaders("PAGE_TOKEN", 1234);
+
+    expect(h.Authorization).toBe("OAuth PAGE_TOKEN");
+  });
+
+  test("declares the byte offset and the total file size", () => {
+    const h = facebookUploadHeaders("t", 1234);
+
+    expect(h.offset).toBe("0");
+    expect(h.file_size).toBe("1234");
   });
 });

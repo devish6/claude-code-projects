@@ -82,3 +82,41 @@ export const containerState = (payload) => {
   }
   return { done: false, ok: false };
 };
+
+// ── Facebook Reels ──────────────────────────────────────────────────────────
+//
+// Same Meta app and the same Page token as Instagram, but a different
+// transport: Facebook takes the BYTES directly (start → upload → finish),
+// where Instagram fetches a URL. So Facebook needs no public hosting at all.
+
+/**
+ * The description for a Facebook Reel.
+ *
+ * Facebook needs no hosted copy, but the link still has to be this video's
+ * own — a Reel posted with another platform's UTM would credit the wrong
+ * source, which is worse than no tag at all because it looks like data.
+ */
+export const buildFacebookReel = (entry) => {
+  const link = entry.utmLinks?.facebook;
+  if (!link) {
+    throw new Error(`${entry.v}: no facebook utm link — refusing to publish untracked`);
+  }
+
+  const body = entry.instagramCaption ?? entry.tiktokCaption ?? entry.title;
+  const description = [body, "", link, "", (entry.hashtags ?? []).join(" ")].join("\n");
+
+  return { description };
+};
+
+/**
+ * Headers for the binary upload phase.
+ *
+ * This is not a normal Graph call: it wants an `OAuth <token>` Authorization
+ * header rather than an access_token parameter, plus the byte offset and the
+ * total file size. Any of the three missing fails with an opaque error.
+ */
+export const facebookUploadHeaders = (pageToken, fileSize, offset = 0) => ({
+  Authorization: `OAuth ${pageToken}`,
+  offset: String(offset),
+  file_size: String(fileSize),
+});

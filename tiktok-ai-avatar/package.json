@@ -34,7 +34,8 @@
     "daily:viral": "node scripts/daily-viral.mjs",
     "sync:daily-energy": "node scripts/sync-daily-energy.mjs",
     "publish:youtube": "node scripts/publish-youtube.mjs",
-    "publish:instagram": "node scripts/publish-instagram.mjs"
+    "publish:instagram": "node scripts/publish-instagram.mjs",
+    "publish:facebook": "node scripts/publish-facebook.mjs"
   },
   "sideEffects": [
     "*.css"
