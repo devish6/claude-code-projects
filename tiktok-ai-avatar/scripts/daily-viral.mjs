@@ -40,6 +40,7 @@ import {
 import { makeHookIndex } from "./lib/hooks-source.mjs";
 import { utmLinksForVideo } from "./lib/utm.mjs";
 import { pickAlgorithmicBatch } from "./lib/picker.mjs";
+import { findIncompleteVideos } from "./lib/reconcile.mjs";
 import { syncRestockNote, poolHealthy, FAST_TRACKS, trackForTempo } from "./lib/music-pool.mjs";
 import { findDuplicateFingerprints, pickVariation, structureById } from "./lib/variation.mjs";
 import { addVideo, formatV, loadState, nextVNumber, saveState } from "./lib/state.mjs";
@@ -47,6 +48,7 @@ import { compositionId, writeDailyTemplates } from "./lib/templates-gen.mjs";
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
+const RESUME = args.includes("--resume");
 const dateArg = args.find((a) => a.startsWith("--date="))?.split("=")[1];
 const RUN_DATE = dateArg ?? new Date().toISOString().slice(0, 10);
 
@@ -67,18 +69,45 @@ log(`daily:viral -- date=${RUN_DATE} dayIndex=${dayIndex}${DRY_RUN ? " [DRY RUN]
 
 // Idempotency guard: if this exact date already produced a real batch, don't
 // silently create a second one (real runs only -- dry-run always previews).
-if (!DRY_RUN && state.videos.some((v) => v.date === RUN_DATE && v.source !== "seed-existing")) {
+//
+// But "a batch exists" is NOT the same as "the batch is finished". A killed
+// process saves state and leaves the renders undone, and this guard used to
+// treat that as complete -- which is how V17 (empty folder) and V18 (no
+// folder) went unnoticed while state called both "generated".
+if (!DRY_RUN && !RESUME && state.videos.some((v) => v.date === RUN_DATE && v.source !== "seed-existing")) {
+  const incomplete = findIncompleteVideos(state, DEST, RUN_DATE);
   log(`Already generated a batch for ${RUN_DATE}:`);
-  state.videos.filter((v) => v.date === RUN_DATE).forEach((v) => log(`  ${v.v} - ${v.title}`));
+  state.videos
+    .filter((v) => v.date === RUN_DATE)
+    .forEach((v) => log(`  ${v.v} - ${v.title}${incomplete.includes(v) ? "   ← NOT RENDERED" : ""}`));
+
+  if (incomplete.length) {
+    log(`\n! ${incomplete.length} of them exist in state but not on disk — an interrupted run.`);
+    log("  Run with --resume to render just those. State and V-numbers are kept.");
+    process.exit(1);
+  }
   log("Nothing to do. Use --date=YYYY-MM-DD to target a different day.");
   process.exit(0);
 }
+
+let batch;
+// Declared out here because the post-branch code appends these to
+// DAILY_HOOKS. A resume authors no new hooks, so it stays empty.
+let newHooks = [];
+
+if (RESUME) {
+  batch = findIncompleteVideos(state, DEST, RUN_DATE);
+  if (!batch.length) {
+    log(`Nothing to resume for ${RUN_DATE} — every video in state is on disk.`);
+    process.exit(0);
+  }
+  log(`Resuming ${batch.length} unrendered video(s): ${batch.map((v) => v.v).join(", ")}`);
+} else {
 
 const hooksIndex = makeHookIndex(HOOKS_PATH);
 
 // ── Pick today's 3 concepts ─────────────────────────────────────────────
 let concepts;
-let newHooks = [];
 
 if (dayIndex <= 7) {
   const plan = JSON.parse(readFileSync(WEEKLY_PLAN_PATH, "utf8"));
@@ -102,7 +131,7 @@ if (dayIndex <= 7) {
 
 // ── Assign V-numbers + music, build full props ──────────────────────────
 const destForNumbering = !DRY_RUN && existsSync(homedir()) ? DEST : null;
-const batch = concepts.map((concept, slot) => {
+batch = concepts.map((concept, slot) => {
   const vNum = nextVNumber(state, destForNumbering);
   const v = formatV(vNum);
   const hook = concept._hook;
@@ -189,6 +218,8 @@ if (!existsSync(DAILY_ENERGY_PATH)) {
     log("  The day's other videos are unaffected.");
   }
 }
+
+} // end of the compose branch
 
 // Every video carries a UTM-tagged link. This is the only join between
 // platform analytics (watch time, no site data) and GA4 (sessions and
