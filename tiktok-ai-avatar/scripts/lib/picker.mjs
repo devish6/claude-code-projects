@@ -148,7 +148,13 @@ export const pickAlgorithmicBatch = (state, dateISO, dayIndex, hooksIndex) => {
       ctaText,
       whyComment:
         "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
-      tiktokCaption: `${hook.text} ${hook.accent}. ${ctaText}?`,
+      // 👇 rather than "?" — every CTA above is an INSTRUCTION ("Comment your
+      // birth date", "Drop your date below"), so a question mark made it read
+      // as uncertainty about whether to ask. The Moolank CTA is worse: it is
+      // already "Are you a 2? Comment below", so the appended mark produced
+      // two in one caption. This matches both the Instagram line directly
+      // below and the hand-authored week-1 captions, which all close on 👇.
+      tiktokCaption: `${hook.text} ${hook.accent}. ${ctaText} 👇`,
       instagramCaption: `${hook.text} ${hook.accent} — ${hook.sub ?? ""}. ${setup} ${reveal} ${ctaText} 👇`,
       hashtags: HASHTAG_BANK[category],
       suggestedPostTime: "6:00–7:00 PM local, same evening as render",
