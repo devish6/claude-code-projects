@@ -18,7 +18,7 @@
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 
 import { loadCredentials } from "./lib/credentials.mjs";
 import { buildFacebookReel, facebookUploadHeaders, validateReelVideo } from "./lib/meta.mjs";
@@ -101,6 +101,18 @@ const check = async () => {
     );
   }
   log(`   posting:   ${scopes.includes("pages_manage_posts") ? "permitted" : "unverified"}`);
+};
+
+/** Smallest cover beside the mp4; jpg or png. Facebook has no size ceiling worth
+ * worrying about here, but the smaller file uploads faster and looks identical. */
+const findCoverFile = (entry) => {
+  const dir = join(homedir(), "Desktop", "Numevix Videos", "Viral", `${entry.v} - ${entry.title}`);
+  if (!existsSync(dir)) return null;
+  const candidates = readdirSync(dir)
+    .filter((f) => /cover\.(png|jpe?g)$/i.test(f))
+    .map((f) => join(dir, f))
+    .sort((a, b) => statSync(a).size - statSync(b).size);
+  return candidates[0] ?? null;
 };
 
 const findVideoFile = (entry) => {
@@ -200,6 +212,46 @@ const publish = async () => {
   });
   mkdirSync(join(homedir(), ".numevix-publish"), { recursive: true });
   writeFileSync(UPLOAD_LOG, JSON.stringify(uploadLog, null, 2) + "\n");
+
+  // Cover, after publishing rather than during.
+  //
+  // Facebook extracts a dozen candidate frames of its own and picks one; ours only wins
+  // if it is uploaded with is_preferred. Unlike Instagram — where a live Reel's cover
+  // cannot be changed at all — this endpoint works on an already-published video, so it
+  // is also the recovery path for anything posted before this existed.
+  //
+  // Deliberately non-fatal: the video is live by this point, and a wrong thumbnail is
+  // worth a warning, never a failed publish that tempts a duplicate re-run.
+  const coverFile = findCoverFile(entry);
+  if (coverFile) {
+    try {
+      const form = new FormData();
+      form.set("source", new Blob([readFileSync(coverFile)]), basename(coverFile));
+      form.set("is_preferred", "true");
+      form.set("access_token", c.page_token);
+      const res = await fetch(`${GRAPH}/${started.video_id}/thumbnails`, {
+        method: "POST",
+        body: form,
+      });
+      const json = await res.json();
+      // 🪤 `{"success":true}` only means the request was ACCEPTED. Read the thumbnails
+      // back and confirm ours is the preferred one — Facebook's own auto-extracted
+      // frames sit in the same list and one of them wins by default.
+      if (res.ok) {
+        const list = await graph(`/${started.video_id}/thumbnails`, {
+          access_token: c.page_token,
+        }).catch(() => null);
+        const preferred = (list?.data ?? []).find((t) => t.is_preferred);
+        log(preferred ? `  cover: set (${basename(coverFile)})` : "  cover: uploaded but NOT preferred");
+      } else {
+        log(`  cover: failed — ${JSON.stringify(json).slice(0, 160)}`);
+      }
+    } catch (e) {
+      log(`  cover: failed — ${e.message}`);
+    }
+  } else {
+    log("  cover: none found — Facebook will pick its own frame");
+  }
 
   log(`\n✅ ${state_} on Facebook Reels — video ${started.video_id}`);
   if (!finished.success && finished.success !== undefined) {
