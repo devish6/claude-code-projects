@@ -126,7 +126,7 @@ export const StoryVideo: React.FC<StoryVideoProps> = ({
             for 52 frames — under two seconds — and was gone before anyone
             could read it, which defeats the point of telling the right viewer
             this is about them. */}
-        <Sequence from={0} durationInFrames={beatFrames}>
+        <Sequence durationInFrames={beatFrames}>
           <NumberBadge driver={driver} conductor={conductor} hold={beatFrames} />
         </Sequence>
 
