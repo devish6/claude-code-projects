@@ -15,6 +15,9 @@ import { BornWithStrengths, BORN_WITH_STRENGTHS_DURATION } from "./promos/BornWi
 import { Cover } from "./promos/Cover";
 
 import { ViralVideo, type ViralVideoProps } from "./viral/ViralVideo";
+import { StoryVideo } from "./viral/StoryVideo";
+import { STORY_SCRIPTS } from "./viral/story-scripts";
+import { MUSIC } from "./lib/brand";
 import { ViralCover } from "./viral/ViralCover";
 import {
   HOOK_TEST_COMPOSITIONS,
@@ -45,6 +48,31 @@ export const RemotionRoot: React.FC = () => {
         The Numevix-Promos folder below is the original slower cut, kept as an
         A/B baseline.
       */}
+      {/* Story Friday — the narrative format. One composition per script, so
+          a new combination is a data entry rather than a new component. */}
+      <Folder name="Story">
+        {Object.values(STORY_SCRIPTS).map((s) => (
+          <Composition
+            key={s.id}
+            id={`Story${s.driver}${s.conductor}`}
+            component={StoryVideo}
+            durationInFrames={30 * 30}
+            fps={30}
+            width={1080}
+            height={1920}
+            defaultProps={{
+              driver: s.driver,
+              conductor: s.conductor,
+              beats: s.beats,
+              ctaText: s.ctaText,
+              music: MUSIC.voltSlope,
+              palette: "ink-violet",
+              seconds: 30,
+            }}
+          />
+        ))}
+      </Folder>
+
       <Folder name="Viral">
         {Object.entries({ ...VIRAL_TEMPLATES, ...DAILY_TEMPLATES }).map(([id, props]) => (
           <Composition
