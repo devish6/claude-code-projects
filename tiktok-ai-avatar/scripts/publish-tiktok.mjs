@@ -82,9 +82,23 @@ const api = async (path, { token, body, form } = {}) => {
 
 const authorize = async () => {
   const rl = createInterface({ input: process.stdin, output: process.stdout });
-  log("\nFrom developers.tiktok.com → your app → Credentials:\n");
-  const clientKey = (await rl.question("client key: ")).trim();
-  const clientSecret = (await rl.question("client secret: ")).trim();
+
+  // Re-uses the stored app credentials when there are any. Beyond saving two
+  // paste steps, this keeps the client secret OFF THE SCREEN — re-authorizing
+  // is exactly what you do while screen-recording the flow for TikTok's app
+  // review, and a prompt here would echo the secret into the video file.
+  const stored = loadCredentials()?.tiktok;
+  let clientKey = stored?.client_key;
+  let clientSecret = stored?.client_secret;
+
+  if (clientKey && clientSecret) {
+    log(`\nUsing the stored app credentials (client key ${clientKey}).`);
+    log("Delete the tiktok block in the credentials file to enter different ones.");
+  } else {
+    log("\nFrom developers.tiktok.com → your app → Credentials:\n");
+    clientKey = (await rl.question("client key: ")).trim();
+    clientSecret = (await rl.question("client secret: ")).trim();
+  }
 
   if (!clientKey || !clientSecret) {
     rl.close();
