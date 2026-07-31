@@ -29,7 +29,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { createInterface } from "node:readline/promises";
 
 import {
@@ -224,6 +224,71 @@ const findVideoFile = (entry) => {
   return mp4 ? join(dir, mp4) : null;
 };
 
+/**
+ * The designed cover, sitting beside the MP4 as "<name> - cover.png".
+ *
+ * The pipeline has rendered one of these for every video since V01 and no
+ * publisher has ever used it, so every post so far has shown a frame the
+ * platform picked for us. On YouTube that frame IS the click-through rate.
+ */
+const findCoverFile = (entry) => {
+  const dir = join(homedir(), "Desktop", "Numevix Videos", "Viral", `${entry.v} - ${entry.title}`);
+  if (!existsSync(dir)) return null;
+  const png = readdirSync(dir)
+    .filter((f) => f.toLowerCase().endsWith("cover.png"))
+    .sort()
+    .at(-1);
+  return png ? join(dir, png) : null;
+};
+
+/**
+ * Set the custom thumbnail, AFTER the upload has succeeded.
+ *
+ * Deliberately never throws. By the time this runs the video is already live
+ * and recorded in the upload log; failing the whole command here would leave a
+ * published video that the ledger says failed, and re-running would refuse as
+ * a duplicate. A missing cover is cosmetic and fixable by hand — a desynced
+ * ledger is not.
+ *
+ * Uses the same youtube.upload scope as videos.insert (thumbnails.set accepts
+ * it), so this needs no re-authorization. It DOES need a verified channel;
+ * unverified channels get a clear message rather than a stack trace.
+ */
+const setThumbnail = async (videoId, coverPath, accessToken, log) => {
+  if (!coverPath) {
+    log("  cover:   none found beside the MP4 — YouTube will pick a frame");
+    return;
+  }
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId=${videoId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "image/png",
+          "Content-Length": String(statSync(coverPath).size),
+        },
+        body: createReadStream(coverPath),
+        duplex: "half",
+      },
+    );
+    if (res.ok) {
+      log(`  cover:   set from ${basename(coverPath)}`);
+      return;
+    }
+    const body = await res.text();
+    if (res.status === 403 && /thumbnail/i.test(body)) {
+      log("  cover:   REFUSED — custom thumbnails need a verified YouTube channel.");
+      log("           Verify at youtube.com/verify, then set this one by hand.");
+      return;
+    }
+    log(`  cover:   failed (${res.status}) — set it by hand. ${body.slice(0, 160)}`);
+  } catch (err) {
+    log(`  cover:   failed (${err.message}) — video is fine, set the cover by hand.`);
+  }
+};
+
 const upload = async () => {
   const wanted = flag("v");
   if (!wanted) die("Pass --v=V15 to choose which video to upload.");
@@ -275,6 +340,10 @@ const upload = async () => {
   log(`  privacy: ${meta.status.privacyStatus}`);
   log(`  link:    ${entry.utmLinks.youtube}`);
   log(`  quota:   ${remaining} of ${DAILY_UPLOAD_LIMIT} uploads left today`);
+  // Surfaced in the preview too, so a missing cover is visible BEFORE the
+  // upload rather than discovered after the video is already public.
+  const coverPreview = findCoverFile(entry);
+  log(`  cover:   ${coverPreview ? basename(coverPreview) : "NONE — YouTube will pick a frame"}`);
 
   if (has("dry-run")) {
     log("\n[DRY RUN] Nothing uploaded. Full description:\n");
@@ -313,8 +382,13 @@ const upload = async () => {
   const result = await put.json();
   if (!put.ok) die(`Upload failed: ${put.status} ${JSON.stringify(result)}`);
 
+  // Ledger FIRST, cover second. The video exists the moment the PUT returns,
+  // so recording it before attempting anything else is what keeps the ledger
+  // honest if the thumbnail step misbehaves.
   uploadLog.push({ date: today, v: entry.v, videoId: result.id, privacy });
   saveUploadLog(uploadLog);
+
+  await setThumbnail(result.id, findCoverFile(entry), token, log);
 
   log(`\n✅ https://youtube.com/watch?v=${result.id}  (${meta.status.privacyStatus})`);
   if (privacy === "private") {
