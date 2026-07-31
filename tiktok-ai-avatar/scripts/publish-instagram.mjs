@@ -80,7 +80,11 @@ const authorize = async () => {
   const appId = (await rl.question("app id: ")).trim();
   const appSecret = (await rl.question("app secret: ")).trim();
   log("\nFrom Graph API Explorer, a User token with these scopes:");
-  log("  instagram_basic, instagram_content_publish, pages_show_list, pages_read_engagement\n");
+  log("  instagram_basic, instagram_content_publish, pages_show_list,");
+  // 🔴 pages_manage_posts is for FACEBOOK Reels, not Instagram. Omitting it
+  // still authorizes fine and still passes --check, because reading a Page
+  // needs nothing extra — it fails only on the first real Facebook post.
+  log("  pages_read_engagement, pages_manage_posts\n");
   const shortToken = (await rl.question("short-lived user token: ")).trim();
   rl.close();
 

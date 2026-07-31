@@ -80,6 +80,27 @@ const check = async () => {
   log(`✅ Publishing to Facebook Page: ${page.name}`);
   log(`   followers: ${page.fan_count ?? "n/a"}`);
   log(`   page id:   ${c.page_id}`);
+
+  // 🔴 Reading the Page proves nothing about POSTING to it. Publishing needs
+  // pages_manage_posts, and a read-only check cannot exercise it — so --check
+  // reported a healthy token that could not publish, and the gap surfaced only
+  // on the first real post. Assert the scope from the token itself instead.
+  const debug = await graph("/debug_token", {
+    input_token: c.page_token,
+    access_token: `${c.app_id}|${c.app_secret}`,
+  }).catch(() => null);
+
+  const scopes = debug?.data?.scopes ?? [];
+  if (scopes.length && !scopes.includes("pages_manage_posts")) {
+    die(
+      "\n🔴 This token can READ the Page but not POST to it — pages_manage_posts is missing.\n\n" +
+        "Fix: in Graph API Explorer add pages_manage_posts to the permissions,\n" +
+        "generate a new token, then re-run:\n" +
+        "  npm run publish:instagram -- --authorize\n" +
+        "(one token serves both publishers). Instagram publishing is unaffected.",
+    );
+  }
+  log(`   posting:   ${scopes.includes("pages_manage_posts") ? "permitted" : "unverified"}`);
 };
 
 const findVideoFile = (entry) => {
