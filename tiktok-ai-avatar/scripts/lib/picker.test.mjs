@@ -44,3 +44,33 @@ describe("algorithmic TikTok captions", () => {
     }
   });
 });
+
+describe("a day's two videos are a pair, not a duplicate", () => {
+  // Both slots now draw the SAME category (the day's series), and the hook
+  // lookup only excludes hooks used in PAST state — not ones already taken by
+  // this same batch. Without a guard, both of the day's videos get the
+  // identical hook and the pair is one video posted twice.
+  // Wednesday: category "educational", which has NO moolank number to
+  // disambiguate the two slots. Monday would pass for the wrong reason —
+  // "identity" gives each slot a different number, so the hooks differ by
+  // accident rather than by design.
+  const dayWithTwoSlots = "2026-08-05";
+
+  it("gives the two slots different hooks", () => {
+    const { concepts } = pickAlgorithmicBatch({ videos: [] }, dayWithTwoSlots, 8, makeHookIndex());
+    if (concepts.length < 2) return; // Tuesday-style single-slot days are fine
+    expect(concepts[0].hookId).not.toBe(concepts[1].hookId);
+  });
+
+  it("gives the two slots different titles", () => {
+    const { concepts } = pickAlgorithmicBatch({ videos: [] }, dayWithTwoSlots, 8, makeHookIndex());
+    if (concepts.length < 2) return;
+    expect(concepts[0].title).not.toBe(concepts[1].title);
+  });
+
+  it("keeps both on the day's theme", () => {
+    const { concepts } = pickAlgorithmicBatch({ videos: [] }, dayWithTwoSlots, 8, makeHookIndex());
+    const cats = new Set(concepts.map((c) => c.category));
+    expect(cats.size).toBe(1);
+  });
+});

@@ -13,6 +13,7 @@
  * content-quality tradeoff, not a bug.
  */
 import { readFileSync } from "node:fs";
+import { seriesForDate } from "./series.mjs";
 import { validateHook } from "./hook-rules.mjs";
 import { isRecentlyUsed } from "./state.mjs";
 
@@ -93,30 +94,41 @@ const authorFallbackHook = ({ category, number, moolankTraits }) => {
 export const pickAlgorithmicBatch = (state, dateISO, dayIndex, hooksIndex) => {
   const moolankTraits = loadMoolankTraits();
   const d = dayOf(dayIndex);
-  const categories = [CATEGORY_CYCLE[(d * 2) % 4], CATEGORY_CYCLE[(d * 2 + 1) % 4]];
-  const slots = ["comment-bait", ...categories];
+  // The weekday's series decides the subject, and BOTH slots take it — the
+  // day's two videos are a matched pair on one theme, not two unrelated clips.
+  // The old CATEGORY_CYCLE rotation is kept below only as the fallback for a
+  // date the calendar cannot resolve.
+  const series = seriesForDate(dateISO);
+  const slotB = series.slotB ?? "same-theme";
+  // Tarot Tuesday's second video is the ruling-planet composition, produced
+  // elsewhere in the pipeline, so the picker only fills slot A that day.
+  const slots = slotB === "daily-energy" ? [series.category] : [series.category, series.category];
 
   const newHooks = [];
   const concepts = [];
 
+  // Hooks already taken by THIS batch. isRecentlyUsed only consults saved
+  // state, so without this both of the day's slots — now sharing one category
+  // — resolve to the same first match, and the "pair" is one video posted
+  // twice. Only "identity" escapes it by accident, because its per-slot
+  // moolank number happens to disambiguate the lookup.
+  const takenHookIds = new Set();
+
   slots.forEach((category, slotIdx) => {
     const number = category === "identity" ? (((d + slotIdx) % 9) + 1) : undefined;
+    const free = (h) => !takenHookIds.has(h.id) && !isRecentlyUsed(state, { hookId: h.id }, dateISO);
 
     let hook = hooksIndex.all.find(
-      (h) =>
-        h.category === category &&
-        (number === undefined || h.number === number) &&
-        !isRecentlyUsed(state, { hookId: h.id }, dateISO),
+      (h) => h.category === category && (number === undefined || h.number === number) && free(h),
     );
     if (!hook) {
-      hook = hooksIndex.all.find(
-        (h) => h.category === category && !isRecentlyUsed(state, { hookId: h.id }, dateISO),
-      );
+      hook = hooksIndex.all.find((h) => h.category === category && free(h));
     }
     if (!hook) {
       hook = authorFallbackHook({ category, number, moolankTraits });
       newHooks.push(hook);
     }
+    takenHookIds.add(hook.id);
 
     const m = number && moolankTraits[String(number)];
     const traits = m ? m.strengths : CONCEPT_TRAIT_BANK[(d + slotIdx) % CONCEPT_TRAIT_BANK.length];

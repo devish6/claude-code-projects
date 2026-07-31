@@ -33,6 +33,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 
 import { DEST, exportOne } from "./export-viral.mjs";
+import { seriesForDate, slotBFor } from "./lib/series.mjs";
 import {
   DAILY_ENERGY_DESTINATION,
   composeDailyEnergyEntry,
@@ -201,7 +202,13 @@ batch = concepts.map((concept, slot) => {
 const WEEKDAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const todayWeekday = WEEKDAY_NAMES[new Date(`${RUN_DATE}T00:00:00Z`).getUTCDay()];
 
-if (!existsSync(DAILY_ENERGY_PATH)) {
+// Only on the day whose series claims it. The ruling-planet video is the
+// SECOND half of Tarot Tuesday's pair; on every other day the pair is two
+// angles on that day's own theme, and adding a planet video would make three
+// videos and break the theme.
+if (slotBFor(RUN_DATE) !== "daily-energy") {
+  log(`\n· ${seriesForDate(RUN_DATE).name} — both videos are on-theme, no ruling-planet video today.`);
+} else if (!existsSync(DAILY_ENERGY_PATH)) {
   log(`\n! No ${DAILY_ENERGY_PATH} — skipping the daily-energy video.`);
   log("  Run `npm run sync:daily-energy` to create it. The day's other videos are unaffected.");
 } else {
