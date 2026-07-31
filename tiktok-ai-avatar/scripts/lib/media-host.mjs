@@ -41,9 +41,18 @@ const gh = (args) =>
  * @returns {{ url: string, tag: string, name: string }} pass back to
  *   unhostVideo once the platform has fetched it.
  */
-export const hostVideo = (entry, filePath) => {
+export const hostVideo = (entry, filePath) => hostAsset(entry, filePath, safeAssetName(entry));
+
+/**
+ * Stages ANY file in the same per-video release, under a caller-chosen name.
+ *
+ * Instagram fetches the cover image the same way it fetches the video — by URL — so the
+ * cover needs hosting too. Both live under one tag on purpose: `unhostVideo` deletes the
+ * whole release, so a single cleanup removes every staged asset and there is no way to
+ * tidy the video and leave the cover behind on a public repo.
+ */
+export const hostAsset = (entry, filePath, name) => {
   const tag = `media-${entry.v}`;
-  const name = safeAssetName(entry);
 
   // Stage under a clean filename so the asset name is predictable.
   const staged = join(mkdtempSync(join(tmpdir(), "numevix-media-")), name);

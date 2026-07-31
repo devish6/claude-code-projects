@@ -21,7 +21,7 @@
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { basename, extname, join } from "node:path";
 import { createInterface } from "node:readline/promises";
 
 import { CREDENTIALS_PATH, loadCredentials, saveCredentials } from "./lib/credentials.mjs";
@@ -31,7 +31,7 @@ import {
   pageIdsFromGranularScopes,
   validateReelVideo,
 } from "./lib/meta.mjs";
-import { hostVideo, unhostVideo } from "./lib/media-host.mjs";
+import { hostAsset, hostVideo, unhostVideo } from "./lib/media-host.mjs";
 import { alreadyUploaded } from "./lib/youtube.mjs";
 
 const args = process.argv.slice(2);
@@ -206,6 +206,21 @@ const check = async () => {
 };
 
 // ── Publish ─────────────────────────────────────────────────────────────────
+/**
+ * Instagram has no documented size ceiling for cover_url, but prefer the smallest
+ * qualifying file anyway: it is fetched over the network by Instagram's servers, and a
+ * smaller image is never worse at the sizes a Reel thumbnail is displayed.
+ */
+const findCoverFile = (entry) => {
+  const dir = join(homedir(), "Desktop", "Numevix Videos", "Viral", `${entry.v} - ${entry.title}`);
+  if (!existsSync(dir)) return null;
+  const candidates = readdirSync(dir)
+    .filter((f) => /cover\.(png|jpe?g)$/i.test(f))
+    .map((f) => join(dir, f))
+    .sort((a, b) => statSync(a).size - statSync(b).size);
+  return candidates[0] ?? null;
+};
+
 const findVideoFile = (entry) => {
   const dir = join(homedir(), "Desktop", "Numevix Videos", "Viral", `${entry.v} - ${entry.title}`);
   if (!existsSync(dir)) return null;
@@ -276,8 +291,20 @@ const publish = async () => {
   const hosted = hostVideo(entry, file);
   log(`  ${hosted.url}`);
 
+  // Stage the cover too, when one exists. Same release tag, so the single unhost call
+  // below removes both — a cover left behind on a public repo would be a real leak of
+  // the tidy-up guarantee, not a cosmetic one.
+  const coverFile = findCoverFile(entry);
+  let coverUrl;
+  if (coverFile) {
+    coverUrl = hostAsset(entry, coverFile, `${entry.v}-cover${extname(coverFile)}`).url;
+    log(`  cover: ${basename(coverFile)}`);
+  } else {
+    log("  cover: none found — Instagram will pick its own frame");
+  }
+
   try {
-    const media = buildInstagramMedia(entry, hosted.url);
+    const media = buildInstagramMedia(entry, hosted.url, coverUrl);
 
     log("Creating the media container…");
     const container = await graph(`/${c.ig_user_id}/media`, {

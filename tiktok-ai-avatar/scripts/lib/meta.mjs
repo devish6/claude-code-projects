@@ -44,7 +44,7 @@ const MAX_SECONDS = 900;
  * @param {object} entry a video from content/daily-state.json
  * @param {string} videoUrl a publicly fetchable https URL
  */
-export const buildInstagramMedia = (entry, videoUrl) => {
+export const buildInstagramMedia = (entry, videoUrl, coverUrl) => {
   const link = entry.utmLinks?.instagram;
   if (!link) {
     throw new Error(`${entry.v}: no instagram utm link — refusing to publish untracked`);
@@ -67,7 +67,19 @@ export const buildInstagramMedia = (entry, videoUrl) => {
 
   const caption = [body, "", LINK_IN_BIO, "", tags.join(" ")].join("\n").slice(0, CAPTION_MAX);
 
-  return { media_type: "REELS", video_url: videoUrl, caption };
+  const media = { media_type: "REELS", video_url: videoUrl, caption };
+
+  // A cover.png has been rendered beside every mp4 since V01 and Instagram was never
+  // sent one, so every Reel showed a frame Instagram picked — usually whatever sits at
+  // 0ms, which on a video that fades up from black is literally a black frame. The cover
+  // is the entire thumbnail in the grid and in Explore, so this is not cosmetic.
+  //
+  // Instagram fetches this URL itself, exactly like the video, so it must be publicly
+  // reachable https. Optional: if there is no cover we simply omit it and get the old
+  // behaviour rather than failing the post.
+  if (coverUrl) media.cover_url = coverUrl;
+
+  return media;
 };
 
 /** Rejects a file Reels would refuse, before spending an upload on it. */

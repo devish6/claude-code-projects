@@ -26,6 +26,18 @@ const entry = {
 const VIDEO_URL = "https://github.com/devish6/x/releases/download/tmp/V17.mp4";
 
 describe("buildInstagramMedia", () => {
+  test("sends the cover when one is staged, so Instagram stops picking its own frame", () => {
+    const media = buildInstagramMedia(entry, VIDEO_URL, "https://example.com/V17-cover.jpg");
+    expect(media.cover_url).toBe("https://example.com/V17-cover.jpg");
+  });
+
+  test("omits cover_url entirely when there is no cover, rather than sending an empty one", () => {
+    // A cover is optional: an entry with none must still publish. Sending cover_url=""
+    // or undefined as a form field would be rejected by Graph, so the key must be ABSENT.
+    const media = buildInstagramMedia(entry, VIDEO_URL);
+    expect("cover_url" in media).toBe(false);
+  });
+
   test("asks for a REEL, pointed at a publicly fetchable url", () => {
     const media = buildInstagramMedia(entry, VIDEO_URL);
 
