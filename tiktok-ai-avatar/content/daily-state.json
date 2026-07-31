@@ -573,6 +573,250 @@
         "palette": "ink-violet",
         "layout": "centered"
       }
+    },
+    {
+      "v": "V19",
+      "title": "Tag Someone Who Is Definitely A 7",
+      "date": "2026-07-31",
+      "category": "comment-bait",
+      "moolank": "general",
+      "hookId": "cb-tag-a-7",
+      "music": "starlightV03",
+      "variation": {
+        "structure": "standard",
+        "tempo": 140,
+        "layout": "split",
+        "palette": "ink-violet"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "algorithmic",
+      "needsReview": true,
+      "whyComment": "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
+      "tiktokCaption": "TAG SOMEONE WHO IS DEFINITELY A 7. Comment your birth date 👇",
+      "instagramCaption": "TAG SOMEONE WHO IS DEFINITELY A 7 — You already thought of them. Everyone reads their own chart differently... Let's see if this one lands. Comment your birth date 👇",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#numerologytok",
+        "#birthnumber"
+      ],
+      "suggestedPostTime": "6:00–7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "TAG SOMEONE WHO",
+        "hookAccent": "IS DEFINITELY A 7",
+        "hookSub": "You already thought of them",
+        "variant": "identity",
+        "buildSetup": "Everyone reads their own chart differently...",
+        "buildReveal": "Let's see if this one lands.",
+        "number": 1,
+        "numberLabel": "Worked example",
+        "traits": [
+          "Add the digits down to one",
+          "That's the number that repeats",
+          "Compare it to your Moolank",
+          "Comment yours for both"
+        ],
+        "ctaText": "Comment your birth date",
+        "music": "starlightV03",
+        "structure": {
+          "hook": 1.6,
+          "build": 5.2,
+          "value": 10.4,
+          "cta": 2.4
+        },
+        "palette": "ink-violet",
+        "layout": "split"
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V19",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V19",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V19",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V19"
+      }
+    },
+    {
+      "v": "V20",
+      "title": "If Youre A 2 You Feel It First",
+      "date": "2026-07-31",
+      "category": "identity",
+      "moolank": 2,
+      "hookId": "id-2-feel-everything",
+      "music": "voltSlope",
+      "variation": {
+        "structure": "snap",
+        "tempo": 150,
+        "layout": "stack",
+        "palette": "ember"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "algorithmic",
+      "needsReview": true,
+      "whyComment": "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
+      "tiktokCaption": "IF YOU'RE A 2, YOU FEEL IT FIRST. Are you a 2? Comment below 👇",
+      "instagramCaption": "IF YOU'RE A 2, YOU FEEL IT FIRST — Before anyone says a word. People misread this trait constantly... It isn't what they think it is. Are you a 2? Comment below 👇",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#moolank"
+      ],
+      "suggestedPostTime": "6:00–7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "IF YOU'RE A 2,",
+        "hookAccent": "YOU FEEL IT FIRST",
+        "hookSub": "Before anyone says a word",
+        "variant": "identity",
+        "buildSetup": "People misread this trait constantly...",
+        "buildReveal": "It isn't what they think it is.",
+        "number": 2,
+        "numberLabel": "Ruled by the Moon",
+        "traits": [
+          "Deeply intuitive",
+          "Reads people instantly",
+          "Gentle & diplomatic",
+          "Creative & imaginative"
+        ],
+        "ctaText": "Are you a 2? Comment below",
+        "music": "voltSlope",
+        "structure": {
+          "hook": 1.2,
+          "build": 3.6,
+          "value": 7.4,
+          "cta": 2
+        },
+        "palette": "ember",
+        "layout": "stack"
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V20",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V20",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V20",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V20"
+      }
+    },
+    {
+      "v": "V21",
+      "title": "Your Name Carries A Number Too",
+      "date": "2026-07-31",
+      "category": "knowledge-gap",
+      "moolank": "general",
+      "hookId": "kg-name-vibration",
+      "music": "starlightV03",
+      "variation": {
+        "structure": "standard",
+        "tempo": 140,
+        "layout": "fullbleed",
+        "palette": "ink-violet"
+      },
+      "variant": "mystery",
+      "status": "generated",
+      "source": "algorithmic",
+      "needsReview": true,
+      "whyComment": "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
+      "tiktokCaption": "YOUR NAME CARRIES A NUMBER TOO. Drop your date below 👇",
+      "instagramCaption": "YOUR NAME CARRIES A NUMBER TOO — Most people never check it. Most people stop at the first number they learn... There's more sitting in the same birth date. Drop your date below 👇",
+      "hashtags": [
+        "#numerology",
+        "#birthnumber",
+        "#destinynumber",
+        "#vedicnumerology"
+      ],
+      "suggestedPostTime": "6:00–7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "YOUR NAME CARRIES",
+        "hookAccent": "A NUMBER TOO",
+        "hookSub": "Most people never check it",
+        "variant": "mystery",
+        "buildSetup": "Most people stop at the first number they learn...",
+        "buildReveal": "There's more sitting in the same birth date.",
+        "number": 3,
+        "numberLabel": "Worked example",
+        "traits": [
+          "The calculation takes one extra step",
+          "Almost nobody does it by hand",
+          "It's free on the app",
+          "Comment your date and I'll do it"
+        ],
+        "ctaText": "Drop your date below",
+        "music": "starlightV03",
+        "structure": {
+          "hook": 1.6,
+          "build": 5.2,
+          "value": 10.4,
+          "cta": 2.4
+        },
+        "palette": "ink-violet",
+        "layout": "fullbleed"
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V21",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V21",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V21",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V21"
+      }
+    },
+    {
+      "v": "V22",
+      "title": "Friday Runs On Venus",
+      "date": "2026-07-31",
+      "category": "educational",
+      "moolank": "general",
+      "hookId": "daily-energy",
+      "music": "cashFlowAnthem",
+      "variation": {
+        "structure": "essay",
+        "tempo": 128,
+        "layout": "grid",
+        "palette": "ink-violet"
+      },
+      "variant": "mystery",
+      "status": "generated",
+      "source": "daily-energy",
+      "needsReview": false,
+      "whyComment": "Asks which weekday they were born on — a one-word, zero-effort reply.",
+      "tiktokCaption": "Friday runs on Venus. A warm, sociable day drawn to beauty, connection and small comforts. Which day were you born on?",
+      "instagramCaption": "A warm, sociable day drawn to beauty, connection and small comforts.\n\nFriday is ruled by Venus — element Water, colours White and Pink and Blue.\n\nToday's energy is free at numevix.com/tarot",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#dailyenergy",
+        "#venus"
+      ],
+      "suggestedPostTime": "7:30am",
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V22",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V22",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V22",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V22"
+      },
+      "props": {
+        "hookText": "FRIDAY RUNS ON",
+        "hookAccent": "VENUS",
+        "hookSub": "A warm, sociable day drawn to beauty, connection and small…",
+        "variant": "mystery",
+        "buildSetup": "Every weekday answers to a different planet…",
+        "buildReveal": "Today's is the one people misread most.",
+        "number": 6,
+        "numberLabel": "Ruled by Venus",
+        "traits": [
+          "Venus rules the day",
+          "Element: Water",
+          "Colours: White & Pink & Blue",
+          "Numbers: 6, 15, 24"
+        ],
+        "ctaText": "Today's energy, free — numevix.com/tarot",
+        "music": "cashFlowAnthem",
+        "structure": {
+          "hook": 2,
+          "build": 6.4,
+          "value": 12.4,
+          "cta": 2.6
+        },
+        "palette": "ink-violet",
+        "layout": "grid"
+      }
     }
   ],
   "pipelineMeta": {

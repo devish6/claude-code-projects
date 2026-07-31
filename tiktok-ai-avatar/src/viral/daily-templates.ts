@@ -164,6 +164,74 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     palette: "ink-violet",
     layout: "centered",
   },
+
+  "Viral-19-CommentBait-TagSomeoneWhoIsDefinitelyA7": {
+    hookText: "TAG SOMEONE WHO",
+    hookAccent: "IS DEFINITELY A 7",
+    hookSub: "You already thought of them",
+    variant: "identity",
+    buildSetup: "Everyone reads their own chart differently...",
+    buildReveal: "Let's see if this one lands.",
+    number: 1,
+    numberLabel: "Worked example",
+    traits: ["Add the digits down to one", "That's the number that repeats", "Compare it to your Moolank", "Comment yours for both"],
+    ctaText: "Comment your birth date",
+    music: MUSIC.starlightV03,
+    structure: { hook: 1.6, build: 5.2, value: 10.4, cta: 2.4 },
+    palette: "ink-violet",
+    layout: "split",
+  },
+
+  "Viral-20-Identity-IfYoureA2YouFeelItFirst": {
+    hookText: "IF YOU'RE A 2,",
+    hookAccent: "YOU FEEL IT FIRST",
+    hookSub: "Before anyone says a word",
+    variant: "identity",
+    buildSetup: "People misread this trait constantly...",
+    buildReveal: "It isn't what they think it is.",
+    number: 2,
+    numberLabel: "Ruled by the Moon",
+    traits: ["Deeply intuitive", "Reads people instantly", "Gentle & diplomatic", "Creative & imaginative"],
+    ctaText: "Are you a 2? Comment below",
+    music: MUSIC.voltSlope,
+    structure: { hook: 1.2, build: 3.6, value: 7.4, cta: 2 },
+    palette: "ember",
+    layout: "stack",
+  },
+
+  "Viral-21-KnowledgeGap-YourNameCarriesANumberToo": {
+    hookText: "YOUR NAME CARRIES",
+    hookAccent: "A NUMBER TOO",
+    hookSub: "Most people never check it",
+    variant: "mystery",
+    buildSetup: "Most people stop at the first number they learn...",
+    buildReveal: "There's more sitting in the same birth date.",
+    number: 3,
+    numberLabel: "Worked example",
+    traits: ["The calculation takes one extra step", "Almost nobody does it by hand", "It's free on the app", "Comment your date and I'll do it"],
+    ctaText: "Drop your date below",
+    music: MUSIC.starlightV03,
+    structure: { hook: 1.6, build: 5.2, value: 10.4, cta: 2.4 },
+    palette: "ink-violet",
+    layout: "fullbleed",
+  },
+
+  "Viral-22-Educational-FridayRunsOnVenus": {
+    hookText: "FRIDAY RUNS ON",
+    hookAccent: "VENUS",
+    hookSub: "A warm, sociable day drawn to beauty, connection and small…",
+    variant: "mystery",
+    buildSetup: "Every weekday answers to a different planet…",
+    buildReveal: "Today's is the one people misread most.",
+    number: 6,
+    numberLabel: "Ruled by Venus",
+    traits: ["Venus rules the day", "Element: Water", "Colours: White & Pink & Blue", "Numbers: 6, 15, 24"],
+    ctaText: "Today's energy, free — numevix.com/tarot",
+    music: MUSIC.cashFlowAnthem,
+    structure: { hook: 2, build: 6.4, value: 12.4, cta: 2.6 },
+    palette: "ink-violet",
+    layout: "grid",
+  },
 };
 
 export const DAILY_COVERS: Record<
@@ -238,5 +306,33 @@ export const DAILY_COVERS: Record<
     title: "THURSDAY RUNS ON",
     accent: "JUPITER",
     number: 3,
+  },
+
+  "Viral-19-CommentBait-TagSomeoneWhoIsDefinitelyA7": {
+    kicker: "Worked example",
+    title: "TAG SOMEONE WHO",
+    accent: "IS DEFINITELY A 7",
+    number: 1,
+  },
+
+  "Viral-20-Identity-IfYoureA2YouFeelItFirst": {
+    kicker: "Ruled by the Moon",
+    title: "IF YOU'RE A 2,",
+    accent: "YOU FEEL IT FIRST",
+    number: 2,
+  },
+
+  "Viral-21-KnowledgeGap-YourNameCarriesANumberToo": {
+    kicker: "Worked example",
+    title: "YOUR NAME CARRIES",
+    accent: "A NUMBER TOO",
+    number: 3,
+  },
+
+  "Viral-22-Educational-FridayRunsOnVenus": {
+    kicker: "Ruled by Venus",
+    title: "FRIDAY RUNS ON",
+    accent: "VENUS",
+    number: 6,
   },
 };
