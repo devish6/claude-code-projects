@@ -243,14 +243,26 @@ const findVideoFile = (entry) => {
  * publisher has ever used it, so every post so far has shown a frame the
  * platform picked for us. On YouTube that frame IS the click-through rate.
  */
+/**
+ * 🔴 YouTube rejects a thumbnail over 2MB with a bare 400 "image content is invalid",
+ * which reads like a corrupt file rather than an oversized one. A 1080x1920 PNG of a
+ * photographic frame lands ~2.4MB and fails; the same frame as JPEG q92 is ~370KB and
+ * visually identical. So: accept jpg as well as png, and skip anything over the limit
+ * rather than spending an upload on a guaranteed rejection.
+ */
+const YT_THUMBNAIL_MAX_BYTES = 2 * 1024 * 1024;
+
 const findCoverFile = (entry) => {
   const dir = join(homedir(), "Desktop", "Numevix Videos", "Viral", `${entry.v} - ${entry.title}`);
   if (!existsSync(dir)) return null;
-  const png = readdirSync(dir)
-    .filter((f) => f.toLowerCase().endsWith("cover.png"))
-    .sort()
-    .at(-1);
-  return png ? join(dir, png) : null;
+  const candidates = readdirSync(dir)
+    .filter((f) => /cover\.(png|jpe?g)$/i.test(f))
+    .map((f) => join(dir, f))
+    .filter((p) => statSync(p).size <= YT_THUMBNAIL_MAX_BYTES)
+    // Prefer the smallest that qualifies — for the same frame that is the JPEG, and a
+    // smaller thumbnail is never worse at YouTube's display sizes.
+    .sort((a, b) => statSync(a).size - statSync(b).size);
+  return candidates[0] ?? null;
 };
 
 /**

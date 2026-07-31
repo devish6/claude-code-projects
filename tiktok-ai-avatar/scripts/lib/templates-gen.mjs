@@ -76,7 +76,15 @@ const coverLiteral = (v) => {
 
 export const buildDailyTemplatesSource = (state) => {
   const videos = state.videos.filter(
-    (v) => v.source !== "seed-existing" && v.status !== "failed",
+    (v) =>
+      v.source !== "seed-existing" &&
+      v.status !== "failed" &&
+      // Story videos are in the ledger so they get a V-number, a UTM link and a row the
+      // publishers can find — but they are NOT generated from props. They have their own
+      // composition (StoryVideo01) built from real narration timings, so there is nothing
+      // here to serialize. Without this exclusion `propsLiteral` reads `v.props` on a row
+      // that has none and the whole daily pipeline stops generating.
+      v.source !== "story",
   );
 
   const templateEntries = videos
