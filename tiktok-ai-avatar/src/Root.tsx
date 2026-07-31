@@ -17,6 +17,8 @@ import { Cover } from "./promos/Cover";
 import { ViralVideo, type ViralVideoProps } from "./viral/ViralVideo";
 import { StoryVideo } from "./viral/StoryVideo";
 import { STORY_SCRIPTS } from "./viral/story-scripts";
+import { StoryVideo01 } from "./viral/StoryVideo01";
+import { STORY_01_DURATION, STORY_01_FPS } from "./viral/story-01-data";
 import { MUSIC } from "./lib/brand";
 import { ViralCover } from "./viral/ViralCover";
 import {
@@ -51,6 +53,20 @@ export const RemotionRoot: React.FC = () => {
       {/* Story Friday — the narrative format. One composition per script, so
           a new combination is a data entry rather than a new component. */}
       <Folder name="Story">
+        {/*
+          Story01 — the image-and-narration format. Duration is DERIVED from the real
+          narration timings (story-01-data.ts is generated from ElevenLabs' alignment),
+          never hardcoded: change the script, re-run the builder, and the composition
+          length follows. The older StoryVideo below is the superseded SVG pilot.
+        */}
+        <Composition
+          id="Story01-NumberRepeats"
+          component={StoryVideo01}
+          durationInFrames={STORY_01_DURATION}
+          fps={STORY_01_FPS}
+          width={1080}
+          height={1920}
+        />
         {Object.values(STORY_SCRIPTS).map((s) => (
           <Composition
             key={s.id}
