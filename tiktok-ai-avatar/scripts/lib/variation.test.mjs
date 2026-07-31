@@ -208,3 +208,57 @@ describe("structureById", () => {
     expect(() => structureById("nope")).toThrow(/nope/);
   });
 });
+
+describe("same-day duration collisions", () => {
+  // Found in real output 2026-07-31: V19 and V21 both rendered 19.648s, both
+  // 140 BPM, both ink-violet, differing only in layout. They pass the
+  // fingerprint check because that compares the full 4-tuple — but DURATION is
+  // the signal that got the previous account withheld (28 renders, all exactly
+  // 17.450667s). Two same-day near-twins are the highest-risk case there is.
+  //
+  // state.videos is not appended during a run, so pickVariation cannot see the
+  // day's other slots unless they are handed to it.
+  const emptyState = { videos: [] };
+
+  test("two slots on the same day do not share an act structure", () => {
+    const first = pickVariation(emptyState, "2026-07-31", 0);
+    const second = pickVariation(emptyState, "2026-07-31", 2, [first]);
+
+    expect(second.structure).not.toBe(first.structure);
+  });
+
+  test("a full day's batch uses four distinct structures", () => {
+    // Four structures, four videos a day — distinctness is exactly achievable,
+    // which also gives the widest possible spread of durations.
+    const taken = [];
+    for (let slot = 0; slot < 4; slot++) {
+      taken.push(pickVariation(emptyState, "2026-08-02", slot, [...taken]));
+    }
+
+    expect(new Set(taken.map((v) => v.structure)).size).toBe(4);
+  });
+
+  test("degrades rather than throwing when there are more slots than structures", () => {
+    // A fifth video in one day cannot have a fifth distinct structure. It must
+    // still return something renderable.
+    const taken = [];
+    for (let slot = 0; slot < 6; slot++) {
+      const v = pickVariation(emptyState, "2026-08-03", slot, [...taken]);
+      expect(v).toBeTruthy();
+      expect(v.structure).toBeTruthy();
+      taken.push(v);
+    }
+
+    expect(taken).toHaveLength(6);
+  });
+
+  test("still honours the existing recent-fingerprint rule", () => {
+    // The new constraint must not override the old one.
+    const used = { structure: "snap", tempo: 128, layout: "split", palette: "ember" };
+    const state = { videos: [{ date: "2026-08-04", variation: used }] };
+
+    const picked = pickVariation(state, "2026-08-04", 0);
+
+    expect(fingerprint(picked)).not.toBe(fingerprint(used));
+  });
+});

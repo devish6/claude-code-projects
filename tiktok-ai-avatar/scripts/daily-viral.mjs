@@ -131,6 +131,13 @@ if (dayIndex <= 7) {
 
 // ── Assign V-numbers + music, build full props ──────────────────────────
 const destForNumbering = !DRY_RUN && existsSync(homedir()) ? DEST : null;
+
+// The day's chosen variations, accumulated as we go. state.videos is only
+// written at the END of a run, so without this each slot picks blind to its
+// siblings and two videos can land on the same duration — which is exactly
+// what happened to V19/V21 on 2026-07-31.
+const variationsToday = [];
+
 batch = concepts.map((concept, slot) => {
   const vNum = nextVNumber(state, destForNumbering);
   const v = formatV(vNum);
@@ -140,7 +147,8 @@ batch = concepts.map((concept, slot) => {
   // structure, one cut grid and one palette, and TikTok withheld the set as
   // repeated content. The bed now follows the chosen TEMPO rather than a
   // round-robin, so transients land in different places too.
-  const variation = pickVariation(state, RUN_DATE, slot);
+  const variation = pickVariation(state, RUN_DATE, slot, variationsToday);
+  variationsToday.push(variation);
   const previousMusic = state.videos.at(-1)?.music;
   const music = trackForTempo(variation.tempo, previousMusic);
 
@@ -201,7 +209,8 @@ if (!existsSync(DAILY_ENERGY_PATH)) {
     const snapshot = JSON.parse(readFileSync(DAILY_ENERGY_PATH, "utf8"));
     // Slot 3 — this video needs its own variation too, or it just adds a
     // fourth identical-length video to the pile.
-    const variation = pickVariation(state, RUN_DATE, batch.length);
+    const variation = pickVariation(state, RUN_DATE, batch.length, variationsToday);
+    variationsToday.push(variation);
     const entry = composeDailyEnergyEntry({
       snapshot,
       weekday: todayWeekday,

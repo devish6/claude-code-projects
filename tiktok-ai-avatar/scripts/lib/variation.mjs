@@ -85,11 +85,21 @@ const recentVideos = (state, dateISO) =>
  * immediately previous video. Falls back to the least-recently-used
  * combination rather than throwing — a duplicate-but-rendered video is
  * recoverable, a missing day's batch is not.
+ *
+ * `takenToday` is the day's already-chosen variations. It has to be passed in
+ * because `state.videos` is NOT appended during a run, so this function is
+ * otherwise blind to its own siblings: on 2026-07-31 that produced V19 and V21
+ * at the same 19.648s, same tempo and same palette, differing only in layout.
+ * They cleared the fingerprint check because that compares the full 4-tuple,
+ * but DURATION is the signal that got the previous account withheld — 28
+ * renders, every one exactly 17.450667s. Two same-day twins are the worst
+ * case, because they are posted hours apart into the same feed.
  */
-export const pickVariation = (state, dateISO, slot) => {
+export const pickVariation = (state, dateISO, slot, takenToday = []) => {
   const recent = recentVideos(state, dateISO);
   const used = new Set(recent.map((v) => fingerprint(v.variation)));
   const previousLayout = (state.videos ?? []).filter((v) => v.variation).at(-1)?.variation.layout;
+  const structuresToday = new Set(takenToday.map((v) => v.structure));
 
   // Each axis gets its OWN seed. Deriving all four from one offset made
   // structure index equal tempo index, so 14.2s was always 128 BPM and 27.8s
@@ -103,20 +113,27 @@ export const pickVariation = (state, dateISO, slot) => {
   };
   let fallback = null;
 
-  for (let i = 0; i < STRUCTURES.length; i++) {
-    for (let j = 0; j < TEMPOS.length; j++) {
-      for (let k = 0; k < LAYOUTS.length; k++) {
-        for (let l = 0; l < PALETTES.length; l++) {
-          const candidate = {
-            structure: STRUCTURES[(seeds.structure + i) % STRUCTURES.length].id,
-            tempo: TEMPOS[(seeds.tempo + j) % TEMPOS.length],
-            layout: LAYOUTS[(seeds.layout + k) % LAYOUTS.length],
-            palette: PALETTES[(seeds.palette + l) % PALETTES.length],
-          };
-          fallback ??= candidate;
-          if (used.has(fingerprint(candidate))) continue;
-          if (candidate.layout === previousLayout) continue;
-          return candidate;
+  // Two passes. The first refuses any structure already used today; the second
+  // drops that rule, for the case where a day has more slots than there are
+  // structures (4). Relaxing beats failing: a fifth video sharing a duration
+  // with the first is far better than a missing video.
+  for (const avoidSameDayStructure of [true, false]) {
+    for (let i = 0; i < STRUCTURES.length; i++) {
+      for (let j = 0; j < TEMPOS.length; j++) {
+        for (let k = 0; k < LAYOUTS.length; k++) {
+          for (let l = 0; l < PALETTES.length; l++) {
+            const candidate = {
+              structure: STRUCTURES[(seeds.structure + i) % STRUCTURES.length].id,
+              tempo: TEMPOS[(seeds.tempo + j) % TEMPOS.length],
+              layout: LAYOUTS[(seeds.layout + k) % LAYOUTS.length],
+              palette: PALETTES[(seeds.palette + l) % PALETTES.length],
+            };
+            fallback ??= candidate;
+            if (avoidSameDayStructure && structuresToday.has(candidate.structure)) continue;
+            if (used.has(fingerprint(candidate))) continue;
+            if (candidate.layout === previousLayout) continue;
+            return candidate;
+          }
         }
       }
     }
