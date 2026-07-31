@@ -36,7 +36,8 @@
     "publish:youtube": "node scripts/publish-youtube.mjs",
     "publish:instagram": "node scripts/publish-instagram.mjs",
     "publish:facebook": "node scripts/publish-facebook.mjs",
-    "publish:tiktok": "node scripts/publish-tiktok.mjs"
+    "publish:tiktok": "node scripts/publish-tiktok.mjs",
+    "collect:metrics": "node scripts/collect-metrics.mjs"
   },
   "sideEffects": [
     "*.css"
