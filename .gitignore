@@ -28,6 +28,13 @@ deshane-chiro/
 # is PUBLIC and Pages-served, so raw footage of a person must not be committed.
 tiktok-ai-avatar/public/talking/
 
+# Unattended scheduler output. The launchd job (deploy/com.numevix.dailyviral.plist)
+# writes stdout/stderr here every day at 18:00 with nobody watching. The daily
+# pipeline's own commit is path-scoped so it will never add these itself, but a
+# stray `git add -A` would — that exact accident has happened once already in
+# this repo — and it would publish run logs and stack traces to a live website.
+tiktok-ai-avatar/logs/
+
 # MCP server config. Today it holds one public SSE URL and no secret, but this
 # is the file that grows an API key the moment a keyed server is added — and
 # the rule above is that nothing bearing a key or endpoint enters a public,
