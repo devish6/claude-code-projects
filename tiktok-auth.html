@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Numevix Publisher — TikTok authorization</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: #e8e8ef;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 55%, #0f3460 100%);
+  }
+
+  .card {
+    width: min(560px, 100%);
+    padding: 40px 36px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    animation: rise 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; }
+
+  .sub { margin-top: 8px; color: rgba(232, 232, 239, 0.65); font-size: 0.95rem; }
+
+  .label {
+    margin: 28px 0 8px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #4ecdc4;
+  }
+
+  .value {
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.28);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+
+  button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    border: 0;
+    border-radius: 12px;
+    background: #e94560;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
+  }
+  button:hover { background: #f25872; transform: translateY(-2px); }
+  button:active { transform: translateY(0); }
+
+  .note {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(232, 232, 239, 0.5);
+    font-size: 0.85rem;
+  }
+
+  .error { color: #e94560; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <h1 id="heading">Authorization received</h1>
+    <p class="sub" id="sub">Copy the code below and paste it into the terminal.</p>
+    <div id="body"></div>
+    <p class="note">
+      This page runs entirely in your browser and sends nothing anywhere. The code
+      is single-use and expires within minutes.
+    </p>
+  </main>
+
+<script>
+  // The authorization code comes back in the query string. Nothing here
+  // transmits it — a static page is the whole point, so the code never passes
+  // through a server we would then have to trust.
+  const params = new URLSearchParams(location.search);
+  const code = params.get("code");
+  const state = params.get("state");
+  const error = params.get("error");
+  const body = document.getElementById("body");
+
+  if (error) {
+    document.getElementById("heading").textContent = "Authorization failed";
+    document.getElementById("heading").className = "error";
+    document.getElementById("sub").textContent =
+      params.get("error_description") || "TikTok declined the request.";
+    body.innerHTML = '<div class="label">Error</div><div class="value"></div>';
+    body.querySelector(".value").textContent = error;
+  } else if (!code) {
+    document.getElementById("heading").textContent = "Nothing to show";
+    document.getElementById("sub").textContent =
+      "Open this page from the TikTok authorization flow, not directly.";
+  } else {
+    const codeBox = document.createElement("div");
+    codeBox.className = "value";
+    codeBox.textContent = code;
+
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "Authorization code";
+
+    body.append(label, codeBox);
+
+    if (state) {
+      const stateLabel = document.createElement("div");
+      stateLabel.className = "label";
+      stateLabel.textContent = "State";
+      const stateBox = document.createElement("div");
+      stateBox.className = "value";
+      stateBox.textContent = state;
+      body.append(stateLabel, stateBox);
+    }
+
+    const copy = document.createElement("button");
+    copy.textContent = "Copy code";
+    copy.onclick = async () => {
+      await navigator.clipboard.writeText(code);
+      copy.textContent = "Copied";
+      setTimeout(() => (copy.textContent = "Copy code"), 1600);
+    };
+    body.append(copy);
+  }
+</script>
+</body>
+</html>
