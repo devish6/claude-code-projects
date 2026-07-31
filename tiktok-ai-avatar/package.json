@@ -37,7 +37,8 @@
     "publish:instagram": "node scripts/publish-instagram.mjs",
     "publish:facebook": "node scripts/publish-facebook.mjs",
     "publish:tiktok": "node scripts/publish-tiktok.mjs",
-    "collect:metrics": "node scripts/collect-metrics.mjs"
+    "collect:metrics": "node scripts/collect-metrics.mjs",
+    "publish:next": "node scripts/publish-next.mjs"
   },
   "sideEffects": [
     "*.css"

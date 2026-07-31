@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.numevix.publish</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-l</string>
+        <string>-c</string>
+        <string>cd "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar" &amp;&amp; npm run publish:next</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar</string>
+
+    <!--
+      09:00 and 21:00 LOCAL. This Mac runs America/Detroit, which is Eastern,
+      so these are the 9am/9pm ET the owner asked for.
+
+      🔴 These are LOCAL hours, not a fixed offset: launchd has no timezone
+      field. They follow the machine. That is correct through daylight saving
+      (9am stays 9am), but if the Mac is ever set to another timezone the posts
+      move with it.
+
+      One publish per wake, so two videos a day go out at these two times.
+    -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>9</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>21</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+    </array>
+
+    <!--
+      RunAtLoad is deliberately FALSE here, unlike the render job.
+      Loading this plist must not fire a post. A render landing early is
+      invisible; a video going live the moment someone runs launchctl is not,
+      and it would land outside the posting window that was chosen on purpose.
+
+      A missed slot is not lost: publish-next.mjs takes the oldest unpublished
+      video, so the next wake picks up whatever the sleeping laptop skipped.
+    -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/publish.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/publish.err.log</string>
+
+    <key>KeepAlive</key>
+    <false/>
+</dict>
+</plist>
