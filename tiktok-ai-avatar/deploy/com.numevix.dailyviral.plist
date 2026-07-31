@@ -16,11 +16,23 @@
     <key>WorkingDirectory</key>
     <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar</string>
 
-    <!-- Fires at 18:00 local every day. -->
+    <!--
+      06:00 local — deliberately BEFORE the first publish slot (09:00), not
+      after it.
+
+      🔴 IT USED TO BE 18:00, AND THAT WAS A BUG. Rendering after the day's
+      posting slots meant the day's videos did not exist when the 09:00 job
+      woke: that slot fell through to the backlog, so Friday's second video —
+      a Story Friday video — went out on a Saturday. The weekday series only
+      works if the day's content is rendered before the day's first post.
+
+      Three hours of headroom covers a slow batch and leaves room for a
+      --resume if a render fails.
+    -->
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>18</integer>
+        <integer>6</integer>
         <key>Minute</key>
         <integer>0</integer>
     </dict>

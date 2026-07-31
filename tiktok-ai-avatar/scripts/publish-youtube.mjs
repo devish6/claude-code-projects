@@ -53,7 +53,19 @@ const has = (name) => args.includes(`--${name}`);
 /** Overridable so the dry run can be exercised against a fixture. */
 const STATE_PATH = process.env.NUMEVIX_STATE_PATH ?? "content/daily-state.json";
 const UPLOAD_LOG = join(homedir(), ".numevix-publish", "youtube-uploads.json");
-const SCOPE = "https://www.googleapis.com/auth/youtube.upload";
+/**
+ * Two scopes, space-separated, which is how Google expects them.
+ *
+ * `youtube.upload` is WRITE-ONLY — it cannot read a video back. Proven by a
+ * real 403 from `videos.list` on 2026-07-31, not inferred. So collecting
+ * views/likes/comments needs `youtube.readonly` alongside it, and a scope
+ * cannot be added to an existing token retroactively: adding it here requires
+ * one `--authorize` re-run to mint a token that carries both.
+ */
+const SCOPE = [
+  "https://www.googleapis.com/auth/youtube.upload",
+  "https://www.googleapis.com/auth/youtube.readonly",
+].join(" ");
 
 const log = (...a) => process.stdout.write(a.join(" ") + "\n");
 const die = (msg) => {
