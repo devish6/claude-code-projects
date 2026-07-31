@@ -136,7 +136,7 @@ const publish = async () => {
 
   const uploadLog = existsSync(UPLOAD_LOG) ? JSON.parse(readFileSync(UPLOAD_LOG, "utf8")) : [];
   const seen = alreadyUploaded(uploadLog, entry.v);
-  if (seen && !has("force")) {
+  if (seen && !has("force") && !has("dry-run")) {
     die(
       `${entry.v} was already published to Facebook on ${seen.date} (video ${seen.videoId}).\n` +
         "Re-running would post a duplicate. Pass --force only if that is genuinely wanted.",

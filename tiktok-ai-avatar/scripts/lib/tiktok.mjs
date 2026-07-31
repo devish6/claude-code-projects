@@ -6,6 +6,8 @@
  * these stay testable without a network or a token.
  */
 
+import { LINK_IN_BIO } from "./meta.mjs";
+
 /** TikTok requires a single chunk below this; above it, chunked upload. */
 export const SINGLE_CHUNK_MAX = 64 * 1024 * 1024;
 
@@ -120,5 +122,7 @@ export const buildTikTokCaption = (entry) => {
   }
 
   const body = entry.tiktokCaption ?? entry.instagramCaption ?? entry.title;
-  return [body, "", link, "", (entry.hashtags ?? []).join(" ")].join("\n");
+  // TikTok does not linkify caption URLs either, so the same reasoning as
+  // Meta applies — see LINK_IN_BIO in lib/meta.mjs for what this costs.
+  return [body, "", LINK_IN_BIO, "", (entry.hashtags ?? []).join(" ")].join("\n");
 };

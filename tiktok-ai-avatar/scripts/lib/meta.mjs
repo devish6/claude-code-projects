@@ -18,6 +18,23 @@ export const CAPTION_MAX = 2200;
 /** More than this and Instagram rejects the post outright. */
 export const HASHTAG_MAX = 30;
 
+/**
+ * What stands in for the URL on platforms that will not make one clickable.
+ *
+ * 🔴 Facebook rewrites every posted URL through `l.facebook.com/l.php?u=…`
+ * with an fbclid and several hundred characters of tracking, which reads as
+ * spam. Instagram simply renders URLs as dead text. On both, printing the link
+ * costs readability and buys nothing.
+ *
+ * ⚠️ The UTM link is still REQUIRED and still validated — it is the join key
+ * for per-video attribution — it just no longer goes in the caption. The
+ * consequence is real and worth remembering: **clicks now arrive through one
+ * static bio link, so they can no longer be attributed to a specific video.**
+ * Restoring that needs a link-in-bio page carrying the per-video UTM, not a
+ * change here.
+ */
+export const LINK_IN_BIO = "Link in bio 🔗";
+
 const MIN_SECONDS = 3;
 const MAX_SECONDS = 900;
 
@@ -48,7 +65,7 @@ export const buildInstagramMedia = (entry, videoUrl) => {
   const body = entry.instagramCaption ?? entry.tiktokCaption ?? entry.title;
   const tags = (entry.hashtags ?? []).slice(0, HASHTAG_MAX);
 
-  const caption = [body, "", link, "", tags.join(" ")].join("\n").slice(0, CAPTION_MAX);
+  const caption = [body, "", LINK_IN_BIO, "", tags.join(" ")].join("\n").slice(0, CAPTION_MAX);
 
   return { media_type: "REELS", video_url: videoUrl, caption };
 };
@@ -123,7 +140,7 @@ export const buildFacebookReel = (entry) => {
   }
 
   const body = entry.instagramCaption ?? entry.tiktokCaption ?? entry.title;
-  const description = [body, "", link, "", (entry.hashtags ?? []).join(" ")].join("\n");
+  const description = [body, "", LINK_IN_BIO, "", (entry.hashtags ?? []).join(" ")].join("\n");
 
   return { description };
 };

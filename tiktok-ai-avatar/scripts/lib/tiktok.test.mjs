@@ -153,11 +153,12 @@ describe("publishState", () => {
 });
 
 describe("buildTikTokCaption", () => {
-  test("carries this video's TikTok link, not another platform's", () => {
+  /** TikTok does not linkify caption URLs either — same reasoning as Meta. */
+  test("says link in bio rather than printing a URL", () => {
     const caption = buildTikTokCaption(entry);
 
-    expect(caption).toContain("utm_source=tiktok");
-    expect(caption).not.toContain("utm_source=instagram");
+    expect(caption).toContain("Link in bio");
+    expect(caption).not.toMatch(/https?:\/\//);
   });
 
   test("prefers the TikTok caption over the Instagram one", () => {

@@ -39,11 +39,16 @@ describe("buildInstagramMedia", () => {
     expect(buildInstagramMedia(entry, VIDEO_URL).caption).toContain("Two different numbers");
   });
 
-  test("carries this video's Instagram link, not another platform's", () => {
+  /**
+   * Instagram renders caption URLs as dead text, so printing one costs
+   * readability and buys nothing. The UTM link is still REQUIRED (it is the
+   * join key) — it just does not appear.
+   */
+  test("says link in bio rather than printing a URL", () => {
     const { caption } = buildInstagramMedia(entry, VIDEO_URL);
 
-    expect(caption).toContain(entry.utmLinks.instagram);
-    expect(caption).not.toContain("utm_source=youtube");
+    expect(caption).toContain("Link in bio");
+    expect(caption).not.toMatch(/https?:\/\//);
   });
 
   test("refuses a video with no Instagram link", () => {
@@ -119,14 +124,19 @@ describe("buildFacebookReel", () => {
    * unlike Instagram there is nothing to host — but the description still has
    * to carry this video's own link or the traffic is unattributable.
    */
-  test("carries this video's Facebook link, not another platform's", () => {
+  /**
+   * 🔴 Facebook rewrites any posted URL through l.facebook.com/l.php?u=… with
+   * an fbclid and hundreds of characters of tracking, which reads as spam.
+   * Owner ruling 2026-07-30 after seeing it on the live V17 post.
+   */
+  test("says link in bio rather than letting Facebook mangle a URL", () => {
     const { description } = buildFacebookReel({
       ...entry,
-      utmLinks: { ...entry.utmLinks, facebook: "https://numevix.com/tarot?utm_source=facebook&utm_content=V17" },
+      utmLinks: { ...entry.utmLinks, facebook: "https://numevix.com/tarot?utm_source=facebook" },
     });
 
-    expect(description).toContain("utm_source=facebook");
-    expect(description).not.toContain("utm_source=instagram");
+    expect(description).toContain("Link in bio");
+    expect(description).not.toMatch(/https?:\/\//);
   });
 
   test("refuses a video with no Facebook link", () => {
