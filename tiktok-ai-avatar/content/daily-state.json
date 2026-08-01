@@ -974,6 +974,128 @@
         "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V25",
         "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V25"
       }
+    },
+    {
+      "v": "V26",
+      "title": "Guess My Number From These 4 Traits",
+      "date": "2026-08-02",
+      "category": "comment-bait",
+      "moolank": "general",
+      "hookId": "cb-guess-mine",
+      "music": "pulseV13",
+      "variation": {
+        "structure": "essay",
+        "tempo": 128,
+        "layout": "centered",
+        "palette": "sage-gold"
+      },
+      "variant": "mystery",
+      "status": "generated",
+      "source": "algorithmic",
+      "needsReview": true,
+      "whyComment": "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
+      "tiktokCaption": "GUESS MY NUMBER FROM THESE 4 TRAITS. Drop your date below 👇",
+      "instagramCaption": "GUESS MY NUMBER FROM THESE 4 TRAITS — First correct comment wins. Everyone reads their own chart differently... Let's see if this one lands. Drop your date below 👇",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#numerologytok",
+        "#birthnumber"
+      ],
+      "suggestedPostTime": "6:00–7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "GUESS MY NUMBER",
+        "hookAccent": "FROM THESE 4 TRAITS",
+        "hookSub": "First correct comment wins",
+        "variant": "mystery",
+        "buildSetup": "Everyone reads their own chart differently...",
+        "buildReveal": "Let's see if this one lands.",
+        "number": 1,
+        "numberLabel": "Worked example",
+        "traits": [
+          "The calculation takes one extra step",
+          "Almost nobody does it by hand",
+          "It's free on the app",
+          "Comment your date and I'll do it"
+        ],
+        "ctaText": "Drop your date below",
+        "music": "pulseV13",
+        "structure": {
+          "hook": 2.1,
+          "build": 6.1,
+          "value": 12.666666666666666,
+          "cta": 2.3333333333333335
+        },
+        "palette": "sage-gold",
+        "layout": "centered"
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V26",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V26",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V26",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V26"
+      }
+    },
+    {
+      "v": "V27",
+      "title": "Which One Are You 1 5 Or 8",
+      "date": "2026-08-02",
+      "category": "comment-bait",
+      "moolank": "general",
+      "hookId": "cb-which-one",
+      "music": "vertexV17",
+      "variation": {
+        "structure": "long",
+        "tempo": 165,
+        "layout": "grid",
+        "palette": "ink-violet"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "algorithmic",
+      "needsReview": true,
+      "whyComment": "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
+      "tiktokCaption": "WHICH ONE ARE YOU? 1, 5 OR 8. Comment below if this is you 👇",
+      "instagramCaption": "WHICH ONE ARE YOU? 1, 5 OR 8 — Comment the number. Everyone reads their own chart differently... Let's see if this one lands. Comment below if this is you 👇",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#numerologytok",
+        "#birthnumber"
+      ],
+      "suggestedPostTime": "6:00–7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "WHICH ONE ARE YOU?",
+        "hookAccent": "1, 5 OR 8",
+        "hookSub": "Comment the number",
+        "variant": "identity",
+        "buildSetup": "Everyone reads their own chart differently...",
+        "buildReveal": "Let's see if this one lands.",
+        "number": 2,
+        "numberLabel": "Worked example",
+        "traits": [
+          "Add the digits down to one",
+          "That's the number that repeats",
+          "Compare it to your Moolank",
+          "Comment yours for both"
+        ],
+        "ctaText": "Comment below if this is you",
+        "music": "vertexV17",
+        "structure": {
+          "hook": 2.2666666666666666,
+          "build": 8,
+          "value": 14.566666666666666,
+          "cta": 2.9
+        },
+        "palette": "ink-violet",
+        "layout": "grid"
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V27",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V27",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V27",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V27"
+      }
     }
   ],
   "pipelineMeta": {

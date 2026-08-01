@@ -266,6 +266,40 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     palette: "mono",
     layout: "stack",
   },
+
+  "Viral-26-CommentBait-GuessMyNumberFromThese4Traits": {
+    hookText: "GUESS MY NUMBER",
+    hookAccent: "FROM THESE 4 TRAITS",
+    hookSub: "First correct comment wins",
+    variant: "mystery",
+    buildSetup: "Everyone reads their own chart differently...",
+    buildReveal: "Let's see if this one lands.",
+    number: 1,
+    numberLabel: "Worked example",
+    traits: ["The calculation takes one extra step", "Almost nobody does it by hand", "It's free on the app", "Comment your date and I'll do it"],
+    ctaText: "Drop your date below",
+    music: MUSIC.pulseV13,
+    structure: { hook: 2.1, build: 6.1, value: 12.666666666666666, cta: 2.3333333333333335 },
+    palette: "sage-gold",
+    layout: "centered",
+  },
+
+  "Viral-27-CommentBait-WhichOneAreYou15Or8": {
+    hookText: "WHICH ONE ARE YOU?",
+    hookAccent: "1, 5 OR 8",
+    hookSub: "Comment the number",
+    variant: "identity",
+    buildSetup: "Everyone reads their own chart differently...",
+    buildReveal: "Let's see if this one lands.",
+    number: 2,
+    numberLabel: "Worked example",
+    traits: ["Add the digits down to one", "That's the number that repeats", "Compare it to your Moolank", "Comment yours for both"],
+    ctaText: "Comment below if this is you",
+    music: MUSIC.vertexV17,
+    structure: { hook: 2.2666666666666666, build: 8, value: 14.566666666666666, cta: 2.9 },
+    palette: "ink-violet",
+    layout: "grid",
+  },
 };
 
 export const DAILY_COVERS: Record<
@@ -381,6 +415,20 @@ export const DAILY_COVERS: Record<
     kicker: "Worked example",
     title: "THE NUMBER MISSING",
     accent: "FROM YOUR CHART",
+    number: 2,
+  },
+
+  "Viral-26-CommentBait-GuessMyNumberFromThese4Traits": {
+    kicker: "Worked example",
+    title: "GUESS MY NUMBER",
+    accent: "FROM THESE 4 TRAITS",
+    number: 1,
+  },
+
+  "Viral-27-CommentBait-WhichOneAreYou15Or8": {
+    kicker: "Worked example",
+    title: "WHICH ONE ARE YOU?",
+    accent: "1, 5 OR 8",
     number: 2,
   },
 };
