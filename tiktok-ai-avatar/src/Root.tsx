@@ -178,6 +178,9 @@ export const RemotionRoot: React.FC = () => {
               defaultProps={{
                 ...cover,
                 variant: props.variant,
+                // The cover takes the video's palette so the thumbnail matches
+                // the film. V01-V06 carry no palette and stay sage-gold.
+                palette: props.palette,
               }}
               {...V}
             />

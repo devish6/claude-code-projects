@@ -42,8 +42,19 @@ import { makeHookIndex } from "./lib/hooks-source.mjs";
 import { utmLinksForVideo } from "./lib/utm.mjs";
 import { pickAlgorithmicBatch } from "./lib/picker.mjs";
 import { findIncompleteVideos } from "./lib/reconcile.mjs";
-import { syncRestockNote, poolHealthy, FAST_TRACKS, trackForTempo } from "./lib/music-pool.mjs";
-import { findDuplicateFingerprints, pickVariation, structureById } from "./lib/variation.mjs";
+import {
+  syncRestockNote,
+  poolHealthy,
+  FAST_TRACKS,
+  trackForTempo,
+  TRACK_BPM,
+} from "./lib/music-pool.mjs";
+import {
+  beatAlignedActs,
+  findDuplicateFingerprints,
+  pickVariation,
+  structureById,
+} from "./lib/variation.mjs";
 import { addVideo, formatV, loadState, nextVNumber, saveState } from "./lib/state.mjs";
 import { compositionId, writeDailyTemplates } from "./lib/templates-gen.mjs";
 
@@ -153,6 +164,12 @@ batch = concepts.map((concept, slot) => {
   const previousMusic = state.videos.at(-1)?.music;
   const music = trackForTempo(variation.tempo, previousMusic);
 
+  // 🔴 Align to the bed's REAL tempo, not `variation.tempo`. The pool has no
+  // bed at 165 BPM, so that target resolves to a 150 BPM track — aligning to
+  // the target would put every cut a tenth of a beat out on exactly the videos
+  // the tempo axis was supposed to make different.
+  const structure = beatAlignedActs(structureById(variation.structure), TRACK_BPM[music]);
+
   const props = {
     hookText: hook.text,
     hookAccent: hook.accent,
@@ -165,7 +182,7 @@ batch = concepts.map((concept, slot) => {
     traits: concept.traits,
     ctaText: concept.ctaText,
     music,
-    structure: structureById(variation.structure),
+    structure,
     palette: variation.palette,
     layout: variation.layout,
   };
@@ -218,13 +235,16 @@ if (slotBFor(RUN_DATE) !== "daily-energy") {
     // fourth identical-length video to the pile.
     const variation = pickVariation(state, RUN_DATE, batch.length, variationsToday);
     variationsToday.push(variation);
+    // Same bed-first ordering as the algorithmic slots above: the structure is
+    // snapped to the tempo of the track that actually plays.
+    const music = trackForTempo(variation.tempo, state.videos.at(-1)?.music);
     const entry = composeDailyEnergyEntry({
       snapshot,
       weekday: todayWeekday,
       v: formatV(nextVNumber(state, destForNumbering)),
-      music: trackForTempo(variation.tempo, state.videos.at(-1)?.music),
+      music,
       date: RUN_DATE,
-      structure: structureById(variation.structure),
+      structure: beatAlignedActs(structureById(variation.structure), TRACK_BPM[music]),
       variation,
     });
     addVideo(state, entry);

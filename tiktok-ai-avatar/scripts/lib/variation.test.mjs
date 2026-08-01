@@ -10,7 +10,10 @@ import {
   findDuplicateFingerprints,
   pickVariation,
   structureById,
+  beatAlignedActs,
+  beatOffsetsMs,
 } from "./variation.mjs";
+import { TRACK_BPM } from "./music-pool.mjs";
 
 /**
  * Why this module exists, in one measurement:
@@ -260,5 +263,56 @@ describe("same-day duration collisions", () => {
     const picked = pickVariation(state, "2026-08-04", 0);
 
     expect(fingerprint(picked)).not.toBe(fingerprint(used));
+  });
+});
+
+describe("beatAlignedActs", () => {
+  test("puts every act boundary within half a frame of a beat, for every structure/bed pair", () => {
+    for (const structure of STRUCTURES) {
+      for (const [bed, bpm] of Object.entries(TRACK_BPM)) {
+        const aligned = beatAlignedActs(structure.acts, bpm);
+        for (const off of beatOffsetsMs(aligned, bpm)) {
+          // half a frame at 30fps is 16.7ms; allow 17 for rounding.
+          expect(Math.abs(off), `${structure.id} on ${bed}`).toBeLessThanOrEqual(17);
+        }
+      }
+    }
+  });
+
+  test("REGRESSION — the shipped V24 combination was off the beat, and is not any more", () => {
+    // V24: `standard` structure on starlightV03 (139.7 BPM). The un-aligned
+    // boundaries measured 118/72/20/157 ms out; the hook cut was the worst.
+    const raw = structureById("standard");
+    const before = beatOffsetsMs(raw, TRACK_BPM.starlightV03);
+    expect(Math.max(...before.map(Math.abs))).toBeGreaterThan(100);
+
+    const after = beatOffsetsMs(beatAlignedActs(raw, TRACK_BPM.starlightV03), TRACK_BPM.starlightV03);
+    expect(Math.max(...after.map(Math.abs))).toBeLessThanOrEqual(17);
+  });
+
+  test("keeps the duration close to the structure's intent, so the variety axis survives", () => {
+    for (const structure of STRUCTURES) {
+      for (const bpm of Object.values(TRACK_BPM)) {
+        const total = Object.values(beatAlignedActs(structure.acts, bpm)).reduce((a, b) => a + b, 0);
+        // Snapping moves each boundary by at most half a beat; at the slowest
+        // bed (99.4 BPM) that is ~0.3s.
+        expect(Math.abs(total - structure.seconds)).toBeLessThan(0.35);
+      }
+    }
+  });
+
+  test("never collapses an act to zero frames, even on a slow bed", () => {
+    for (const structure of STRUCTURES) {
+      for (const bpm of Object.values(TRACK_BPM)) {
+        for (const [act, seconds] of Object.entries(beatAlignedActs(structure.acts, bpm))) {
+          expect(seconds, `${structure.id}/${act}`).toBeGreaterThan(0);
+        }
+      }
+    }
+  });
+
+  test("is inert when the bed's tempo is unknown, rather than throwing mid-run", () => {
+    const acts = structureById("snap");
+    expect(beatAlignedActs(acts, undefined)).toEqual(acts);
   });
 });

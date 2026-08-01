@@ -1,12 +1,12 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { DISPLAY, UI } from "./fonts";
-import { ACCENT, ACCENT_ALERT, TEXT, TEXT_SHADOW } from "./palette";
+import { PaletteProvider, usePalette } from "./PaletteContext";
 import { AstrolBackground } from "./components/AstrolBackground";
 import type { HookVariant } from "./components/ViralHook";
 
 /**
- * Static 1080x1920 cover for a viral video, in the light sage-and-gold system.
+ * Static 1080x1920 cover for a viral video, in the video's own palette.
  *
  * A cover is NOT a frame grab: the video's opening frames are mid-spring and
  * mid-aberration, so a grab lands on skewed, ghosted type. This composition
@@ -30,9 +30,37 @@ export type ViralCoverProps = {
   /** Font overrides for non-Latin covers; defaults match the Latin videos. */
   displayFont?: string;
   uiFont?: string;
+  /**
+   * The video's palette, so the cover matches the film it fronts.
+   *
+   * 🔴 THE BUG THIS FIXES, and why it went unseen for so long: when the four
+   * palettes landed (`cc57cac`) the viral COMPONENTS were converted to read
+   * from PaletteContext, but ViralCover was deliberately left on the static
+   * sage-gold imports and recorded as "untouched". That was defensible for
+   * exactly as long as nothing read the cover — and covers had been rendered
+   * beside every MP4 since V01 with no publisher using them. On 2026-07-31 the
+   * publishers started setting them, and the mismatch became the first thing a
+   * viewer sees: V24 is ink-violet (mean frame #22213f, near-black) behind a
+   * sage-gold cover (#aba57c, light khaki). The thumbnail looked like it
+   * belonged to a different account.
+   *
+   * ⭐ THE GENERAL LESSON: "unchanged by design" stops being safe the moment
+   * something new consumes the output. A default that is inert is not the same
+   * as a default that is correct.
+   *
+   * Omitting it keeps sage-gold, so the V01–V06 baseline covers and the UPI
+   * announcement covers — none of which carry a palette — render identically.
+   */
+  palette?: string;
 };
 
-export const ViralCover: React.FC<ViralCoverProps> = ({
+export const ViralCover: React.FC<ViralCoverProps> = ({ palette, ...props }) => (
+  <PaletteProvider name={palette}>
+    <CoverBody {...props} />
+  </PaletteProvider>
+);
+
+const CoverBody: React.FC<Omit<ViralCoverProps, "palette">> = ({
   kicker,
   title,
   accent,
@@ -41,7 +69,8 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
   displayFont = DISPLAY,
   uiFont = UI,
 }) => {
-  const accentColor = variant === "contrarian" ? ACCENT_ALERT : ACCENT;
+  const P = usePalette();
+  const accentColor = variant === "contrarian" ? P.ACCENT_ALERT : P.ACCENT;
 
   return (
     <AbsoluteFill>
@@ -93,8 +122,8 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
             fontWeight: 900,
             lineHeight: 1.04,
             letterSpacing: -1,
-            color: TEXT,
-            textShadow: TEXT_SHADOW,
+            color: P.TEXT,
+            textShadow: P.TEXT_SHADOW,
           }}
         >
           {title}
@@ -109,7 +138,7 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
             lineHeight: 1,
             letterSpacing: -1,
             color: accentColor,
-            textShadow: "0 0 24px rgba(120,88,24,0.30)",
+            textShadow: P.glowFor(0.3),
           }}
         >
           {accent}
@@ -133,7 +162,7 @@ export const ViralCover: React.FC<ViralCoverProps> = ({
             fontSize: 52,
             fontWeight: 900,
             letterSpacing: 4,
-            color: ACCENT,
+            color: P.ACCENT,
             opacity: 0.9,
           }}
         >

@@ -172,3 +172,77 @@ export const structureById = (id) => {
   if (!found) throw new Error(`unknown structure id: ${id}`);
   return found.acts;
 };
+
+export const ACT_ORDER = ["hook", "build", "value", "cta"];
+
+/**
+ * Snaps a structure's act boundaries onto the beat grid of the bed that will
+ * actually play under it.
+ *
+ * 🔴 WHY THIS EXISTS — the defect it fixes shipped in V19–V25 and was audible.
+ * The four STRUCTURES above were chosen for DURATION VARIETY (14.2 / 19.6 /
+ * 23.4 / 27.8s) and their act seconds were never checked against a tempo. The
+ * old single 17.45s structure had been beat-designed by hand — its cuts landed
+ * on frames 48/192/264/336, all multiples of the 12-frame beat of a 150 BPM
+ * bed. Nothing carried that property forward.
+ *
+ * The arithmetic: `standard` cuts at frames 48/204/516/588. Its bed is
+ * starlightV03 at 139.7 BPM = 12.885 frames per beat. 48 / 12.885 = 3.72 beats
+ * — a cut three quarters of the way between two beats. Measured on V24 the
+ * boundaries sat 118 / 72 / 20 / 157 ms off the nearest beat. A cut ~150ms from
+ * the beat is the worst possible place for it: far enough to read as a mistake,
+ * close enough that the ear expects the hit.
+ *
+ * ⭐ THE FIX IS TO SNAP THE PICTURE TO THE MUSIC, NOT THE MUSIC TO THE PICTURE.
+ * Re-tempoing a bed onto the structure was rejected before (`be550c5`): our BPM
+ * estimates are ~±1%, so stretching by a factor drawn from them fits noise.
+ * Moving a cut by up to half a beat is exact, costs nothing, and leaves the
+ * audio untouched.
+ *
+ * ⭐ BOUNDARIES ARE SNAPPED CUMULATIVELY, NEVER ACT BY ACT. Rounding each act's
+ * own length independently lets the error accumulate down the video, so the
+ * final cut drifts furthest — and the CTA is the cut that matters most. Anchor
+ * on the running total and every boundary stays within half a frame (≤17ms) of
+ * a true beat.
+ *
+ * Each boundary is forced at least one beat past the previous one, so a very
+ * short act under a slow bed cannot collapse to zero frames.
+ *
+ * Returns act seconds, the same shape `structureById` returns, because that is
+ * what ViralVideo's `structure` prop takes.
+ */
+export const beatAlignedActs = (acts, bpm, fps = 30) => {
+  if (!bpm || bpm <= 0) return { ...acts };
+  const beatFrames = (60 / bpm) * fps;
+
+  let targetFrames = 0;
+  let prevFrame = 0;
+  let prevBeats = 0;
+  const aligned = {};
+
+  for (const act of ACT_ORDER) {
+    targetFrames += (acts[act] ?? 0) * fps;
+    const beats = Math.max(prevBeats + 1, Math.round(targetFrames / beatFrames));
+    const frame = Math.round(beats * beatFrames);
+    aligned[act] = (frame - prevFrame) / fps;
+    prevFrame = frame;
+    prevBeats = beats;
+  }
+
+  return aligned;
+};
+
+/**
+ * How far each act boundary sits from the nearest beat, in milliseconds.
+ * Used by the tests and by the daily run's pre-flight print, so a structure
+ * that drifts off the grid fails loudly instead of being noticed on the feed.
+ */
+export const beatOffsetsMs = (acts, bpm, fps = 30) => {
+  const beatFrames = (60 / bpm) * fps;
+  let frames = 0;
+  return ACT_ORDER.map((act) => {
+    frames += (acts[act] ?? 0) * fps;
+    const nearest = Math.round(frames / beatFrames) * beatFrames;
+    return Math.round(((frames - nearest) / fps) * 1000);
+  });
+};
