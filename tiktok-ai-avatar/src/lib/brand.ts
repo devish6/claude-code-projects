@@ -155,6 +155,12 @@ export const MUSIC = {
   meridianV16: "music/meridian-v16.mp3",
   vertexV17: "music/vertex-v17.mp3",
   kineticV18: "music/kinetic-v18.mp3",
+  // Added after the first six: generating at 128/140/165 alone did not stop the
+  // 150 BPM slot serving July music, because the picker takes the nearest tempo
+  // and nothing new was near 150. A tempo slot with no new bed never gets new
+  // music, however much new music exists.
+  helixV19: "music/helix-v19.mp3",
+  quartzV20: "music/quartz-v20.mp3",
 
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",

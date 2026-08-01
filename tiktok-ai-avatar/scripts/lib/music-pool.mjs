@@ -31,6 +31,7 @@ export const FAST_TRACKS = [
   // previous video's bed, so newest-last is what puts the next batch on the new
   // music instead of re-serving July's.
   "pulseV13", "obsidianV14", "cipherV15", "meridianV16", "vertexV17", "kineticV18",
+  "helixV19", "quartzV20",
 ];
 export const POOL_FLOOR = 6;
 
@@ -168,6 +169,12 @@ export const BEDS = {
   meridianV16: { file: "meridian-v16.mp3", bpm: 139.26, phaseMs: 201, seconds: 32.08 },
   vertexV17: { file: "vertex-v17.mp3", bpm: 164.97, phaseMs: 70, seconds: 32.08 },
   kineticV18: { file: "kinetic-v18.mp3", bpm: 166.48, phaseMs: 210, seconds: 32.08 },
+  // Added hours after the first six, once it was clear that generating beds at
+  // 128/140/165 alone did NOT stop the 150 slot serving July music: the picker
+  // takes the nearest tempo, and the nearest thing to 150 was still a sourced
+  // bed. A tempo slot without a new bed in it never gets new music.
+  helixV19: { file: "helix-v19.mp3", bpm: 151.35, phaseMs: 186, seconds: 32.08 },
+  quartzV20: { file: "quartz-v20.mp3", bpm: 151.27, phaseMs: 135, seconds: 32.08 },
 };
 
 /** Measured tempo per bed. Derived from BEDS so there is one source of truth. */
@@ -189,7 +196,7 @@ export const TRACK_PHASE_MS = Object.fromEntries(
  *
  * Deterministic. `avoid` lets the caller refuse an immediate repeat.
  */
-export const trackForTempo = (targetBpm, avoid, minSeconds = 0) => {
+export const trackForTempo = (targetBpm, avoid, minSeconds = 0, history = []) => {
   // 🔴 A BED SHORTER THAN THE VIDEO ENDS THE VIDEO IN SILENCE. Nothing checked
   // this and it shipped: V18 pairs the 27.8s `long` structure with `voltSlope`,
   // which is a 25s slice, so its final 2.8 seconds — the whole CTA, the one
@@ -197,18 +204,34 @@ export const trackForTempo = (targetBpm, avoid, minSeconds = 0) => {
   // the delivered MP4). Three of the sourced beds are 25s slices and every one
   // of them can be drawn for a `long` video.
   const longEnough = (t) => (BEDS[t]?.seconds ?? 0) >= minSeconds;
-  const candidates = FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined)
-    .filter((t) => t !== avoid)
-    .filter(longEnough);
-  // Never fail closed on the length rule — a repeated bed is a small problem, a
-  // missing video is a bigger one — but never silently ignore it either.
-  const pool = candidates.length
-    ? candidates
-    : FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined).filter(longEnough);
-  if (!pool.length) return FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined)[0];
+  const eligible = FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined).filter(longEnough);
+  if (!eligible.length) return FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined)[0];
 
-  return pool.reduce((best, track) =>
-    Math.abs(TRACK_BPM[track] - targetBpm) < Math.abs(TRACK_BPM[best] - targetBpm) ? track : best,
+  const usable = eligible.filter((t) => t !== avoid);
+  const pool = usable.length ? usable : eligible;
+
+  // ⭐⭐ NEAREST TEMPO ALONE IS NOT ENOUGH, and this is why "use new music" did
+  // not happen by adding new music. The old rule returned the single closest
+  // bed to the target, deterministically — so whichever track happened to sit
+  // nearest 150 BPM won that slot EVERY time, for ever, and six new beds
+  // changed nothing for any video targeting a tempo they did not cover.
+  //
+  // Now every bed within TOLERANCE counts as a valid answer and the least
+  // recently used one wins. That keeps the tempo axis honest, spreads wear
+  // across the pool, and means a restock actually reaches the output.
+  const TOLERANCE = 3;
+  const near = pool.filter((t) => Math.abs(TRACK_BPM[t] - targetBpm) <= TOLERANCE);
+  const candidates = near.length
+    ? near
+    : [pool.reduce((best, t) =>
+        Math.abs(TRACK_BPM[t] - targetBpm) < Math.abs(TRACK_BPM[best] - targetBpm) ? t : best,
+      )];
+
+  // Position of each bed's most recent use; never-used sorts oldest.
+  const lastUse = new Map();
+  history.forEach((track, i) => lastUse.set(track, i));
+  return candidates.reduce((best, t) =>
+    (lastUse.get(t) ?? -1) < (lastUse.get(best) ?? -1) ? t : best,
   );
 };
 

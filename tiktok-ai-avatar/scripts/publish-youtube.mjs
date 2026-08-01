@@ -45,6 +45,7 @@ import {
   remainingUploadsToday,
   tokenIsExpired,
 } from "./lib/youtube.mjs";
+import { newestRender } from "./lib/versions.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name) => args.find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
@@ -229,11 +230,7 @@ const accessToken = async () => {
 const findVideoFile = (entry) => {
   const dir = join(homedir(), "Desktop", "Numevix Videos", "Viral", `${entry.v} - ${entry.title}`);
   if (!existsSync(dir)) return null;
-  const mp4 = readdirSync(dir)
-    .filter((f) => f.endsWith(".mp4"))
-    .sort()
-    .at(-1);
-  return mp4 ? join(dir, mp4) : null;
+  return newestRender(dir);
 };
 
 /**

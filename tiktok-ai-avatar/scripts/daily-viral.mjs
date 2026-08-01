@@ -154,6 +154,11 @@ const destForNumbering = !DRY_RUN && existsSync(homedir()) ? DEST : null;
 // what happened to V19/V21 on 2026-07-31.
 const variationsToday = [];
 
+// Which bed each past video used, oldest first. trackForTempo breaks ties
+// toward the least recently used, so a restock reaches the output instead of
+// sitting unused behind whichever bed happens to sit nearest a target tempo.
+const musicHistory = (state.videos ?? []).map((v) => v.music).filter(Boolean);
+
 // Beat maps are read once per run, not per video.
 const BEAT_MAPS = loadBeatMaps();
 
@@ -188,7 +193,7 @@ batch = concepts.map((concept, slot) => {
   const previousMusic = state.videos.at(-1)?.music;
   const acts = structureById(variation.structure);
   const structureSeconds = Object.values(acts).reduce((a, b) => a + b, 0);
-  const music = trackForTempo(variation.tempo, previousMusic, structureSeconds);
+  const music = trackForTempo(variation.tempo, previousMusic, structureSeconds, musicHistory);
 
   // 🔴 Align to the bed's REAL tempo, not `variation.tempo`. The pool has no
   // bed at 165 BPM, so that target resolves to a 150 BPM track — aligning to
@@ -268,6 +273,7 @@ if (slotBFor(RUN_DATE) !== "daily-energy") {
       variation.tempo,
       state.videos.at(-1)?.music,
       Object.values(energyActs).reduce((a, b) => a + b, 0),
+      musicHistory,
     );
     const entry = composeDailyEnergyEntry({
       snapshot,
