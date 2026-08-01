@@ -232,6 +232,40 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     palette: "ink-violet",
     layout: "grid",
   },
+
+  "Viral-24-KnowledgeGap-ChangingYourNameCheckThisFirst": {
+    hookText: "CHANGING YOUR NAME?",
+    hookAccent: "CHECK THIS FIRST",
+    hookSub: "The spelling changes the number",
+    variant: "mystery",
+    buildSetup: "This gets calculated wrong more than almost anything else...",
+    buildReveal: "The fix takes one extra step.",
+    number: 1,
+    numberLabel: "Worked example",
+    traits: ["Every chart holds more than one number", "Most people only ever check one", "The rest change what the first means", "Comment your date for the full read"],
+    ctaText: "Comment your date — I'll break it down",
+    music: MUSIC.starlightV03,
+    structure: { hook: 1.6, build: 5.2, value: 10.4, cta: 2.4 },
+    palette: "ink-violet",
+    layout: "centered",
+  },
+
+  "Viral-25-KnowledgeGap-TheNumberMissingFromYourChart": {
+    hookText: "THE NUMBER MISSING",
+    hookAccent: "FROM YOUR CHART",
+    hookSub: "Absence says as much as presence",
+    variant: "mystery",
+    buildSetup: "Most people stop at the first number they learn...",
+    buildReveal: "There's more sitting in the same birth date.",
+    number: 2,
+    numberLabel: "Worked example",
+    traits: ["The calculation takes one extra step", "Almost nobody does it by hand", "It's free on the app", "Comment your date and I'll do it"],
+    ctaText: "Drop your date below",
+    music: MUSIC.voltSlope,
+    structure: { hook: 1.2, build: 3.6, value: 7.4, cta: 2 },
+    palette: "mono",
+    layout: "stack",
+  },
 };
 
 export const DAILY_COVERS: Record<
@@ -334,5 +368,19 @@ export const DAILY_COVERS: Record<
     title: "FRIDAY RUNS ON",
     accent: "VENUS",
     number: 6,
+  },
+
+  "Viral-24-KnowledgeGap-ChangingYourNameCheckThisFirst": {
+    kicker: "Worked example",
+    title: "CHANGING YOUR NAME?",
+    accent: "CHECK THIS FIRST",
+    number: 1,
+  },
+
+  "Viral-25-KnowledgeGap-TheNumberMissingFromYourChart": {
+    kicker: "Worked example",
+    title: "THE NUMBER MISSING",
+    accent: "FROM YOUR CHART",
+    number: 2,
   },
 };
