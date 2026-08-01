@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.numevix.metrics</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-l</string>
+        <string>-c</string>
+        <string>cd "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar" &amp;&amp; npm run collect:metrics</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar</string>
+
+    <!--
+      20:00 local, daily.
+
+      🔴 WHY THIS HAS TO BE A SCHEDULED JOB AND NOT A THING YOU REMEMBER TO RUN:
+      the platforms report a RUNNING TOTAL, never a history. A view count that
+      is not sampled today is gone — you cannot ask YouTube what a video's views
+      were last Tuesday. Every day this does not run is a permanent hole in the
+      only dataset that can ever answer which hooks, lengths and formats work.
+
+      It was built on 2026-07-31 and left unscheduled; the last sample was taken
+      that day. Whatever happened between then and now is unrecoverable, which
+      is precisely the argument for automating it.
+
+      20:00 sits before the 21:00 post, so a day's numbers are captured against
+      that day's content rather than being half-attributed to a video that went
+      out minutes earlier.
+
+      ⚠️ Velocity needs at least an hour between samples; daily is well clear.
+    -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>20</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!--
+      Safe to fire on load: collecting a sample is read-only against the
+      platforms and simply appends a dated point. Unlike the publish job,
+      running it at an unplanned moment posts nothing.
+    -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/metrics.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/metrics.err.log</string>
+</dict>
+</plist>
