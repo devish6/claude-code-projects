@@ -66,7 +66,7 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
 const RESUME = args.includes("--resume");
 const dateArg = args.find((a) => a.startsWith("--date="))?.split("=")[1];
-const RUN_DATE = dateArg ?? new Date().toISOString().slice(0, 10);
+const TOMORROW = args.includes("--tomorrow");
 
 const WEEKLY_PLAN_PATH = "content/weekly-plan-w1.json";
 const HOOKS_PATH = "src/viral/hooks.ts";
@@ -74,8 +74,56 @@ const DAILY_ENERGY_PATH = "content/daily-energy.json";
 
 const log = (...a) => process.stdout.write(a.join(" ") + "\n");
 
-// ── Day index ────────────────────────────────────────────────────────────
 const state = loadState();
+
+// ── Which day are we building for? ───────────────────────────────────────
+const isoDay = (d) => d.toISOString().slice(0, 10);
+const addDays = (iso, n) => {
+  // Noon UTC, never midnight: `new Date("2026-08-03")` parses as UTC midnight
+  // and reads back LOCAL, so west of Greenwich it lands on the previous day.
+  // That bug already cost the weekday series once.
+  const d = new Date(`${iso}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return isoDay(d);
+};
+
+const TODAY = isoDay(new Date());
+
+/** A date is covered when it has a real batch and every video is on disk. */
+const isCovered = (date) =>
+  state.videos.some((v) => v.date === date && v.source !== "seed-existing") &&
+  findIncompleteVideos(state, DEST, date).length === 0;
+
+/**
+ * ⭐ `--tomorrow` RENDERS THE NIGHT BEFORE, BUT CATCHES UP FIRST.
+ *
+ * The schedule moved to 22:00 the previous day (owner, 2026-08-01) — after the
+ * day's 21:00 post, so a full night of headroom sits between rendering and the
+ * 09:00 slot that needs the files.
+ *
+ * 🪤 THE OBVIOUS IMPLEMENTATION IS WRONG. If `--tomorrow` simply meant
+ * `today + 1`, a missed run would skip a day permanently rather than run late:
+ * the Mac asleep at Saturday 22:00 wakes Sunday morning, RunAtLoad fires,
+ * "tomorrow" is now MONDAY, and Sunday never gets a batch at all — so Sunday's
+ * 09:00 publish falls through to the backlog and posts an off-theme video. That
+ * is the exact failure the 18:00 → 06:00 move was made to fix, reintroduced
+ * from the other side.
+ *
+ * So: build tomorrow's batch only once today is genuinely covered. Otherwise
+ * today is the more urgent job and gets built first; the next run picks up
+ * tomorrow. A late run degrades to the old same-day behaviour instead of
+ * silently losing a day.
+ */
+const resolveRunDate = () => {
+  if (dateArg) return dateArg;
+  if (!TOMORROW) return TODAY;
+  if (isCovered(TODAY)) return addDays(TODAY, 1);
+  log(`· ${TODAY} has no complete batch yet — building today first, tomorrow on the next run.`);
+  return TODAY;
+};
+
+const RUN_DATE = resolveRunDate();
+
 state.pipelineMeta ??= { firstRunDate: RUN_DATE };
 const daysSinceStart =
   Math.round((new Date(RUN_DATE) - new Date(state.pipelineMeta.firstRunDate)) / 86_400_000) + 1;

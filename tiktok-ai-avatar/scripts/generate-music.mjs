@@ -67,27 +67,52 @@ export const GATE = {
 /**
  * The brief.
  *
- * ⭐ EVERY CLAUSE IS LOAD-BEARING AND MOST ENCODE A PAST FAILURE:
+ * 🔴 REWRITTEN 2026-08-01 AFTER THE OWNER HEARD THE FIRST BATCH: *"the beat is
+ * very EDM… we are giving people numerology advice, it needs to be soft but
+ * fast. The music currently is fast but not soft."*
+ *
+ * ⭐⭐ THE CAUSE WAS ONE CLAUSE, AND IT IS AN INSTRUCTIVE MISTAKE. The first
+ * brief asked for "a strong percussive transient on every beat: tight kick,
+ * crisp snare or clap, driving hi-hats". That was written to satisfy the BEAT
+ * TRACKER — it locates beats from attacks, so a pad-led track cannot be cut to.
+ * But it specified the transient by naming DANCE-FLOOR INSTRUMENTS, and a
+ * generator asked for kick/snare/hats at 150 BPM returns hard techno. A
+ * technical requirement got smuggled in as a genre.
+ *
+ * The tracker needs an ATTACK, not a LOUD one. A kalimba note, a plucked
+ * string and a soft mallet all produce a sharp onset envelope — exactly what
+ * the spectral flux detects — while sounding nothing like a club. So the
+ * requirement survives verbatim in substance and the instrumentation is
+ * inverted: soft, warm, acoustic-leaning sources, and an explicit ban on the
+ * EDM furniture (distorted synths, drops, risers, sweeps) that the old wording
+ * invited.
+ *
+ * ⭐ TEMPO IS DELIBERATELY UNCHANGED. The owner's note is precise — "soft but
+ * fast", the pace is right and the texture is wrong. Nothing here slows the
+ * pulse, and phrases like "unhurried" or "half-time" are avoided on purpose:
+ * a half-time feel would also halve what the beat tracker locks onto and cut
+ * every video on the off-beat.
+ *
+ * The remaining clauses each still encode a past failure:
  * - "no intro, no build, no fade" — the standing energy-from-frame-0 rule; a
  *   hard-cut hook over a swell reads as a broken file. `trendV02` and
- *   `readyV04` open at 0.30 and 0.22 of body level and had to be head-trimmed
- *   by hand.
- * - "identical tempo from first beat to last, no breakdown, no half-time" —
- *   this is what makes a bed measurable, and it is exactly where voltSlope
- *   fails. A breakdown removes the onsets the alignment depends on.
- * - "strong percussive transient on every beat" — the alignment locates beats
- *   from attacks, so a pad-led track cannot be cut to however good it sounds.
- * - "starts exactly on a downbeat" — keeps phase near zero.
- * - instrumental — a vocal line would compete with the on-screen copy, and
- *   these videos are largely watched muted anyway.
+ *   `readyV04` open at 0.30 and 0.22 of body level and needed hand head-trims.
+ * - "identical tempo, no breakdown, no half-time" — a breakdown removes the
+ *   onsets the alignment depends on. This is where `voltSlope` fails.
+ * - instrumental — a vocal would compete with the on-screen copy, and these
+ *   are largely watched muted anyway.
  */
 const promptFor = (bpm) =>
   [
-    `Instrumental electronic music bed at exactly ${bpm} BPM.`,
-    "Begins immediately at full energy on a hard downbeat — no intro, no build, no fade-in, no silence at the start.",
-    "A strong percussive transient on every single beat: tight kick, crisp snare or clap, driving hi-hats.",
+    `Gentle, warm, instrumental music bed at exactly ${bpm} BPM.`,
+    "Soft, calm and reassuring in character — it sits underneath spoken numerology and astrology guidance, so it must feel reflective and trustworthy, never aggressive and never like club or dance music.",
+    "Instrumentation: warm analogue pads, soft plucked strings and harp, kalimba and marimba mallets, light shakers and softly brushed percussion, gentle rounded sub bass.",
+    "Strictly avoid distorted or supersaw synths, hard techno or hardstyle kicks, heavy snares, EDM drops, risers, white-noise sweeps and sirens.",
+    "Keep a clear and steady rhythmic pulse — a soft mallet, pluck or gently muted kick lands on every single beat, so the rhythm is easy to follow — but keep every one of those hits soft-edged and low in impact rather than punchy.",
+    "Flowing and gently energetic, never frantic.",
+    "Begins immediately at full level on a downbeat: no intro, no build, no fade-in, no silence at the start.",
     `Absolutely constant tempo of ${bpm} BPM from the first beat to the last — no breakdown, no half-time section, no ritardando, no tempo change of any kind.`,
-    "Dark, modern, cinematic and mystical in mood, suited to a short vertical video about numerology and astrology.",
+    "Mystical, warm and slightly cinematic in mood.",
     "Purely instrumental — no vocals, no spoken word, no lyrics.",
     "Consistent loudness throughout with no long quiet passages.",
   ].join(" ");

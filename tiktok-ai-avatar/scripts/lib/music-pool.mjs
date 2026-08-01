@@ -147,9 +147,18 @@ export const BEDS = {
   executorV11: { file: "executor-v11.mp3", bpm: 150.76, phaseMs: 56, seconds: 30.0 },
   aggroTechnoV12: { file: "aggrotechno-v12.mp3", bpm: 150.02, phaseMs: 199, seconds: 30.0 },
 
-  // 🆕 2026-08-01 — first ORIGINAL beds, generated with ElevenLabs
-  // `/v1/music/compose`. The pool had not gained a track since 2026-07-25 and
-  // the owner noticed the July beds still playing on V24.
+  // 🆕 2026-08-01 — ORIGINAL beds, generated with ElevenLabs `/v1/music/compose`.
+  // The pool had not gained a track since 2026-07-25 and the owner noticed the
+  // July beds still playing on V24.
+  //
+  // 🔴 RE-GENERATED THE SAME DAY on a rewritten brief. The first set came back
+  // hard EDM — owner: *"the beat is very EDM, thats too fast for a normal
+  // viewer… we are giving people numerology advice, it needs to be soft but
+  // fast."* Cause and fix are documented in scripts/generate-music.mjs: the old
+  // brief specified the beat tracker's requirement by NAMING DANCE INSTRUMENTS
+  // ("tight kick, crisp snare, driving hi-hats") when what the tracker actually
+  // needs is any sharp attack. Same tempos, soft sources — kalimba, mallets,
+  // plucked strings, brushed percussion.
   //
   // ⭐ THEY FILL THE TWO TEMPO SLOTS THE POOL NEVER HAD. `trackForTempo` picks
   // the nearest bed to the target, and with nothing near 128 or 165 those two
@@ -163,18 +172,18 @@ export const BEDS = {
   //
   // 🪤 Their tempo DRIFTS about 2% across a track, so `bpm` here is an average
   // and should not be used as a cut grid. Cuts come from content/beat-maps.json.
-  pulseV13: { file: "pulse-v13.mp3", bpm: 128.21, phaseMs: 266, seconds: 32.08 },
-  obsidianV14: { file: "obsidian-v14.mp3", bpm: 128.96, phaseMs: 197, seconds: 32.03 },
-  cipherV15: { file: "cipher-v15.mp3", bpm: 140.01, phaseMs: 159, seconds: 32.08 },
-  meridianV16: { file: "meridian-v16.mp3", bpm: 139.26, phaseMs: 201, seconds: 32.08 },
-  vertexV17: { file: "vertex-v17.mp3", bpm: 164.97, phaseMs: 70, seconds: 32.08 },
-  kineticV18: { file: "kinetic-v18.mp3", bpm: 166.48, phaseMs: 210, seconds: 32.08 },
+  pulseV13: { file: "pulse-v13.mp3", bpm: 129.47, phaseMs: 117, seconds: 32.08 },
+  obsidianV14: { file: "obsidian-v14.mp3", bpm: 129.3, phaseMs: 24, seconds: 32.08 },
+  cipherV15: { file: "cipher-v15.mp3", bpm: 140.53, phaseMs: 83, seconds: 32.08 },
+  meridianV16: { file: "meridian-v16.mp3", bpm: 139.98, phaseMs: 426, seconds: 32.08 },
+  vertexV17: { file: "vertex-v17.mp3", bpm: 164.01, phaseMs: 366, seconds: 32.08 },
+  kineticV18: { file: "kinetic-v18.mp3", bpm: 166.54, phaseMs: 75, seconds: 32.08 },
   // Added hours after the first six, once it was clear that generating beds at
   // 128/140/165 alone did NOT stop the 150 slot serving July music: the picker
   // takes the nearest tempo, and the nearest thing to 150 was still a sourced
   // bed. A tempo slot without a new bed in it never gets new music.
-  helixV19: { file: "helix-v19.mp3", bpm: 151.35, phaseMs: 186, seconds: 32.08 },
-  quartzV20: { file: "quartz-v20.mp3", bpm: 151.27, phaseMs: 135, seconds: 32.08 },
+  helixV19: { file: "helix-v19.mp3", bpm: 150, phaseMs: 396, seconds: 32.03 },
+  quartzV20: { file: "quartz-v20.mp3", bpm: 151.41, phaseMs: 64, seconds: 32.08 },
 };
 
 /** Measured tempo per bed. Derived from BEDS so there is one source of truth. */

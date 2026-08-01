@@ -36,13 +36,26 @@ cp "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/deploy/co
 launchctl load ~/Library/LaunchAgents/com.numevix.dailyviral.plist
 ```
 
-That's it -- it'll fire at 18:00 local every day from now on, and also once
-immediately whenever it's loaded (at login/reboot/whenever you re-run
-`launchctl load`). That second behavior is intentional: combined with the
-idempotency guard in `daily-viral.mjs` (it no-ops if today's real batch
-already exists), it's what makes a missed 6pm run -- laptop asleep, etc. --
-catch up on next wake instead of silently skipping the day, without ever
-double-posting.
+That's it -- it'll fire at **22:00 local every day**, building **the NEXT
+day's** batch (the job passes `--tomorrow`), and also once immediately
+whenever it's loaded (at login/reboot/whenever you re-run `launchctl load`).
+
+22:00 sits after the day's last post (21:00), so rendering never competes
+with publishing, and it leaves a full night before the 09:00 slot that needs
+the files. It has been 18:00 (which was a bug -- the day's videos did not
+exist when the 09:00 job woke, and a Story Friday video went out on a
+Saturday), then 06:00 same-day, and is now 22:00 the night before.
+
+The run-on-load behaviour is intentional: combined with the idempotency guard
+in `daily-viral.mjs` (it no-ops if that date's real batch already exists),
+it's what makes a missed run catch up on next wake instead of silently
+skipping, without ever double-posting.
+
+⚠️ `--tomorrow` is not simply "today + 1". If the Mac is asleep at 22:00 and
+wakes the next morning, that reading would build the day *after* the current
+one and skip a day entirely. The script builds tomorrow only once today is
+genuinely covered (batch exists **and** every file is on disk); otherwise it
+builds today first and picks up tomorrow next run.
 
 Logs land in `tiktok-ai-avatar/logs/daily-viral.out.log` and `.err.log`.
 

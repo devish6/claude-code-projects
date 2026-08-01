@@ -960,8 +960,8 @@
         "ctaText": "Drop your date below",
         "music": "helixV19",
         "structure": {
-          "hook": 1.2,
-          "build": 3.6,
+          "hook": 1.4,
+          "build": 3.2,
           "value": 7.6,
           "cta": 2
         },
@@ -1021,10 +1021,10 @@
         "ctaText": "Drop your date below",
         "music": "pulseV13",
         "structure": {
-          "hook": 2.1,
-          "build": 6.1,
-          "value": 12.666666666666666,
-          "cta": 2.3333333333333335
+          "hook": 1.9333333333333333,
+          "build": 6.566666666666666,
+          "value": 12.166666666666666,
+          "cta": 2.8
         },
         "palette": "sage-gold",
         "layout": "centered"
@@ -1082,10 +1082,10 @@
         "ctaText": "Comment below if this is you",
         "music": "vertexV17",
         "structure": {
-          "hook": 2.2666666666666666,
-          "build": 8,
-          "value": 14.566666666666666,
-          "cta": 2.9
+          "hook": 2.3666666666666667,
+          "build": 7.7,
+          "value": 15,
+          "cta": 2.566666666666667
         },
         "palette": "ink-violet",
         "layout": "grid"

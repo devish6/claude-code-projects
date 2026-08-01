@@ -10,29 +10,38 @@
         <string>/bin/zsh</string>
         <string>-l</string>
         <string>-c</string>
-        <string>cd "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar" &amp;&amp; npm run daily:viral</string>
+        <string>cd "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar" &amp;&amp; npm run daily:viral -- --tomorrow</string>
     </array>
 
     <key>WorkingDirectory</key>
     <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar</string>
 
     <!--
-      06:00 local — deliberately BEFORE the first publish slot (09:00), not
-      after it.
+      22:00 local, building TOMORROW's batch (the script is passed --tomorrow).
 
-      🔴 IT USED TO BE 18:00, AND THAT WAS A BUG. Rendering after the day's
-      posting slots meant the day's videos did not exist when the 09:00 job
-      woke: that slot fell through to the backlog, so Friday's second video —
-      a Story Friday video — went out on a Saturday. The weekday series only
-      works if the day's content is rendered before the day's first post.
+      Owner's call, 2026-08-01: render the night before rather than the morning
+      of. It lands after the day's last post (21:00), so rendering never
+      competes with publishing, and it leaves a whole night of headroom before
+      the 09:00 slot that needs the files — instead of the three hours a 06:00
+      run allowed.
 
-      Three hours of headroom covers a slow batch and leaves room for a
-      --resume if a render fails.
+      🔴 IT WAS 18:00 BEFORE 2026-07-31, AND THAT WAS A BUG: rendering after the
+      day's posting slots meant the day's videos did not exist when the 09:00
+      job woke, so that slot fell through to the backlog and a Story Friday
+      video went out on a Saturday. It then became 06:00 same-day, and is now
+      22:00 the night before — which fixes the same problem with more margin.
+
+      🪤 --tomorrow is NOT simply "today + 1". If the Mac is asleep at 22:00 and
+      wakes the next morning, a naive reading would build the day AFTER the one
+      that is now current and skip a day entirely. The script therefore builds
+      tomorrow only once today is genuinely covered (batch exists AND every file
+      is on disk); otherwise it builds today first and picks up tomorrow on the
+      next run. A late run degrades to same-day rendering instead of losing a day.
     -->
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>6</integer>
+        <integer>22</integer>
         <key>Minute</key>
         <integer>0</integer>
     </dict>
