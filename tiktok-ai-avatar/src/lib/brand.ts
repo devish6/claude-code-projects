@@ -135,6 +135,27 @@ export const MUSIC = {
   // frames; the closest to 150 of the three by both measurement methods.
   aggroTechnoV12: "music/aggrotechno-v12.mp3",
 
+  // ── ORIGINAL generated beds, 2026-08-01 (ElevenLabs /v1/music/compose) ──
+  //
+  // The first music in this project that was composed for it rather than
+  // sourced. Two each at 128 / 140 / 165 BPM — the tempos the sourced pool
+  // never covered, which had left two of the variation engine's four tempo
+  // slots quietly resolving to the same ~150 BPM track.
+  //
+  // Briefed for the one property stock music cannot be asked for: a percussive
+  // transient on EVERY beat, so the beat tracker can locate the pulse. They
+  // measure an interval spread of 1.2-7.6ms against 2.7-24.2ms for the sourced
+  // beds.
+  //
+  // 🪤 Their tempo drifts ~2% across a track, so cuts are placed from the
+  // tracked beat times in content/beat-maps.json, never from a constant BPM.
+  pulseV13: "music/pulse-v13.mp3",
+  obsidianV14: "music/obsidian-v14.mp3",
+  cipherV15: "music/cipher-v15.mp3",
+  meridianV16: "music/meridian-v16.mp3",
+  vertexV17: "music/vertex-v17.mp3",
+  kineticV18: "music/kinetic-v18.mp3",
+
   // legacy tracks (still available)
   ambient: "music/orbital-drift.mp3",
   mool1: "music/mool-1.mp3",

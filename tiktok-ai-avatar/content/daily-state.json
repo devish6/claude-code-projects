@@ -372,9 +372,9 @@
         "ctaText": "Rate it below — be honest",
         "music": "voltSlope",
         "structure": {
-          "hook": 1.2,
+          "hook": 1.1666666666666667,
           "build": 3.6,
-          "value": 7.6,
+          "value": 7.533333333333333,
           "cta": 2
         },
         "palette": "ember",
@@ -435,8 +435,8 @@
         "ctaText": "4s — did I get it right this time?",
         "music": "hardstyleV10",
         "structure": {
-          "hook": 2.4,
-          "build": 8,
+          "hook": 2.466666666666667,
+          "build": 7.6,
           "value": 14.8,
           "cta": 2.8
         },
@@ -498,10 +498,10 @@
         "ctaText": "Comment your date for both numbers",
         "music": "cashFlowAnthem",
         "structure": {
-          "hook": 1.8666666666666667,
-          "build": 6.5,
-          "value": 12.533333333333333,
-          "cta": 2.3333333333333335
+          "hook": 2.1666666666666665,
+          "build": 6.033333333333333,
+          "value": 12.433333333333334,
+          "cta": 2.8
         },
         "palette": "sage-gold",
         "layout": "grid"
@@ -565,9 +565,9 @@
         "ctaText": "Today's energy, free — numevix.com/tarot",
         "music": "voltSlope",
         "structure": {
-          "hook": 2.4,
-          "build": 8,
-          "value": 14.8,
+          "hook": 2.3666666666666667,
+          "build": 7.966666666666667,
+          "value": 14.666666666666666,
           "cta": 2.8
         },
         "palette": "ink-violet",
@@ -621,9 +621,9 @@
         "music": "starlightV03",
         "structure": {
           "hook": 1.7333333333333334,
-          "build": 5.133333333333334,
-          "value": 10.3,
-          "cta": 2.6
+          "build": 5.166666666666667,
+          "value": 10.266666666666667,
+          "cta": 2.566666666666667
         },
         "palette": "ink-violet",
         "layout": "split"
@@ -681,9 +681,9 @@
         "ctaText": "Are you a 2? Comment below",
         "music": "voltSlope",
         "structure": {
-          "hook": 1.2,
+          "hook": 1.1666666666666667,
           "build": 3.6,
-          "value": 7.6,
+          "value": 7.533333333333333,
           "cta": 2
         },
         "palette": "ember",
@@ -743,9 +743,9 @@
         "music": "starlightV03",
         "structure": {
           "hook": 1.7333333333333334,
-          "build": 5.133333333333334,
-          "value": 10.3,
-          "cta": 2.6
+          "build": 5.166666666666667,
+          "value": 10.266666666666667,
+          "cta": 2.566666666666667
         },
         "palette": "ink-violet",
         "layout": "fullbleed"
@@ -809,10 +809,10 @@
         "ctaText": "Today's energy, free — numevix.com/tarot",
         "music": "cashFlowAnthem",
         "structure": {
-          "hook": 1.8666666666666667,
-          "build": 6.5,
-          "value": 12.533333333333333,
-          "cta": 2.3333333333333335
+          "hook": 2.1666666666666665,
+          "build": 6.033333333333333,
+          "value": 12.433333333333334,
+          "cta": 2.8
         },
         "palette": "ink-violet",
         "layout": "grid"
@@ -900,9 +900,9 @@
         "music": "starlightV03",
         "structure": {
           "hook": 1.7333333333333334,
-          "build": 5.133333333333334,
-          "value": 10.3,
-          "cta": 2.6
+          "build": 5.166666666666667,
+          "value": 10.266666666666667,
+          "cta": 2.566666666666667
         },
         "palette": "ink-violet",
         "layout": "centered"
@@ -960,9 +960,9 @@
         "ctaText": "Drop your date below",
         "music": "voltSlope",
         "structure": {
-          "hook": 1.2,
+          "hook": 1.1666666666666667,
           "build": 3.6,
-          "value": 7.6,
+          "value": 7.533333333333333,
           "cta": 2
         },
         "palette": "mono",

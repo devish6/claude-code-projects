@@ -208,12 +208,30 @@ export const ACT_ORDER = ["hook", "build", "value", "cta"];
  * Each boundary is forced at least one beat past the previous one, so a very
  * short act under a slow bed cannot collapse to zero frames.
  *
+ * ⭐⭐ `phaseMs` IS AS LOAD-BEARING AS THE TEMPO, and was the second half of the
+ * bug. Aligning to the beat PERIOD only works if beat zero sits at file zero —
+ * otherwise every cut is correctly spaced and uniformly wrong. Measured across
+ * the pool the offsets ran from 25ms to 199ms; `aggroTechnoV12` at 199ms
+ * against a 400ms beat is half a beat out, so aligning it to period alone would
+ * have put every one of its cuts exactly between two beats. Anchoring the grid
+ * at the first real downbeat costs nothing and removes a whole class of "the
+ * maths is right but it sounds wrong".
+ *
  * Returns act seconds, the same shape `structureById` returns, because that is
  * what ViralVideo's `structure` prop takes.
  */
-export const beatAlignedActs = (acts, bpm, fps = 30) => {
+export const beatAlignedActs = (acts, bpm, { fps = 30, phaseMs = 0 } = {}) => {
   if (!bpm || bpm <= 0) return { ...acts };
   const beatFrames = (60 / bpm) * fps;
+
+  // Fold the phase to the nearest beat, signed: a bed whose downbeat sits at
+  // 413ms under a 428ms beat is 15ms EARLY, not 413ms late, and shifting the
+  // whole grid forward by 413ms would be the larger error of the two.
+  let phaseFrames = ((phaseMs || 0) / 1000) * fps;
+  phaseFrames = ((phaseFrames % beatFrames) + beatFrames) % beatFrames;
+  if (phaseFrames > beatFrames / 2) phaseFrames -= beatFrames;
+
+  const gridFrame = (beats) => Math.round(phaseFrames + beats * beatFrames);
 
   let targetFrames = 0;
   let prevFrame = 0;
@@ -222,8 +240,8 @@ export const beatAlignedActs = (acts, bpm, fps = 30) => {
 
   for (const act of ACT_ORDER) {
     targetFrames += (acts[act] ?? 0) * fps;
-    const beats = Math.max(prevBeats + 1, Math.round(targetFrames / beatFrames));
-    const frame = Math.round(beats * beatFrames);
+    const beats = Math.max(prevBeats + 1, Math.round((targetFrames - phaseFrames) / beatFrames));
+    const frame = Math.max(prevFrame + 1, gridFrame(beats));
     aligned[act] = (frame - prevFrame) / fps;
     prevFrame = frame;
     prevBeats = beats;
@@ -237,12 +255,64 @@ export const beatAlignedActs = (acts, bpm, fps = 30) => {
  * Used by the tests and by the daily run's pre-flight print, so a structure
  * that drifts off the grid fails loudly instead of being noticed on the feed.
  */
-export const beatOffsetsMs = (acts, bpm, fps = 30) => {
+export const beatOffsetsMs = (acts, bpm, { fps = 30, phaseMs = 0 } = {}) => {
   const beatFrames = (60 / bpm) * fps;
+  let phaseFrames = ((phaseMs || 0) / 1000) * fps;
+  phaseFrames = ((phaseFrames % beatFrames) + beatFrames) % beatFrames;
+  if (phaseFrames > beatFrames / 2) phaseFrames -= beatFrames;
+
   let frames = 0;
   return ACT_ORDER.map((act) => {
     frames += (acts[act] ?? 0) * fps;
-    const nearest = Math.round(frames / beatFrames) * beatFrames;
-    return Math.round(((frames - nearest) / fps) * 1000);
+    const n = Math.round((frames - phaseFrames) / beatFrames);
+    return Math.round(((frames - (phaseFrames + n * beatFrames)) / fps) * 1000);
   });
+};
+
+/**
+ * Snaps act boundaries onto TRACKED beat times rather than a computed grid.
+ *
+ * ⭐⭐ THIS SUPERSEDES `beatAlignedActs` WHEREVER A BEAT MAP EXISTS, and the
+ * reason is that the constant-tempo model turned out to be false for both kinds
+ * of music we have. Library beds do not hold one tempo across a whole file —
+ * `voltSlope` measures 152.2 over 30 seconds and 150.8 over the first 14 — and
+ * every generated bed drifts by around 2%. `beatAlignedActs` computes where a
+ * beat OUGHT to be; this asks where one actually WAS.
+ *
+ * Boundaries are snapped in order, each to the nearest recorded beat that is
+ * later than the previous boundary, so acts can never invert or collapse. A
+ * boundary is only moved if a beat lies within `tolerance` of it — beyond that
+ * the map has a gap and the original timing is the safer answer.
+ *
+ * `beats` is an array of seconds from file zero, as produced by
+ * `beatMap()` in scripts/lib/tempo.mjs.
+ */
+export const snapActsToBeats = (acts, beats, { fps = 30, tolerance = 0.28 } = {}) => {
+  if (!beats?.length) return { ...acts };
+
+  let target = 0;
+  let prevFrame = 0;
+  const aligned = {};
+
+  for (const act of ACT_ORDER) {
+    target += acts[act] ?? 0;
+    const minTime = (prevFrame + 1) / fps;
+
+    let best = null;
+    for (const b of beats) {
+      if (b < minTime) continue;
+      if (best === null || Math.abs(b - target) < Math.abs(best - target)) best = b;
+      if (b > target && best !== null && b - target > Math.abs(best - target)) break;
+    }
+
+    const frame =
+      best !== null && Math.abs(best - target) <= tolerance
+        ? Math.max(prevFrame + 1, Math.round(best * fps))
+        : Math.max(prevFrame + 1, Math.round(target * fps));
+
+    aligned[act] = (frame - prevFrame) / fps;
+    prevFrame = frame;
+  }
+
+  return aligned;
 };

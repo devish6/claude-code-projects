@@ -48,12 +48,16 @@ import {
   FAST_TRACKS,
   trackForTempo,
   TRACK_BPM,
+  TRACK_PHASE_MS,
+  beatsForTrack,
+  loadBeatMaps,
 } from "./lib/music-pool.mjs";
 import {
   beatAlignedActs,
   findDuplicateFingerprints,
   pickVariation,
   structureById,
+  snapActsToBeats,
 } from "./lib/variation.mjs";
 import { addVideo, formatV, loadState, nextVNumber, saveState } from "./lib/state.mjs";
 import { compositionId, writeDailyTemplates } from "./lib/templates-gen.mjs";
@@ -150,6 +154,26 @@ const destForNumbering = !DRY_RUN && existsSync(homedir()) ? DEST : null;
 // what happened to V19/V21 on 2026-07-31.
 const variationsToday = [];
 
+// Beat maps are read once per run, not per video.
+const BEAT_MAPS = loadBeatMaps();
+
+/**
+ * Places a structure's cuts on the bed that will play under it.
+ *
+ * Prefers the TRACKED beat times, because neither our library beds nor
+ * generated music hold a constant tempo — `voltSlope` measures 152.2 across 30s
+ * and 150.8 across the first 14, and ElevenLabs takes drift about 2%. Falls
+ * back to the computed grid for a bed whose pulse the tracker could not follow,
+ * where an even grid at the measured tempo is the better of two imperfect
+ * answers.
+ */
+const alignToBed = (acts, music) => {
+  const beats = beatsForTrack(music, BEAT_MAPS);
+  return beats
+    ? snapActsToBeats(acts, beats)
+    : beatAlignedActs(acts, TRACK_BPM[music], { phaseMs: TRACK_PHASE_MS[music] });
+};
+
 batch = concepts.map((concept, slot) => {
   const vNum = nextVNumber(state, destForNumbering);
   const v = formatV(vNum);
@@ -162,13 +186,15 @@ batch = concepts.map((concept, slot) => {
   const variation = pickVariation(state, RUN_DATE, slot, variationsToday);
   variationsToday.push(variation);
   const previousMusic = state.videos.at(-1)?.music;
-  const music = trackForTempo(variation.tempo, previousMusic);
+  const acts = structureById(variation.structure);
+  const structureSeconds = Object.values(acts).reduce((a, b) => a + b, 0);
+  const music = trackForTempo(variation.tempo, previousMusic, structureSeconds);
 
   // 🔴 Align to the bed's REAL tempo, not `variation.tempo`. The pool has no
   // bed at 165 BPM, so that target resolves to a 150 BPM track — aligning to
   // the target would put every cut a tenth of a beat out on exactly the videos
   // the tempo axis was supposed to make different.
-  const structure = beatAlignedActs(structureById(variation.structure), TRACK_BPM[music]);
+  const structure = alignToBed(acts, music);
 
   const props = {
     hookText: hook.text,
@@ -237,14 +263,19 @@ if (slotBFor(RUN_DATE) !== "daily-energy") {
     variationsToday.push(variation);
     // Same bed-first ordering as the algorithmic slots above: the structure is
     // snapped to the tempo of the track that actually plays.
-    const music = trackForTempo(variation.tempo, state.videos.at(-1)?.music);
+    const energyActs = structureById(variation.structure);
+    const music = trackForTempo(
+      variation.tempo,
+      state.videos.at(-1)?.music,
+      Object.values(energyActs).reduce((a, b) => a + b, 0),
+    );
     const entry = composeDailyEnergyEntry({
       snapshot,
       weekday: todayWeekday,
       v: formatV(nextVNumber(state, destForNumbering)),
       music,
       date: RUN_DATE,
-      structure: beatAlignedActs(structureById(variation.structure), TRACK_BPM[music]),
+      structure: alignToBed(energyActs, music),
       variation,
     });
     addVideo(state, entry);

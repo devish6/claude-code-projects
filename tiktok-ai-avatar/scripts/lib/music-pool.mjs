@@ -9,7 +9,7 @@
  * ready-v04 (V04). Count against THESE FOUR when applying the 6-track floor,
  * not the full MUSIC registry -- the registry count is misleading.
  */
-import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 /**
@@ -26,6 +26,11 @@ export const FAST_TRACKS = [
   "cashFlowAnthem", "voltSlope", "blackVelvetAria",
   // 2026-07-25 restock: first beds sourced natively at ~150 BPM.
   "hardstyleV10", "executorV11", "aggroTechnoV12",
+  // 2026-08-01 restock: six ORIGINAL generated beds, two each at 128 / 140 /
+  // 165 BPM. Appended last on purpose -- nextTrack() rotates forward from the
+  // previous video's bed, so newest-last is what puts the next batch on the new
+  // music instead of re-serving July's.
+  "pulseV13", "obsidianV14", "cipherV15", "meridianV16", "vertexV17", "kineticV18",
 ];
 export const POOL_FLOOR = 6;
 
@@ -101,24 +106,79 @@ restocked; it will reappear if it drops below 6 again._
 };
 
 /**
- * Measured native tempo of each fast-track bed (autocorrelation sweep,
- * 2026-07-24 — do not re-measure, these are recorded in the project notes).
+ * Every bed, with the numbers `beatAlignedActs` needs to cut on its beat.
  *
- * violinEnergetic reads 198.8, which is 99.4 half-time — the feel the ±6% rule
- * says to avoid, so it is listed at its perceptual tempo.
+ * 🔴 THESE REPLACE THE 2026-07-24 AUTOCORRELATION SWEEP, WHICH WAS WRONG
+ * ENOUGH TO MATTER. That sweep was a peak-pick good to about ±1%, and while the
+ * BPM was only a label for choosing a track ±1% was harmless. `beatAlignedActs`
+ * turned it into arithmetic — a 1% error has drifted ~200ms by the end of a 28s
+ * video — so the pool was re-measured with `scripts/lib/tempo.mjs`, which is
+ * validated against synthetic clicks before it is believed.
+ *
+ * ⭐⭐ THE HEADLINE CORRECTION: `voltSlope` is **152.2 BPM, not 150.00**. The
+ * project notes called it "the only genuine ground truth we own… re-tempoed TO
+ * 150.00 by construction", and it was used to calibrate other measurements. It
+ * is not 150. The `atempo` factor applied back then was 150/143.6, but the
+ * 143.6 was itself an estimate off the same ±1% method, so the correction
+ * carried its own error straight into the file. Two later notes worrying that
+ * refiners "mis-read voltSlope as 151.06" were reading it closer to right than
+ * the constant they were being compared against.
+ * **The lesson: a file is not ground truth because a previous session said so.
+ * Only a signal you construct yourself is.**
+ *
+ * `phaseMs` is where the first downbeat sits relative to file zero. Nothing
+ * measured this before and it matters exactly as much as the tempo — see the
+ * note on `beatAlignedActs`. `aggroTechnoV12` at 199ms against a 400ms beat is
+ * half a beat out; aligning to period alone would put its cuts precisely
+ * between two beats.
+ *
+ * Regenerate with `npm run music:verify`.
  */
-export const TRACK_BPM = {
-  violinEnergetic: 99.4,
-  trendV02: 123.1,
-  starlightV03: 139.7,
-  readyV04: 139.7,
-  cashFlowAnthem: 129.2,
-  voltSlope: 150.0,
-  blackVelvetAria: 137.8,
-  hardstyleV10: 150.0,
-  executorV11: 150.0,
-  aggroTechnoV12: 150.0,
+export const BEDS = {
+  violinEnergetic: { file: "violin-energetic.mp3", bpm: 99.98, phaseMs: 586, seconds: 109.34 },
+  trendV02: { file: "trend-v02.mp3", bpm: 124.01, phaseMs: 452, seconds: 60.0 },
+  starlightV03: { file: "starlight-v03.mp3", bpm: 140.09, phaseMs: 40, seconds: 30.0 },
+  readyV04: { file: "ready-v04.mp3", bpm: 140.05, phaseMs: 413, seconds: 33.83 },
+  cashFlowAnthem: { file: "cashflow-v07.mp3", bpm: 130.14, phaseMs: 126, seconds: 25.0 },
+  voltSlope: { file: "voltslope-v08.mp3", bpm: 152.22, phaseMs: 25, seconds: 25.0 },
+  blackVelvetAria: { file: "blackvelvet-v09.mp3", bpm: 137.10, phaseMs: 404, seconds: 25.0 },
+  hardstyleV10: { file: "hardstyle-v10.mp3", bpm: 150.00, phaseMs: 70, seconds: 30.0 },
+  executorV11: { file: "executor-v11.mp3", bpm: 150.76, phaseMs: 56, seconds: 30.0 },
+  aggroTechnoV12: { file: "aggrotechno-v12.mp3", bpm: 150.02, phaseMs: 199, seconds: 30.0 },
+
+  // 🆕 2026-08-01 — first ORIGINAL beds, generated with ElevenLabs
+  // `/v1/music/compose`. The pool had not gained a track since 2026-07-25 and
+  // the owner noticed the July beds still playing on V24.
+  //
+  // ⭐ THEY FILL THE TWO TEMPO SLOTS THE POOL NEVER HAD. `trackForTempo` picks
+  // the nearest bed to the target, and with nothing near 128 or 165 those two
+  // legs of the variation engine both resolved to a ~150 track — a third of the
+  // tempo axis was decorative. Now every target has a real bed within 2 BPM.
+  //
+  // ⭐ AND THEY MEASURE BETTER THAN THE LIBRARY BEDS. Interval spread 1.2-7.6ms
+  // against 2.7-24.2 for the sourced pool, because the brief asks for a
+  // percussive transient on every beat — the exact property beat-snapping needs
+  // and the one thing you cannot request from a stock library.
+  //
+  // 🪤 Their tempo DRIFTS about 2% across a track, so `bpm` here is an average
+  // and should not be used as a cut grid. Cuts come from content/beat-maps.json.
+  pulseV13: { file: "pulse-v13.mp3", bpm: 128.21, phaseMs: 266, seconds: 32.08 },
+  obsidianV14: { file: "obsidian-v14.mp3", bpm: 128.96, phaseMs: 197, seconds: 32.03 },
+  cipherV15: { file: "cipher-v15.mp3", bpm: 140.01, phaseMs: 159, seconds: 32.08 },
+  meridianV16: { file: "meridian-v16.mp3", bpm: 139.26, phaseMs: 201, seconds: 32.08 },
+  vertexV17: { file: "vertex-v17.mp3", bpm: 164.97, phaseMs: 70, seconds: 32.08 },
+  kineticV18: { file: "kinetic-v18.mp3", bpm: 166.48, phaseMs: 210, seconds: 32.08 },
 };
+
+/** Measured tempo per bed. Derived from BEDS so there is one source of truth. */
+export const TRACK_BPM = Object.fromEntries(
+  Object.entries(BEDS).map(([k, b]) => [k, b.bpm]),
+);
+
+/** Where each bed's first downbeat sits, in ms from file zero. */
+export const TRACK_PHASE_MS = Object.fromEntries(
+  Object.entries(BEDS).map(([k, b]) => [k, b.phaseMs]),
+);
 
 /**
  * Picks the bed whose measured tempo is nearest the target.
@@ -129,13 +189,52 @@ export const TRACK_BPM = {
  *
  * Deterministic. `avoid` lets the caller refuse an immediate repeat.
  */
-export const trackForTempo = (targetBpm, avoid) => {
-  const candidates = FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined).filter(
-    (t) => t !== avoid,
-  );
-  const pool = candidates.length ? candidates : FAST_TRACKS;
+export const trackForTempo = (targetBpm, avoid, minSeconds = 0) => {
+  // 🔴 A BED SHORTER THAN THE VIDEO ENDS THE VIDEO IN SILENCE. Nothing checked
+  // this and it shipped: V18 pairs the 27.8s `long` structure with `voltSlope`,
+  // which is a 25s slice, so its final 2.8 seconds — the whole CTA, the one
+  // part asking for the click — play at digital silence (-180 dB, measured in
+  // the delivered MP4). Three of the sourced beds are 25s slices and every one
+  // of them can be drawn for a `long` video.
+  const longEnough = (t) => (BEDS[t]?.seconds ?? 0) >= minSeconds;
+  const candidates = FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined)
+    .filter((t) => t !== avoid)
+    .filter(longEnough);
+  // Never fail closed on the length rule — a repeated bed is a small problem, a
+  // missing video is a bigger one — but never silently ignore it either.
+  const pool = candidates.length
+    ? candidates
+    : FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined).filter(longEnough);
+  if (!pool.length) return FAST_TRACKS.filter((t) => TRACK_BPM[t] !== undefined)[0];
 
   return pool.reduce((best, track) =>
     Math.abs(TRACK_BPM[track] - targetBpm) < Math.abs(TRACK_BPM[best] - targetBpm) ? track : best,
   );
+};
+
+/**
+ * Beat maps, loaded from the committed content/beat-maps.json.
+ *
+ * Regenerate with `npm run music:beatmaps` after adding or replacing any bed.
+ * Missing file is not fatal: the pipeline falls back to `beatAlignedActs`,
+ * which only needs a tempo.
+ */
+export const loadBeatMaps = () => {
+  try {
+    return JSON.parse(readFileSync("content/beat-maps.json", "utf8"));
+  } catch {
+    return {};
+  }
+};
+
+/**
+ * The tracked beat times for a bed, in SECONDS, or null if it has no usable
+ * map. `usable` is false for beds whose pulse the tracker could not follow —
+ * cutting to a bad map is worse than cutting to an even grid, because the map
+ * carries a confident-looking wrong answer.
+ */
+export const beatsForTrack = (key, maps = loadBeatMaps()) => {
+  const m = maps[key];
+  if (!m?.usable || !m.beatsMs?.length) return null;
+  return m.beatsMs.map((ms) => ms / 1000);
 };

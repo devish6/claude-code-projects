@@ -13,7 +13,7 @@ import {
   beatAlignedActs,
   beatOffsetsMs,
 } from "./variation.mjs";
-import { TRACK_BPM } from "./music-pool.mjs";
+import { TRACK_BPM, TRACK_PHASE_MS } from "./music-pool.mjs";
 
 /**
  * Why this module exists, in one measurement:
@@ -270,8 +270,9 @@ describe("beatAlignedActs", () => {
   test("puts every act boundary within half a frame of a beat, for every structure/bed pair", () => {
     for (const structure of STRUCTURES) {
       for (const [bed, bpm] of Object.entries(TRACK_BPM)) {
-        const aligned = beatAlignedActs(structure.acts, bpm);
-        for (const off of beatOffsetsMs(aligned, bpm)) {
+        const phaseMs = TRACK_PHASE_MS[bed];
+        const aligned = beatAlignedActs(structure.acts, bpm, { phaseMs });
+        for (const off of beatOffsetsMs(aligned, bpm, { phaseMs })) {
           // half a frame at 30fps is 16.7ms; allow 17 for rounding.
           expect(Math.abs(off), `${structure.id} on ${bed}`).toBeLessThanOrEqual(17);
         }
