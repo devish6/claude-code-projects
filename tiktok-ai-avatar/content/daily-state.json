@@ -1096,6 +1096,128 @@
         "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V27",
         "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V27"
       }
+    },
+    {
+      "v": "V28",
+      "title": "Born On The 4th You Break Rules",
+      "date": "2026-08-03",
+      "category": "identity",
+      "moolank": 4,
+      "hookId": "id-4-rules",
+      "music": "kineticV18",
+      "variation": {
+        "structure": "standard",
+        "tempo": 165,
+        "layout": "split",
+        "palette": "mono"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "algorithmic",
+      "needsReview": true,
+      "whyComment": "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
+      "tiktokCaption": "BORN ON THE 4th? YOU BREAK RULES. Are you a 4? Comment below 👇",
+      "instagramCaption": "BORN ON THE 4th? YOU BREAK RULES — Then rebuild them better. People misread this trait constantly... It isn't what they think it is. Are you a 4? Comment below 👇",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#moolank"
+      ],
+      "suggestedPostTime": "6:00–7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "BORN ON THE 4th?",
+        "hookAccent": "YOU BREAK RULES",
+        "hookSub": "Then rebuild them better",
+        "variant": "identity",
+        "buildSetup": "People misread this trait constantly...",
+        "buildReveal": "It isn't what they think it is.",
+        "number": 4,
+        "numberLabel": "Ruled by Rahu",
+        "traits": [
+          "You think differently",
+          "Hard-working & systematic",
+          "Loyal and dependable",
+          "Built to disrupt"
+        ],
+        "ctaText": "Are you a 4? Comment below",
+        "music": "kineticV18",
+        "structure": {
+          "hook": 1.5,
+          "build": 5.433333333333334,
+          "value": 10.2,
+          "cta": 2.533333333333333
+        },
+        "palette": "mono",
+        "layout": "split"
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V28",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V28",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V28",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V28"
+      }
+    },
+    {
+      "v": "V29",
+      "title": "You Cant Learn Without Teaching",
+      "date": "2026-08-03",
+      "category": "identity",
+      "moolank": 5,
+      "hookId": "id-3-explain",
+      "music": "obsidianV14",
+      "variation": {
+        "structure": "essay",
+        "tempo": 128,
+        "layout": "fullbleed",
+        "palette": "sage-gold"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "algorithmic",
+      "needsReview": true,
+      "whyComment": "Algorithmically picked to fill the day's rotation -- structurally on-rule (category/no-repeat/hook copy), recommend a content pass to sharpen the prose.",
+      "tiktokCaption": "YOU CAN'T LEARN WITHOUT TEACHING. Are you a 5? Comment below 👇",
+      "instagramCaption": "YOU CAN'T LEARN WITHOUT TEACHING — That's a 3 thing. There's a reason this keeps showing up for you... It traces straight back to your birth number. Are you a 5? Comment below 👇",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#moolank"
+      ],
+      "suggestedPostTime": "6:00–7:00 PM local, same evening as render",
+      "props": {
+        "hookText": "YOU CAN'T LEARN",
+        "hookAccent": "WITHOUT TEACHING",
+        "hookSub": "That's a 3 thing",
+        "variant": "identity",
+        "buildSetup": "There's a reason this keeps showing up for you...",
+        "buildReveal": "It traces straight back to your birth number.",
+        "number": 5,
+        "numberLabel": "Ruled by Mercury",
+        "traits": [
+          "Sharp & quick-witted",
+          "A magnetic communicator",
+          "Adaptable to anything",
+          "Born for business"
+        ],
+        "ctaText": "Are you a 5? Comment below",
+        "music": "obsidianV14",
+        "structure": {
+          "hook": 1.8666666666666667,
+          "build": 6.566666666666666,
+          "value": 12.166666666666666,
+          "cta": 2.8333333333333335
+        },
+        "palette": "sage-gold",
+        "layout": "fullbleed"
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/tarot?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V29",
+        "instagram": "https://numevix.com/tarot?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V29",
+        "youtube": "https://numevix.com/tarot?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V29",
+        "facebook": "https://numevix.com/tarot?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V29"
+      }
     }
   ],
   "pipelineMeta": {

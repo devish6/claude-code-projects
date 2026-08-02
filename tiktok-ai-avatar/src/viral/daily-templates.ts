@@ -300,6 +300,40 @@ export const DAILY_TEMPLATES: Record<string, ViralVideoProps> = {
     palette: "ink-violet",
     layout: "grid",
   },
+
+  "Viral-28-Identity-BornOnThe4thYouBreakRules": {
+    hookText: "BORN ON THE 4th?",
+    hookAccent: "YOU BREAK RULES",
+    hookSub: "Then rebuild them better",
+    variant: "identity",
+    buildSetup: "People misread this trait constantly...",
+    buildReveal: "It isn't what they think it is.",
+    number: 4,
+    numberLabel: "Ruled by Rahu",
+    traits: ["You think differently", "Hard-working & systematic", "Loyal and dependable", "Built to disrupt"],
+    ctaText: "Are you a 4? Comment below",
+    music: MUSIC.kineticV18,
+    structure: { hook: 1.5, build: 5.433333333333334, value: 10.2, cta: 2.533333333333333 },
+    palette: "mono",
+    layout: "split",
+  },
+
+  "Viral-29-Identity-YouCantLearnWithoutTeaching": {
+    hookText: "YOU CAN'T LEARN",
+    hookAccent: "WITHOUT TEACHING",
+    hookSub: "That's a 3 thing",
+    variant: "identity",
+    buildSetup: "There's a reason this keeps showing up for you...",
+    buildReveal: "It traces straight back to your birth number.",
+    number: 5,
+    numberLabel: "Ruled by Mercury",
+    traits: ["Sharp & quick-witted", "A magnetic communicator", "Adaptable to anything", "Born for business"],
+    ctaText: "Are you a 5? Comment below",
+    music: MUSIC.obsidianV14,
+    structure: { hook: 1.8666666666666667, build: 6.566666666666666, value: 12.166666666666666, cta: 2.8333333333333335 },
+    palette: "sage-gold",
+    layout: "fullbleed",
+  },
 };
 
 export const DAILY_COVERS: Record<
@@ -430,5 +464,19 @@ export const DAILY_COVERS: Record<
     title: "WHICH ONE ARE YOU?",
     accent: "1, 5 OR 8",
     number: 2,
+  },
+
+  "Viral-28-Identity-BornOnThe4thYouBreakRules": {
+    kicker: "Ruled by Rahu",
+    title: "BORN ON THE 4th?",
+    accent: "YOU BREAK RULES",
+    number: 4,
+  },
+
+  "Viral-29-Identity-YouCantLearnWithoutTeaching": {
+    kicker: "Ruled by Mercury",
+    title: "YOU CAN'T LEARN",
+    accent: "WITHOUT TEACHING",
+    number: 5,
   },
 };
