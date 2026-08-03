@@ -39,6 +39,7 @@
     "publish:tiktok": "node scripts/publish-tiktok.mjs",
     "collect:metrics": "node scripts/collect-metrics.mjs",
     "publish:next": "node scripts/publish-next.mjs",
+    "kit": "node scripts/manual-post-kit.mjs",
     "music:verify": "node scripts/verify-music.mjs",
     "music:generate": "node scripts/generate-music.mjs",
     "music:beatmaps": "node scripts/build-beat-maps.mjs"
