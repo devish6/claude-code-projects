@@ -45,7 +45,9 @@
     "music:beatmaps": "node scripts/build-beat-maps.mjs",
     "cards": "node scripts/render-cards.mjs",
     "publish:card": "node scripts/publish-card.mjs",
-    "narration": "node scripts/generate-narration.mjs"
+    "narration": "node scripts/generate-narration.mjs",
+    "queue:reel": "node scripts/queue-card-reel.mjs",
+    "publish:next-card": "node scripts/publish-next-card.mjs"
   },
   "sideEffects": [
     "*.css"

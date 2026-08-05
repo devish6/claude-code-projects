@@ -30,7 +30,16 @@ import { join } from "node:path";
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
-const PLATFORMS = (args.find((a) => a.startsWith("--platforms="))?.split("=")[1] ?? "youtube,instagram,facebook")
+/*
+  ⭐ TIKTOK IS IN THE DEFAULT LIST as of 2026-08-05 — the restriction that kept
+  it out was lifted on 2026-08-04 (TikTok's own mistake; no guideline was ever
+  named). 🪤 It still only delivers a DRAFT: publish-tiktok.mjs posts to the
+  Content Posting API inbox endpoint, which publishes nothing and accepts no
+  caption. So a default run now puts the video in the TikTok app awaiting a
+  person to type the caption and tap publish — that is a success here, and the
+  ledger marks it done. Nobody should read "out on tiktok" as "live on tiktok".
+*/
+const PLATFORMS = (args.find((a) => a.startsWith("--platforms="))?.split("=")[1] ?? "youtube,instagram,facebook,tiktok")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
@@ -57,7 +66,21 @@ const candidates = (state.videos ?? [])
   .filter((v) => v.status === "generated" && v.source !== "seed-existing")
   .sort((a, b) => (a.date === b.date ? a.v.localeCompare(b.v) : a.date.localeCompare(b.date)));
 
-const unpublished = (v) => PLATFORMS.some((p) => !publishedOn(p, v.v));
+/**
+ * The platforms an entry is ALLOWED on, intersected with the ones this run asked for.
+ *
+ * 🔴 An entry may opt out of a platform, and the card reels opt out of Instagram:
+ * they reach it through publish-card.mjs, which keeps a separate ledger in
+ * card-posts.json. Without this, a default run would hand the card reel to
+ * publish-instagram.mjs too — which cannot even find the file, so the slot would
+ * be spent on a guaranteed failure that retries forever, and if it ever DID
+ * succeed it would be a duplicate of what publish-card already posted.
+ * Entries with no `platforms` field mean "all of them", which is every video
+ * the old pipeline ever wrote.
+ */
+const platformsFor = (v) => PLATFORMS.filter((p) => (v.platforms ?? PLATFORMS).includes(p));
+
+const unpublished = (v) => platformsFor(v).some((p) => !publishedOn(p, v.v));
 
 /**
  * TODAY'S videos come first, and that ordering is load-bearing.
@@ -81,7 +104,7 @@ if (!next) {
   process.exit(0);
 }
 
-const pending = PLATFORMS.filter((p) => !publishedOn(p, next.v));
+const pending = platformsFor(next).filter((p) => !publishedOn(p, next.v));
 log(`Next up: ${next.v} — ${next.title}  (${next.date})`);
 log(`  pending on: ${pending.join(", ")}`);
 

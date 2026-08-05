@@ -26,7 +26,7 @@
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { createInterface } from "node:readline/promises";
 
@@ -217,6 +217,20 @@ const check = async () => {
 // ── Publishing ──────────────────────────────────────────────────────────────
 
 const findVideoFile = (entry) => {
+  /*
+    ⭐ AN ENTRY MAY CARRY ITS OWN PATH, and the card reels do.
+    The folder convention below belongs to the old Remotion viral pipeline,
+    which rendered into ~/Desktop/Numevix Videos/Viral/<V> - <title>/. Card
+    reels are rendered by `remotion render CardReel-N` straight into the repo's
+    out/reels/, so there is no such folder and no name to guess. Rather than
+    teach three publishers a second naming convention, an entry can simply say
+    where its file is — repo-relative or absolute — and the convention stays the
+    fallback for everything that predates this.
+  */
+  if (entry.file) {
+    const explicit = isAbsolute(entry.file) ? entry.file : join(process.cwd(), entry.file);
+    return existsSync(explicit) ? explicit : null;
+  }
   const dir = join(homedir(), "Desktop", "Numevix Videos", "Viral", `${entry.v} - ${entry.title}`);
   if (!existsSync(dir)) return null;
   return newestRender(dir);
