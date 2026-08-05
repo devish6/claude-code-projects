@@ -28,6 +28,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
+import { byRunningOrder } from "./lib/running-order.mjs";
+
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
 /*
@@ -64,7 +66,7 @@ const publishedOn = (platform, v) => {
 // status the pipeline writes once a render has actually produced a file.
 const candidates = (state.videos ?? [])
   .filter((v) => v.status === "generated" && v.source !== "seed-existing")
-  .sort((a, b) => (a.date === b.date ? a.v.localeCompare(b.v) : a.date.localeCompare(b.date)));
+  .sort(byRunningOrder);
 
 /**
  * The platforms an entry is ALLOWED on, intersected with the ones this run asked for.
