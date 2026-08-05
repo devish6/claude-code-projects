@@ -1,0 +1,319 @@
+{
+  "1": {
+    "number": 1,
+    "archetype": "The Leader",
+    "planet": "Sun",
+    "bornOn": "1st, 10th, 19th, 28th",
+    "element": "Fire",
+    "personality": "Independent, driven, born to lead.",
+    "strengths": [
+      "Leadership and initiative",
+      "Confidence and ambition",
+      "Originality",
+      "Determination"
+    ],
+    "innerWorld": "Learning to lead with humility — to use will in service of others, not ego.",
+    "relationships": "Warm but strong-willed. Needs a partner who respects its independence.",
+    "career": "Entrepreneur · Executive · Government · Self-employed",
+    "shadow": [
+      "Pride can harden into ego",
+      "Impatience with slower people",
+      "Finds emotion hard to show"
+    ],
+    "luckyColours": [
+      "Gold",
+      "Orange",
+      "Yellow"
+    ],
+    "luckyNumbers": [
+      1,
+      2,
+      4,
+      7
+    ],
+    "luckyDay": "Sunday",
+    "mantra": "Om Suryaya Namah",
+    "remedy": "Surya ko arghya at sunrise, from a copper lota."
+  },
+  "2": {
+    "number": 2,
+    "archetype": "The Diplomat",
+    "planet": "Moon",
+    "bornOn": "2nd, 11th, 20th, 29th",
+    "element": "Water",
+    "personality": "Sensitive, intuitive, a natural peacemaker.",
+    "strengths": [
+      "Emotional intelligence",
+      "Warmth and nurturing nature",
+      "Strong in partnership",
+      "Creativity and charm"
+    ],
+    "innerWorld": "Learning inner steadiness — to nurture others without losing yourself.",
+    "relationships": "Romantic and devoted. Gives deeply, and needs the same warmth returned.",
+    "career": "Counsellor · Hospitality · Caregiving · Creative arts",
+    "shadow": [
+      "Takes criticism to heart",
+      "Waits for others to decide",
+      "Mood can swing quickly"
+    ],
+    "luckyColours": [
+      "White",
+      "Cream",
+      "Silver"
+    ],
+    "luckyNumbers": [
+      1,
+      2,
+      7,
+      9
+    ],
+    "luckyDay": "Monday",
+    "mantra": "Om Chandraya Namah",
+    "remedy": "Doodh at a Shiv temple on Monday. Keep silver near you."
+  },
+  "3": {
+    "number": 3,
+    "archetype": "The Teacher",
+    "planet": "Jupiter",
+    "bornOn": "3rd, 12th, 21st, 30th",
+    "element": "Ether",
+    "personality": "Wise, expressive, a natural guide.",
+    "strengths": [
+      "Wisdom and sound judgment",
+      "Persuasive communication",
+      "Strong moral compass",
+      "Reliable as a counsellor"
+    ],
+    "innerWorld": "Learning to lead through genuine counsel rather than control.",
+    "relationships": "Loyal and grounded. Does best when it listens as much as it speaks.",
+    "career": "Teacher · Lawyer · Author · Consultant",
+    "shadow": [
+      "Advice can turn into control",
+      "Low spirits when unappreciated",
+      "Slow to admit a mistake"
+    ],
+    "luckyColours": [
+      "Yellow",
+      "Gold"
+    ],
+    "luckyNumbers": [
+      3,
+      6,
+      9
+    ],
+    "luckyDay": "Thursday",
+    "mantra": "Om Brihaspataye Namah",
+    "remedy": "Thursday, wear yellow. Haldi to someone who taught you."
+  },
+  "4": {
+    "number": 4,
+    "archetype": "The Researcher",
+    "planet": "Rahu",
+    "bornOn": "4th, 13th, 22nd, 31st",
+    "element": "Air",
+    "personality": "Sharp-minded, unconventional, a natural problem-solver.",
+    "strengths": [
+      "Unconventional thinking",
+      "Strong memory and research",
+      "Persuasiveness",
+      "Eye for detail"
+    ],
+    "innerWorld": "Learning to turn restless energy into follow-through — to finish what is started.",
+    "relationships": "Loyal once committed. Does best with a patient partner who brings steadiness.",
+    "career": "Researcher · Sales · Technology · Consulting",
+    "shadow": [
+      "Plans change faster than they finish",
+      "Sudden setbacks hit hard",
+      "Restlessness"
+    ],
+    "luckyColours": [
+      "Grey",
+      "Blue"
+    ],
+    "luckyNumbers": [
+      1,
+      2,
+      4,
+      7,
+      8
+    ],
+    "luckyDay": "Saturday",
+    "mantra": "Om Raam Rahave Namah",
+    "remedy": "Nariyal into flowing water on Saturday. Feed the street dogs."
+  },
+  "5": {
+    "number": 5,
+    "archetype": "The Communicator",
+    "planet": "Mercury",
+    "bornOn": "5th, 14th, 23rd",
+    "element": "Earth",
+    "personality": "Quick-witted, sociable, a natural negotiator.",
+    "strengths": [
+      "Quick, logical intelligence",
+      "Strong negotiation",
+      "Networks easily",
+      "Hard-working and money-savvy"
+    ],
+    "innerWorld": "Learning to use a sharp mind generously — to give value, not only calculate it.",
+    "relationships": "Sociable and engaging. Softens when feeling, not just logic, guides the words.",
+    "career": "Business · Journalism · Finance · Marketing",
+    "shadow": [
+      "Counts profit and loss even at home",
+      "Hard to settle",
+      "Bluntness that lands sharply"
+    ],
+    "luckyColours": [
+      "Green",
+      "Grey"
+    ],
+    "luckyNumbers": [
+      3,
+      5,
+      6,
+      9
+    ],
+    "luckyDay": "Wednesday",
+    "mantra": "Om Budhaya Namah",
+    "remedy": "Wednesday mornings, hara moong for the birds."
+  },
+  "6": {
+    "number": 6,
+    "archetype": "The Artist",
+    "planet": "Venus",
+    "bornOn": "6th, 15th, 24th",
+    "element": "Water",
+    "personality": "Magnetic, creative, drawn to beauty and connection.",
+    "strengths": [
+      "Creativity and taste",
+      "Magnetic, wide circle",
+      "Romantic and devoted",
+      "Responsible to loved ones"
+    ],
+    "innerWorld": "Learning to love without needing to impress — warmth over display.",
+    "relationships": "Draws people in easily and gives generously. Plain speech needs active care.",
+    "career": "Fashion · Arts · Hospitality · Design",
+    "shadow": [
+      "Status can drive spending",
+      "Words sharpen under stress",
+      "Romantic life gets complicated"
+    ],
+    "luckyColours": [
+      "White",
+      "Pink",
+      "Blue"
+    ],
+    "luckyNumbers": [
+      3,
+      6,
+      9
+    ],
+    "luckyDay": "Friday",
+    "mantra": "Om Shukraya Namah",
+    "remedy": "Friday, give something white away. Dahi, chawal or mishri."
+  },
+  "7": {
+    "number": 7,
+    "archetype": "The Seeker",
+    "planet": "Ketu",
+    "bornOn": "7th, 16th, 25th",
+    "element": "Water",
+    "personality": "Intuitive, deep-thinking, a natural healer.",
+    "strengths": [
+      "Deep intuition and insight",
+      "Balanced, stable nature",
+      "Analytical thinking",
+      "Finds grace through difficulty"
+    ],
+    "innerWorld": "Learning trust — to stop demanding proof and rest in stability from within.",
+    "relationships": "Reads people deeply, yet trust comes slowly. Marriage rewards real attention.",
+    "career": "Research · Healing · Travel · Strategy",
+    "shadow": [
+      "Questions even the good things",
+      "Unsettled under pressure",
+      "Slow to recover from betrayal"
+    ],
+    "luckyColours": [
+      "White",
+      "Light Green"
+    ],
+    "luckyNumbers": [
+      2,
+      3,
+      6
+    ],
+    "luckyDay": "Monday",
+    "mantra": "Om Ketave Namah",
+    "remedy": "Kambal to someone who needs it. Feed a stray before you eat."
+  },
+  "8": {
+    "number": 8,
+    "archetype": "The Builder",
+    "planet": "Saturn",
+    "bornOn": "8th, 17th, 26th",
+    "element": "Air",
+    "personality": "Disciplined, hard-working, built for the long game.",
+    "strengths": [
+      "The strongest financial planner",
+      "Never leaves work unfinished",
+      "Deep sense of justice",
+      "Endures what breaks others"
+    ],
+    "innerWorld": "Learning patience with the process — and letting the heart open a little more.",
+    "relationships": "Loyal and protective. Opens slowly, and remembers being hurt for a long time.",
+    "career": "Finance · Real estate · Law · Engineering",
+    "shadow": [
+      "Rewards arrive late, after long delay",
+      "Forgiveness comes hard",
+      "Cannot sit idle, so burns out"
+    ],
+    "luckyColours": [
+      "Blue",
+      "Black",
+      "Purple"
+    ],
+    "luckyNumbers": [
+      3,
+      4,
+      6,
+      8
+    ],
+    "luckyDay": "Saturday",
+    "mantra": "Om Sham Shanicharaya Namah",
+    "remedy": "Kaale til into flowing water on Saturday. Mustard oil at a Shani temple."
+  },
+  "9": {
+    "number": 9,
+    "archetype": "The Warrior",
+    "planet": "Mars",
+    "bornOn": "9th, 18th, 27th",
+    "element": "Fire",
+    "personality": "Bold, energetic, a fighter for justice.",
+    "strengths": [
+      "High energy and drive",
+      "Courage and boldness",
+      "Strong sense of justice",
+      "Takes a stand and holds it"
+    ],
+    "innerWorld": "Learning to fight for the right causes with a cooler head — courage paired with patience.",
+    "relationships": "Passionate and protective. Grows stronger by arguing less and listening more.",
+    "career": "Defence · Sports · Surgery · Engineering",
+    "shadow": [
+      "Fire with no direction turns to friction",
+      "Holds a position past its usefulness",
+      "Moves fast enough to get hurt"
+    ],
+    "luckyColours": [
+      "Red",
+      "Pink",
+      "Crimson"
+    ],
+    "luckyNumbers": [
+      3,
+      6,
+      9
+    ],
+    "luckyDay": "Tuesday",
+    "mantra": "Om Angarakaya Namah",
+    "remedy": "Tuesday, masoor dal to a temple. Skip the argument you'd win."
+  }
+}

@@ -42,7 +42,9 @@
     "kit": "node scripts/manual-post-kit.mjs",
     "music:verify": "node scripts/verify-music.mjs",
     "music:generate": "node scripts/generate-music.mjs",
-    "music:beatmaps": "node scripts/build-beat-maps.mjs"
+    "music:beatmaps": "node scripts/build-beat-maps.mjs",
+    "cards": "node scripts/render-cards.mjs",
+    "publish:card": "node scripts/publish-card.mjs"
   },
   "sideEffects": [
     "*.css"

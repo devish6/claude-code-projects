@@ -34,6 +34,8 @@ import { DAILY_COVERS, DAILY_TEMPLATES } from "./viral/daily-templates";
 import { UpiLaunch } from "./viral/UpiLaunch";
 import { UPI_COVERS, UPI_TEMPLATES } from "./viral/upi-templates";
 import { TalkingHead } from "./talking/TalkingHead";
+import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
+import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { TOTAL_FRAMES as TALKING_TOTAL } from "./talking/script";
 import { DISPLAY_HI, UI_HI } from "./viral/fonts";
 import { ACT, makeActs } from "./viral/timing";
@@ -283,6 +285,29 @@ export const RemotionRoot: React.FC = () => {
           width={V.width}
           height={V.height}
         />
+      </Folder>
+
+      {/*
+        Info cards — STILLS, not videos. 1080x1350 (Instagram 4:5 portrait, the
+        tallest a feed IMAGE may be; reels are 9:16 but this is not a reel).
+        Rendered with `remotion still`, so durationInFrames is a formality.
+        One composition per Moolank rather than one with a --props override,
+        because that makes each card addressable by id from the render script
+        exactly like every other target in this Root.
+      */}
+      <Folder name="InfoCards">
+        {MOOLANK_NUMBERS.map((n) => (
+          <Composition
+            key={n}
+            id={`InfoCard-${n}`}
+            component={InfoCard}
+            durationInFrames={1}
+            fps={30}
+            width={INFO_CARD_WIDTH}
+            height={INFO_CARD_HEIGHT}
+            defaultProps={{ number: n }}
+          />
+        ))}
       </Folder>
 
       <Folder name="Moolank">
