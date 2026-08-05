@@ -297,22 +297,28 @@ export const RemotionRoot: React.FC = () => {
         exactly like every other target in this Root.
       */}
       {/*
-        Card reels — voice-narrated, 9:16. Duration is DERIVED from the real
-        narration alignment (content/reel-N-timings.json), never hardcoded:
-        regenerate the voiceover and the composition length follows. Only the
-        Moolanks with a generated narration are registered, because a reel
-        without its mp3 would render as silence over a still.
+        Card reels — music-led, 9:16, a fixed ~17s.
+
+        ⭐ ALL NINE ARE REGISTERED NOW. They used to be gated on having a
+        generated narration mp3 (a reel without one rendered as silence over a
+        still), and length was derived from ElevenLabs' character alignment in
+        content/reel-N-timings.json. The 2026-08-05 rebuild dropped narration
+        after the phone dashboard showed a 5s average watch on the 0:31 cut, so
+        the only input a reel needs now is its card data.
       */}
       <Folder name="CardReels">
-        <Composition
-          id="CardReel-9"
-          component={CardReel}
-          durationInFrames={reelDurationInFrames(9)}
-          fps={REEL_FPS}
-          width={1080}
-          height={1920}
-          defaultProps={{ number: 9 }}
-        />
+        {MOOLANK_NUMBERS.map((n) => (
+          <Composition
+            key={n}
+            id={`CardReel-${n}`}
+            component={CardReel}
+            durationInFrames={reelDurationInFrames()}
+            fps={REEL_FPS}
+            width={1080}
+            height={1920}
+            defaultProps={{ number: n }}
+          />
+        ))}
       </Folder>
 
       <Folder name="InfoCards">

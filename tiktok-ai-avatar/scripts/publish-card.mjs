@@ -79,14 +79,31 @@ const probe = (file) => {
  * Grabs a still from the reel to use as its grid thumbnail.
  *
  * ⭐ Instagram picks its own frame otherwise, and on a video that springs its
- * type in from nothing that is usually a near-empty frame. Frame 4s is inside
- * the hook, where the numeral and the full date list are both settled — which is
- * exactly what a stranger scrolling the grid needs to see.
+ * type in from nothing that is usually a near-empty frame.
+ *
+ * ⭐⭐ THE COVER IS THE FINISHED INFO CARD, i.e. the reel's LAST beat, not its
+ * hook. The 2026-08-05 measurement is the reason: the info card posted as its
+ * own feed image reached 20 accounts with ZERO explore distribution, while the
+ * reel reached 126 at 91.8% non-followers. The card cannot earn reach on its
+ * own, so it rides the reel — and showing it on the grid is what makes a
+ * stranger tap, because it visibly promises something worth keeping.
+ *
+ * 🪤 15s IS TIED TO CardReel.tsx's BEAT SHEET — its card beat runs 13.1s→17.0s.
+ * This file is `.mjs` and CANNOT import the `.ts` constant (the mismatch that
+ * has already broken this repo three times), so the coupling is by comment
+ * only. Retime the beats and this number has to move with them, or the cover
+ * silently becomes whatever beat now sits at 15s.
+ *
+ * 🪤 Do NOT "simplify" this to the standalone card JPEG from render-cards.mjs.
+ * That one is 4:5; Instagram would centre-crop it to the reel's 9:16 and cut
+ * the remedy off the bottom. This still is already framed for 9:16.
  */
+const COVER_AT_SECONDS = 15;
+
 const reelCover = (n, videoPath) => {
   const out = join(ROOT, "out/reels", `moolank-${n}-cover.jpg`);
-  execFileSync("ffmpeg", ["-v", "error", "-ss", "4", "-i", videoPath, "-frames:v", "1",
-    "-q:v", "3", out, "-y"]);
+  execFileSync("ffmpeg", ["-v", "error", "-ss", String(COVER_AT_SECONDS), "-i", videoPath,
+    "-frames:v", "1", "-q:v", "3", out, "-y"]);
   return out;
 };
 
@@ -166,7 +183,7 @@ const main = async () => {
   if (isReel) {
     const cover = reelCover(n, file);
     coverUrl = hostAsset({ v: tag }, cover, `moolank-${n}-cover.jpg`).url;
-    log(`  cover: frame at 4s`);
+    log(`  cover: the info card (frame at ${COVER_AT_SECONDS}s)`);
   }
 
   try {

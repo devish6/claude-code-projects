@@ -33,7 +33,8 @@
     ],
     "luckyDay": "Sunday",
     "mantra": "Om Suryaya Namah",
-    "remedy": "Chant the Gayatri Mantra at sunrise. Honour your father and your elders — pride softens where respect is given."
+    "remedy": "Chant the Gayatri Mantra at sunrise. Honour your father and your elders — pride softens where respect is given.",
+    "surpriseFact": "The Sun never shares the sky. A 1 gets its confidence from that — and its inability to ask for help."
   },
   "2": {
     "number": 2,
@@ -69,7 +70,8 @@
     ],
     "luckyDay": "Monday",
     "mantra": "Om Chandraya Namah",
-    "remedy": "Meditate for ten minutes on Monday. Call your mother — steadiness comes from within, not from what was said to you."
+    "remedy": "Meditate for ten minutes on Monday. Call your mother — steadiness comes from within, not from what was said to you.",
+    "surpriseFact": "The Moon changes shape nightly. So does a 2's mood — the same sensitivity that lets them read a room instantly."
   },
   "3": {
     "number": 3,
@@ -103,7 +105,8 @@
     ],
     "luckyDay": "Thursday",
     "mantra": "Om Brihaspataye Namah",
-    "remedy": "On Thursday, thank a teacher who shaped you. Give advice only when it is asked for — counsel guides, control does not."
+    "remedy": "On Thursday, thank a teacher who shaped you. Give advice only when it is asked for — counsel guides, control does not.",
+    "surpriseFact": "Jupiter is the largest planet in the sky. A 3's advice has the same habit — it takes up more room than they realise."
   },
   "4": {
     "number": 4,
@@ -139,7 +142,8 @@
     ],
     "luckyDay": "Saturday",
     "mantra": "Om Raam Rahave Namah",
-    "remedy": "Feed a street dog after sunset, daily and without fail. Finishing the small thing is how you learn to finish the large."
+    "remedy": "Feed a street dog after sunset, daily and without fail. Finishing the small thing is how you learn to finish the large.",
+    "surpriseFact": "Rahu isn't a planet at all — it's a shadow point. That's why a 4's luck arrives suddenly, and leaves the same way."
   },
   "5": {
     "number": 5,
@@ -174,7 +178,8 @@
     ],
     "luckyDay": "Wednesday",
     "mantra": "Om Budhaya Namah",
-    "remedy": "On Wednesday, give sweets to children and expect nothing back. Not everything you give is meant to be counted."
+    "remedy": "On Wednesday, give sweets to children and expect nothing back. Not everything you give is meant to be counted.",
+    "surpriseFact": "A 5 can sell anything to anyone. The one thing they can't do is stop keeping score — even at home."
   },
   "6": {
     "number": 6,
@@ -209,7 +214,8 @@
     ],
     "luckyDay": "Friday",
     "mantra": "Om Shukraya Namah",
-    "remedy": "On Friday, give your partner something with a fragrance. Accept no free gifts — what looks like status is a debt."
+    "remedy": "On Friday, give your partner something with a fragrance. Accept no free gifts — what looks like status is a debt.",
+    "surpriseFact": "Venus makes a 6 magnetic. It also means a free gift is never free — what arrives as status leaves as debt."
   },
   "7": {
     "number": 7,
@@ -243,7 +249,8 @@
     ],
     "luckyDay": "Monday",
     "mantra": "Om Ketave Namah",
-    "remedy": "On Saturday, take sweets to children who have no one. Trust one good thing this week without testing it first."
+    "remedy": "On Saturday, take sweets to children who have no one. Trust one good thing this week without testing it first.",
+    "surpriseFact": "Ketu is Rahu's other half — a body with no head. A 7 sees everything coming, and trusts almost none of it."
   },
   "8": {
     "number": 8,
@@ -279,7 +286,8 @@
     ],
     "luckyDay": "Saturday",
     "mantra": "Om Sham Shanicharaya Namah",
-    "remedy": "Read the Hanuman Chalisa. Seek forgiveness where you owe it, and forgive those who hurt you."
+    "remedy": "Read the Hanuman Chalisa. Seek forgiveness where you owe it, and forgive those who hurt you.",
+    "surpriseFact": "8 was never unlucky. Saturn simply pays late — and pays in full, to whoever is still standing when it does."
   },
   "9": {
     "number": 9,
@@ -314,6 +322,7 @@
     ],
     "luckyDay": "Tuesday",
     "mantra": "Om Angarakaya Namah",
-    "remedy": "Read the Hanuman Chalisa daily. Donate blood — it cools the anger and turns restless fire into courage."
+    "remedy": "Read the Hanuman Chalisa daily. Donate blood — it cools the anger and turns restless fire into courage.",
+    "surpriseFact": "Multiply 9 by anything and it comes back to 9. Mars doesn't let go — and neither do 9s."
   }
 }

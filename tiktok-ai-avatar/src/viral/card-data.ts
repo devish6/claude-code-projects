@@ -67,6 +67,22 @@ export type MoolankCard = {
   mantra: string;
   /** The practice that goes with the mantra — count, day, colour, donation. */
   remedy: string;
+  /**
+   * The payoff the reel's opening promise is written against.
+   *
+   * ⭐ IT MUST ANSWER THIS CARD'S OWN SHADOW LINE, exactly like `remedy` does.
+   * A generic "fun fact" breaks the promise the hook makes, and a hook whose
+   * promise is not paid teaches the viewer to skip the next one.
+   *
+   * 🔴 THIS IS NOT DECORATION — IT IS THE RETENTION MECHANISM. Measured
+   * 2026-08-05: the M9 reel held an average of 5s of 0:31 and Instagram stopped
+   * widening its reach at ~126 accounts. The opening promise plus this payoff is
+   * the fix being tested. Deliver it as its own beat BEFORE the card: if the
+   * card is the only payoff, the "surprise fact" promise goes unpaid.
+   *
+   * Kept to ~20 words so it reads on screen in about 2.5 seconds.
+   */
+  surpriseFact: string;
 };
 
 /**
