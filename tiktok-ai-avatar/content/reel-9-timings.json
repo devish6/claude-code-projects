@@ -1,36 +1,36 @@
 {
   "moolank": 9,
-  "duration": 27.539,
+  "duration": 27.492,
   "segments": [
     {
       "field": "hook",
-      "text": "अगर आप नाइन, एटीन या ट्वेंटी-सेवन को पैदा हुए हैं, तो ये आपका नंबर है। मूलांक नाइन।",
+      "text": "If you were born on the ninth, the eighteenth, or the twenty-seventh, this is your number. Moolank nine.",
       "start": 0,
-      "end": 5.735
+      "end": 5.306
     },
     {
       "field": "planet",
-      "text": "इसका ग्रह है मंगल। एलिमेंट आग। यही वजह है कि इनकी energy कभी खत्म नहीं होती।",
-      "start": 5.782,
-      "end": 11.552
+      "text": "Your ruling planet is Mars, and your element is fire. That is why your energy never seems to run out.",
+      "start": 5.341,
+      "end": 10.693
     },
     {
       "field": "strengths",
-      "text": "हिम्मत, और न्याय का इतना पक्का sense कि ये stand लेते हैं और पीछे नहीं हटते।",
-      "start": 11.587,
-      "end": 16.335
+      "text": "Courage, and a sense of justice so strong that you take a stand and you hold it.",
+      "start": 10.762,
+      "end": 14.988
     },
     {
       "field": "lucky",
-      "text": "Lucky numbers थ्री, सिक्स और नाइन। रंग लाल। दिन मंगलवार।",
-      "start": 16.382,
-      "end": 20.236
+      "text": "Lucky numbers three, six and nine. Colour red. Day Tuesday.",
+      "start": 15.104,
+      "end": 18.808
     },
     {
       "field": "remedy",
-      "text": "उपाय: ओम अंगारकाय नमः। मंगलवार को मसूर दाल मंदिर में दीजिए। और जो argument आप जीत सकते हैं, उसे छोड़ दीजिए।",
-      "start": 20.271,
-      "end": 27.539
+      "text": "Your daily remedy. Chant Om Angarakaya Namah. Read the Hanuman Chalisa, and donate blood. It cools the anger, and turns restless fire into courage.",
+      "start": 18.843,
+      "end": 27.492
     }
   ]
 }

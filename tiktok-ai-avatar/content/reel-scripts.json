@@ -1,51 +1,52 @@
 {
   "9": {
     "moolank": 9,
+    "language": "en",
     "segments": [
       {
         "field": "hook",
-        "text": "अगर आप नाइन, एटीन या ट्वेंटी-सेवन को पैदा हुए हैं, तो ये आपका नंबर है। मूलांक नाइन।",
+        "text": "If you were born on the ninth, the eighteenth, or the twenty-seventh, this is your number. Moolank nine.",
         "caption": "9, 18, 27"
       },
       {
         "field": "planet",
-        "text": "इसका ग्रह है मंगल। एलिमेंट आग। यही वजह है कि इनकी energy कभी खत्म नहीं होती।",
-        "caption": "Grah: Mangal · Element: Aag"
+        "text": "Your ruling planet is Mars, and your element is fire. That is why your energy never seems to run out.",
+        "caption": "Planet: Mars · Element: Fire"
       },
       {
         "field": "strengths",
-        "text": "हिम्मत, और न्याय का इतना पक्का sense कि ये stand लेते हैं और पीछे नहीं हटते।",
-        "caption": "Himmat. Nyaay. Stand lete hain."
+        "text": "Courage, and a sense of justice so strong that you take a stand and you hold it.",
+        "caption": "Courage. Justice. You hold your ground."
       },
       {
         "field": "shadow",
-        "text": "लेकिन बिना direction के वही आग friction बन जाती है।",
-        "caption": "Bina direction, wahi aag friction hai.",
+        "text": "But fire with no direction turns into friction.",
+        "caption": "Fire with no direction turns to friction.",
         "narrate": false
       },
       {
         "field": "career",
-        "text": "Career: defence, sports, surgery, engineering।",
-        "caption": "Jahan himmat chahiye",
+        "text": "Career: defence, sports, surgery, engineering.",
+        "caption": "Where courage is the job",
         "narrate": false
       },
       {
         "field": "lucky",
-        "text": "Lucky numbers थ्री, सिक्स और नाइन। रंग लाल। दिन मंगलवार।",
-        "caption": "3 · 6 · 9   |   Laal   |   Mangalwar"
+        "text": "Lucky numbers three, six and nine. Colour red. Day Tuesday.",
+        "caption": "3 · 6 · 9   |   Red   |   Tuesday"
       },
       {
         "field": "remedy",
-        "text": "उपाय: ओम अंगारकाय नमः। मंगलवार को मसूर दाल मंदिर में दीजिए। और जो argument आप जीत सकते हैं, उसे छोड़ दीजिए।",
+        "text": "Your daily remedy. Chant Om Angarakaya Namah. Read the Hanuman Chalisa, and donate blood. It cools the anger, and turns restless fire into courage.",
         "caption": "ॐ अंगारकाय नमः"
       },
       {
         "field": "save",
-        "text": "पूरा card save कर लीजिए।",
-        "caption": "Poora card save kijiye",
+        "text": "Screenshot the full card.",
+        "caption": "Screenshot the full card",
         "narrate": false
       }
     ]
   },
-  "_comment": "Hinglish narration for the animated card reels. ⭐ WRITE THE HINDI IN DEVANAGARI AND LEAVE ENGLISH WORDS IN LATIN. Latin-transliterated Hindi makes the model guess: it produced a stutter on the opening word (a-agar), split nine into ni-ne, and stretched vowels (mangaaal, vaajah). Devanagari removes the guessing. ⭐ Numerals go in Devanagari transliteration of the ENGLISH words (नाइन, एटीन, ट्वेंटी-सेवन) - which is exactly what the whisper transcript of reference #3 (41.2K likes) showed a real numerologist saying. Bare digits get read as formal Hindi numerals. `narrate:false` keeps a field on the card but out of the voiceover. 🪤 Do NOT use the ॐ glyph in narration text - the model spells it out letter by letter as A-U-M. Write ओम instead. The glyph is fine ON SCREEN, just not in what gets spoken."
+  "_comment": "Narration for the animated card reels. ⭐⭐ MOOLANK 9 IS ENGLISH, ON PURPOSE (2026-08-05, owner's call): this reel goes out on all four platforms, and one language reads as one voice across them. Hinglish stays valid for Instagram-only content — the reference sweep found it on every 41K-57K account — so treat `language` as a per-reel choice, not a repo-wide switch. ⭐ ENGLISH NEEDS NO DEVANAGARI, BUT IT STILL NEEDS SPELLED-OUT NUMERALS: write \"the ninth, the eighteenth\", not \"the 9th, the 18th\". A bare digit is where the model's reading is least predictable, and the date list IS the hook — every qualifying date must be named or the audience that self-identifies shrinks to a quarter (confirmed 3x). ⭐ For the HINGLISH rules, which still apply to any reel with `language: \"hi\"`: write the Hindi in Devanagari and leave English words in Latin — Latin-transliterated Hindi makes the model guess (it stuttered a-agar, split ni-ne, stretched mangaaal). `narrate:false` keeps a field on the card but out of the voiceover; `caption` is reference copy for hand-posting, the render reads its text from moolank-cards.json. 🪤 Do NOT use the ॐ glyph in narration TEXT in any language - the model spells it out letter by letter as A-U-M. The glyph is fine ON SCREEN, just not in what gets spoken."
 }
