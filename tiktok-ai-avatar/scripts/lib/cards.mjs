@@ -84,7 +84,7 @@ export const buildCardCaption = (card) => {
     "",
     `${card.planet} rules this number. ${card.personality}`,
     "",
-    `Everything on the card: ruling planet, element, strengths, shadow side, career, relationships, lucky colours and the daily upaay for ${card.planet}.`,
+    `Everything on the card: ruling planet, element, strengths, shadow side, career, relationships, lucky colours and the daily remedy for ${card.planet}.`,
     "",
     "Save it so you have it when you need it. Send it to the person whose number this is.",
     "",
@@ -115,9 +115,9 @@ export const buildReelCaption = (card) => {
     "",
     `${card.planet} rules this number. ${card.personality}`,
     "",
-    // "remedy", not "upaay": a reel goes out on all four platforms, so its
-    // caption stays in one language. The still-card caption above keeps "upaay"
-    // — it posts to Instagram only, where the reference accounts are Hinglish.
+    // "remedy", not "upaay". Both captions are English throughout, per the
+    // owner's standing decision of 2026-08-05 — see the note in
+    // content/reel-scripts.json. It applies to cards as well as reels.
     `Ruling planet, element, strengths, lucky numbers and the daily remedy — the full card is at the end of the reel.`,
     "",
     "Screenshot the last frame and keep it.",
