@@ -1,0 +1,51 @@
+{
+  "9": {
+    "moolank": 9,
+    "segments": [
+      {
+        "field": "hook",
+        "text": "अगर आप नाइन, एटीन या ट्वेंटी-सेवन को पैदा हुए हैं, तो ये आपका नंबर है। मूलांक नाइन।",
+        "caption": "9, 18, 27"
+      },
+      {
+        "field": "planet",
+        "text": "इसका ग्रह है मंगल। एलिमेंट आग। यही वजह है कि इनकी energy कभी खत्म नहीं होती।",
+        "caption": "Grah: Mangal · Element: Aag"
+      },
+      {
+        "field": "strengths",
+        "text": "हिम्मत, और न्याय का इतना पक्का sense कि ये stand लेते हैं और पीछे नहीं हटते।",
+        "caption": "Himmat. Nyaay. Stand lete hain."
+      },
+      {
+        "field": "shadow",
+        "text": "लेकिन बिना direction के वही आग friction बन जाती है।",
+        "caption": "Bina direction, wahi aag friction hai.",
+        "narrate": false
+      },
+      {
+        "field": "career",
+        "text": "Career: defence, sports, surgery, engineering।",
+        "caption": "Jahan himmat chahiye",
+        "narrate": false
+      },
+      {
+        "field": "lucky",
+        "text": "Lucky numbers थ्री, सिक्स और नाइन। रंग लाल। दिन मंगलवार।",
+        "caption": "3 · 6 · 9   |   Laal   |   Mangalwar"
+      },
+      {
+        "field": "remedy",
+        "text": "उपाय: ओम अंगारकाय नमः। मंगलवार को मसूर दाल मंदिर में दीजिए। और जो argument आप जीत सकते हैं, उसे छोड़ दीजिए।",
+        "caption": "ॐ अंगारकाय नमः"
+      },
+      {
+        "field": "save",
+        "text": "पूरा card save कर लीजिए।",
+        "caption": "Poora card save kijiye",
+        "narrate": false
+      }
+    ]
+  },
+  "_comment": "Hinglish narration for the animated card reels. ⭐ WRITE THE HINDI IN DEVANAGARI AND LEAVE ENGLISH WORDS IN LATIN. Latin-transliterated Hindi makes the model guess: it produced a stutter on the opening word (a-agar), split nine into ni-ne, and stretched vowels (mangaaal, vaajah). Devanagari removes the guessing. ⭐ Numerals go in Devanagari transliteration of the ENGLISH words (नाइन, एटीन, ट्वेंटी-सेवन) - which is exactly what the whisper transcript of reference #3 (41.2K likes) showed a real numerologist saying. Bare digits get read as formal Hindi numerals. `narrate:false` keeps a field on the card but out of the voiceover. 🪤 Do NOT use the ॐ glyph in narration text - the model spells it out letter by letter as A-U-M. Write ओम instead. The glyph is fine ON SCREEN, just not in what gets spoken."
+}

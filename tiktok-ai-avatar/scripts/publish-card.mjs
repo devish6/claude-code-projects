@@ -26,7 +26,7 @@ import { fileURLToPath } from "node:url";
 
 import { loadCredentials } from "./lib/credentials.mjs";
 import { hostAsset, unhostVideo } from "./lib/media-host.mjs";
-import { buildCardCaption, validateCardImage } from "./lib/cards.mjs";
+import { buildCardCaption, buildReelCaption, validateCardImage, validateReelVideo } from "./lib/cards.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -62,16 +62,32 @@ const graph = async (path, params = {}, method = "GET") => {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-/** Dimensions of a still, via ffprobe — the same tool the Reels path uses. */
-const probeImage = (file) => {
+/** Dimensions (and for video, duration) via ffprobe. */
+const probe = (file) => {
   const out = execFileSync(
     "ffprobe",
     ["-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
-     "-of", "json", file],
+     "-show_entries", "format=duration", "-of", "json", file],
     { encoding: "utf8" },
   );
-  const s = JSON.parse(out).streams[0];
-  return { width: s.width, height: s.height };
+  const j = JSON.parse(out);
+  const s = j.streams[0];
+  return { width: s.width, height: s.height, seconds: Number(j.format.duration) };
+};
+
+/**
+ * Grabs a still from the reel to use as its grid thumbnail.
+ *
+ * ⭐ Instagram picks its own frame otherwise, and on a video that springs its
+ * type in from nothing that is usually a near-empty frame. Frame 4s is inside
+ * the hook, where the numeral and the full date list are both settled — which is
+ * exactly what a stranger scrolling the grid needs to see.
+ */
+const reelCover = (n, videoPath) => {
+  const out = join(ROOT, "out/reels", `moolank-${n}-cover.jpg`);
+  execFileSync("ffmpeg", ["-v", "error", "-ss", "4", "-i", videoPath, "-frames:v", "1",
+    "-q:v", "3", out, "-y"]);
+  return out;
 };
 
 const main = async () => {
@@ -82,25 +98,42 @@ const main = async () => {
   const card = cards[n];
   if (!card) die(`No card data for Moolank ${n}.`);
 
-  const file = join(ROOT, "out/cards", `moolank-${n}.jpg`);
-  if (!existsSync(file)) die(`No rendered jpeg at ${file}. Run: npm run cards -- ${n} --jpg`);
+  // --reel posts the narrated video; without it, the still card.
+  const isReel = has("reel");
 
-  const dims = probeImage(file);
-  try {
-    validateCardImage({ ...dims, path: file });
-  } catch (err) {
-    die(`Card ${n} is not a valid Instagram feed image: ${err.message}`);
+  const file = isReel
+    ? join(ROOT, "out/reels", `moolank-${n}-reel.mp4`)
+    : join(ROOT, "out/cards", `moolank-${n}.jpg`);
+
+  if (!existsSync(file)) {
+    die(
+      isReel
+        ? `No rendered reel at ${file}. Render CardReel-${n} first.`
+        : `No rendered jpeg at ${file}. Run: npm run cards -- ${n} --jpg`,
+    );
   }
 
-  const caption = buildCardCaption(card);
+  const dims = probe(file);
+  try {
+    if (isReel) validateReelVideo(dims);
+    else validateCardImage({ ...dims, path: file });
+  } catch (err) {
+    die(`Moolank ${n} is not a valid Instagram ${isReel ? "reel" : "feed image"}: ${err.message}`);
+  }
+
+  const caption = isReel ? buildReelCaption(card) : buildCardCaption(card);
 
   // Posting the same card twice is a real risk once this is scheduled, and
   // Instagram will happily accept the duplicate.
+  // The guard is per number AND per kind: the card and the reel for the same
+  // Moolank are two legitimate posts, so a card already logged must not block
+  // its reel.
+  const kind = isReel ? "reel" : "card";
   const posted = existsSync(POST_LOG) ? JSON.parse(readFileSync(POST_LOG, "utf8")) : [];
-  const seen = posted.find((p) => p.moolank === n);
+  const seen = posted.find((p) => p.moolank === n && (p.kind ?? "card") === kind);
   if (seen && !has("force") && !has("dry-run")) {
     die(
-      `Moolank ${n} was already posted on ${seen.date} (media ${seen.mediaId}).\n` +
+      `The Moolank ${n} ${kind} was already posted on ${seen.date} (media ${seen.mediaId}).\n` +
         "Re-running would post a duplicate. Pass --force only if that is genuinely wanted.",
     );
   }
@@ -108,8 +141,8 @@ const main = async () => {
   const c = loadCredentials()?.instagram;
   if (!c?.ig_user_id) die("No Instagram credentials. Run: npm run publish:instagram -- --authorize");
 
-  log(`\nMoolank ${n} — ${card.archetype}`);
-  log(`  file:  out/cards/moolank-${n}.jpg (${dims.width}x${dims.height})`);
+  log(`\nMoolank ${n} — ${card.archetype}  [${kind}]`);
+  log(`  file:  ${file.replace(ROOT + "/", "")} (${dims.width}x${dims.height}${isReel ? `, ${dims.seconds.toFixed(2)}s` : ""})`);
   log(`  to:    instagram ${c.ig_user_id} via page ${c.page_name}`);
 
   if (has("dry-run")) {
@@ -120,17 +153,32 @@ const main = async () => {
     return;
   }
 
-  log("\nStaging the image so Instagram can fetch it…");
-  const hosted = hostAsset({ v: `CARD-${n}` }, file, `moolank-${n}.jpg`);
+  log(`\nStaging the ${isReel ? "video" : "image"} so Instagram can fetch it…`);
+  const tag = isReel ? `REEL-${n}` : `CARD-${n}`;
+  const assetName = isReel ? `moolank-${n}-reel.mp4` : `moolank-${n}.jpg`;
+  const hosted = hostAsset({ v: tag }, file, assetName);
   log(`  ${hosted.url}`);
+
+  // The cover goes on the SAME release tag, so the single unhost call below
+  // removes both — a cover left behind on a public repo breaks the tidy-up
+  // guarantee just as surely as the video would.
+  let coverUrl;
+  if (isReel) {
+    const cover = reelCover(n, file);
+    coverUrl = hostAsset({ v: tag }, cover, `moolank-${n}-cover.jpg`).url;
+    log(`  cover: frame at 4s`);
+  }
 
   try {
     log("Creating the media container…");
-    // No media_type: the Graph API defaults a container with image_url to IMAGE.
-    // Passing media_type: "IMAGE" is also accepted but is not what the docs use
-    // for single-image feed posts, and REELS here would be rejected outright.
+    // 🔴 The two kinds take DIFFERENT container shapes. A reel needs an explicit
+    // media_type REELS with video_url; a single feed image takes image_url and
+    // no media_type at all (the API defaults it to IMAGE). Sending REELS with an
+    // image_url, or a video with no media_type, is rejected.
     const container = await graph(`/${c.ig_user_id}/media`, {
-      image_url: hosted.url,
+      ...(isReel
+        ? { media_type: "REELS", video_url: hosted.url, ...(coverUrl ? { cover_url: coverUrl } : {}) }
+        : { image_url: hosted.url }),
       caption,
       access_token: c.page_token,
     }, "POST");
@@ -139,20 +187,24 @@ const main = async () => {
     // but an unreachable URL also surfaces here, so it is still worth checking.
     log("Waiting for Instagram to accept it…");
     let ok = false;
-    for (let i = 0; i < 12; i++) {
-      await sleep(3000);
+    // A video has to be transcoded, an image does not — so the reel needs a much
+    // longer ceiling. 60 x 5s covers a 32s reel comfortably; images finish on
+    // the first poll.
+    const tries = isReel ? 60 : 12;
+    for (let i = 0; i < tries; i++) {
+      await sleep(isReel ? 5000 : 3000);
       const status = await graph(`/${container.id}`, {
         fields: "status_code,status",
         access_token: c.page_token,
       });
       if (status.status_code === "FINISHED") { ok = true; break; }
       if (status.status_code === "ERROR" || status.status_code === "EXPIRED") {
-        die(`Instagram rejected the image: ${status.status ?? status.status_code}`);
+        die(`Instagram rejected the ${kind}: ${status.status ?? status.status_code}`);
       }
       process.stdout.write(".");
     }
     process.stdout.write("\n");
-    if (!ok) die("Instagram never finished processing the image.");
+    if (!ok) die(`Instagram never finished processing the ${kind}.`);
 
     log("Publishing…");
     const published = await graph(`/${c.ig_user_id}/media_publish`, {
@@ -163,12 +215,13 @@ const main = async () => {
     posted.push({
       date: new Date().toISOString().slice(0, 10),
       moolank: n,
+      kind,
       mediaId: published.id,
     });
     mkdirSync(join(homedir(), ".numevix-publish"), { recursive: true });
     writeFileSync(POST_LOG, JSON.stringify(posted, null, 2) + "\n");
 
-    log(`\n✅ Posted Moolank ${n} to Instagram — media ${published.id}`);
+    log(`\n✅ Posted the Moolank ${n} ${kind} to Instagram — media ${published.id}`);
   } finally {
     // Always remove the staged copy, even on failure — it is a public download
     // link on a public repo and has no reason to outlive the post.

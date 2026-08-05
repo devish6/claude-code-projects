@@ -36,6 +36,7 @@ import { UPI_COVERS, UPI_TEMPLATES } from "./viral/upi-templates";
 import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
+import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { TOTAL_FRAMES as TALKING_TOTAL } from "./talking/script";
 import { DISPLAY_HI, UI_HI } from "./viral/fonts";
 import { ACT, makeActs } from "./viral/timing";
@@ -295,6 +296,25 @@ export const RemotionRoot: React.FC = () => {
         because that makes each card addressable by id from the render script
         exactly like every other target in this Root.
       */}
+      {/*
+        Card reels — voice-narrated, 9:16. Duration is DERIVED from the real
+        narration alignment (content/reel-N-timings.json), never hardcoded:
+        regenerate the voiceover and the composition length follows. Only the
+        Moolanks with a generated narration are registered, because a reel
+        without its mp3 would render as silence over a still.
+      */}
+      <Folder name="CardReels">
+        <Composition
+          id="CardReel-9"
+          component={CardReel}
+          durationInFrames={reelDurationInFrames(9)}
+          fps={REEL_FPS}
+          width={1080}
+          height={1920}
+          defaultProps={{ number: 9 }}
+        />
+      </Folder>
+
       <Folder name="InfoCards">
         {MOOLANK_NUMBERS.map((n) => (
           <Composition

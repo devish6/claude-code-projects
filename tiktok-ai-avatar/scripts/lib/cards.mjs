@@ -99,6 +99,50 @@ export const buildCardCaption = (card) => {
 };
 
 /**
+ * Caption for the narrated card REEL.
+ *
+ * Same value-first shape as the card, with two differences that matter:
+ * the reel ends by holding the finished card, so the caption asks for the
+ * screenshot rather than the save; and it names the language, because Hinglish
+ * delivery is what the reference accounts at 41K-57K likes all share and it is
+ * worth setting the expectation before someone taps the sound on.
+ */
+export const buildReelCaption = (card) => {
+  if (!card?.number) throw new Error("buildReelCaption needs a card with a number");
+
+  const lines = [
+    `Moolank ${card.number} — Born on the ${spokenDates(card.bornOn)}.`,
+    "",
+    `${card.planet} rules this number. ${card.personality}`,
+    "",
+    `Ruling planet, element, strengths, lucky numbers and the daily upaay — the full card is at the end of the reel.`,
+    "",
+    "Screenshot the last frame and keep it.",
+    "",
+    commentCta(card.number),
+    "",
+    "Link in bio 🔗",
+    "",
+    cardHashtags(card).join(" "),
+  ];
+
+  return lines.join("\n").slice(0, CAPTION_MAX);
+};
+
+/**
+ * Rejects a reel Instagram would refuse, before spending a post on it.
+ *
+ * Deliberately different limits from the image path: Reels wants VERTICAL video
+ * between 3s and 15 minutes, where a feed image wants 4:5 to 1.91:1. Sending a
+ * reel through validateCardImage would pass a jpeg check it can never satisfy.
+ */
+export const validateReelVideo = ({ seconds, width, height }) => {
+  if (seconds < 3) throw new Error(`Reels requires at least 3s, this is ${seconds}s`);
+  if (seconds > 900) throw new Error(`Reels allows at most 900s, this is ${seconds}s`);
+  if (height <= width) throw new Error(`Reels needs a vertical video, this is ${width}x${height}`);
+};
+
+/**
  * Rejects an image Instagram would refuse, before spending a post on it.
  *
  * 🔴 JPEG ONLY. The Graph API rejects a PNG at `image_url` with an error that

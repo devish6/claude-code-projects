@@ -4,6 +4,8 @@ import {
   CAPTION_MAX,
   HASHTAG_MAX,
   buildCardCaption,
+  buildReelCaption,
+  validateReelVideo,
   cardHashtags,
   commentCta,
   spokenDates,
@@ -80,6 +82,64 @@ describe("card captions", () => {
 
   it("refuses a card whose number is missing", () => {
     expect(() => buildCardCaption({})).toThrow(/number/);
+  });
+});
+
+describe("reel captions", () => {
+  it("opens on the number and every qualifying date, like the card", () => {
+    for (const n of NUMBERS) {
+      const first = buildReelCaption(CARDS[n]).split("\n")[0];
+      const found = first.match(/\d+/g).map(Number);
+      expect(found[0]).toBe(n);
+      expect(found.length).toBeGreaterThan(1);
+    }
+  });
+
+  it("asks for the screenshot rather than the save", () => {
+    // The reel ends holding the finished card, so the useful action is a
+    // screenshot of that frame; "save" is the card post's ask.
+    const c = buildReelCaption(CARDS[9]);
+    expect(c).toMatch(/Screenshot/i);
+  });
+
+  it("keeps the same comment CTA as the card", () => {
+    for (const n of NUMBERS) {
+      expect(buildReelCaption(CARDS[n])).toContain(commentCta(n));
+    }
+  });
+
+  it("never puts a bare url in the caption", () => {
+    for (const n of NUMBERS) {
+      expect(buildReelCaption(CARDS[n])).not.toMatch(/https?:\/\//);
+    }
+  });
+
+  it("stays inside Instagram's caption limit", () => {
+    for (const n of NUMBERS) {
+      expect(buildReelCaption(CARDS[n]).length).toBeLessThanOrEqual(CAPTION_MAX);
+    }
+  });
+});
+
+describe("reel video validation", () => {
+  it("accepts the rendered 1080x1920 reel", () => {
+    expect(() => validateReelVideo({ seconds: 31.79, width: 1080, height: 1920 })).not.toThrow();
+  });
+
+  it("rejects a landscape video", () => {
+    expect(() => validateReelVideo({ seconds: 30, width: 1920, height: 1080 })).toThrow(/vertical/);
+  });
+
+  it("rejects a clip under three seconds", () => {
+    expect(() => validateReelVideo({ seconds: 2, width: 1080, height: 1920 })).toThrow(/at least/);
+  });
+
+  it("does not accept the card's 4:5 shape as a reel", () => {
+    // 🪤 The two validators enforce opposite things. 1080x1350 is the correct
+    // feed image and an invalid reel; catching that here is what stops a card
+    // being posted down the reel path.
+    expect(() => validateReelVideo({ seconds: 30, width: 1080, height: 1350 })).not.toThrow();
+    expect(() => validateCardImage({ width: 1080, height: 1920, path: "/tmp/x.jpg" })).toThrow();
   });
 });
 

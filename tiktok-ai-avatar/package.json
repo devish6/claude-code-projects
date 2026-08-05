@@ -44,7 +44,8 @@
     "music:generate": "node scripts/generate-music.mjs",
     "music:beatmaps": "node scripts/build-beat-maps.mjs",
     "cards": "node scripts/render-cards.mjs",
-    "publish:card": "node scripts/publish-card.mjs"
+    "publish:card": "node scripts/publish-card.mjs",
+    "narration": "node scripts/generate-narration.mjs"
   },
   "sideEffects": [
     "*.css"

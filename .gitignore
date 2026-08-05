@@ -40,3 +40,9 @@ tiktok-ai-avatar/logs/
 # the rule above is that nothing bearing a key or endpoint enters a public,
 # Pages-served repo. It is per-machine tooling, not part of any project here.
 .mcp.json
+
+# Cloned-voice narration. Same reasoning as tiktok-ai-avatar/public/talking/:
+# this repo is PUBLIC and Pages-served, and a clean isolated sample of a real
+# persons cloned voice is far more useful for misuse than the mixed, compressed
+# copy that ends up inside a published reel.
+tiktok-ai-avatar/public/reels/
