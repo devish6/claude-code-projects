@@ -45,9 +45,19 @@ export const assetFor = (kind, n) =>
 /**
  * The next number to post, or null when the queue is drained.
  *
- * Ascending by number, deliberately: the numbers are a reference set rather
- * than a narrative, so 1..9 is the order a viewer would expect to collect them
- * in, and it makes what posts next predictable from the ledger alone.
+ * ⭐⭐ DESCENDING, 9 DOWN TO 1 (changed 2026-08-05). It used to ascend.
+ *
+ * The card programme actually started at 9 and works downwards — 9 went out
+ * first, then 8 — so ascending fought the running order rather than describing
+ * it. It only ever looked right because 9 was the sole rendered reel: with 7
+ * and 8 both rendered, ascending would have posted 7 next and skipped straight
+ * past the 8 that was supposed to follow 9.
+ *
+ * 🪤 A NUMBER STILL COUNTS AS DONE PER `kind`, NOT OUTRIGHT. Moolank 8 has an
+ * infocard on Instagram but has never had a REEL there, and the owner wants the
+ * reel — so 8's card row must NOT mark 8 finished for reels. Collapsing the two
+ * kinds into "this number has had its turn" is tempting now the infocard is
+ * retired, and it would silently skip exactly the post being asked for.
  *
  * 🔴 The ledger's `kind` is read with a default of "card". The very first row
  * this pipeline ever wrote predates the field, and treating it as undefined
@@ -57,7 +67,7 @@ export const nextNumber = ({ kind, posted, rendered }) => {
   const done = new Set(
     posted.filter((p) => (p.kind ?? "card") === kind).map((p) => p.moolank),
   );
-  for (let n = 1; n <= 9; n++) {
+  for (let n = 9; n >= 1; n--) {
     if (!done.has(n) && rendered.includes(n)) return n;
   }
   return null;

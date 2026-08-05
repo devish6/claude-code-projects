@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.numevix.publish.et</string>
+
+    <!--
+      WESTERN AUDIENCE: Facebook, YouTube, TikTok at 12:00 EASTERN.
+      Instagram is deliberately NOT here — its audience is majority Indian and
+      it runs on IST in com.numevix.publish.ist.plist instead.
+
+      ⭐⭐ ONE SLOT A DAY (2026-08-05). This was 12:00 and 18:00. The owner chose
+      one considered post a day over two rushed ones, so the 18:00 wake is gone
+      and this fires once, alongside the IST job's single 12:00 IST slot — the
+      same reel, at noon for each audience.
+
+      🔴 TikTok is DRAFTS ONLY. publish-tiktok.mjs uses the Content Posting API
+      inbox endpoint: the video lands in TikTok drafts, nothing publishes, and
+      the endpoint accepts NO caption. A person still opens the app, types the
+      caption and taps publish. Scheduling it only controls when the draft
+      arrives.
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-l</string>
+        <string>-c</string>
+        <string>cd "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar" &amp;&amp; npm run publish:next -- --platforms=youtube,facebook,tiktok</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar</string>
+
+    <!--
+      12:00 LOCAL. This Mac runs America/Detroit (Eastern), so this is the noon
+      ET the owner asked for, and it follows US daylight saving automatically
+      because launchd uses local wall-clock time.
+    -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>12</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+    </array>
+
+    <!--
+      FALSE so that `launchctl load` does NOT fire a post. A missed slot is not
+      lost: publish-next.mjs takes the oldest unpublished video, so the next
+      wake picks up whatever a sleeping laptop skipped.
+    -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/publish-et.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/publish-et.err.log</string>
+</dict>
+</plist>

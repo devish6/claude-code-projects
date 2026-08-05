@@ -5,8 +5,8 @@ import { assetFor, nextNumber } from "../publish-next-card.mjs";
 const rendered = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 describe("nextNumber", () => {
-  it("starts at 1 when nothing has been posted", () => {
-    expect(nextNumber({ kind: "card", posted: [], rendered })).toBe(1);
+  it("starts at 9 when nothing has been posted", () => {
+    expect(nextNumber({ kind: "card", posted: [], rendered })).toBe(9);
   });
 
   /**
@@ -35,9 +35,29 @@ describe("nextNumber", () => {
     expect(nextNumber({ kind: "card", posted, rendered })).toBe(null);
   });
 
-  it("ascends by number so what posts next is predictable", () => {
-    const posted = [{ moolank: 1, kind: "card" }, { moolank: 3, kind: "card" }];
-    expect(nextNumber({ kind: "card", posted, rendered })).toBe(2);
+  it("descends by number, matching the order the programme actually runs", () => {
+    const posted = [{ moolank: 9, kind: "card" }, { moolank: 7, kind: "card" }];
+    expect(nextNumber({ kind: "card", posted, rendered })).toBe(8);
+  });
+
+  /**
+   * 🔴 THE REGRESSION THAT PROMPTED THE DESCENDING CHANGE, PINNED.
+   * Real state on 2026-08-05: Moolank 9's reel is out, 7 and 8 are both
+   * rendered, and 8 is the one that must go next. Ascending returned 7 and
+   * jumped the queue; nothing errored, the wrong number simply posted.
+   */
+  it("posts 8 next when 9's reel is out and both 7 and 8 are rendered", () => {
+    const posted = [{ moolank: 9, kind: "reel" }];
+    expect(nextNumber({ kind: "reel", posted, rendered: [7, 8, 9] })).toBe(8);
+  });
+
+  /**
+   * 🪤 Moolank 8's Instagram row is a CARD. It must not mark 8 finished for
+   * reels — the owner explicitly wants 8's reel because it never got one.
+   */
+  it("does not let 8's infocard suppress 8's reel", () => {
+    const posted = [{ moolank: 8, kind: "card" }, { moolank: 9, kind: "reel" }];
+    expect(nextNumber({ kind: "reel", posted, rendered: [7, 8, 9] })).toBe(8);
   });
 });
 

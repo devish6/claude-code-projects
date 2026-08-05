@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.numevix.publish.ist</string>
+
+    <!--
+      INDIAN AUDIENCE: Instagram ONLY, at 12:00 IST, because the owner's
+      Instagram traffic is majority Indian.
+
+      ⭐⭐ ONE POST A DAY, AND IT IS THE REEL (2026-08-05).
+      This used to be two: 12:00 posted the next INFOCARD and 18:00 the next
+      card REEL. Both changed.
+
+      The infocard is RETIRED as a standalone post. Measured on 2026-08-05, the
+      Moolank 8 infocard reached 20 accounts with ZERO explore distribution and
+      two-thirds of its viewers already followed the account, while the reel
+      posted the same day reached 126 at 91.8% NON-followers. A feed image does
+      not get shown to strangers here, so the card now rides the reel — it is
+      the reel's final held frame and its grid cover. Leaving the 12:00 card
+      branch armed would have posted Moolank 1's infocard the next morning.
+
+      The 18:00 slot is gone because the owner chose one considered post a day
+      over two rushed ones. If a second slot is ever revived it should be a
+      second REEL, not a still: a still inherits the infocard's ceiling.
+
+      It runs publish-next-card.mjs, not publish-next.mjs: the Instagram card
+      programme asks "which NUMBER is still missing", where publish-next asks
+      "which PLATFORM is this video still missing from". Different question,
+      different scheduler, one shared ledger
+      (~/.numevix-publish/card-posts.json) via publish-card.mjs.
+
+      🪤 An empty queue exits 0 and logs why. Draining is the normal end state
+      once all nine are out, not an error to go hunting for.
+
+      🪤🪤 THE DAYLIGHT-SAVING TRAP, AND WHY THIS PLIST LOOKS ODD.
+      launchd has no timezone field — StartCalendarInterval is always LOCAL
+      wall-clock. India does NOT observe daylight saving; the US does. So the
+      local time that corresponds to 12:00 IST MOVES:
+          EDT (Mar-Nov, UTC-4):  12:00 IST = 02:30 ET
+          EST (Nov-Mar, UTC-5):  12:00 IST = 01:30 ET
+      Hardcoding one would silently drift an hour twice a year.
+
+      FIX: wake at BOTH candidate local times, then let the command itself check
+      the real IST clock and exit unless it is exactly 12:00 there. One of the
+      two wakes no-ops on any given date, and the job stays correct across both
+      DST transitions with no edit. `date` does the timezone maths, so there is
+      no offset table to keep in sync.
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-l</string>
+        <string>-c</string>
+        <string>IST=$(TZ=Asia/Kolkata date +%H%M); case "$IST" in 1200) KIND=reel ;; *) echo "$(date) skip — IST is $IST, not the posting window"; exit 0 ;; esac; echo "$(date) IST $IST — posting the next $KIND"; cd "/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar" &amp;&amp; npm run publish:next-card -- --kind=$KIND</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar</string>
+
+    <key>StartCalendarInterval</key>
+    <array>
+        <!-- 12:00 IST — 02:30 ET during EDT, 01:30 ET during EST -->
+        <dict>
+            <key>Hour</key>
+            <integer>1</integer>
+            <key>Minute</key>
+            <integer>30</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>2</integer>
+            <key>Minute</key>
+            <integer>30</integer>
+        </dict>
+    </array>
+
+    <!--
+      ⚠️ These are OVERNIGHT and EARLY-MORNING local wakes. Unattended running
+      still needs the Mac ON and LOGGED IN — a locked screen is fine, a shut lid
+      or a logged-out session is not. If the laptop sleeps overnight, the slot is
+      skipped; the next successful wake picks the reel up.
+    -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/publish-ist.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/devishlaroiya/Desktop/Claude Code Projects/tiktok-ai-avatar/logs/publish-ist.err.log</string>
+</dict>
+</plist>
