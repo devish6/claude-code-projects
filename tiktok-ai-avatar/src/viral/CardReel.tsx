@@ -361,6 +361,21 @@ const PromiseStrip: React.FC<{ number: number; delay?: number }> = ({ number, de
  * ⭐⭐⭐ THE DATE LIST IS THE HOOK. Every qualifying date, never just the first —
  * confirmed three times. V28 named only "the 4th" and cut its audience to about
  * a quarter. A stranger has to self-identify here or nothing else gets watched.
+ *
+ * ⭐⭐ THE TOP LINE IS SEARCH VOCABULARY, NOT BRANDING (2026-08-05).
+ * It used to read "Moolank {n}". TikTok's Creator Search Insights shows the
+ * demand is phrased in ENGLISH: "numerology birth and destiny numbers" (4.45M),
+ * "personal numerology number meanings" (2.43M) and "numerology day number
+ * meanings" (2.27M) — roughly 9M across one topic, the biggest cluster on the
+ * board, and the exact topic these cards already are. Nobody outside an Indian
+ * audience searches "moolank".
+ *
+ * 🔴 THIS IS ON-SCREEN TEXT BECAUSE THAT IS A SEARCH SIGNAL. TikTok works out
+ * what a video is about from its caption, the text rendered in frame, and the
+ * transcript of its audio. Dropping narration removed the third one, so the
+ * frame has to carry the words people actually type. "Moolank" keeps its place
+ * on the line below — the brand term survives, it just no longer has to be the
+ * thing search matches on.
  */
 const HookScene: React.FC<{ number: number }> = ({ number }) => {
   const card = MOOLANK_CARDS[number];
@@ -369,13 +384,15 @@ const HookScene: React.FC<{ number: number }> = ({ number }) => {
       <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
         <Value size={300} delay={0}>{card.number}</Value>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <Label delay={4}>Moolank {card.number}</Label>
+          <Label delay={4}>Numerology · Birth Number {card.number}</Label>
           <Value size={78} delay={7}>{card.archetype}</Value>
-          <Label delay={11}>Ruled by {card.planet}</Label>
+          <Label delay={11}>Moolank {card.number} · Ruled by {card.planet}</Label>
         </div>
       </div>
       <div style={{ marginTop: 26 }}>
-        <Label delay={16}>Born on</Label>
+        {/* "Day number" is the third phrasing of the same cluster (2.27M) and
+            rides here rather than in the top line, which is already full. */}
+        <Label delay={16}>Born on · your day number</Label>
         <Value size={104} delay={20}>{card.bornOn}</Value>
       </div>
     </Scene>

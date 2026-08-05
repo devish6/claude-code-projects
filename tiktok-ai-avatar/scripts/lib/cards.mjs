@@ -111,9 +111,21 @@ export const buildReelCaption = (card) => {
   if (!card?.number) throw new Error("buildReelCaption needs a card with a number");
 
   const lines = [
-    `Moolank ${card.number} — Born on the ${spokenDates(card.bornOn)}.`,
+    // ⭐⭐ THE FIRST LINE IS SEARCH VOCABULARY. TikTok's Creator Search Insights
+    // shows the demand phrased in English: "numerology birth and destiny
+    // numbers" (4.45M), "personal numerology number meanings" (2.43M) and
+    // "numerology day number meanings" (2.27M) — ~9M across one cluster, and
+    // exactly what this card is. Nobody outside an Indian audience searches
+    // "moolank", so the searchable phrasing leads and the brand term follows in
+    // the same breath rather than standing alone.
+    //
+    // 🔴 THE CAPTION IS THE STRONGEST SEARCH SIGNAL WE STILL HAVE. TikTok reads
+    // a caption, the text rendered in frame, and the audio transcript. Dropping
+    // narration removed the transcript, so this line and the hook frame are
+    // carrying it between them.
+    `Numerology birth number ${card.number} — your day number if you were born on the ${spokenDates(card.bornOn)}.`,
     "",
-    `${card.planet} rules this number. ${card.personality}`,
+    `Also called Moolank ${card.number}. ${card.planet} rules this number. ${card.personality}`,
     "",
     // "remedy", not "upaay". Both captions are English throughout, per the
     // owner's standing decision of 2026-08-05 — see the note in

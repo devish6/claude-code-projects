@@ -37,6 +37,7 @@ import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
+import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
 import { TOTAL_FRAMES as TALKING_TOTAL } from "./talking/script";
 import { DISPLAY_HI, UI_HI } from "./viral/fonts";
 import { ACT, makeActs } from "./viral/timing";
@@ -319,6 +320,22 @@ export const RemotionRoot: React.FC = () => {
             defaultProps={{ number: n }}
           />
         ))}
+      </Folder>
+
+      {/*
+        A TikTok-only one-off, not part of the nine. Dense card on a short loop:
+        more text than fits the runtime, so finishing it needs a second pass and
+        watch time lands above 100%. See the note in ThreeSixNine.tsx.
+      */}
+      <Folder name="OneOffs">
+        <Composition
+          id="ThreeSixNine"
+          component={ThreeSixNine}
+          durationInFrames={T369_DURATION_IN_FRAMES}
+          fps={T369_FPS}
+          width={1080}
+          height={1920}
+        />
       </Folder>
 
       <Folder name="InfoCards">
