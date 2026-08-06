@@ -1,8 +1,10 @@
 import { describe, expect, test } from "vitest";
 
 import {
+  PASTE_RULE,
   SINGLE_CHUNK_MAX,
   authorizeUrl,
+  buildCaptionSheet,
   buildTikTokCaption,
   chunkPlan,
   publishState,
@@ -171,5 +173,41 @@ describe("buildTikTokCaption", () => {
 
   test("includes the hashtags", () => {
     expect(buildTikTokCaption(entry)).toContain("#numerology");
+  });
+});
+
+/**
+ * ⭐ The sheet is read by a person on a phone, mid-publish, and overwritten
+ * every run. The only failure that matters is pasting yesterday's caption onto
+ * today's post, so these assert the two things that prevent it: the sheet names
+ * WHICH video it is for, and the pasteable text is unambiguously delimited.
+ */
+describe("caption sheet", () => {
+  const at = new Date("2026-08-06T16:00:00Z"); // 12:00 ET
+
+  test("names the video it belongs to, so a stale file is obvious", () => {
+    const sheet = buildCaptionSheet({ entry, caption: "x", at });
+    expect(sheet).toContain("V17");
+    expect(sheet).toContain("Birth Vs Destiny In 15 Seconds");
+  });
+
+  test("stamps the time in ET, not UTC and not the machine's guess", () => {
+    // 16:00 UTC is 12:00 in Toronto — the slot this actually runs in. A UTC
+    // stamp would read 16:00 and look like a different post four hours later.
+    const sheet = buildCaptionSheet({ entry, caption: "x", at });
+    expect(sheet).toMatch(/12:00/);
+    expect(sheet).toContain("2026");
+  });
+
+  test("delimits exactly what to paste, and nothing else", () => {
+    const caption = buildTikTokCaption(entry);
+    const sheet = buildCaptionSheet({ entry, caption, at });
+    const between = sheet.split(PASTE_RULE)[1];
+    expect(between.trim()).toBe(caption.trim());
+  });
+
+  test("carries the real caption verbatim, footer and hashtags included", () => {
+    const caption = buildTikTokCaption(entry);
+    expect(buildCaptionSheet({ entry, caption, at })).toContain(caption);
   });
 });

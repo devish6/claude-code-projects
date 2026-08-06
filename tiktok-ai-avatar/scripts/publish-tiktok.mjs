@@ -26,13 +26,14 @@
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { homedir } from "node:os";
-import { isAbsolute, join } from "node:path";
+import { basename, dirname, extname, isAbsolute, join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { createInterface } from "node:readline/promises";
 
 import { CREDENTIALS_PATH, loadCredentials, saveCredentials } from "./lib/credentials.mjs";
 import {
   authorizeUrl,
+  buildCaptionSheet,
   buildTikTokCaption,
   chunkPlan,
   publishState,
@@ -236,6 +237,48 @@ const findVideoFile = (entry) => {
   return newestRender(dir);
 };
 
+/**
+ * Where a caption goes so the PHONE can read it.
+ *
+ * iCloud Drive's Files-app root. Chosen over Notes or a Desktop file because
+ * the paste happens on the phone, mid-publish, and this is the only location
+ * that is both writable from a launchd job on the Mac and openable in two taps
+ * on the phone with no export step.
+ */
+const ICLOUD_DIR = join(homedir(), "Library", "Mobile Documents", "com~apple~CloudDocs");
+
+/**
+ * Writes the caption where a human can actually get at it.
+ *
+ * TWO destinations, deliberately:
+ * - beside the MP4, so the caption travels with the asset it belongs to and
+ *   survives long after this run's clipboard is gone. Card reels render into
+ *   the repo's gitignored out/reels/, so this never reaches the public repo.
+ * - ONE STABLE iCloud path, overwritten every run, because the phone needs a
+ *   file it can find without hunting. A dated filename would be safer against
+ *   staleness but unusable in practice — you cannot search for a name you do
+ *   not know while standing in the TikTok app. The header inside the sheet
+ *   carries the staleness check instead.
+ *
+ * 🔴 Callers must treat every failure here as non-fatal — see the loop in
+ * publish(). iCloud in particular can be absent, full, or mid-sync.
+ */
+const stageCaption = (entry, caption, videoFile) => {
+  const sheet = buildCaptionSheet({ entry, caption });
+
+  const beside = join(dirname(videoFile), `${basename(videoFile, extname(videoFile))} - caption.txt`);
+  writeFileSync(beside, sheet);
+  log(`📄 Caption written beside the video: ${beside}`);
+
+  if (!existsSync(ICLOUD_DIR)) {
+    log("  ! iCloud Drive not found — the caption is on the Mac only, so the phone cannot read it.");
+    return;
+  }
+  const synced = join(ICLOUD_DIR, "Numevix TikTok caption.txt");
+  writeFileSync(synced, sheet);
+  log(`☁️  And in iCloud Drive as "Numevix TikTok caption.txt" — open it on your phone (Files app).`);
+};
+
 const probe = (file) => {
   const out = execFileSync(
     "ffprobe",
@@ -342,14 +385,31 @@ const publish = async () => {
 
   log(`\n✅ ${entry.v} is in your TikTok drafts (publish ${publish_id}).`);
 
-  // The inbox endpoint accepts no caption, so this is the one manual step.
-  // Putting it on the clipboard means it is a paste, not a retype.
-  try {
-    execFileSync("pbcopy", { input: caption });
-    log("📋 Caption copied to your clipboard — paste it when you publish.\n");
-  } catch {
-    log("\nCaption to paste when you publish:\n");
+  /*
+    🔴 EVERYTHING BELOW HERE IS NON-FATAL, AND THAT IS LOAD-BEARING.
+    The draft is already delivered and the ledger is already written. If any of
+    this threw, the script would exit non-zero, publish-next would record TikTok
+    as failed, and the next run would upload the SAME video again — a duplicate
+    draft caused entirely by a caption file. Convenience must never manufacture
+    a second post. Same rule as the Facebook thumbnail read-back.
+  */
+  for (const { label, run } of [
+    {
+      label: "clipboard",
+      run: () => {
+        execFileSync("pbcopy", { input: caption });
+        log("\n📋 Caption copied to this Mac's clipboard.");
+      },
+    },
+    { label: "caption file", run: () => stageCaption(entry, caption, file) },
+  ]) {
+    try {
+      run();
+    } catch (err) {
+      log(`  ! could not stage the ${label}: ${err.message}`);
+    }
   }
+
   log(caption);
 };
 

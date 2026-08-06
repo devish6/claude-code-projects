@@ -126,3 +126,48 @@ export const buildTikTokCaption = (entry) => {
   // Meta applies — see LINK_IN_BIO in lib/meta.mjs for what this costs.
   return [body, "", LINK_IN_BIO, "", (entry.hashtags ?? []).join(" ")].join("\n");
 };
+
+/** Marks where the pasteable text starts and ends in a caption sheet. */
+export const PASTE_RULE = "───────────────────────────────────────────────";
+
+/**
+ * The caption, wrapped for a HUMAN to read on a PHONE and paste into TikTok.
+ *
+ * ⭐⭐ WHY A FILE AND NOT JUST THE CLIPBOARD. TikTok production review was
+ * REJECTED on policy 2026-08-06 ("Private Use"), so `video.publish` — the only
+ * endpoint that accepts a caption — is unavailable for good. The manual paste
+ * is PERMANENT, not a gap waiting on approval. And the clipboard is the wrong
+ * carrier for it: drafts are published on the PHONE while pbcopy runs on the
+ * Mac, so the caption never reaches the device that needs it, and it is lost
+ * the moment anything else is copied.
+ *
+ * ⭐⭐⭐ THE HEADER IS THE POINT, NOT DECORATION. This file is overwritten every
+ * run, so the one dangerous failure is pasting YESTERDAY's caption onto today's
+ * post — silently, with nothing to notice. Naming the video id, title and time
+ * at the top makes a stale file self-evident to the person holding the phone.
+ * A wrong caption has already shipped once (M9R, 2026-08-05); the check that
+ * catches it here is a human reading one line.
+ */
+export const buildCaptionSheet = ({ entry, caption, at = new Date() }) => {
+  const when = at.toLocaleString("en-CA", {
+    dateStyle: "full",
+    timeStyle: "short",
+    timeZone: "America/Toronto",
+  });
+
+  return [
+    "NUMEVIX — TIKTOK CAPTION",
+    "",
+    `  ${entry.v} — ${entry.title}`,
+    `  staged ${when} ET`,
+    "",
+    "  Check the line above matches the draft you are publishing.",
+    "  This file is overwritten on every post.",
+    "",
+    "Paste everything between the lines:",
+    PASTE_RULE,
+    caption,
+    PASTE_RULE,
+    "",
+  ].join("\n");
+};
