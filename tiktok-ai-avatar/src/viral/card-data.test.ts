@@ -111,3 +111,57 @@ describe("moolank card data", () => {
     }
   });
 });
+
+/**
+ * ⭐⭐ THE OPENING IS THE ONE BEAT WITH MEASURED CONSEQUENCES.
+ * Moolank 8, 2026-08-06: TikTok "most viewers stopped watching at 0:01", avg
+ * watch 2.4s; Instagram skip rate 91.5%, avg watch 2s. Only Moolank 8 has been
+ * re-rendered against these rules — the other eight ship the moment they are
+ * rendered, so the copy has to be pinned before it can be pasted into a render.
+ */
+describe("the problem hook", () => {
+  it("exists for every number", () => {
+    for (const n of MOOLANK_NUMBERS) {
+      const h = MOOLANK_CARDS[n].problemHook;
+      expect(h, `${n}`).toBeTruthy();
+      expect(h.ask.length, `${n}`).toBeGreaterThan(0);
+      expect(h.twist.length, `${n}`).toBeGreaterThan(0);
+      expect(h.promise.length, `${n}`).toBeGreaterThan(0);
+    }
+  });
+
+  /**
+   * 🔴 FRAME ZERO IS THE ONLY FRAME EVERY VIEWER IS GUARANTEED TO SEE, and it
+   * holds ask[0] alone. A line too long to take in at a glance wastes it.
+   */
+  it("opens on a line short enough to read at a glance", () => {
+    for (const n of MOOLANK_NUMBERS) {
+      const first = MOOLANK_CARDS[n].problemHook.ask[0];
+      expect(first.length, `${n}: "${first}"`).toBeLessThanOrEqual(34);
+    }
+  });
+
+  /**
+   * ⭐ It has to ASK, not tell. The same safety softening that governs `shadow`
+   * binds harder here, because this line is aimed at the viewer rather than
+   * describing a number: a question they may recognise is fair, a verdict on
+   * who they are is not.
+   */
+  it("asks a question rather than delivering a verdict", () => {
+    const verdicts = /\byou are\b|\byou're\b|\byou will never\b/i;
+    for (const n of MOOLANK_NUMBERS) {
+      const { ask, twist } = MOOLANK_CARDS[n].problemHook;
+      expect(ask.join(" "), `${n}`).toMatch(/\?$/);
+      expect(ask.join(" "), `${n}`).not.toMatch(verdicts);
+      expect(twist, `${n}`).not.toMatch(verdicts);
+    }
+  });
+
+  /** The promise is what the remedy beat later pays off — keep them coupled. */
+  it("promises the remedy the card actually contains", () => {
+    for (const n of MOOLANK_NUMBERS) {
+      expect(MOOLANK_CARDS[n].problemHook.promise).toMatch(/remedy/i);
+      expect(MOOLANK_CARDS[n].remedy.length).toBeGreaterThan(0);
+    }
+  });
+});

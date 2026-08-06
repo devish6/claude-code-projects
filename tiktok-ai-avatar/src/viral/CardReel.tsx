@@ -64,32 +64,38 @@ export const REEL_FPS = 30;
  * Durations in frames at 30fps. Edit here, not in the body — every downstream
  * offset is derived, so a beat can be retimed without touching a component.
  *
- * 🪤 COLD_OPEN IS 18 FRAMES (0.6s), NOT THE 6 FRAMES (0.2s) FIRST PROPOSED.
- * Six frames reads as a dropped frame rather than as an object. The card is far
- * too dense to READ at any speed — the job here is only to register "a detailed
- * reference card exists and it is coming", so it needs long enough to be seen
- * as a thing. 18 frames does that and still costs almost nothing.
+ * 🪤 THE COLD-OPEN GLIMPSE IS GONE, AND ITS 18 FRAMES WITH IT. The reasoning
+ * was that a dense card would register as "something worth waiting for". The
+ * retention readout says it registered as an unreadable wall followed by a
+ * blank — see the note on ProblemScene, which replaced it. Kept here as a
+ * warning: "it needs long enough to be seen as a thing" was an argument from
+ * the edit bay, and the first second is not judged in the edit bay.
+ *
+ * ⭐ THE OPENING NOW COSTS 4.0s AND THE REEL RUNS 18.0s, up from 17.0s. Paid
+ * for out of HOOK (3.0→2.0), STRENGTHS (3.0→2.5), FACT (3.5→3.0) and CARD_HOLD
+ * (3.9→3.5) rather than added on top, because completion rate is a ranking
+ * input and nobody currently reaches 3s anyway.
  */
-const COLD_OPEN = 18; //  0.6s — the glimpse of the finished card
-const HOOK = 90; //  3.0s — numeral, archetype, every qualifying date
-const STRENGTHS = 90; //  3.0s — what this number is good at
+const PROBLEM = 120; //  4.0s — the viewer's problem, before any number is named
+const HOOK = 60; //  2.0s — numeral, archetype, every qualifying date
+const STRENGTHS = 75; //  2.5s — what this number is good at
 const REMEDY = 90; //  3.0s — mantra + practice, the most saveable line
-const FACT = 105; //  3.5s — the payoff the opening promise is written against
-const CARD_HOLD = 117; //  3.9s — held long enough to screenshot
+const FACT = 90; //  3.0s — the payoff the opening promise is written against
+const CARD_HOLD = 105; //  3.5s — held long enough to screenshot
 
-const BEATS = { COLD_OPEN, HOOK, STRENGTHS, REMEDY, FACT, CARD_HOLD };
+const BEATS = { PROBLEM, HOOK, STRENGTHS, REMEDY, FACT, CARD_HOLD };
 
 /** Frame each beat starts on. */
 const START = {
-  coldOpen: 0,
-  hook: COLD_OPEN,
-  strengths: COLD_OPEN + HOOK,
-  remedy: COLD_OPEN + HOOK + STRENGTHS,
-  fact: COLD_OPEN + HOOK + STRENGTHS + REMEDY,
-  card: COLD_OPEN + HOOK + STRENGTHS + REMEDY + FACT,
+  problem: 0,
+  hook: PROBLEM,
+  strengths: PROBLEM + HOOK,
+  remedy: PROBLEM + HOOK + STRENGTHS,
+  fact: PROBLEM + HOOK + STRENGTHS + REMEDY,
+  card: PROBLEM + HOOK + STRENGTHS + REMEDY + FACT,
 };
 
-export const REEL_DURATION_IN_FRAMES = START.card + CARD_HOLD; // 510 = 17.0s
+export const REEL_DURATION_IN_FRAMES = START.card + CARD_HOLD; // 540 = 18.0s
 
 /**
  * ⭐ TAKES NO ARGUMENT NOW. It used to be `(moolank)` because length was derived
@@ -280,22 +286,101 @@ const CardPlate: React.FC<{ number: number; scale: number }> = ({ number, scale 
 );
 
 /**
- * ── BEAT 1 · THE COLD OPEN ────────────────────────────────────────────────
- * Frame one is the finished card, pushing in. This is the single highest-value
- * change in the rebuild: it replaces a static title with (a) motion and (b) a
- * visible reason to keep watching.
+ * ── BEAT 1 · THE PROBLEM ──────────────────────────────────────────────────
+ * Replaces the cold-open card glimpse, which was MEASURED and failed.
  *
- * 🪤 It deliberately does NOT carry the promise text. Three messages inside two
- * seconds — glimpse, promise, number — is how all three get missed. The promise
- * rides the hook instead, where it has room to be read.
+ * 🔴 WHAT THE GLIMPSE ACTUALLY DID, frame by frame (Moolank 8, 2026-08-06,
+ * brightest pixel per frame):
+ *     frames  0–17  (0.00–0.57s)  255  the dense info card
+ *     frames 18–19  (0.60–0.63s)   56  NOTHING — empty gradient
+ *     frames 20–27  (0.67–0.90s)   96→254  a title fading up
+ * A wall of text nobody can read at that speed, then a HOLE, then a label. And
+ * TikTok's readout for the same video: "most viewers stopped watching at 0:01."
+ * The screen was empty at 0:00.6.
+ *
+ * ⭐⭐⭐ THE HOLE WAS NOT A ONE-OFF — `useSnap` IS A SPRING FROM ZERO, so the
+ * first frame of EVERY scene is invisible. It only cost real money here because
+ * this is the one cut that happens while the audience is still deciding.
+ * Whatever opens this reel must therefore be LEGIBLE AT FRAME ZERO, which is
+ * why the first line below is deliberately not animated in.
+ *
+ * ⭐⭐ WHY A PROBLEM AND NOT THE NUMBER. @vediksoul's trait-per-number posts run
+ * 3.0K–24.6K; their topic-led hooks run 348K–4.4M, same account, same audience,
+ * plain text on black. The number is the FILTER, not the subject. A stranger
+ * scrolling does not know they are a 7 and does not care — they know they
+ * overthink things. So the pain comes first and the number arrives as the
+ * explanation, four seconds later.
+ *
+ * 🪤 THE LINES STACK, THEY DO NOT REPLACE EACH OTHER. Cutting between three
+ * separate messages would reintroduce exactly the blank frames this beat exists
+ * to remove. Each new line joins the ones above it, so the screen only ever
+ * gains content.
  */
-const ColdOpen: React.FC<{ number: number }> = ({ number }) => {
+const ProblemScene: React.FC<{ number: number }> = ({ number }) => {
+  const card = MOOLANK_CARDS[number];
   const frame = useCurrentFrame();
-  // Push in slightly so the plate reads as arriving, not as a held still.
-  const scale = interpolate(frame, [0, COLD_OPEN], [1.06, 0.98], { extrapolateRight: "clamp" });
+  const { ask, twist, promise } = card.problemHook;
+
+  // 🔴 NOT useSnap. A spring reads 0 on frame 0, and frame 0 is the only frame
+  // this whole reel is guaranteed to get. It settles by scale, never by opacity.
+  const settle = interpolate(frame, [0, 10], [1.04, 1], { extrapolateRight: "clamp" });
+  const twistIn = useSnap(46);
+  const promiseIn = useSnap(94);
+
   return (
-    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
-      <CardPlate number={number} scale={scale * 0.96} />
+    <AbsoluteFill
+      style={{
+        justifyContent: "center",
+        alignItems: "flex-start",
+        padding: "0 90px",
+        gap: 34,
+      }}
+    >
+      <div style={{ transform: `scale(${settle})`, transformOrigin: "left center" }}>
+        {ask.map((line) => (
+          <div
+            key={line}
+            style={{
+              fontFamily: DISPLAY,
+              fontSize: 96,
+              lineHeight: 1.08,
+              color: P.TEXT,
+              fontWeight: 700,
+            }}
+          >
+            {line}
+          </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          fontFamily: UI,
+          fontSize: 46,
+          lineHeight: 1.3,
+          color: GOLD,
+          opacity: twistIn,
+          transform: `translateY(${(1 - twistIn) * 14}px)`,
+        }}
+      >
+        {twist}
+      </div>
+
+      <div
+        style={{
+          fontFamily: UI,
+          fontSize: 38,
+          letterSpacing: 2,
+          textTransform: "uppercase",
+          color: P.TEXT,
+          opacity: promiseIn * 0.92,
+          transform: `translateY(${(1 - promiseIn) * 12}px)`,
+          borderTop: `2px solid ${GOLD}`,
+          paddingTop: 22,
+        }}
+      >
+        {promise}
+      </div>
     </AbsoluteFill>
   );
 };
@@ -581,8 +666,8 @@ export const CardReel: React.FC<CardReelProps> = ({ number }) => {
         }
       />
 
-      <Sequence from={START.coldOpen} durationInFrames={BEATS.COLD_OPEN}>
-        <ColdOpen number={number} />
+      <Sequence from={START.problem} durationInFrames={BEATS.PROBLEM}>
+        <ProblemScene number={number} />
       </Sequence>
 
       <Sequence from={START.hook} durationInFrames={BEATS.HOOK}>

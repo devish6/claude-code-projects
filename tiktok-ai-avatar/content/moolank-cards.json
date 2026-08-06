@@ -34,7 +34,15 @@
     "luckyDay": "Sunday",
     "mantra": "Om Suryaya Namah",
     "remedy": "Chant the Gayatri Mantra at sunrise. Honour your father and your elders — pride softens where respect is given.",
-    "surpriseFact": "The Sun never shares the sky. A 1 gets its confidence from that — and its inability to ask for help."
+    "surpriseFact": "The Sun never shares the sky. A 1 gets its confidence from that — and its inability to ask for help.",
+    "problemHook": {
+      "ask": [
+        "Does your certainty",
+        "keep getting read as ego?"
+      ],
+      "twist": "And lose patience with everyone slower than you?",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "2": {
     "number": 2,
@@ -71,7 +79,15 @@
     "luckyDay": "Monday",
     "mantra": "Om Chandraya Namah",
     "remedy": "Meditate for ten minutes on Monday. Call your mother — steadiness comes from within, not from what was said to you.",
-    "surpriseFact": "The Moon changes shape nightly. So does a 2's mood — the same sensitivity that lets them read a room instantly."
+    "surpriseFact": "The Moon changes shape nightly. So does a 2's mood — the same sensitivity that lets them read a room instantly.",
+    "problemHook": {
+      "ask": [
+        "Does one comment stay",
+        "with you all day?"
+      ],
+      "twist": "And wait for someone else to decide?",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "3": {
     "number": 3,
@@ -106,7 +122,15 @@
     "luckyDay": "Thursday",
     "mantra": "Om Brihaspataye Namah",
     "remedy": "On Thursday, thank a teacher who shaped you. Give advice only when it is asked for — counsel guides, control does not.",
-    "surpriseFact": "Jupiter is the largest planet in the sky. A 3's advice has the same habit — it takes up more room than they realise."
+    "surpriseFact": "Jupiter is the largest planet in the sky. A 3's advice has the same habit — it takes up more room than they realise.",
+    "problemHook": {
+      "ask": [
+        "Do you give advice",
+        "nobody asked for?"
+      ],
+      "twist": "And sink when nobody notices what you did?",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "4": {
     "number": 4,
@@ -143,7 +167,15 @@
     "luckyDay": "Saturday",
     "mantra": "Om Raam Rahave Namah",
     "remedy": "Feed a street dog after sunset, daily and without fail. Finishing the small thing is how you learn to finish the large.",
-    "surpriseFact": "Rahu isn't a planet at all — it's a shadow point. That's why a 4's luck arrives suddenly, and leaves the same way."
+    "surpriseFact": "Rahu isn't a planet at all — it's a shadow point. That's why a 4's luck arrives suddenly, and leaves the same way.",
+    "problemHook": {
+      "ask": [
+        "Do you start far more",
+        "than you ever finish?"
+      ],
+      "twist": "And does life keep hitting you out of nowhere?",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "5": {
     "number": 5,
@@ -179,7 +211,15 @@
     "luckyDay": "Wednesday",
     "mantra": "Om Budhaya Namah",
     "remedy": "On Wednesday, give sweets to children and expect nothing back. Not everything you give is meant to be counted.",
-    "surpriseFact": "A 5 can sell anything to anyone. The one thing they can't do is stop keeping score — even at home."
+    "surpriseFact": "A 5 can sell anything to anyone. The one thing they can't do is stop keeping score — even at home.",
+    "problemHook": {
+      "ask": [
+        "Do you weigh profit and loss",
+        "even at home?"
+      ],
+      "twist": "And find you cannot settle anywhere for long?",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "6": {
     "number": 6,
@@ -215,7 +255,15 @@
     "luckyDay": "Friday",
     "mantra": "Om Shukraya Namah",
     "remedy": "On Friday, give your partner something with a fragrance. Accept no free gifts — what looks like status is a debt.",
-    "surpriseFact": "Venus makes a 6 magnetic. It also means a free gift is never free — what arrives as status leaves as debt."
+    "surpriseFact": "Venus makes a 6 magnetic. It also means a free gift is never free — what arrives as status leaves as debt.",
+    "problemHook": {
+      "ask": [
+        "Do you spend to keep up",
+        "appearances?"
+      ],
+      "twist": "And does love always get complicated?",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "7": {
     "number": 7,
@@ -250,7 +298,15 @@
     "luckyDay": "Monday",
     "mantra": "Om Ketave Namah",
     "remedy": "On Saturday, take sweets to children who have no one. Trust one good thing this week without testing it first.",
-    "surpriseFact": "Ketu is Rahu's other half — a body with no head. A 7 sees everything coming, and trusts almost none of it."
+    "surpriseFact": "Ketu is Rahu's other half — a body with no head. A 7 sees everything coming, and trusts almost none of it.",
+    "problemHook": {
+      "ask": [
+        "Do you overthink everything —",
+        "even the good news?"
+      ],
+      "twist": "And find trust the hardest thing to give back?",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "8": {
     "number": 8,
@@ -287,7 +343,15 @@
     "luckyDay": "Saturday",
     "mantra": "Om Sham Shanicharaya Namah",
     "remedy": "Read the Hanuman Chalisa. Seek forgiveness where you owe it, and forgive those who hurt you.",
-    "surpriseFact": "8 was never unlucky. Saturn simply pays late — and pays in full, to whoever is still standing when it does."
+    "surpriseFact": "8 was never unlucky. Saturn simply pays late — and pays in full, to whoever is still standing when it does.",
+    "problemHook": {
+      "ask": [
+        "Does everything in your life",
+        "arrive late?"
+      ],
+      "twist": "You work harder than everyone. The reward still has not come.",
+      "promise": "Stay till the end for the remedy"
+    }
   },
   "9": {
     "number": 9,
@@ -323,6 +387,14 @@
     "luckyDay": "Tuesday",
     "mantra": "Om Angarakaya Namah",
     "remedy": "Read the Hanuman Chalisa daily. Donate blood — it cools the anger and turns restless fire into courage.",
-    "surpriseFact": "Multiply 9 by anything and it comes back to 9. Mars doesn't let go — and neither do 9s."
+    "surpriseFact": "Multiply 9 by anything and it comes back to 9. Mars doesn't let go — and neither do 9s.",
+    "problemHook": {
+      "ask": [
+        "Does your anger arrive",
+        "before your thinking does?"
+      ],
+      "twist": "And do you hold a fight long after it stopped mattering?",
+      "promise": "Stay till the end for the remedy"
+    }
   }
 }

@@ -44,6 +44,37 @@ export type MoolankCard = {
   relationships: string;
   career: string;
   shadow: string[];
+  /**
+   * ⭐⭐⭐ THE OPENING, WRITTEN AS THE VIEWER'S PROBLEM RATHER THAN THE NUMBER'S LABEL.
+   *
+   * Measured 2026-08-06: the old opening lost most of its audience inside ONE
+   * SECOND. TikTok — avg watch 2.4s and 2.8s, "most viewers stopped watching at
+   * 0:01". Instagram — avg watch 2s, SKIP RATE 91.5%, which Instagram itself
+   * ranks first "in order of importance to reach". The same ~2s ceiling on two
+   * platforms is a property of the video, not of one algorithm.
+   *
+   * ⭐⭐ AND THE CONTENT IS NOT THE PROBLEM. Of the few who stayed, Instagram
+   * scored like rate 4.3%, save 3.4% and repost 2.6% — all HIGHER than this
+   * account's typical. People who see it like it. They are not getting far
+   * enough in to see it.
+   *
+   * 🩹 DERIVED FROM THAT NUMBER'S OWN `shadow`, AND ASKED AS A QUESTION.
+   * The standing safety softening still binds: a shadow is an energy to manage,
+   * never a verdict on the reader, and these are read by people born on that
+   * date. A question about an experience the viewer may recognise stays on the
+   * right side of that; a statement about who they are would not.
+   *
+   * ⭐ It also closes the loop the remedy rule opened — the opening names the
+   * pain, and that same card's remedy is what answers it.
+   */
+  problemHook: {
+    /** Two short lines. Line one MUST be legible at frame zero. */
+    ask: string[];
+    /** The turn of the screw, ~1.6s in. */
+    twist: string;
+    /** Why staying is worth it. */
+    promise: string;
+  };
   luckyColours: string[];
   /** The friendly numbers from the engine's FRIENDSHIP table, not the birth dates. */
   luckyNumbers: number[];
