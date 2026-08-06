@@ -23,9 +23,9 @@
  * 🔴 Credentials live in ~/.numevix-publish/credentials.json at 0600, never in
  * this repo — it is public and Pages-served.
  */
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync, rmSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { homedir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 import { basename, dirname, extname, isAbsolute, join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { createInterface } from "node:readline/promises";
@@ -33,7 +33,9 @@ import { createInterface } from "node:readline/promises";
 import { CREDENTIALS_PATH, loadCredentials, saveCredentials } from "./lib/credentials.mjs";
 import {
   authorizeUrl,
+  NOTE_TITLE,
   buildCaptionSheet,
+  captionNoteHtml,
   buildTikTokCaption,
   chunkPlan,
   publishState,
@@ -263,6 +265,59 @@ const ICLOUD_DIR = join(homedir(), "Library", "Mobile Documents", "com~apple~Clo
  * 🔴 Callers must treat every failure here as non-fatal — see the loop in
  * publish(). iCloud in particular can be absent, full, or mid-sync.
  */
+/**
+ * Puts the caption in Notes, which syncs to the phone that does the publishing.
+ *
+ * ⭐ ONE NOTE, UPDATED IN PLACE — looked up by name, created only if missing.
+ * A new note per post would leave the person scrolling a list of near-identical
+ * captions looking for today's, which is the problem this was meant to solve.
+ *
+ * 🪤 THE BODY IS PASSED THROUGH A FILE, NOT INTERPOLATED INTO THE SCRIPT.
+ * The caption contains quotes, emoji and em-dashes; escaping all of that into an
+ * AppleScript string literal is a bug farm, and a caption that broke the script
+ * would be a caption that silently never arrived. `cat` hands osascript the
+ * exact bytes.
+ *
+ * 🔴 THIS MAY FAIL UNDER launchd EVEN THOUGH IT WORKS FROM A TERMINAL.
+ * Driving Notes needs macOS Automation permission, which is granted per parent
+ * process. The caller treats failure as non-fatal and the iCloud Drive file
+ * below stays as the fallback route to the phone.
+ */
+const stageToNotes = (sheet) => {
+  const tmp = join(tmpdir(), `numevix-caption-${Date.now()}.html`);
+  writeFileSync(tmp, captionNoteHtml(sheet));
+  try {
+    execFileSync("osascript", [
+      "-e",
+      /*
+        🪤 SCOPED TO folder "Notes" — `notes whose name is …` on the ACCOUNT
+        searches Recently Deleted as well. Delete this note once and every later
+        publish finds the deleted copy and dies on "Can't modify a note in
+        Recently Deleted", for the thirty days macOS keeps it. Because staging
+        is non-fatal that failure is SILENT, so the caption would simply stop
+        arriving with nothing to say why. Caught by deleting the note and
+        re-running, which is exactly what a person would eventually do to it.
+      */
+      `set b to do shell script "cat " & quoted form of "${tmp}"
+       tell application "Notes"
+         tell account "iCloud"
+           tell folder "Notes"
+             set hits to notes whose name is "${NOTE_TITLE}"
+             if (count of hits) > 0 then
+               set body of item 1 of hits to b
+             else
+               make new note with properties {body:b}
+             end if
+           end tell
+         end tell
+       end tell`,
+    ]);
+    log(`📝 Caption is in Notes as "${NOTE_TITLE}" — it syncs to your phone.`);
+  } finally {
+    rmSync(tmp, { force: true });
+  }
+};
+
 const stageCaption = (entry, caption, videoFile) => {
   const sheet = buildCaptionSheet({ entry, caption });
 
@@ -270,13 +325,21 @@ const stageCaption = (entry, caption, videoFile) => {
   writeFileSync(beside, sheet);
   log(`📄 Caption written beside the video: ${beside}`);
 
+  // Each destination is independent: Notes failing must not cost you the file,
+  // and vice versa. Notes is the one the phone actually reads.
+  try {
+    stageToNotes(sheet);
+  } catch (err) {
+    log(`  ! could not write to Notes (${err.message.split("\n")[0]}) — use the iCloud file below.`);
+  }
+
   if (!existsSync(ICLOUD_DIR)) {
     log("  ! iCloud Drive not found — the caption is on the Mac only, so the phone cannot read it.");
     return;
   }
   const synced = join(ICLOUD_DIR, "Numevix TikTok caption.txt");
   writeFileSync(synced, sheet);
-  log(`☁️  And in iCloud Drive as "Numevix TikTok caption.txt" — open it on your phone (Files app).`);
+  log(`☁️  Backup copy in iCloud Drive as "Numevix TikTok caption.txt" (Files app).`);
 };
 
 const probe = (file) => {

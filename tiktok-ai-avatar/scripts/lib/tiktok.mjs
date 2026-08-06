@@ -148,6 +148,37 @@ export const PASTE_RULE = "─────────────────�
  * A wrong caption has already shipped once (M9R, 2026-08-05); the check that
  * catches it here is a human reading one line.
  */
+/**
+ * The name the note is found by — and it is only ever READ, never set.
+ *
+ * 🪤 NOTES HAS NO SEPARATE TITLE. It takes the first line of the body as the
+ * note's name, so passing `name:` on creation as well gets you the title
+ * TWICE — once as the name Notes assigns and once as the body line it came
+ * from. Verified by reading a created note back. The body's first line is
+ * therefore the single source of the name, and this constant must keep matching
+ * it, because the daily lookup is by name: if it ever drifts, the lookup misses
+ * and a second note is created every single day.
+ */
+export const NOTE_TITLE = "NUMEVIX — TIKTOK CAPTION";
+
+/**
+ * The caption sheet as Notes-flavoured HTML.
+ *
+ * Notes takes HTML, not text: newlines are ignored, so every line has to be its
+ * own block or the whole caption arrives as one paragraph — unpasteable.
+ */
+export const captionNoteHtml = (sheet) => {
+  const escaped = sheet
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  return escaped
+    .split("\n")
+    .map((line) => (line.trim() === "" ? "<div><br></div>" : `<div>${line}</div>`))
+    .join("");
+};
+
 export const buildCaptionSheet = ({ entry, caption, at = new Date() }) => {
   const when = at.toLocaleString("en-CA", {
     dateStyle: "full",

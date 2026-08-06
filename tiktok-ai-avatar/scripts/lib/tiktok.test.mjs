@@ -1,7 +1,9 @@
 import { describe, expect, test } from "vitest";
 
 import {
+  NOTE_TITLE,
   PASTE_RULE,
+  captionNoteHtml,
   SINGLE_CHUNK_MAX,
   authorizeUrl,
   buildCaptionSheet,
@@ -209,5 +211,40 @@ describe("caption sheet", () => {
   test("carries the real caption verbatim, footer and hashtags included", () => {
     const caption = buildTikTokCaption(entry);
     expect(buildCaptionSheet({ entry, caption, at })).toContain(caption);
+  });
+});
+
+/**
+ * ⭐ Notes takes HTML, not text. Newlines in a plain string are collapsed, so a
+ * caption sent raw arrives as one unbroken paragraph — technically delivered
+ * and useless to paste.
+ */
+describe("caption note html", () => {
+  const at = new Date("2026-08-06T16:00:00Z");
+
+  test("gives every line its own block so the caption survives", () => {
+    const html = captionNoteHtml("one\ntwo\nthree");
+    expect(html).toBe("<div>one</div><div>two</div><div>three</div>");
+  });
+
+  test("keeps blank lines, which separate the caption's paragraphs", () => {
+    expect(captionNoteHtml("a\n\nb")).toContain("<div><br></div>");
+  });
+
+  test("escapes html so a caption cannot inject markup into the note", () => {
+    const html = captionNoteHtml("5 < 8 & <b>bold</b>");
+    expect(html).toContain("&lt;");
+    expect(html).toContain("&amp;");
+    expect(html).not.toContain("<b>");
+  });
+
+  /**
+   * 🪤 The note is found BY NAME every run, and Notes takes that name from the
+   * first line of the body. If the sheet's first line ever stops matching
+   * NOTE_TITLE, the lookup misses and a second note is created every day.
+   */
+  test("opens on the exact line the note is looked up by", () => {
+    const sheet = buildCaptionSheet({ entry, caption: "x", at });
+    expect(sheet.split("\n")[0]).toBe(NOTE_TITLE);
   });
 });
