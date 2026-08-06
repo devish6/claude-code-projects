@@ -18,6 +18,8 @@
  * same reason the card does — a stranger has to self-identify in one line.
  */
 
+import { LINK_IN_BIO } from "./meta.mjs";
+
 /** Instagram truncates past this. */
 export const CAPTION_MAX = 2200;
 
@@ -107,10 +109,25 @@ export const buildCardCaption = (card) => {
  * delivery is what the reference accounts at 41K-57K likes all share and it is
  * worth setting the expectation before someone taps the sound on.
  */
-export const buildReelCaption = (card) => {
-  if (!card?.number) throw new Error("buildReelCaption needs a card with a number");
+/**
+ * The reel caption WITHOUT its footer — no "Link in bio", no hashtags.
+ *
+ * ⭐⭐ WHY THIS EXISTS SEPARATELY. Two consumers need two different things from
+ * the same copy, and conflating them cost a day's posts on three platforms:
+ *
+ * - publish-card.mjs posts to Instagram VERBATIM, so it needs the finished
+ *   caption — that is buildReelCaption below.
+ * - queue-card-reel.mjs writes `tiktokCaption` into daily-state.json, and the
+ *   three ET publishers each treat that field as a BODY they wrap with their
+ *   own footer and their own hashtag line. Handing them a finished caption
+ *   printed the footer and the whole tag block twice.
+ *
+ * So the queue stores this, and buildReelCaption is this plus the footer.
+ */
+export const buildReelCaptionBody = (card) => {
+  if (!card?.number) throw new Error("buildReelCaptionBody needs a card with a number");
 
-  const lines = [
+  return [
     // ⭐⭐ THE FIRST LINE IS SEARCH VOCABULARY. TikTok's Creator Search Insights
     // shows the demand phrased in English: "numerology birth and destiny
     // numbers" (4.45M), "personal numerology number meanings" (2.43M) and
@@ -135,12 +152,17 @@ export const buildReelCaption = (card) => {
     "Screenshot the last frame and keep it.",
     "",
     commentCta(card.number),
-    "",
-    "Link in bio 🔗",
-    "",
-    cardHashtags(card).join(" "),
-  ];
+  ].join("\n");
+};
 
+/**
+ * The finished reel caption, as Instagram receives it.
+ *
+ * Body + the standing "Link in bio" footer + the tags. Every other platform
+ * assembles its own footer around buildReelCaptionBody — see the note there.
+ */
+export const buildReelCaption = (card) => {
+  const lines = [buildReelCaptionBody(card), "", LINK_IN_BIO, "", cardHashtags(card).join(" ")];
   return lines.join("\n").slice(0, CAPTION_MAX);
 };
 

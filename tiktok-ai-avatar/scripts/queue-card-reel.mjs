@@ -30,7 +30,7 @@ import { resolve, dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { utmLinksForVideo } from "./lib/utm.mjs";
-import { buildReelCaption, cardHashtags } from "./lib/cards.mjs";
+import { buildReelCaptionBody, cardHashtags } from "./lib/cards.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -55,7 +55,16 @@ export const reelVideoId = (n) => `M${n}R`;
  */
 export const buildReelEntry = ({ n, card, date, file }) => {
   const v = reelVideoId(n);
-  const caption = buildReelCaption(card);
+  /*
+    🔴 THE BODY, NOT THE FINISHED CAPTION. buildTikTokCaption, buildFacebookReel
+    and buildYouTubeMetadata each wrap this field with their own footer and
+    their own hashtag line — `hashtags` below is what they read for the latter.
+    Storing buildReelCaption's output here printed "Link in bio 🔗" and the full
+    tag block TWICE on all three platforms, which is how M9R went out on
+    2026-08-05. Instagram never showed it, because publish-card.mjs builds its
+    caption live and posts it verbatim.
+  */
+  const caption = buildReelCaptionBody(card);
 
   return {
     v,
