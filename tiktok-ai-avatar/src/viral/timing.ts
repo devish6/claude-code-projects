@@ -125,7 +125,17 @@ const snapRun = (
   return out;
 };
 
-export const makeValueScenes = (valueFrames: number, beats?: number[], startFrame = 0) => {
+/** A scene must hold one trait long enough to actually read it. */
+const MIN_PAIR = 30; // 1.0s
+
+export const makeValueScenes = (
+  valueFrames: number,
+  {
+    beats,
+    startFrame = 0,
+    traitCount,
+  }: { beats?: number[]; startFrame?: number; traitCount?: number } = {},
+) => {
   const MONTAGE_FLOOR = Math.ceil(0.35 * 4 * FPS); // 4 traits, 0.35s each
 
   const montage = Math.max(MONTAGE_FLOOR, Math.round(valueFrames * 0.16));
@@ -138,7 +148,21 @@ export const makeValueScenes = (valueFrames: number, beats?: number[], startFram
   // screen beyond the 1.2s limit timing.ts calls governing — which is how a
   // 14.8s value act ended up holding each trait for 2.05s.
   const maxPair = SCENE_CHANGE * 2;
-  const count = Math.max(1, Math.ceil(pairBudget / maxPair));
+  const byTime = Math.max(1, Math.ceil(pairBudget / maxPair));
+
+  // ⭐⭐ PREFER ONE TRAIT PER SCENE. `byTime` alone is the FEWEST scenes the
+  // ceiling allows, which packs two traits into scenes far too short to show
+  // both: 4 traits over 3 scenes of 50 frames left the staggered second bullet
+  // just 14 frames — a 0.47s flash — and made the pacing lopsided, two traits
+  // rushed then two dwelt on. Splitting to one trait per scene removes the
+  // stagger entirely, evens the rhythm, and gives beat-snapping more boundaries
+  // to land on.
+  //
+  // Only ever ADDS scenes (never drops below `byTime`, which the ceiling
+  // requires) and never makes one shorter than MIN_PAIR.
+  const count = traitCount
+    ? Math.max(byTime, Math.min(traitCount, Math.floor(pairBudget / MIN_PAIR)))
+    : byTime;
   // Round UP, so the remainder is absorbed by making the LAST pair shorter.
   // Rounding down and dumping the remainder on the last pair pushed it over
   // the ceiling by a frame — 1.217s against a 1.2s limit.

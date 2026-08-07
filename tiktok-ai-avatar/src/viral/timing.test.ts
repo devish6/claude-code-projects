@@ -121,7 +121,7 @@ describe("makeValueScenes beat-snapping", () => {
   };
 
   test("every cut in the video lands within half a frame of a tracked beat", () => {
-    const snapped = makeValueScenes(valueFrames, beats, acts.valueStart);
+    const snapped = makeValueScenes(valueFrames, { beats, startFrame: acts.valueStart, traitCount: 4 });
     const all = [
       acts.hookEnd,
       acts.buildEnd,
@@ -139,22 +139,22 @@ describe("makeValueScenes beat-snapping", () => {
 
   test("beats actually MOVE the cuts — a positive control", () => {
     const plain = makeValueScenes(valueFrames);
-    const snapped = makeValueScenes(valueFrames, beats, acts.valueStart);
+    const snapped = makeValueScenes(valueFrames, { beats, startFrame: acts.valueStart, traitCount: 4 });
     expect(snapped).not.toEqual(plain);
   });
 
   test("snapping never breaches the SCENE_CHANGE ceiling", () => {
-    const snapped = makeValueScenes(valueFrames, beats, acts.valueStart);
+    const snapped = makeValueScenes(valueFrames, { beats, startFrame: acts.valueStart, traitCount: 4 });
     for (const p of snapped.pairs) expect(p).toBeLessThanOrEqual(SCENE_CHANGE * 2);
   });
 
   test("the value act still totals exactly its budget", () => {
-    const s = makeValueScenes(valueFrames, beats, acts.valueStart);
+    const s = makeValueScenes(valueFrames, { beats, startFrame: acts.valueStart, traitCount: 4 });
     expect(s.number + s.pairs.reduce((a, b) => a + b, 0) + s.montage).toBe(valueFrames);
   });
 
   test("no beats is identical to the old proportional split", () => {
-    expect(makeValueScenes(valueFrames, undefined, acts.valueStart)).toEqual(
+    expect(makeValueScenes(valueFrames, { startFrame: acts.valueStart })).toEqual(
       makeValueScenes(valueFrames),
     );
   });
@@ -202,5 +202,41 @@ describe("trait distribution never leaves a scene empty", () => {
     for (const seconds of [6, 7.4, 8.565, 8.6, 10.4, 12.4, 14.8]) {
       expect(makeValueScenes(sec(seconds)).pairs.length).toBeLessThanOrEqual(4);
     }
+  });
+});
+
+/**
+ * One trait per scene (2026-08-07).
+ *
+ * The first fix for the empty scene spread 4 traits as 2,1,1 — which put two
+ * traits in a 50-frame scene, so the staggered second bullet showed for 14
+ * frames (0.47s) and the pacing went lopsided. Scene COUNT now follows the
+ * trait count, so the stagger never fires and every trait gets its own beat.
+ */
+describe("scene count follows trait count", () => {
+  test("4 traits get 4 scenes, so no scene holds two", () => {
+    const s = makeValueScenes(sec(8.565), { traitCount: 4 });
+    expect(s.pairs.length).toBe(4);
+  });
+
+  test("every scene is readable and none breaches the ceiling", () => {
+    for (const seconds of [7.4, 8.565, 8.6, 10.4, 12.4, 14.8]) {
+      for (const p of makeValueScenes(sec(seconds), { traitCount: 4 }).pairs) {
+        expect(p).toBeGreaterThanOrEqual(30);
+        expect(p).toBeLessThanOrEqual(SCENE_CHANGE * 2);
+      }
+    }
+  });
+
+  test("never drops below what the SCENE_CHANGE ceiling requires", () => {
+    for (const seconds of [7.4, 8.565, 10.4, 12.4, 14.8]) {
+      const withTraits = makeValueScenes(sec(seconds), { traitCount: 4 }).pairs.length;
+      const byTimeOnly = makeValueScenes(sec(seconds)).pairs.length;
+      expect(withTraits).toBeGreaterThanOrEqual(byTimeOnly);
+    }
+  });
+
+  test("omitting traitCount leaves the old behaviour untouched", () => {
+    expect(makeValueScenes(sec(8.6))).toEqual(makeValueScenes(sec(8.6), {}));
   });
 });

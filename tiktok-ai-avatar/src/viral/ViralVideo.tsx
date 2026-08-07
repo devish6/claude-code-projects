@@ -117,11 +117,11 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   // would silently change the locked V01–V06 baseline that is documented as
   // rendering byte-identically. `structure` is the existing marker for a
   // post-2026-07-30 video, and every new video sets it.
-  const scenes = makeValueScenes(
-    acts.valueEnd - acts.valueStart,
-    structure ? beatsFor(music) : undefined,
-    acts.valueStart,
-  );
+  const scenes = makeValueScenes(acts.valueEnd - acts.valueStart, {
+    beats: structure ? beatsFor(music) : undefined,
+    startFrame: acts.valueStart,
+    traitCount: structure ? traits.length : undefined,
+  });
 
   // Traits spread across however many pair scenes the act affords. A longer
   // act adds SCENES rather than stretching them past the 1.2s ceiling, so a
