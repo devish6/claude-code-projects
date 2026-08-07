@@ -13,6 +13,25 @@ import { useShake } from "./motion";
 import { LayoutProvider, useLayout } from "./layout";
 import { PaletteProvider, usePalette } from "./PaletteContext";
 import { ACT, BULLET_STAGGER, makeActs, makeValueScenes, type ActSeconds } from "./timing";
+import { MUSIC } from "../lib/brand";
+import BEAT_MAPS from "../../content/beat-maps.json";
+
+/**
+ * Tracked beat times (seconds from video zero) for a bed, or undefined.
+ *
+ * 🪤 The prop carries the bed's PATH ("music/starlight-v03.mp3") while the beat
+ * map is keyed by its MUSIC name ("starlightV03"), so this has to invert the
+ * MUSIC map rather than index it. `BrandAudio` starts the bed at frame 0 with
+ * no trim, so file time and video time are the same clock.
+ *
+ * A map is used only when the tracker could actually follow the pulse — an
+ * unusable map is worse than none, because it would snap cuts onto noise.
+ */
+const beatsFor = (music: string): number[] | undefined => {
+  const name = Object.keys(MUSIC).find((k) => MUSIC[k as keyof typeof MUSIC] === music);
+  const map = name ? (BEAT_MAPS as Record<string, { usable?: boolean; beatsMs?: number[] }>)[name] : undefined;
+  return map?.usable && map.beatsMs?.length ? map.beatsMs.map((ms) => ms / 1000) : undefined;
+};
 
 export type ViralVideoProps = {
   /** 5–8 words. The first thing on screen, at full size, on frame 0. */
@@ -93,7 +112,16 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   layout,
 }) => {
   const acts = structure ? makeActs(structure) : ACT;
-  const scenes = makeValueScenes(acts.valueEnd - acts.valueStart);
+  // 🔴 Beat-snapping is gated on `structure`, NOT on whether a beat map exists.
+  // V03 and V04 ride beds that DO have usable maps, so snapping on map presence
+  // would silently change the locked V01–V06 baseline that is documented as
+  // rendering byte-identically. `structure` is the existing marker for a
+  // post-2026-07-30 video, and every new video sets it.
+  const scenes = makeValueScenes(
+    acts.valueEnd - acts.valueStart,
+    structure ? beatsFor(music) : undefined,
+    acts.valueStart,
+  );
 
   // Traits spread across however many pair scenes the act affords. A longer
   // act adds SCENES rather than stretching them past the 1.2s ceiling, so a

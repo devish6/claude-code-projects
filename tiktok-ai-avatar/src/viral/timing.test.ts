@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
 
 import { ACT, FPS, SCENE_CHANGE, VIRAL_TIMING, makeActs, makeValueScenes, sec } from "./timing";
+import beatMap from "../../content/beat-maps.json";
+import { CONTRARIAN_THIRTEEN } from "./templates";
 
 /**
  * Every video rendered before 2026-07-30 was exactly 17.450667s because
@@ -89,5 +91,71 @@ describe("makeValueScenes", () => {
 
   test("always leaves at least one pair scene", () => {
     expect(makeValueScenes(sec(6)).pairs.length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+/**
+ * Beat-snapping inside the value act (2026-08-07).
+ *
+ * `snapActsToBeats` only ever snapped the four ACT boundaries; every cut inside
+ * the value act was a proportional division and beat-blind, drifting +49…+125ms
+ * against `starlightV03` — 3–4 frames, on five of the video's seven cuts.
+ */
+describe("makeValueScenes beat-snapping", () => {
+  const THIRTEEN = CONTRARIAN_THIRTEEN.structure!;
+  const acts = makeActs(THIRTEEN);
+  const valueFrames = acts.valueEnd - acts.valueStart;
+  // starlightV03's tracked map, the bed this shipped on.
+  const beats = beatMap.starlightV03.beatsMs.map((ms: number) => ms / 1000);
+
+  /** Frame offsets of every cut inside the value act. */
+  const cutFrames = (s: ReturnType<typeof makeValueScenes>) => {
+    const out = [acts.valueStart];
+    let f = acts.valueStart + s.number;
+    out.push(f);
+    for (const p of s.pairs.slice(0, -1)) {
+      f += p;
+      out.push(f);
+    }
+    return out;
+  };
+
+  test("every cut in the video lands within half a frame of a tracked beat", () => {
+    const snapped = makeValueScenes(valueFrames, beats, acts.valueStart);
+    const all = [
+      acts.hookEnd,
+      acts.buildEnd,
+      acts.ctaStart,
+      acts.total,
+      ...cutFrames(snapped),
+    ];
+
+    for (const frame of all) {
+      const t = frame / FPS;
+      const nearest = beats.reduce((b, x) => (Math.abs(x - t) < Math.abs(b - t) ? x : b));
+      expect(Math.abs(t - nearest) * 1000).toBeLessThanOrEqual(1000 / FPS / 2);
+    }
+  });
+
+  test("beats actually MOVE the cuts — a positive control", () => {
+    const plain = makeValueScenes(valueFrames);
+    const snapped = makeValueScenes(valueFrames, beats, acts.valueStart);
+    expect(snapped).not.toEqual(plain);
+  });
+
+  test("snapping never breaches the SCENE_CHANGE ceiling", () => {
+    const snapped = makeValueScenes(valueFrames, beats, acts.valueStart);
+    for (const p of snapped.pairs) expect(p).toBeLessThanOrEqual(SCENE_CHANGE * 2);
+  });
+
+  test("the value act still totals exactly its budget", () => {
+    const s = makeValueScenes(valueFrames, beats, acts.valueStart);
+    expect(s.number + s.pairs.reduce((a, b) => a + b, 0) + s.montage).toBe(valueFrames);
+  });
+
+  test("no beats is identical to the old proportional split", () => {
+    expect(makeValueScenes(valueFrames, undefined, acts.valueStart)).toEqual(
+      makeValueScenes(valueFrames),
+    );
   });
 });

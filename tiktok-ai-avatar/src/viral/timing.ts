@@ -60,7 +60,72 @@ export const makeActs = ({ hook, build, value, cta }: ActSeconds) => ({
  * 🔴 The montage floor is not a preference: 4 traits over 1.0s gave each
  * ~0.23s, below reading threshold. 0.35s each is the measured floor.
  */
-export const makeValueScenes = (valueFrames: number) => {
+/**
+ * Snaps a run of scene lengths onto TRACKED beat times.
+ *
+ * ⭐⭐ WHY THIS EXISTS. `snapActsToBeats` (scripts/lib/variation.mjs) snaps only
+ * the four ACT boundaries. Every cut inside the value act — the number reveal,
+ * each trait pair, the montage — was a proportional division and beat-blind.
+ * Measured against `starlightV03` on an 18.4s cut, those five cuts sat
+ * +49…+125ms off the nearest tracked beat: 3–4 frames, in the section holding
+ * five of the video's seven cuts, and 3–7× worse than frame quantisation makes
+ * necessary. V03 itself has that drift.
+ *
+ * 🔴 A snap must never breach `SCENE_CHANGE * 2`. A pair shows two traits, so
+ * exceeding it leaves one trait on screen past the 1.2s ceiling — the exact bug
+ * that once held traits for 2.05s. A boundary that would breach the ceiling
+ * keeps its unsnapped position.
+ *
+ * `beats` is seconds from video zero; `startFrame` is where the run begins.
+ * Returns lengths, not offsets, so it drops in where the arithmetic was.
+ */
+const snapRun = (
+  lengths: number[],
+  startFrame: number,
+  beats: number[] | undefined,
+  ceilings: number[],
+  tolerance = 0.28,
+): number[] => {
+  if (!beats?.length) return lengths;
+
+  const out: number[] = [];
+  let prev = startFrame;
+  let target = startFrame;
+
+  for (let i = 0; i < lengths.length; i++) {
+    target += lengths[i];
+    // The last boundary is the act's end, fixed by the act structure — moving
+    // it would desync every downstream act.
+    if (i === lengths.length - 1) {
+      out.push(target - prev);
+      break;
+    }
+
+    const targetSec = target / FPS;
+    let best: number | null = null;
+    for (const b of beats) {
+      if (b * FPS <= prev) continue;
+      if (best === null || Math.abs(b - targetSec) < Math.abs(best - targetSec)) best = b;
+      else if (b > targetSec) break;
+    }
+
+    const snapped =
+      best !== null && Math.abs(best - targetSec) <= tolerance
+        ? Math.max(prev + 1, Math.round(best * FPS))
+        : target;
+
+    // Ceiling guard — an out-of-range snap is worse than a beat-blind cut.
+    const len = snapped - prev;
+    const frame = len > 0 && len <= ceilings[i] ? snapped : target;
+
+    out.push(frame - prev);
+    prev = frame;
+  }
+
+  return out;
+};
+
+export const makeValueScenes = (valueFrames: number, beats?: number[], startFrame = 0) => {
   const MONTAGE_FLOOR = Math.ceil(0.35 * 4 * FPS); // 4 traits, 0.35s each
 
   const montage = Math.max(MONTAGE_FLOOR, Math.round(valueFrames * 0.16));
@@ -83,7 +148,23 @@ export const makeValueScenes = (valueFrames: number) => {
     i === count - 1 ? pairBudget - even * (count - 1) : even,
   );
 
-  return { number, pairs, montage };
+  // Snap the whole value act as ONE run: number reveal, each pair, then the
+  // montage. Ceilings differ per scene — a pair is capped at SCENE_CHANGE * 2,
+  // the number reveal and montage only have to stay positive and are bounded by
+  // the run's fixed end.
+  const run = [number, ...pairs, montage];
+  const ceilings = [
+    Number.MAX_SAFE_INTEGER,
+    ...pairs.map(() => SCENE_CHANGE * 2),
+    Number.MAX_SAFE_INTEGER,
+  ];
+  const snapped = snapRun(run, startFrame, beats, ceilings);
+
+  return {
+    number: snapped[0],
+    pairs: snapped.slice(1, 1 + pairs.length),
+    montage: snapped[snapped.length - 1],
+  };
 };
 
 /** Frame offsets for each act. */

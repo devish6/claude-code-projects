@@ -117,6 +117,13 @@ export const NumberReveal: React.FC<{
               color: P.TEXT,
               textShadow: P.TEXT_SHADOW,
               textAlign: "center",
+              // 🔴 Without a cap this div is auto-width and CENTRED, so a long
+              // label grows past 1080 and is clipped off BOTH edges rather than
+              // wrapping. Found by looking at a render — no test caught it,
+              // because every label before 2026-08-07 was two or three words.
+              // 920 leaves 80px each side; short labels are unaffected, so the
+              // V01–V06 baseline still renders identically.
+              maxWidth: 920,
             }}
           >
             {label}
