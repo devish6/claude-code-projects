@@ -126,10 +126,24 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   // Traits spread across however many pair scenes the act affords. A longer
   // act adds SCENES rather than stretching them past the 1.2s ceiling, so a
   // long video shows one trait at a time where a short one shows two.
-  const perScene = Math.ceil(traits.length / scenes.pairs.length);
-  const traitChunks = scenes.pairs.map((_, i) =>
-    traits.slice(i * perScene, (i + 1) * perScene),
-  );
+  // 🔴🔴 SPREAD TRAITS EVENLY — 4 traits over 3 scenes is 2,1,1, NEVER 2,2,0.
+  //
+  // This was `ceil(traits.length / pairs.length)` traits per scene, sliced by
+  // index. With the common 4-traits-over-3-scenes shape that put [0,1] and
+  // [2,3] in the first two scenes and sliced PAST THE END for the third, which
+  // rendered a ~1.7s hole of bare background mid-video. V03 — the account's
+  // best post — ships with that hole, and it went unnoticed for weeks because
+  // the frame is not blank, just empty of content.
+  const n = scenes.pairs.length;
+  const base = Math.floor(traits.length / n);
+  const extra = traits.length % n;
+  const traitChunks: string[][] = [];
+  let cursor = 0;
+  for (let i = 0; i < n; i++) {
+    const take = base + (i < extra ? 1 : 0);
+    traitChunks.push(traits.slice(cursor, cursor + take));
+    cursor += take;
+  }
 
   // Interrupts land on the beats where attention historically decays.
   const interruptFrames = [acts.buildStart, acts.valueStart, acts.valueStart + 180];
@@ -199,7 +213,12 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
           {/* Alternating transitions, so consecutive scenes don't share a
               motion signature the way every old video did. */}
           <CinematicTransition type={i % 2 === 0 ? "slide" : "zoomOut"}>
-            <TraitPair traits={chunk} startIndex={i * chunk.length} />
+            {/* Running offset, not i * chunk.length — chunks are no longer a
+                uniform size, so multiplying would repeat and skip indices. */}
+            <TraitPair
+              traits={chunk}
+              startIndex={traitChunks.slice(0, i).reduce((a, c) => a + c.length, 0)}
+            />
           </CinematicTransition>
         </Sequence>
       ))}

@@ -159,3 +159,48 @@ describe("makeValueScenes beat-snapping", () => {
     );
   });
 });
+
+/**
+ * 🔴 No pair scene may ever be empty.
+ *
+ * `ceil(traits / scenes)` traits per scene, sliced by index, put [0,1] and
+ * [2,3] in the first two of three scenes and sliced past the end for the third
+ * — a ~1.7s hole of bare background in the middle of the video. V03 shipped
+ * with it. The frame is not blank, just empty of content, which is why weeks of
+ * review missed it and 303 passing tests said nothing.
+ */
+describe("trait distribution never leaves a scene empty", () => {
+  /** Mirrors the chunking in ViralVideo.tsx. */
+  const chunk = (traitCount: number, scenes: number) => {
+    const base = Math.floor(traitCount / scenes);
+    const extra = traitCount % scenes;
+    const out: number[] = [];
+    for (let i = 0; i < scenes; i++) out.push(base + (i < extra ? 1 : 0));
+    return out;
+  };
+
+  test("4 traits over 3 scenes is 2,1,1 — the shape V03 got wrong", () => {
+    expect(chunk(4, 3)).toEqual([2, 1, 1]);
+  });
+
+  test("no scene is empty for any act length the engine can produce", () => {
+    for (const seconds of [6, 7, 7.4, 8, 8.565, 8.6, 10.4, 12.4]) {
+      const scenes = makeValueScenes(sec(seconds)).pairs.length;
+      // The props contract is exactly 4 traits.
+      if (scenes > 4) continue; // guarded separately below
+      for (const size of chunk(4, scenes)) expect(size).toBeGreaterThan(0);
+    }
+  });
+
+  test("every trait is shown exactly once", () => {
+    for (const scenes of [1, 2, 3, 4]) {
+      expect(chunk(4, scenes).reduce((a, b) => a + b, 0)).toBe(4);
+    }
+  });
+
+  test("no realistic act length asks for more scenes than there are traits", () => {
+    for (const seconds of [6, 7.4, 8.565, 8.6, 10.4, 12.4, 14.8]) {
+      expect(makeValueScenes(sec(seconds)).pairs.length).toBeLessThanOrEqual(4);
+    }
+  });
+});
