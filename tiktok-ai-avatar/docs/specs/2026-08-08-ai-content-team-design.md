@@ -59,12 +59,62 @@ information they were promised, it is not the payload beat.
 
 ## 2. Organizing principle
 
-The team optimizes exactly one number: **retention at 3 seconds**.
+The team optimizes exactly one number: **average watch time, target ≥ 6.0 seconds.**
 
-That is the gate the platform uses to decide whether to widen distribution past the test
-audience. Views are the lagging indicator; 3s retention is the leading one. It is also the
-only score available that cannot drift — unlike a model grading its own output, which was
+⭐⭐⭐ **This is measured, not assumed — see §2.1.** It supersedes the "retention at 3
+seconds" target this spec was first written with. Average watch time is the better
+instrument for one decisive reason: **it can be read automatically for every post**, via
+the Windsor.ai connector (§2.2). The retention *curve* cannot — it is mobile-only — so the
+curve becomes an occasional diagnostic the owner shares when a number moves and we want to
+know why, not the metric the loop runs on.
+
+Views are the lagging indicator; average watch time is the leading one. It is also the only
+score available that cannot drift — unlike a model grading its own output, which was
 rejected in the 2026-07-30 architecture review for exactly that reason.
+
+### 2.1 The measured threshold — 41 reels, 90 days, our own account
+
+Pulled 2026-08-08 from the Windsor.ai Instagram connector.
+
+| Avg watch time | n | Median reach | Range | Median saves |
+|---|---|---|---|---|
+| **≥ 6.0s** | 14 | **1,402** | 25 – 2,057 | 12 |
+| 5.0 – 5.9s | 4 | 213 | 164 – 256 | 0 |
+| **< 5.0s** | 23 | **177** | 110 – 328 | 0 |
+
+**In 23 posts averaging under 5 seconds, not one exceeded 328 reach.** Twenty-three
+attempts, zero exceptions.
+
+⭐⭐ **It is not cold-start boost.** On 2026-07-16 alone: a 7.2s reel reached 2,057 and a
+5.2s reel reached 164 — same day, same account, same age. That is the same-account control,
+and it removes the age objection that was correctly raised against the earlier reading of
+the 1.4–1.5K July posts.
+
+🔴 **≥6s is necessary, not sufficient.** Bucket A's floor is 25 reach (a 6.2s post on
+2026-07-31). Clearing 6 seconds does not guarantee reach; failing 5 seconds appears to
+guarantee its absence. State the target as a floor to clear, never as a promise.
+
+**Every August post sits in the dead zone:** 3.2s→118, 3.9s→173, 3.8s→135, 4.0s→180,
+2.3s→203. This is the decline the owner reported, with a number attached.
+
+### 2.2 🔴 UNRESOLVED — does the platform gate on seconds or on completion percentage?
+
+This spec originally recommended shortening videos to 15–18s, reasoning that completion
+percentage rises mechanically as duration falls. **That reasoning is now in doubt and must
+not be implemented until resolved.**
+
+The gate we measured is **absolute seconds**. Shortening a video cannot increase absolute
+watch time and may well reduce it — a viewer cannot watch 6 seconds of a 5-second video.
+If Instagram gates on absolute seconds, shortening is actively harmful; if it gates on
+completion percentage, shortening helps. **The two hypotheses recommend opposite actions.**
+
+Windsor exposes no media-duration field (`media_duration`, `video_duration`,
+`media_reel_duration` and three other spellings all return 400). So duration must come from
+our own render ledger, which knows it exactly.
+
+▶ **Resolve first, before any duration change:** join `media_reel_avg_watch_time` to our
+rendered duration per V-number, then check whether reach tracks absolute seconds or the
+ratio. We have 41 posts and know every duration. This is a query, not an experiment.
 
 All four roles are **Claude Code skills in `tiktok-ai-avatar/.claude/skills/`**, invoked in
 a session. No API loop, no per-call cost, no AI at runtime. This preserves the standing
@@ -84,19 +134,36 @@ own baseline ("V29 held 41% at 3s vs baseline 25%"), never as an absolute.
 
 | Platform | Source | Status |
 |---|---|---|
+| **Instagram** | **Windsor.ai connector** | ✅ **WORKING — solved 2026-08-08** |
 | YouTube | `yt-analytics.readonly` | needs one re-authorization |
 | Facebook | `read_insights` | needs one re-authorization |
 | TikTok | desktop analytics via Chrome | available now |
-| Instagram | **owner's phone screenshots** | no desktop path exists |
 
 Extends `scripts/collect-metrics.mjs`, which already documents each blocked scope, and
-stores curves beside the existing samples in `~/.numevix-publish/metrics.json`.
+stores samples beside the existing ones in `~/.numevix-publish/metrics.json`.
 
-🔴 **Instagram cannot be automated in this cycle.** The Graph API returns `(#10)
-Application does not have permission` for reach/saves — we lack `instagram_manage_insights`
-— and retention is absent from desktop web entirely. The App Review submitted 2026-08-08
-**cannot be edited**, so that scope needs a second review round after this one resolves.
-Manual entry is the design, not a stopgap.
+⭐⭐⭐ **Instagram is no longer the blocked platform — it is now the best-instrumented one.**
+The Windsor.ai connector reads per-post insights the Graph API refuses us, without
+`instagram_manage_insights` and without waiting on the App Review that cannot be edited.
+
+**Endpoint:** `https://connectors.windsor.ai/instagram?api_key=<KEY>&date_preset=last_90d&fields=<CSV>`
+
+**The nine fields, all verified working 2026-08-08:**
+
+```
+date, media_id, media_product_type, media_reel_avg_watch_time,
+media_reel_total_watch_time, media_reach, media_views, media_saved, media_shares
+```
+
+⭐⭐ **`media_id` joins directly to our V-numbers.** `~/.numevix-publish/instagram-uploads.json`
+stores `{date, v, mediaId}`, and Windsor's `media_id` is the same Graph API id — so every
+row maps onto the exact render and act structure that produced it, with no manual matching.
+
+🪤 `media_reel_avg_watch_time` is in **milliseconds** (`3206.0` = 3.2s).
+🪤 An invalid field name returns **400 with the offending name listed** — that is the
+cheapest way to discover the schema. There is **no duration field** (see §2.2).
+🔴 The API key must live in `~/.numevix-publish/credentials.json`, never in this repo —
+it is public and Pages-served.
 
 **Outward — the niche.** Drives Chrome to study numerology and spirituality accounts and
 reports what is winning: opening structures, post lengths, formats, caption mechanics,
@@ -125,8 +192,9 @@ The broken part. Two changes:
 
 1. **The first real payload beat lands inside 2 seconds**, then elaborates. The "never
    fully resolve" instruction in the `build` act is what costs us the viewer.
-2. **Shorter total: 15–18s.** At 5s average watch, a 31s reel wastes 26 seconds, and
-   completion percentage — which the algorithm reads — rises mechanically as duration falls.
+2. 🔴 **Duration change is ON HOLD pending §2.2.** The earlier "shorten to 15–18s"
+   recommendation may be backwards against an absolute-seconds gate. Do not implement it
+   until the seconds-vs-percentage question is settled.
 
 Lives in `src/viral/timing.ts` and the templates, guarded by `src/viral/timing.test.ts`.
 
@@ -200,7 +268,7 @@ on.
 
 ## 6. Success criteria
 
-**Primary:** 3-second retention against the account's own baseline of ~25%.
+**Primary: average watch time ≥ 6.0 seconds** (§2.1). Current August posts run 2.3–4.0s.
 
 **Secondary:** views per post, as the lagging confirmation. The owner's target is
 1,500–2,000 against a current ceiling of 200–300.
@@ -213,7 +281,13 @@ is falsifiable on purpose.
 
 ## 7. First cycle, already loaded
 
-Move the first payload beat from 6.4s to inside 2s. **Change nothing else.** Measure.
+**Step 0, before any render — settle §2.2.** Join avg watch time to our known durations
+across the 41 posts and determine whether reach tracks absolute seconds or completion
+ratio. It is a query against data we already hold, and it decides whether videos should get
+shorter or longer.
+
+**Then cycle 1:** move the first payload beat from 6.4s to inside 2s. **Change nothing
+else.** Measure against the ≥6.0s floor.
 
 ---
 
