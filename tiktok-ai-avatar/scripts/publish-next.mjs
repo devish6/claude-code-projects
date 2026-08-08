@@ -28,6 +28,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
+import { extraArgsFor } from "./lib/publish-args.mjs";
 import { byRunningOrder } from "./lib/running-order.mjs";
 
 const args = process.argv.slice(2);
@@ -121,7 +122,7 @@ for (const platform of pending) {
   try {
     // Each publisher already owns its own auth, retries, duplicate guard and
     // ledger. This script sequences them; it does not reimplement any of it.
-    execFileSync("node", [`scripts/publish-${platform}.mjs`, `--v=${next.v}`, ...(platform === "youtube" ? ["--privacy=public"] : [])], {
+    execFileSync("node", [`scripts/publish-${platform}.mjs`, `--v=${next.v}`, ...extraArgsFor(platform)], {
       stdio: "inherit",
     });
   } catch {
@@ -138,4 +139,14 @@ log(
     ? `\nDone with ${failed} failure(s). ${next.v} stays queued for those platforms.`
     : `\n✅ ${next.v} is out on ${pending.join(", ")}.`,
 );
+
+// "Out on youtube" would be a lie while the feed experiment runs — the upload
+// lands PRIVATE and stays invisible until a human flips it. Same reason the
+// TikTok leg says "in your drafts" rather than "out on tiktok".
+if (pending.includes("youtube")) {
+  log(
+    "\n🔴 YouTube went up PRIVATE (Shorts-feed experiment) — flip it to Public by hand\n" +
+      "   in Studio, or today's post reaches nobody.",
+  );
+}
 process.exit(failed ? 1 : 0);

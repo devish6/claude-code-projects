@@ -427,7 +427,16 @@ const upload = async () => {
 
   log(`\n✅ https://youtube.com/watch?v=${result.id}  (${meta.status.privacyStatus})`);
   if (privacy === "private") {
-    log("   Private — check it on the channel, then re-run with --privacy=public.");
+    // 🔴 NOT "re-run with --privacy=public" — videos.insert always creates a
+    // NEW video and the upload-only scope cannot edit an existing one, so a
+    // re-run posts a SECOND copy instead of publishing this one. The flip is
+    // a human action in Studio, and until it happens nobody can see this.
+    log(
+      "\n🔴 PRIVATE — NOBODY CAN SEE THIS YET. Flip it to Public BY HAND:\n" +
+        `   https://studio.youtube.com/video/${result.id}/edit\n` +
+        "   (Shorts-feed experiment, 2026-08-08. Do NOT re-run with --privacy=public:\n" +
+        "    that uploads a duplicate rather than publishing this one.)",
+    );
   }
 };
 
