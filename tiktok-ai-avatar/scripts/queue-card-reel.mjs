@@ -72,6 +72,21 @@ export const buildReelEntry = ({ n, card, date, file }) => {
     date,
     category: "card-reel",
     moolank: n,
+    /*
+      🔴 WHAT THIS POST IS ABOUT, recorded so angles.mjs's 21-day no-repeat
+      window can actually see it. `angleId` used to be written by NOTHING, so
+      the window read every angle as never-used and "never reuse a
+      previously-published content idea" was enforced only by whoever was
+      reading.
+
+      A card reel is "one number, its ruling planet and traits" — that IS
+      `trait-per-number`, which content/angles.json marks REJECTED on our own
+      measurements (TikTok ~205 views with 1-3 likes; Instagram 122-213 reach).
+      Stamping it is not an endorsement. The queued M-series keeps posting by
+      the owner's explicit ruling; the ledger just stops being silent about
+      which angle it is spending.
+    */
+    angleId: "trait-per-number",
     status: "generated",
     // NOT "seed-existing": publish-next filters that value out as historical.
     source: "card-reel",

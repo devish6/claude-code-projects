@@ -66,6 +66,22 @@ describe("card reel queue entry", () => {
   it("points at the rendered reel rather than the old Viral folder", () => {
     expect(entryFor(7).file).toBe("out/reels/moolank-7-reel.mp4");
   });
+
+  /**
+   * 🔴🔴 THE LEDGER HAS TO SAY WHAT THE POST WAS ABOUT, or the 21-day
+   * no-repeat window in angles.mjs reads every angle as never-used and can
+   * never fire. `angleId` appeared nowhere outside angles.mjs and its own
+   * tests, so "never reuse a flopped idea" was enforced by whoever happened to
+   * be reading.
+   *
+   * A card reel is "one number, its ruling planet and traits" — that IS
+   * `trait-per-number`, which the registry marks `rejected` on our own
+   * numbers (TikTok ~205 views, Instagram 122-213 reach). Stamping it is not
+   * an endorsement; it is the ledger telling the truth about what went out.
+   */
+  it("records the angle it actually is, so the no-repeat window can see it", () => {
+    expect(entryFor(9).angleId).toBe("trait-per-number");
+  });
 });
 
 /**

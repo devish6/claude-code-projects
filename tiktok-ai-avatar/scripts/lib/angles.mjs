@@ -55,8 +55,23 @@ export const isRecentlyUsedAngle = (angle, state, asOf) => {
  * is a prompt to write a new angle, not a failure.
  */
 export const pickAngle = (angles, state, asOf) => {
+  // 🔴 A malformed entry USED TO BE FILTERED OUT SILENTLY, and that hid itself:
+  // a shrunken pool returns null, and null already means "write a new angle".
+  // So one missing `evidence:` read as "we are out of angles" and cost a whole
+  // new angle instead of one character. The registry is config we author, not
+  // input we receive -- a broken one is a bug to fix, never a pool to work
+  // around.
+  const invalid = (angles ?? [])
+    .map((a) => ({ a, errors: validateAngle(a).errors }))
+    .filter(({ errors }) => errors.length);
+  if (invalid.length) {
+    throw new Error(
+      "content/angles.json has invalid entries -- " +
+        invalid.map(({ a, errors }) => `${a?.id ?? "(no id)"}: ${errors.join(", ")}`).join("; "),
+    );
+  }
+
   const available = (angles ?? [])
-    .filter((a) => validateAngle(a).ok)
     .filter((a) => a.status === "approved")
     .filter((a) => !isRecentlyUsedAngle(a, state, asOf));
   if (!available.length) return null;
@@ -69,4 +84,28 @@ export const pickAngle = (angles, state, asOf) => {
     if (lb === null) return 1;
     return la < lb ? -1 : 1;
   })[0];
+};
+
+/**
+ * The angleIds the ledger uses that the registry does not define.
+ *
+ * ⭐⭐ `isRecentlyUsedAngle` joins on `v.angleId === angle.id` — an equality,
+ * and a typo on either side of it does not throw. It just never matches, so an
+ * angle published yesterday reads as never-used and the no-repeat window hands
+ * it straight back. That is the exact rule this file exists to enforce,
+ * failing open and saying nothing.
+ *
+ * An entry with NO angleId is history, not a defect: every row written before
+ * the field existed has none, and inventing one after the fact would be a
+ * fabricated measurement. Only a wrong id is reported.
+ */
+export const unknownLedgerAngles = (state, angles) => {
+  const known = new Set((angles ?? []).map((a) => a.id));
+  return [
+    ...new Set(
+      (state?.videos ?? [])
+        .map((v) => v.angleId)
+        .filter((id) => id && !known.has(id)),
+    ),
+  ];
 };

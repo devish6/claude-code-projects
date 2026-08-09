@@ -1,6 +1,13 @@
 import { describe, expect, test } from "vitest";
+import { readFileSync } from "node:fs";
 
-import { ANGLE_REPEAT_DAYS, isRecentlyUsedAngle, pickAngle, validateAngle } from "./angles.mjs";
+import {
+  ANGLE_REPEAT_DAYS,
+  isRecentlyUsedAngle,
+  pickAngle,
+  unknownLedgerAngles,
+  validateAngle,
+} from "./angles.mjs";
 
 const approved = {
   id: "best-match",
@@ -102,5 +109,73 @@ describe("pickAngle", () => {
 
   test("the repeat window is 21 days, matching the hook no-repeat rule", () => {
     expect(ANGLE_REPEAT_DAYS).toBe(21);
+  });
+
+  /**
+   * 🔴 A MALFORMED ENTRY MUST NOT VANISH. pickAngle filtered on
+   * `validateAngle(a).ok` and said nothing, so a registry typo shrank the pool
+   * silently — and the failure mode is indistinguishable from the healthy one:
+   * an empty pool returns null, and null is documented to mean "write a new
+   * angle". So a dropped `evidence:` field reads as "we are out of angles" and
+   * the operator writes a brand new one instead of fixing one character.
+   *
+   * Registry contents are config, not input. Loud is correct.
+   */
+  test("a malformed registry entry throws instead of silently shrinking the pool", () => {
+    const broken = { id: "half-written", status: "approved", assertsFacts: false };
+
+    expect(() => pickAngle([approved, broken], { videos: [] }, "2026-08-09")).toThrow(
+      /half-written.*no evidence/,
+    );
+  });
+
+  test("the thrown error names every invalid entry, not just the first", () => {
+    const noId = { status: "approved", evidence: "x", assertsFacts: false };
+    const badStatus = { ...approved, id: "wrong-status", status: "maybe" };
+
+    expect(() => pickAngle([noId, badStatus], { videos: [] }, "2026-08-09")).toThrow(
+      /wrong-status/,
+    );
+  });
+});
+
+/**
+ * ⭐⭐⭐ THE JOIN THAT MAKES THE RULE REAL.
+ *
+ * `isRecentlyUsedAngle` matches `v.angleId === angle.id`. A typo on either
+ * side of that equality does not error — it just never matches, and an angle
+ * that ran yesterday reads as never-used. The no-repeat window then hands back
+ * an angle we just published, which is precisely the standing rule it exists
+ * to enforce ("never reuse a previously-published content idea").
+ *
+ * A silent mismatch is the whole failure mode, so it needs a check that can
+ * fail the way the real operation fails: run the real ledger against the real
+ * registry.
+ */
+describe("the ledger joins to the registry", () => {
+  const angles = JSON.parse(
+    readFileSync(new URL("../../content/angles.json", import.meta.url), "utf8"),
+  ).angles;
+  const state = JSON.parse(
+    readFileSync(new URL("../../content/daily-state.json", import.meta.url), "utf8"),
+  );
+
+  test("every angleId written to daily-state.json exists in angles.json", () => {
+    expect(unknownLedgerAngles(state, angles)).toEqual([]);
+  });
+
+  test("unknownLedgerAngles names an id the registry does not define", () => {
+    const bogus = { videos: [{ v: "V99", angleId: "invented-angle", date: "2026-08-09" }] };
+
+    expect(unknownLedgerAngles(bogus, angles)).toEqual(["invented-angle"]);
+  });
+
+  // A row with no angleId is history, not an error: every entry written before
+  // this field existed has none, and back-dating a guess would be a fabricated
+  // measurement. Only a WRONG id is a defect.
+  test("an entry with no angleId is not an error", () => {
+    const old = { videos: [{ v: "V01", date: "2026-07-16" }] };
+
+    expect(unknownLedgerAngles(old, angles)).toEqual([]);
   });
 });
