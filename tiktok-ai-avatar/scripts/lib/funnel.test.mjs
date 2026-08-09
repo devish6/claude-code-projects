@@ -69,6 +69,69 @@ describe("parseCommentIntent", () => {
     expect(parseCommentIntent("Test").kind).toBe("irrelevant");
     expect(parseCommentIntent("this is nonsense 😂").kind).toBe("irrelevant");
   });
+
+  // 🔴 CRITICAL FIX: second > 12 PROVES MM/DD order. The parser must recognize
+  // when the second field is too large to be a month, flipping the reading.
+  test("recognizes MM/DD when second field exceeds 12", () => {
+    // "12/13/1988" → Dec 13 → 1+3 = 4, not Dec 1 → 1+2 = 3
+    expect(parseCommentIntent("12/13/1988")).toEqual({
+      kind: "dob",
+      moolank: 4,
+      ambiguousDayMonth: false,
+    });
+    // "01/25/1990" → Jan 25 → 2+5 = 7, not Jan 1 → 1
+    expect(parseCommentIntent("01/25/1990")).toEqual({
+      kind: "dob",
+      moolank: 7,
+      ambiguousDayMonth: false,
+    });
+    // "6/25/1990" → Jun 25 → 2+5 = 7
+    expect(parseCommentIntent("6/25/1990")).toEqual({
+      kind: "dob",
+      moolank: 7,
+      ambiguousDayMonth: false,
+    });
+    // "11/13/1990" → Nov 13 → 1+3 = 4, not Nov 11 → 1+1 = 2
+    expect(parseCommentIntent("11/13/1990")).toEqual({
+      kind: "dob",
+      moolank: 4,
+      ambiguousDayMonth: false,
+    });
+  });
+
+  // Guards the DD/MM direction — if only first > 12, it must be the day.
+  test("guards DD/MM when first field exceeds 12", () => {
+    expect(parseCommentIntent("24/11/1988")).toEqual({
+      kind: "dob",
+      moolank: 6,
+      ambiguousDayMonth: false,
+    });
+  });
+
+  // Guards the genuinely-ambiguous case — both <= 12, flag it.
+  test("guards ambiguous dates when both fields are <= 12", () => {
+    expect(parseCommentIntent("05/06/1990")).toEqual({
+      kind: "dob",
+      moolank: 5,
+      ambiguousDayMonth: true,
+    });
+  });
+
+  // 🔴 IMPORTANT: Range validation. A day must be 1–31, month 1–12.
+  // Neither ordering yields a valid date → irrelevant.
+  test("rejects dates where neither ordering is valid", () => {
+    // "40/40/1990" — 40 is neither a valid day nor month in any order.
+    expect(parseCommentIntent("40/40/1990").kind).toBe("irrelevant");
+    // "24/13/1988" — 13 is not a month, and 24 is not a month either.
+    expect(parseCommentIntent("24/13/1988").kind).toBe("irrelevant");
+  });
+
+  // 🔴 IMPORTANT: Moolank 0 does not exist. Days reduce to 1–9.
+  // A bare 0 or M0 is a fabricated claim.
+  test("rejects moolank 0 as irrelevant", () => {
+    expect(parseCommentIntent("0")).toEqual({ kind: "irrelevant" });
+    expect(parseCommentIntent("M0")).toEqual({ kind: "irrelevant" });
+  });
 });
 
 describe("buildFunnelCta / hasFunnelCta", () => {

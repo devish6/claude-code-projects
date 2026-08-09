@@ -41,7 +41,13 @@ export const parseCommentIntent = (text) => {
   // ISO first: 1988-11-24. Unambiguous by construction.
   const iso = s.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
   if (iso) {
-    return { kind: "dob", moolank: reduceToMoolank(Number(iso[3])), ambiguousDayMonth: false };
+    const day = Number(iso[3]);
+    const month = Number(iso[2]);
+    // Range validation: month 1-12, day 1-31.
+    if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+      return { kind: "dob", moolank: reduceToMoolank(day), ambiguousDayMonth: false };
+    }
+    return { kind: "irrelevant" };
   }
 
   // Written month: 24 November 1988 / November 24 1988.
@@ -57,15 +63,40 @@ export const parseCommentIntent = (text) => {
   // Numeric date: 24/11/1988 or 05/06/1990.
   const numeric = s.match(/\b(\d{1,2})[/.-](\d{1,2})[/.-](\d{2,4})\b/);
   if (numeric) {
-    const [, first, second] = numeric;
-    // 🪤 DD/MM assumed (the audience skews India and the niche writes DD/MM),
-    // and FLAGGED when nothing in the string can resolve it. Never remove the
-    // flag to tidy the copy — it is a coin flip on the answer.
-    return {
-      kind: "dob",
-      moolank: reduceToMoolank(Number(first)),
-      ambiguousDayMonth: Number(first) <= 12 && Number(second) <= 12,
-    };
+    const firstVal = Number(numeric[1]);
+    const secondVal = Number(numeric[2]);
+
+    // Three mutually exclusive cases, explicitly handled and symmetrical:
+    // 1. first > 12 (and second is a valid month) → DD/MM, not ambiguous.
+    if (firstVal > 12 && secondVal >= 1 && secondVal <= 12) {
+      return {
+        kind: "dob",
+        moolank: reduceToMoolank(firstVal),
+        ambiguousDayMonth: false,
+      };
+    }
+    // 2. second > 12 (and first is a valid month) → MM/DD, not ambiguous,
+    //    but the day is second, not first.
+    if (secondVal > 12 && firstVal >= 1 && firstVal <= 12) {
+      return {
+        kind: "dob",
+        moolank: reduceToMoolank(secondVal),
+        ambiguousDayMonth: false,
+      };
+    }
+    // 3. Both <= 12 (and valid as day/month) → genuinely unresolvable.
+    //    🪤 DD/MM assumed (the audience skews India and the niche writes DD/MM),
+    //    and FLAGGED when nothing in the string can resolve it. Never remove the
+    //    flag to tidy the copy — it is a coin flip on the answer.
+    if (firstVal >= 1 && firstVal <= 31 && secondVal >= 1 && secondVal <= 12) {
+      return {
+        kind: "dob",
+        moolank: reduceToMoolank(firstVal),
+        ambiguousDayMonth: firstVal <= 12 && secondVal <= 12,
+      };
+    }
+    // No valid reading in either direction.
+    return { kind: "irrelevant" };
   }
 
   // A pair: "5 and 7".
@@ -80,7 +111,12 @@ export const parseCommentIntent = (text) => {
 
   // A bare number, or the niche's M-prefixed form.
   const bare = s.match(/^m?\s*(\d{1,2})$/i);
-  if (bare) return { kind: "moolank", moolank: reduceToMoolank(Number(bare[1])) };
+  if (bare) {
+    const moolank = reduceToMoolank(Number(bare[1]));
+    // A day always reduces to 1–9; 0 is not in the system.
+    if (moolank === 0) return { kind: "irrelevant" };
+    return { kind: "moolank", moolank };
+  }
 
   return { kind: "irrelevant" };
 };
