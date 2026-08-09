@@ -15,10 +15,21 @@ export const HEIGHT = 1920;
 export const sec = (s: number): number => Math.round(s * FPS);
 
 // ── Act structure (seconds) ─────────────────────────────────────────────────
+// 🔴 CYCLE 1, 2026-08-09: the payload beat moved from 6.4s to 2.0s.
+//
+// The `build` act's contract used to read "open a curiosity loop, never fully
+// resolve", and it ran 1.6-6.4s. Viewers read the hook — which is why they
+// were still present at 1.6s — and then left during the 4.8 seconds before
+// anything they were promised arrived. We asked someone who decides in under
+// two seconds to wait nearly five on faith.
+//
+// ⭐ `total` is UNCHANGED at 17.4 and every STRUCTURES total is unchanged too.
+// Duration is the strongest signal a duplicate detector has, and this is one
+// change per cycle: the boundaries move, the lengths do not.
 export const VIRAL_TIMING = {
-  hook: 1.6, // 0–1.6s      stop the scroll
-  build: 4.8, // 1.6–6.4s    open a curiosity loop, never fully resolve
-  value: 8.6, // 6.4–15.0s   the actual payload, rapid-fire
+  hook: 1.2, // 0–1.2s      stop the scroll
+  build: 0.8, // 1.2–2.0s    ONE beat of setup, then pay
+  value: 13.0, // 2.0–15.0s   the payload, rapid-fire
   cta: 2.4, // 15.0–17.4s  branding is allowed ONLY here
   total: 17.4,
 } as const;

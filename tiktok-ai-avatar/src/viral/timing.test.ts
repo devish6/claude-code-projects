@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { ACT, FPS, SCENE_CHANGE, VIRAL_TIMING, makeActs, makeValueScenes, sec } from "./timing";
+import { PAYLOAD_BY_FRAME } from "./qa";
 import beatMap from "../../content/beat-maps.json";
 import { CONTRARIAN_THIRTEEN } from "./templates";
 
@@ -238,5 +239,24 @@ describe("scene count follows trait count", () => {
 
   test("omitting traitCount leaves the old behaviour untouched", () => {
     expect(makeValueScenes(sec(8.6))).toEqual(makeValueScenes(sec(8.6), {}));
+  });
+});
+
+/**
+ * Cycle 1's single change: the payload lands inside 2 seconds.
+ *
+ * The old structure held the payload until 6.4s behind a `build` act whose
+ * written contract was "open a curiosity loop, never fully resolve". Viewers
+ * read the hook — that is why they were still there at 1.6s — and then left
+ * during the 4.8 seconds before anything they were promised arrived.
+ *
+ * STRUCTURES-based assertions for this same change live in
+ * scripts/lib/variation.test.mjs (a .mjs test can import TypeScript under
+ * vitest without tripping tsc's `allowJs` requirement; this file cannot
+ * import a .mjs module and stay lint-clean).
+ */
+describe("the payload lands inside 2 seconds", () => {
+  test("the default structure pays off by frame 60", () => {
+    expect(makeActs(VIRAL_TIMING).valueStart).toBeLessThanOrEqual(PAYLOAD_BY_FRAME);
   });
 });

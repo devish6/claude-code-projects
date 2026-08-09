@@ -14,6 +14,11 @@ import {
   beatOffsetsMs,
 } from "./variation.mjs";
 import { TRACK_BPM, TRACK_PHASE_MS } from "./music-pool.mjs";
+// A .mjs test can import TypeScript under vitest without tripping tsc (this
+// import is not type-checked by `npm run lint`), which timing.test.ts cannot
+// do without `allowJs`. See src/viral/timing.test.ts for the sibling test.
+import { PAYLOAD_BY_FRAME } from "../../src/viral/qa.ts";
+import { makeActs } from "../../src/viral/timing.ts";
 
 /**
  * Why this module exists, in one measurement:
@@ -204,7 +209,9 @@ describe("structureById", () => {
   test("resolves an id to the act seconds ViralVideo needs", () => {
     const acts = structureById("snap");
 
-    expect(acts).toEqual({ hook: 1.2, build: 3.6, value: 7.4, cta: 2.0 });
+    // 🔴 CYCLE 1, 2026-08-09: hook+build re-cut to 2.0s so the payload lands
+    // by frame 60. `seconds` (14.2) is unchanged; only the acts moved.
+    expect(acts).toEqual({ hook: 1.2, build: 0.8, value: 10.2, cta: 2.0 });
   });
 
   test("throws on an unknown id rather than rendering a default length", () => {
@@ -315,5 +322,40 @@ describe("beatAlignedActs", () => {
   test("is inert when the bed's tempo is unknown, rather than throwing mid-run", () => {
     const acts = structureById("snap");
     expect(beatAlignedActs(acts, undefined)).toEqual(acts);
+  });
+});
+
+/**
+ * Cycle 1's single change: the payload lands inside 2 seconds.
+ *
+ * The old structure held the payload until 6.4s behind a `build` act whose
+ * written contract was "open a curiosity loop, never fully resolve". Viewers
+ * read the hook — that is why they were still there at 1.6s — and then left
+ * during the 4.8 seconds before anything they were promised arrived.
+ *
+ * "no two structures share a duration" and "acts sum to seconds" already
+ * exist above in "the variation pools" — not repeated here.
+ */
+describe("the payload lands inside 2 seconds", () => {
+  test.each(STRUCTURES)("$id pays off by frame 60", ({ acts }) => {
+    expect(makeActs(acts).valueStart).toBeLessThanOrEqual(PAYLOAD_BY_FRAME);
+  });
+
+  // 🔴 THE CONSTRAINT THAT MAKES THIS ONE CHANGE INSTEAD OF TWO. Duration is
+  // the strongest signal a duplicate detector has, and a fixed 17.450667s once
+  // made TikTok withhold the whole set. The act boundaries move; the totals
+  // must not, or cycle 1 confounds a timing change with a duration change and
+  // measures neither.
+  test.each(STRUCTURES)("$id keeps its exact total duration", ({ id, seconds }) => {
+    const totals = { snap: 14.2, standard: 19.6, essay: 23.4, long: 27.8 };
+
+    expect(seconds).toBe(totals[id]);
+  });
+
+  // The hook still has to be readable. Collapsing it to nothing to win the
+  // boundary would trade one failure for another — viewers read the hook, so
+  // it is not the broken part.
+  test.each(STRUCTURES)("$id keeps a hook of at least 1 second", ({ acts }) => {
+    expect(acts.hook).toBeGreaterThanOrEqual(1.0);
   });
 });
