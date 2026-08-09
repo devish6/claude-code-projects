@@ -154,36 +154,45 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
 
       <AstrolBackground rotationSpeed={7} particleDensity={95} pulseAt={interruptFrames} />
 
-      {/* ── HOOK 0–2s ───────────────────────────────────────────────────── */}
-      <Sequence durationInFrames={acts.hookEnd}>
+      {/* ── HOOK + BUILD 0–2s — ONE continuous mount ───────────────────────
+          🔴 CYCLE 1, 2026-08-09: CuriosityGap removed from the build act. Its
+          contract was "open a loop, never fully resolve" — exactly what the
+          data diagnosed as fatal: viewers left during the hold before the
+          promised payload arrived. The hook stays up through the build beat
+          instead, so the screen is never empty and nothing new has to be read
+          before the payload lands.
+
+          🔴🔴 THE HOOK IS MOUNTED ONCE, IN ONE SEQUENCE, THROUGH `buildEnd`.
+          It used to be TWO ViralHooks — one Sequence for the hook act, a
+          second wrapped in CinematicTransition from `buildStart`. A Remotion
+          Sequence resets useCurrentFrame() to 0 for its children, so every
+          frame-derived animation in ViralHook RESTARTED at the act boundary:
+          the Burst spring, useSnapOpacity, the `settle` interpolate,
+          useAberration, useCameraDrift. Worse, ViralHook delays its accent by
+          5 frames and its subtext by 10, so for the first third of a second of
+          the build act THOSE TWO LINES DID NOT EXIST. Sampled from a real
+          render of Viral-01: frame 34 was the clean three-line hook; frame 37
+          was the headline blown past both frame edges, greyed and tilted, with
+          accent and subtext gone; it reassembled by ~frame 50. A visible
+          detonation in the exact second this cycle exists to repair.
+
+          ⭐ The zoom toward the payload is still there — it is ViralHook's own
+          `useCameraDrift`, now given the full hook+build span, so it pushes in
+          monotonically from 1.0 and lands at 1.08 ON the payload cut instead of
+          snapping back to 1.0 mid-beat. CinematicTransition cannot do that job
+          here: it would have to re-mount the hook to get its own clock, which
+          is the bug. Same components, no new visual vocabulary, one change.
+
+          The PatternInterrupt flash still marks `buildStart` — the beat is
+          still punctuated, it just no longer costs the hook. */}
+      <Sequence durationInFrames={acts.buildEnd}>
         <ViralHook
           text={hookText}
           accent={hookAccent}
           subtext={hookSub}
           variant={variant}
-          durationInFrames={acts.hookEnd}
+          durationInFrames={acts.buildEnd}
         />
-      </Sequence>
-
-      {/* ── BUILD — one beat, then the payload ─────────────────────────────
-          🔴 CYCLE 1, 2026-08-09: CuriosityGap removed from this act. Its
-          contract was "open a loop, never fully resolve" — exactly what the
-          data diagnosed as fatal: viewers left during the hold before the
-          promised payload arrived. Reusing ViralHook here (same props, same
-          component, no new visual vocabulary) keeps the hook on screen
-          through this beat while CinematicTransition zooms toward the
-          payload, so the screen is never empty and nothing new has to be
-          read before frame 60. */}
-      <Sequence from={acts.buildStart} durationInFrames={acts.buildEnd - acts.buildStart}>
-        <CinematicTransition type="zoomIn">
-          <ViralHook
-            text={hookText}
-            accent={hookAccent}
-            subtext={hookSub}
-            variant={variant}
-            durationInFrames={acts.buildEnd - acts.buildStart}
-          />
-        </CinematicTransition>
       </Sequence>
       <Sequence from={acts.buildStart} durationInFrames={10}>
         <PatternInterrupt type="flash" />
