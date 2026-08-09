@@ -27,6 +27,7 @@ import { fileURLToPath } from "node:url";
 import { loadCredentials } from "./lib/credentials.mjs";
 import { hostAsset, unhostVideo } from "./lib/media-host.mjs";
 import { buildCardCaption, buildReelCaption, validateCardImage, validateReelVideo } from "./lib/cards.mjs";
+import { recordDuration } from "./lib/duration.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
@@ -237,6 +238,11 @@ const main = async () => {
     });
     mkdirSync(join(homedir(), ".numevix-publish"), { recursive: true });
     writeFileSync(POST_LOG, JSON.stringify(posted, null, 2) + "\n");
+
+    // `M<n>R` is the id this reel carries everywhere else — daily-state.json,
+    // the UTM `utm_content`, and the other three publishers' ledgers — so the
+    // durations ledger has to key on the same string or the join fails.
+    if (isReel) await recordDuration(`M${n}R`, file);
 
     log(`\n✅ Posted the Moolank ${n} ${kind} to Instagram — media ${published.id}`);
   } finally {
