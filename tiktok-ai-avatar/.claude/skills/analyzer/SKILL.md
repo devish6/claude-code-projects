@@ -52,9 +52,11 @@ Drives Chrome to study numerology and spirituality accounts. Reports what is
 winning: opening structures, lengths, formats, caption mechanics.
 
 - ⭐⭐ **Same-account control, always** (`sameAccountLift` in `scripts/lib/niche.mjs`).
-  Across accounts, follower count swamps the signal.
-- 🪤 **Never compare posts of different ages.** A 30-day-old post against a
-  3-hour-old one once produced a false "the old format won".
+  Across accounts, follower count swamps the signal. It returns **null** rather than
+  a number when n < 2 — an anecdote is not a lift.
+- 🪤 **Never compare posts of different ages** (`rejectAgeSkew`, 7-day tolerance).
+  A 30-day-old post against a 3-hour-old one once produced a false "the old format
+  won" conclusion.
 - 🔴 **Never lift a numerology claim from competitor copy.** Their rulesets
   disagree with ours — of the pairs popular posts cite, only 4&9 overlaps with
   our own `friendship.ts`. **Formats are copyable. Facts are not.**
