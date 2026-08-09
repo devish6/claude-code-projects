@@ -47,6 +47,23 @@ export const ViralHook: React.FC<{
   const accentColor = variant === "contrarian" ? P.ACCENT_ALERT : P.ACCENT;
 
   // Hard cut: text is at full size on frame 0, then settles. No opacity ramp.
+  // 🔴🔴 `settle` IS the headline's entrance — it is the whole of it. The
+  // headline used to ALSO be wrapped in <Burst>, which is a second entrance
+  // stacked on the first, and at video frame 0 the two multiply into exactly
+  // the thing this component's docstring promises never happens:
+  //   · Burst's opacity is useSnapOpacity(0, 2) = interpolate(0, [0,2], [0,1])
+  //     — literally 0 on frame 0, 0.5 on frame 1. FRAME 0 WAS EMPTY.
+  //   · Burst's scale is spring-at-0 = 1.45, times settle's 1.12 = 1.62, so
+  //     frame 1 showed the headline blown past BOTH frame edges, tilted -4deg.
+  // Measured on a real render: frame 0 stddev 9.5, frame 1 16.98 (both under
+  // qa-frame's floor of 18); frame 2 onward 21-28. `npm run qa:frame` was
+  // failing on every V-series render and it was RIGHT — the floors are fine,
+  // the opening was broken. This is the same class of defect as 7e65843, which
+  // repaired the hook's SECOND detonation at the build boundary and left this,
+  // the first one, on frame 0. Frame 0 is also the poster frame.
+  // ⛔ Do not re-wrap the headline in Burst. Burst is for entrances that land
+  // ON TOP of an already-populated frame (the accent at 5, the subtext at 10);
+  // at frame 0 there is nothing behind it, so its ramp is a hole, not a cut.
   const settle = interpolate(frame, [0, 5], [1.12, 1], {
     extrapolateRight: "clamp",
   });
@@ -61,51 +78,49 @@ export const ViralHook: React.FC<{
         transform: `scale(${scale})`,
       }}
     >
-      <Burst>
-        <div
-          style={{
-            fontFamily: displayFont,
-            fontSize: 112,
-            fontWeight: 900,
-            lineHeight: 1.02,
-            color: P.TEXT,
-            letterSpacing: -1,
-            textShadow: P.TEXT_SHADOW,
-            transform: `scale(${settle})`,
-          }}
-        >
-          {/* Chromatic aberration: offset colour ghosts that decay in ~8 frames */}
-          {ab > 0 ? (
-            <>
-              <span
-                style={{
-                  position: "absolute",
-                  left: `calc(50% - ${ab}px)`,
-                  transform: "translateX(-50%)",
-                  color: "rgba(150,40,30,0.32)",
-                  width: "100%",
-                }}
-                aria-hidden
-              >
-                {text}
-              </span>
-              <span
-                style={{
-                  position: "absolute",
-                  left: `calc(50% + ${ab}px)`,
-                  transform: "translateX(-50%)",
-                  color: "rgba(30,90,120,0.32)",
-                  width: "100%",
-                }}
-                aria-hidden
-              >
-                {text}
-              </span>
-            </>
-          ) : null}
-          <span style={{ position: "relative" }}>{text}</span>
-        </div>
-      </Burst>
+      <div
+        style={{
+          fontFamily: displayFont,
+          fontSize: 112,
+          fontWeight: 900,
+          lineHeight: 1.02,
+          color: P.TEXT,
+          letterSpacing: -1,
+          textShadow: P.TEXT_SHADOW,
+          transform: `scale(${settle})`,
+        }}
+      >
+        {/* Chromatic aberration: offset colour ghosts that decay in ~8 frames */}
+        {ab > 0 ? (
+          <>
+            <span
+              style={{
+                position: "absolute",
+                left: `calc(50% - ${ab}px)`,
+                transform: "translateX(-50%)",
+                color: "rgba(150,40,30,0.32)",
+                width: "100%",
+              }}
+              aria-hidden
+            >
+              {text}
+            </span>
+            <span
+              style={{
+                position: "absolute",
+                left: `calc(50% + ${ab}px)`,
+                transform: "translateX(-50%)",
+                color: "rgba(30,90,120,0.32)",
+                width: "100%",
+              }}
+              aria-hidden
+            >
+              {text}
+            </span>
+          </>
+        ) : null}
+        <span style={{ position: "relative" }}>{text}</span>
+      </div>
 
       {accent ? (
         <Burst delay={5}>
