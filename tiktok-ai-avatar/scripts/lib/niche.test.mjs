@@ -40,6 +40,40 @@ describe("sameAccountLift", () => {
       ),
     ).toBeNull();
   });
+
+  // 🔴 FAIL-OPEN, the same shape as rejectAgeSkew's unmeasurable skew. Only the
+  // baseline was guarded, so a format whose posts all came back without a view
+  // count reported `lift: 0` — "this format gets 0.0x the baseline", maximally
+  // wrong and maximally confident, with n=2 printed beside it. The outward scan
+  // reads other people's accounts through Chrome, where a missing view count is
+  // ordinary. Refuse to answer; never answer zero.
+  test("returns null when the format's own views could not be measured", () => {
+    expect(
+      sameAccountLift(
+        [
+          { format: "a", views: null },
+          { format: "a", views: undefined },
+          { format: "b", views: 1000 },
+        ],
+        { format: "a" },
+      ),
+    ).toBeNull();
+  });
+
+  // A real zero is not the same as an unmeasured one, and must still report.
+  test("still reports a lift when the format genuinely scored zero views", () => {
+    const r = sameAccountLift(
+      [
+        { format: "a", views: 0 },
+        { format: "a", views: 0 },
+        { format: "b", views: 1000 },
+      ],
+      { format: "a" },
+    );
+
+    expect(r.medianFormat).toBe(0);
+    expect(r.lift).toBe(0);
+  });
 });
 
 describe("rejectAgeSkew", () => {

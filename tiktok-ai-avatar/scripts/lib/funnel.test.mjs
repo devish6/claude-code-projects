@@ -132,6 +132,40 @@ describe("parseCommentIntent", () => {
     expect(parseCommentIntent("0")).toEqual({ kind: "irrelevant" });
     expect(parseCommentIntent("M0")).toEqual({ kind: "irrelevant" });
   });
+
+  // 🔴 THE SAME FABRICATED CLAIM, THROUGH A DIFFERENT DOOR. The ISO and numeric
+  // branches got day 1–31 checks and the bare branch excluded moolank 0, but the
+  // WRITTEN-month branch got neither — so "0 November" still answered "Your
+  // Moolank is 0" (a number that does not exist) and "45 November" answered 9.
+  // Range-check every branch or the rule only holds on the branches someone
+  // remembered.
+  test("rejects an out-of-range day in a written-month date", () => {
+    expect(parseCommentIntent("0 November")).toEqual({ kind: "irrelevant" });
+    expect(parseCommentIntent("November 0")).toEqual({ kind: "irrelevant" });
+    expect(parseCommentIntent("45 November")).toEqual({ kind: "irrelevant" });
+    expect(parseCommentIntent("32 Jan 1990")).toEqual({ kind: "irrelevant" });
+  });
+
+  // The boundaries the range check is drawn around, so a later tidy-up cannot
+  // quietly narrow it.
+  test("still reads the valid edges of a written-month date", () => {
+    expect(parseCommentIntent("1 November")).toEqual({
+      kind: "dob",
+      moolank: 1,
+      ambiguousDayMonth: false,
+    });
+    expect(parseCommentIntent("31 December 1990")).toEqual({
+      kind: "dob",
+      moolank: 4,
+      ambiguousDayMonth: false,
+    });
+  });
+
+  // Pairs are still CLASSIFIED — the parser is right about what they are. What
+  // changed is that buildQueue refuses to answer them (see below).
+  test("still classifies a pair as a pair", () => {
+    expect(parseCommentIntent("5 and 7")).toEqual({ kind: "pair", moolank: 5, partner: 7 });
+  });
 });
 
 describe("buildFunnelCta / hasFunnelCta", () => {
@@ -188,5 +222,32 @@ describe("buildQueue", () => {
     const [row] = buildQueue([{ comment_id: "c4", comment_text: "05/06/1990" }], pairs);
 
     expect(row.dm).toContain("wrong way round");
+  });
+
+  // 🔴 "5 and 7" is a question about TWO people, and nothing in it says which
+  // number is the commenter's. The queue used to answer "Your Moolank is 5." —
+  // asserting as fact a number a real stranger never claimed was theirs. Sending
+  // nothing is already a first-class outcome; pairs use it until the owner writes
+  // copy for them. Do not replace this with invented pair copy.
+  test("skips a pair entirely rather than assert a moolank nobody claimed", () => {
+    expect(buildQueue([{ comment_id: "c5", comment_text: "5 and 7" }], pairs)).toEqual([]);
+  });
+
+  test("a pair is skipped without taking real asks down with it", () => {
+    const rows = buildQueue(
+      [
+        { comment_id: "c5", comment_text: "5 and 7" },
+        { comment_id: "c6", comment_text: "M1" },
+      ],
+      pairs,
+    );
+
+    expect(rows).toHaveLength(1);
+    expect(rows[0].commentId).toBe("c6");
+  });
+
+  // The written-month range fix reaches all the way to what would have been sent.
+  test("an out-of-range written-month day produces no row at all", () => {
+    expect(buildQueue([{ comment_id: "c7", comment_text: "0 November" }], pairs)).toEqual([]);
   });
 });

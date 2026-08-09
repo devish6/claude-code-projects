@@ -86,7 +86,15 @@ export const buildDailyTemplatesSource = (state) => {
       // composition (StoryVideo01) built from real narration timings, so there is nothing
       // here to serialize. Without this exclusion `propsLiteral` reads `v.props` on a row
       // that has none and the whole daily pipeline stops generating.
-      v.source !== "story",
+      v.source !== "story" &&
+      // 🔴 The `source` list was never the real test. The live ledger carries ten more
+      // props-less rows -- M1R-M9R and T369, sources "card-reel" and "one-off" -- which
+      // are published assets that only need a V-number and a UTM link. They crashed
+      // `propsLiteral` with "Cannot read properties of undefined (reading 'hookText')",
+      // and because daily-viral.mjs calls writeDailyTemplates on EVERY run, that stopped
+      // the pipeline from generating any new video at all. Ask for what is actually
+      // needed -- usable props -- rather than enumerating the sources that lack them.
+      v.props,
   );
 
   const templateEntries = videos

@@ -56,7 +56,17 @@ export const parseCommentIntent = (text) => {
     const monthWord = (written[2] ?? written[3] ?? "").toLowerCase();
     const day = Number(written[1] ?? written[4]);
     if (MONTHS.some((m) => m.startsWith(monthWord.slice(0, 3)) && monthWord.length >= 3)) {
-      return { kind: "dob", moolank: reduceToMoolank(day), ambiguousDayMonth: false };
+      // 🔴 Range validation, same as the ISO and numeric branches. Without it
+      // "0 November" answered with "Your Moolank is 0" and "45 November" with 9
+      // — a fabricated number sent to a real stranger about themselves. The
+      // month word is already proven; only the day can be out of range.
+      // A day of 1-31 always reduces to 1-9, so the moolank check is a belt to
+      // the range braces, never a second reading of the same failure.
+      const moolank = reduceToMoolank(day);
+      if (day >= 1 && day <= 31 && moolank !== 0) {
+        return { kind: "dob", moolank, ambiguousDayMonth: false };
+      }
+      return { kind: "irrelevant" };
     }
   }
 
@@ -100,6 +110,11 @@ export const parseCommentIntent = (text) => {
   }
 
   // A pair: "5 and 7".
+  //
+  // ⭐ Classified, deliberately NOT auto-answered — see buildQueue. Someone
+  // naming two numbers is asking about two people, and nothing in the string
+  // says which one is theirs. The copy for that case is a content decision the
+  // owner has not made yet, so the queue skips these rather than guessing.
   const pair = s.match(/\b(\d{1,2})\s*(?:and|&|\+)\s*(\d{1,2})\b/i);
   if (pair) {
     return {
@@ -148,7 +163,12 @@ export const buildQueue = (comments, pairs) =>
       const intent = parseCommentIntent(c.comment_text);
       // ⭐ Sending NOTHING is a first-class outcome. Under the competitor post
       // we studied, the most-liked comment was a sceptic mocking the account.
-      if (intent.kind === "irrelevant") return null;
+      //
+      // 🔴 A `pair` is skipped for the same reason, not because it is noise.
+      // "5 and 7" is a question about two people; answering it produced "Your
+      // Moolank is 5." — asserting as fact a number the commenter never
+      // claimed was theirs. Recognised, queued to nobody, pending owner copy.
+      if (intent.kind === "irrelevant" || intent.kind === "pair") return null;
 
       const matches = matchesFor(intent.moolank, pairs);
       const dm = [

@@ -74,10 +74,13 @@ export const probeDuration = async (path) => {
 /**
  * Records one video's duration. Returns the measurement, or null.
  *
- * 🔴 NEVER THROWS. This is called from the publishers, after the ledger write,
- * and a throw there would make publish-next record the platform as failed and
- * re-upload the same video tomorrow. A measurement must never manufacture a
- * duplicate post — same rule as the Facebook thumbnail read-back.
+ * 🔴 NEVER THROWS. This is called from the publishers as soon as the rendered
+ * file is resolved — BEFORE the upload and before the ledger write, because
+ * duration is a property of the render, not of any one upload. A throw there
+ * would run before anything has been posted and would make publish-next record
+ * the platform as failed and re-upload the same video tomorrow. A measurement
+ * must never manufacture a duplicate post — same rule as the Facebook
+ * thumbnail read-back.
  */
 export const recordDuration = async (v, path, dir = DURATIONS_DIR) => {
   try {

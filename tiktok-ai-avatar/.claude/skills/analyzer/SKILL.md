@@ -43,6 +43,12 @@ Account `17841425392432041` ("numevix").
 - **The break is after 07-24**, not 07-28. The last post over 1,000 reach is 07-24.
 - **Six of the eight all-time winners fall on 07-16 and 07-17.** Read the clusters
   (`findWinnerClusters`), not just the era medians.
+  🪤 **`findWinnerClusters` CHAINS** — each gap is measured from the *previous
+  post*, not from the cluster's start, so a run of posts spaced under
+  `windowHours` apart merges into one cluster of unbounded span. 07-16 15:08 →
+  07-17 12:30 is ~21h, so at `windowHours: 24` those two days come back as **ONE
+  cluster of 7**, not two of six. Quote what the function returns, or set a
+  tighter window — do not translate its output into "two days" by hand.
 - **On YouTube, API upload gets zero feed distribution** (n=7, max 3 views). That
   is a YouTube/Facebook finding — Instagram is unaffected.
 

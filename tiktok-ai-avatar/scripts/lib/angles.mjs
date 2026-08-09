@@ -31,7 +31,12 @@ const daysBetween = (a, b) => Math.abs(new Date(a) - new Date(b)) / 86_400_000;
 
 const lastUse = (angle, state) =>
   (state?.videos ?? [])
-    .filter((v) => v.angleId === angle.id && v.date)
+    // 🔴 A FAILED render never used the angle — nothing went out, so nothing
+    // can read as a repeat. state.mjs's isRecentlyUsed opens with exactly this
+    // line for the hook window; without it here the two windows disagree and a
+    // failed video would lock its angle out for 21 days over a post that never
+    // existed. "Same reason, same rhythm" has to include the exclusions.
+    .filter((v) => v.status !== "failed" && v.angleId === angle.id && v.date)
     .map((v) => v.date)
     .sort()
     .at(-1) ?? null;

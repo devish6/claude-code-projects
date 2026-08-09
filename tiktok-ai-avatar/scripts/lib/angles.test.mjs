@@ -52,6 +52,19 @@ describe("isRecentlyUsedAngle", () => {
     expect(isRecentlyUsedAngle(approved, state, "2026-09-20")).toBe(false);
   });
 
+  // 🔴 "Matches the hook no-repeat window — same reason, same rhythm" has to
+  // include state.mjs's exclusions, and isRecentlyUsed opens with
+  // `if (v.status === "failed") return false`. A failed render never went out,
+  // so nothing can read as a repeat of it — but this window counted it and would
+  // have locked the angle away for 21 days over a post nobody ever saw.
+  test("a FAILED video does not lock its angle out — nothing was ever posted", () => {
+    const failed = {
+      videos: [{ v: "V30", angleId: "best-match", date: "2026-08-05", status: "failed" }],
+    };
+
+    expect(isRecentlyUsedAngle(approved, failed, "2026-08-09")).toBe(false);
+  });
+
   test("an angle never used is not recently used", () => {
     expect(isRecentlyUsedAngle({ ...approved, id: "self-friendly" }, state, "2026-08-09")).toBe(
       false,

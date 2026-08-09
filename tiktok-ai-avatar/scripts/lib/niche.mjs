@@ -26,7 +26,14 @@ export const sameAccountLift = (posts, { format }) => {
 
   const medianFormat = median(mine.map((p) => p.views));
   const medianBaseline = median(others.map((p) => p.views));
-  if (!medianBaseline) return null;
+  // 🔴 BOTH sides, not just the baseline. `median` returns null when nothing
+  // finite came back, and with only the baseline guarded a scan that measured
+  // NO views for the format still reported `lift: 0` — "this format gets 0.0x
+  // the baseline", maximally wrong and maximally confident, with n=2 beside it.
+  // The outward scan scrapes other people's accounts through Chrome, where a
+  // missing view count is ordinary, not corruption. Same fail-open shape as
+  // rejectAgeSkew's unmeasurable skew: refuse to answer, never answer zero.
+  if (medianFormat === null || !medianBaseline) return null;
 
   return {
     format,

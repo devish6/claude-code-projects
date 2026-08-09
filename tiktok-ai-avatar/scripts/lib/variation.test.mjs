@@ -44,7 +44,11 @@ const videosWithVariations = (variations) =>
 
 describe("the variation pools", () => {
   test("offer more than one option on every axis — a pool of one is what failed", () => {
-    expect(STRUCTURES.length).toBeGreaterThan(1);
+    // 🔴 PINNED, not `> 1`. The structure pool is the duration fingerprint's
+    // only defence, and `toBeGreaterThan(1)` would have stayed green while
+    // someone deleted structures down to two. Four is the shipped pool; if it
+    // changes, that is a decision worth failing a test over.
+    expect(STRUCTURES.length).toBe(4);
     expect(TEMPOS.length).toBeGreaterThan(1);
     expect(LAYOUTS.length).toBeGreaterThan(1);
     expect(PALETTES.length).toBeGreaterThan(1);
