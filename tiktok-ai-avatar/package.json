@@ -50,7 +50,8 @@
     "queue:reel": "node scripts/queue-card-reel.mjs",
     "publish:next-card": "node scripts/publish-next-card.mjs",
     "analyze:reach": "node scripts/analyze-reach.mjs",
-    "qa:frame": "node scripts/qa-frame.mjs"
+    "qa:frame": "node scripts/qa-frame.mjs",
+    "funnel:queue": "node scripts/funnel-queue.mjs"
   },
   "sideEffects": [
     "*.css"
