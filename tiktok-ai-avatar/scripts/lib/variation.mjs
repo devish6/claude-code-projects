@@ -22,12 +22,18 @@
 /**
  * Act structures. Durations are deliberately spread and deliberately exclude
  * 17.4 — the fingerprinted length. Acts sum exactly to `seconds`.
+ *
+ * 🔴 CYCLE 1, 2026-08-09: hook+build re-cut to 2.0s in every structure so the
+ * payload lands by frame 60. **Every `seconds` total is byte-identical to what
+ * it was.** Changing a total here would confound the timing change with a
+ * duration change, and duration is exactly the axis that keeps TikTok's
+ * duplicate detection off us.
  */
 export const STRUCTURES = [
-  { id: "snap", seconds: 14.2, acts: { hook: 1.2, build: 3.6, value: 7.4, cta: 2.0 } },
-  { id: "standard", seconds: 19.6, acts: { hook: 1.6, build: 5.2, value: 10.4, cta: 2.4 } },
-  { id: "essay", seconds: 23.4, acts: { hook: 2.0, build: 6.4, value: 12.4, cta: 2.6 } },
-  { id: "long", seconds: 27.8, acts: { hook: 2.4, build: 7.8, value: 14.8, cta: 2.8 } },
+  { id: "snap", seconds: 14.2, acts: { hook: 1.2, build: 0.8, value: 10.2, cta: 2.0 } },
+  { id: "standard", seconds: 19.6, acts: { hook: 1.2, build: 0.8, value: 15.2, cta: 2.4 } },
+  { id: "essay", seconds: 23.4, acts: { hook: 1.2, build: 0.8, value: 18.8, cta: 2.6 } },
+  { id: "long", seconds: 27.8, acts: { hook: 1.2, build: 0.8, value: 23.0, cta: 2.8 } },
 ];
 
 /**

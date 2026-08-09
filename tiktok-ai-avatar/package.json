@@ -38,6 +38,7 @@
     "publish:facebook": "node scripts/publish-facebook.mjs",
     "publish:tiktok": "node scripts/publish-tiktok.mjs",
     "collect:metrics": "node scripts/collect-metrics.mjs",
+    "backfill:durations": "node scripts/backfill-durations.mjs",
     "publish:next": "node scripts/publish-next.mjs",
     "kit": "node scripts/manual-post-kit.mjs",
     "music:verify": "node scripts/verify-music.mjs",
@@ -47,7 +48,10 @@
     "publish:card": "node scripts/publish-card.mjs",
     "narration": "node scripts/generate-narration.mjs",
     "queue:reel": "node scripts/queue-card-reel.mjs",
-    "publish:next-card": "node scripts/publish-next-card.mjs"
+    "publish:next-card": "node scripts/publish-next-card.mjs",
+    "analyze:reach": "node scripts/analyze-reach.mjs",
+    "qa:frame": "node scripts/qa-frame.mjs",
+    "funnel:queue": "node scripts/funnel-queue.mjs"
   },
   "sideEffects": [
     "*.css"

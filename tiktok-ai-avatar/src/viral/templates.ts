@@ -20,8 +20,6 @@ export const IDENTITY_SEVEN: ViralVideoProps = {
   hookAccent: "OR 25th?",
   hookSub: "You have this hidden trait",
   variant: "identity",
-  buildSetup: "Number 7s are known for something unusual…",
-  buildReveal: "Most people read them completely wrong.",
   number: 7,
   numberLabel: "The Seeker",
   traits: [
@@ -40,8 +38,6 @@ export const CURIOSITY_HIDDEN: ViralVideoProps = {
   hookAccent: "THIS WRONG",
   hookSub: "The number hidden in your birthday",
   variant: "mystery",
-  buildSetup: "Your birth date holds two different numbers…",
-  buildReveal: "Almost everyone only knows the first one.",
   number: 8,
   numberLabel: "Driver vs Conductor",
   traits: [
@@ -60,8 +56,6 @@ export const CONTRARIAN_EIGHT: ViralVideoProps = {
   hookAccent: "UNLUCKY",
   hookSub: "You've been told the wrong story",
   variant: "contrarian",
-  buildSetup: "Everyone calls 8 the number of struggle…",
-  buildReveal: "It's the number of delayed compounding.",
   number: 8,
   numberLabel: "The Builder",
   traits: [
@@ -83,8 +77,6 @@ export const IDENTITY_ONE: ViralVideoProps = {
   hookAccent: "19th OR 28th?",
   hookSub: "You hate being told what to do",
   variant: "identity",
-  buildSetup: "There's a reason authority grates on you…",
-  buildReveal: "You were built to be the authority.",
   number: 1,
   numberLabel: "Ruled by the Sun",
   traits: [
@@ -103,8 +95,6 @@ export const CURIOSITY_THREE: ViralVideoProps = {
   hookAccent: "A NUMBER 3",
   hookSub: "Almost nobody knows why",
   variant: "mystery",
-  buildSetup: "3 is called the luckiest number in numerology…",
-  buildReveal: "Luck isn't what Jupiter actually gives you.",
   number: 3,
   numberLabel: "Ruled by Jupiter",
   traits: [
@@ -130,8 +120,6 @@ export const CONTRARIAN_NINE: ViralVideoProps = {
   hookAccent: "ANGRY",
   hookSub: "That's Mars being misread",
   variant: "contrarian",
-  buildSetup: "People call 9s aggressive and impatient…",
-  buildReveal: "It's fire with nowhere to go yet.",
   number: 9,
   numberLabel: "Ruled by Mars",
   traits: [
@@ -176,8 +164,6 @@ export const CONTRARIAN_THIRTEEN: ViralVideoProps = {
   hookAccent: "UNLUCKY",
   hookSub: "You've been scared of the wrong thing",
   variant: "contrarian",
-  buildSetup: "Every culture calls 13 the unlucky number…",
-  buildReveal: "In Vedic numerology it isn't even its own number.",
   number: 4,
   // 🪤 Kept short deliberately. This renders UPPERCASE at 56px with 4px of
   // letter-spacing, so ~26 characters fill a line; the first draft ran to 45

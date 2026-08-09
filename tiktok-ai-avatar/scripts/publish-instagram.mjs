@@ -33,6 +33,7 @@ import {
 } from "./lib/meta.mjs";
 import { hostAsset, hostVideo, unhostVideo } from "./lib/media-host.mjs";
 import { alreadyUploaded } from "./lib/youtube.mjs";
+import { recordDuration } from "./lib/duration.mjs";
 import { newestRender } from "./lib/versions.mjs";
 
 const args = process.argv.slice(2);
@@ -266,6 +267,15 @@ const publish = async () => {
   }
 
   const file = findVideoFile(entry);
+  // Duration is a property of the RENDER, so it is recorded here — where the
+  // file is resolved — rather than beside any one upload ledger.
+  //
+  // 🔴 NON-FATAL BY CONSTRUCTION: recordDuration swallows its own errors and
+  // returns null. A throw here would make publish-next record the platform as
+  // failed and re-upload the same video tomorrow. A measurement must never
+  // manufacture a duplicate post — same rule as the Facebook thumbnail
+  // read-back. Repeat writes are safe: mergeDurations is idempotent.
+  await recordDuration(entry.v, file);
   if (!file) die(`No rendered MP4 found for ${entry.v}. Run the pipeline first.`);
 
   const meta = probe(file);

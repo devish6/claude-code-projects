@@ -1,0 +1,37 @@
+{
+  "_comment": "WHAT we say. Every angle carries the measurement that earned its status. 'evidence' is not a rationale -- it is a number from a same-account control. assertsFacts must stay false: number claims are DERIVED from friendship.ts via scripts/derive-compatibility-pairs.mjs, never written here.",
+  "angles": [
+    {
+      "id": "best-match",
+      "frame": "positive",
+      "summary": "Which numbers are your best match",
+      "evidence": "@numberswithrimzim same-account control: compatibility 51.9K-57.2K views vs the same account's other posts at 6.8K-25.9K. The pinned 'made for each other' post took 35K likes on a 28.6K-follower account.",
+      "status": "approved",
+      "assertsFacts": false
+    },
+    {
+      "id": "self-friendly",
+      "frame": "positive",
+      "summary": "The numbers that get along with themselves -- and the one that does not",
+      "evidence": "Derived from friendship.ts: 7 is the only number not friendly to itself, and 5 is mutual only with itself. Held back from the compatibility reel as a second post; same positive frame as best-match, which is the measured winner.",
+      "status": "approved",
+      "assertsFacts": false
+    },
+    {
+      "id": "trait-per-number",
+      "frame": "informational",
+      "summary": "One number, its ruling planet and traits",
+      "evidence": "Our own card reels. TikTok ~205 views with 1-3 likes; Instagram 122-213 reach. @vediksoul's weakest format: 3.0K-24.6K against 348K-4.4M for topic-led posts. This is what 'our weakest format, competently made' looks like.",
+      "status": "rejected",
+      "assertsFacts": false
+    },
+    {
+      "id": "conflict-pairs",
+      "frame": "conflict",
+      "summary": "The pairs that clash",
+      "evidence": "Conflict-framed posts measured 1,115-1,436 likes against the positive frame's 35K. The top-liked comment on one was a sceptic mocking the account. Also delivers a verdict ON the reader, which is why the Barnum hooks were rejected.",
+      "status": "rejected",
+      "assertsFacts": false
+    }
+  ]
+}

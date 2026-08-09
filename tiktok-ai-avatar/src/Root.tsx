@@ -31,15 +31,12 @@ import {
 // is the only line that needs to exist for new daily videos to show up in
 // the studio; the file itself is never hand-edited.
 import { DAILY_COVERS, DAILY_TEMPLATES } from "./viral/daily-templates";
-import { UpiLaunch } from "./viral/UpiLaunch";
-import { UPI_COVERS, UPI_TEMPLATES } from "./viral/upi-templates";
 import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
 import { TOTAL_FRAMES as TALKING_TOTAL } from "./talking/script";
-import { DISPLAY_HI, UI_HI } from "./viral/fonts";
 import { ACT, makeActs } from "./viral/timing";
 
 // 1080x1920, 30fps — vertical short-form for TikTok / Reels / Shorts.
@@ -112,42 +109,6 @@ export const RemotionRoot: React.FC = () => {
             {...V}
           />
         ))}
-      </Folder>
-
-      {/*
-        Announcements — product events, not numerology content. Kept OUT of the
-        Viral folder on purpose: that folder is an A/B set whose videos share
-        an act structure, and averaging an announcement into it would make the
-        3-second view rates non-comparable.
-      */}
-      <Folder name="Viral-Announcements">
-        {Object.entries(UPI_TEMPLATES).map(([id, props]) => (
-          <Composition
-            key={id}
-            id={id}
-            component={UpiLaunch}
-            durationInFrames={ACT.total}
-            defaultProps={props}
-            {...V}
-          />
-        ))}
-        {Object.entries(UPI_COVERS).map(([id, cover]) => {
-          const hindi = UPI_TEMPLATES[id as keyof typeof UPI_TEMPLATES].hindi;
-          return (
-            <Composition
-              key={`${id}-Cover`}
-              id={`${id}-Cover`}
-              component={ViralCover}
-              durationInFrames={60}
-              defaultProps={{
-                ...cover,
-                variant: "identity" as const,
-                ...(hindi ? { displayFont: DISPLAY_HI, uiFont: UI_HI } : {}),
-              }}
-              {...V}
-            />
-          );
-        })}
       </Folder>
 
       {/*

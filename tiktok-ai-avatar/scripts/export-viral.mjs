@@ -40,14 +40,6 @@ const TARGETS = {
   "Viral-04-Identity-One": "V04 - You Hate Being Told What To Do",
   "Viral-05-Curiosity-Three": "V05 - Everyone Wants To Be A Number 3",
   "Viral-06-Contrarian-Nine": "V06 - Number 9 Is Not Angry",
-  // Announcements. Hand-authored like V01-V06, so they belong here rather than
-  // in the ledger-derived map below -- content/daily-state.json is deliberately
-  // NOT given rows for these. nextVNumber() takes the max of the ledger AND the
-  // "V<nn> - " folder names on disk, so the daily pipeline still continues at
-  // V15 on its own; adding rows would instead make the ledger path try to
-  // derive composition ids via compositionId(), which would never produce these.
-  "Viral-13-UPI-Launch": "V13 - UPI Is Live",
-  "Viral-14-UPI-Launch-Hindi": "V14 - UPI Is Live (Hindi)",
 };
 
 const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
