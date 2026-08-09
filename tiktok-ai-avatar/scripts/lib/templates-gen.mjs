@@ -42,8 +42,10 @@ const propsLiteral = (v) => {
     p.hookAccent !== undefined ? `    hookAccent: ${litStr(p.hookAccent)},` : null,
     p.hookSub !== undefined ? `    hookSub: ${litStr(p.hookSub)},` : null,
     `    variant: ${litStr(p.variant)},`,
-    `    buildSetup: ${litStr(p.buildSetup)},`,
-    `    buildReveal: ${litStr(p.buildReveal)},`,
+    // 🔴 CYCLE 1, 2026-08-09: ViralVideoProps dropped buildSetup/buildReveal
+    // when CuriosityGap was removed from the build act. The concept ledger
+    // may still carry these fields (harmless, unread) -- they are simply not
+    // projected into the generated props literal any more.
     `    number: ${p.number},`,
     `    numberLabel: ${litStr(p.numberLabel)},`,
     `    traits: ${litArr(p.traits)},`,

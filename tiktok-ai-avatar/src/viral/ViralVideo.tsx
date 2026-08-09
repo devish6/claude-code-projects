@@ -4,7 +4,6 @@ import { BrandAudio } from "../components/kit";
 import { AstrolBackground } from "./components/AstrolBackground";
 import { CinematicTransition } from "./components/CinematicTransition";
 import { CTAEnding } from "./components/CTAEnding";
-import { CuriosityGap } from "./components/CuriosityGap";
 import { NumberReveal } from "./components/NumberReveal";
 import { PatternInterrupt } from "./components/PatternInterrupt";
 import { TraitBullet } from "./components/TraitBullet";
@@ -39,10 +38,6 @@ export type ViralVideoProps = {
   hookAccent?: string;
   hookSub?: string;
   variant: HookVariant;
-  /** Opens the loop. */
-  buildSetup: string;
-  /** Escalates it — never fully resolves it. */
-  buildReveal: string;
   number: number;
   numberLabel: string;
   /** Exactly 4. Each 3–7 words. */
@@ -100,8 +95,6 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
   hookAccent,
   hookSub,
   variant,
-  buildSetup,
-  buildReveal,
   number,
   numberLabel,
   traits,
@@ -172,12 +165,22 @@ export const ViralVideo: React.FC<ViralVideoProps> = ({
         />
       </Sequence>
 
-      {/* ── BUILD 2–8s ──────────────────────────────────────────────────── */}
+      {/* ── BUILD — one beat, then the payload ─────────────────────────────
+          🔴 CYCLE 1, 2026-08-09: CuriosityGap removed from this act. Its
+          contract was "open a loop, never fully resolve" — exactly what the
+          data diagnosed as fatal: viewers left during the hold before the
+          promised payload arrived. Reusing ViralHook here (same props, same
+          component, no new visual vocabulary) keeps the hook on screen
+          through this beat while CinematicTransition zooms toward the
+          payload, so the screen is never empty and nothing new has to be
+          read before frame 60. */}
       <Sequence from={acts.buildStart} durationInFrames={acts.buildEnd - acts.buildStart}>
         <CinematicTransition type="zoomIn">
-          <CuriosityGap
-            setup={buildSetup}
-            reveal={buildReveal}
+          <ViralHook
+            text={hookText}
+            accent={hookAccent}
+            subtext={hookSub}
+            variant={variant}
             durationInFrames={acts.buildEnd - acts.buildStart}
           />
         </CinematicTransition>

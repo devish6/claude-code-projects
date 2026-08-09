@@ -49,13 +49,34 @@ automatic numbers are the background baseline, not the target.
   `SCENE_CHANGE * 2`.
 - 🔴 **One change per cycle.**
 
-## Known gap (cycle 1, 2026-08-09)
+## What actually ships is beat-snapped — the 2.0s gate is not the shipped number
 
-The 2.0s payload ceiling is the RAW act boundary, before beat-snapping.
-`daily-viral.mjs` snaps `hook+build` onto whichever bed's tracked beat map (or
-computed BPM as fallback) is nearest a target boundary, and that snap can push
-the payload past 2.0s: measured against the real tracked beat maps, 8 of 18
-usable beds (cipherV15, helixV19, starlightV03, cashFlowAnthem, trendV02,
-readyV04, meridianV16, hardstyleV10) land the payload between 2.07s and 2.2s
-— never touch the ceiling to hide this, it is the honest result of "snap to
-the music, not the clock."
+`PAYLOAD_BY_FRAME` (2.0s) gates the RAW act boundary — `hook + build` before
+beat-snapping. **What ships is `daily-viral.mjs`'s snap of that boundary onto
+whichever bed's tracked beat map (or computed BPM as fallback) sits nearest
+it**, and that snap moves the payload off 2.0s in both directions. A future
+reader must not mistake the 2.0s target for what a viewer actually sees.
+
+⛔ **ACCEPTED for cycle 1, 2026-08-09 — not fixed, on purpose.** Measured
+against the real tracked beat maps (not the generic BPM grid), **8 of 18
+usable beds land the payload at 2.07–2.20s**, up to a 10% miss past the gate:
+
+| bed | payload | bed | payload |
+|---|---|---|---|
+| cipherV15 | 2.20s | vertexV17 | 2.00s |
+| helixV19 | 2.20s | quartzV20 | 2.00s |
+| starlightV03 | 2.17s | voltSlope | 1.97s |
+| cashFlowAnthem | 2.17s | blackVelvetAria | 1.97s |
+| trendV02 | 2.13s | pulseV13 | 1.93s |
+| readyV04 | 2.13s | obsidianV14 | 1.87s |
+| meridianV16 | 2.13s | kineticV18 | 1.87s |
+| hardstyleV10 | 2.07s (no map, BPM fallback) | executorV11 | 1.83s |
+| | | violinEnergetic | 1.80s (no map, BPM fallback) |
+| | | aggroTechnoV12 | 1.80s |
+
+Rationale for accepting rather than fixing: this is a 10% miss on a *soft*
+boundary while the measured retention cliff is at 0–1s, not 2.0s — and
+narrowing the bed pool, dropping a tempo, or loosening the gate would each be
+a **second change** inside a one-change cycle. **The `PAYLOAD_BY_FRAME` gate
+stays at 2.0s** — it is correct as a target; it simply is not, and was never
+claimed to be, a guarantee of the snapped output.
