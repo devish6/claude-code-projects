@@ -49,7 +49,8 @@
     "narration": "node scripts/generate-narration.mjs",
     "queue:reel": "node scripts/queue-card-reel.mjs",
     "publish:next-card": "node scripts/publish-next-card.mjs",
-    "analyze:reach": "node scripts/analyze-reach.mjs"
+    "analyze:reach": "node scripts/analyze-reach.mjs",
+    "qa:frame": "node scripts/qa-frame.mjs"
   },
   "sideEffects": [
     "*.css"
