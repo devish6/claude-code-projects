@@ -67,4 +67,52 @@ describe("rejectAgeSkew", () => {
   test("the tolerated skew is 7 days", () => {
     expect(MAX_AGE_SKEW_DAYS).toBe(7);
   });
+
+  // 🪤 The boundary: exactly 7 days is the limit. This protects against
+  // the off-by-one mistake where <= instead of < lets 7.1 days through.
+  test("exactly 7 days of skew is ACCEPTED", () => {
+    expect(
+      rejectAgeSkew(
+        [{ timestamp: "2026-08-02T00:00:00Z" }, { timestamp: "2026-08-09T00:00:00Z" }],
+        "2026-08-09",
+      ).ok,
+    ).toBe(true);
+  });
+
+  test("just over 7 days of skew is REJECTED", () => {
+    expect(
+      rejectAgeSkew(
+        [{ timestamp: "2026-08-01T12:00:00Z" }, { timestamp: "2026-08-09T00:00:00Z" }],
+        "2026-08-09",
+      ).ok,
+    ).toBe(false);
+  });
+
+  // 🪤 The guard refuses comparisons it cannot measure. An unparseable
+  // timestamp means we don't know the skew — that is failure, not success.
+  test("2 posts where one timestamp is unparseable → skew unmeasurable", () => {
+    const { ok, reason } = rejectAgeSkew(
+      [{ timestamp: "invalid" }, { timestamp: "2026-08-09T00:00:00Z" }],
+      "2026-08-09",
+    );
+
+    expect(ok).toBe(false);
+    expect(reason).toContain("unmeasurable");
+  });
+
+  test("2 posts where one timestamp is missing → skew unmeasurable", () => {
+    const { ok, reason } = rejectAgeSkew(
+      [{ timestamp: undefined }, { timestamp: "2026-08-09T00:00:00Z" }],
+      "2026-08-09",
+    );
+
+    expect(ok).toBe(false);
+    expect(reason).toContain("unmeasurable");
+  });
+
+  test("1 post with unparseable timestamp → ok:true (nothing to compare)", () => {
+    expect(
+      rejectAgeSkew([{ timestamp: "invalid" }], "2026-08-09").ok,
+    ).toBe(true);
+  });
 });

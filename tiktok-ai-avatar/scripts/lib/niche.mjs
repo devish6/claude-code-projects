@@ -43,10 +43,21 @@ export const sameAccountLift = (posts, { format }) => {
  * old one had simply had a month to accumulate.
  */
 export const rejectAgeSkew = (posts, asOf) => {
+  const postCount = (posts ?? []).length;
   const ages = (posts ?? [])
     .map((p) => (new Date(asOf) - new Date(p.timestamp)) / 86_400_000)
     .filter((n) => Number.isFinite(n));
-  if (ages.length < 2) return { ok: true, reason: null };
+
+  // If fewer than 2 posts, nothing to compare — no skew possible.
+  if (postCount < 2) return { ok: true, reason: null };
+
+  // If 2+ posts but couldn't measure skew due to unparseable timestamps.
+  if (ages.length < 2) {
+    return {
+      ok: false,
+      reason: `age skew unmeasurable: ${postCount - ages.length} of ${postCount} timestamps could not be parsed`,
+    };
+  }
 
   const skew = Math.max(...ages) - Math.min(...ages);
   return skew > MAX_AGE_SKEW_DAYS
