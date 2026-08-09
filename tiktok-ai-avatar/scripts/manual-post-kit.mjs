@@ -20,7 +20,8 @@
  */
 import { existsSync, mkdirSync, copyFileSync, writeFileSync, readdirSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { join, dirname, basename } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { buildFacebookReel, buildInstagramMedia } from "./lib/meta.mjs";
 import { buildYouTubeMetadata } from "./lib/youtube.mjs";
@@ -29,10 +30,23 @@ import { buildTikTokCaption } from "./lib/tiktok.mjs";
 const ROOT = join(homedir(), "Desktop", "Numevix Videos", "Viral");
 const OUT_ROOT = join(homedir(), "Desktop", "POST BY HAND");
 const STATE = new URL("../content/daily-state.json", import.meta.url);
+/** The repo itself — card reels are rendered INSIDE it, not onto the Desktop. */
+const REPO = fileURLToPath(new URL("..", import.meta.url));
 
-const ids = process.argv.slice(2).filter((a) => /^V\d+$/i.test(a)).map((a) => a.toUpperCase());
+/**
+ * ⭐ TWO ID SHAPES, BECAUSE THERE ARE TWO PROGRAMMES.
+ * `V25` is a ViralVideo take living in ~/Desktop/Numevix Videos/Viral/<V> - <title>/.
+ * `M5R` is a Moolank card reel, rendered to out/reels/ inside the repo and named
+ * in daily-state.json as its own queue entry. Both are posted by hand the same
+ * way and both must carry the publisher's exact caption, so both belong here —
+ * only where the mp4 SITS differs, which `resolveSource` below absorbs.
+ */
+const ids = process.argv
+  .slice(2)
+  .filter((a) => /^(V\d+|M\d+R)$/i.test(a))
+  .map((a) => a.toUpperCase());
 if (!ids.length) {
-  console.error("Usage: npm run kit -- V25 [V28 …]");
+  console.error("Usage: npm run kit -- V25 [V28 …]   |   npm run kit -- M5R");
   process.exit(1);
 }
 
@@ -53,6 +67,53 @@ const newestRender = (dir) => {
   return readdirSync(dir).find((f) => f.endsWith(".mp4"));
 };
 
+/**
+ * Where this entry's mp4 and grid cover actually live.
+ *
+ * ⭐ A card reel carries an explicit repo-relative `file` in daily-state.json
+ * (out/reels/moolank-5-reel.mp4) and has exactly one render, so there is no
+ * take to choose. A ViralVideo carries no `file` — it is found by folder
+ * convention on the Desktop and may have many takes, so `newestRender` picks.
+ *
+ * 🪤 THE CARD REEL'S COVER IS NOT OPTIONAL DRESSING. publish-card.mjs grabs the
+ * frame at 15s — the finished info card — because Instagram otherwise picks a
+ * near-empty frame off a reel that springs its type in from nothing. Posting by
+ * hand has to set the same cover manually, so it is copied out alongside.
+ */
+const resolveSource = (entry) => {
+  if (entry.file) {
+    const mp4Path = join(REPO, entry.file);
+    if (!existsSync(mp4Path)) {
+      console.error(`${entry.v}: no render at ${mp4Path} — skipped`);
+      return null;
+    }
+    // moolank-5-reel.mp4 → moolank-5-cover.jpg, written by publish-card.mjs.
+    const guess = join(dirname(mp4Path), `${basename(mp4Path).replace(/-reel\.mp4$/i, "")}-cover.jpg`);
+    return {
+      mp4Path,
+      coverPath: existsSync(guess) ? guess : null,
+      label: entry.file,
+    };
+  }
+
+  const srcDir = join(ROOT, `${entry.v} - ${entry.title}`);
+  if (!existsSync(srcDir)) {
+    console.error(`${entry.v}: no render folder at ${srcDir} — skipped`);
+    return null;
+  }
+  const mp4 = newestRender(srcDir);
+  if (!mp4) {
+    console.error(`${entry.v}: no mp4 in ${srcDir} — skipped`);
+    return null;
+  }
+  const cover = readdirSync(srcDir).find((f) => /cover\.(png|jpe?g)$/i.test(f));
+  return {
+    mp4Path: join(srcDir, mp4),
+    coverPath: cover ? join(srcDir, cover) : null,
+    label: mp4,
+  };
+};
+
 for (const id of ids) {
   const entry = state.videos.find((v) => v.v === id);
   if (!entry) {
@@ -60,23 +121,17 @@ for (const id of ids) {
     continue;
   }
 
-  const srcDir = join(ROOT, `${entry.v} - ${entry.title}`);
-  if (!existsSync(srcDir)) {
-    console.error(`${id}: no render folder at ${srcDir} — skipped`);
-    continue;
-  }
-  const mp4 = newestRender(srcDir);
-  if (!mp4) {
-    console.error(`${id}: no mp4 in ${srcDir} — skipped`);
-    continue;
-  }
+  const src = resolveSource(entry);
+  if (!src) continue;
+  const { mp4Path, coverPath, label } = src;
 
   const outDir = join(OUT_ROOT, `${entry.v} - ${entry.title}`);
   mkdirSync(outDir, { recursive: true });
-  copyFileSync(join(srcDir, mp4), join(outDir, `${entry.v}.mp4`));
+  copyFileSync(mp4Path, join(outDir, `${entry.v}.mp4`));
 
-  const cover = readdirSync(srcDir).find((f) => /cover\.(png|jpe?g)$/i.test(f));
-  if (cover) copyFileSync(join(srcDir, cover), join(outDir, `${entry.v} - cover${cover.slice(cover.lastIndexOf("."))}`));
+  if (coverPath) {
+    copyFileSync(coverPath, join(outDir, `${entry.v} - cover${coverPath.slice(coverPath.lastIndexOf("."))}`));
+  }
 
   // Instagram fetches from a URL in the real flow; posting by hand needs none,
   // so a placeholder satisfies the validator and the caption is unaffected.
@@ -87,7 +142,7 @@ for (const id of ids) {
 
   const sheet = [
     `${entry.v} — ${entry.title}`,
-    `${entry.date} · ${entry.category} · render ${mp4}`,
+    `${entry.date} · ${entry.category} · render ${label}`,
     "",
     "Captions below are generated by the SAME builders the publisher uses.",
     "Paste them exactly. Do not retype or 'improve' them — holding the caption",
@@ -126,5 +181,5 @@ for (const id of ids) {
 
   writeFileSync(join(outDir, "CAPTIONS.txt"), sheet);
   console.log(`${entry.v} → ${outDir}`);
-  console.log(`   video: ${mp4}${cover ? `   cover: ${cover}` : "   (no cover found)"}`);
+  console.log(`   video: ${label}${coverPath ? `   cover: ${basename(coverPath)}` : "   (no cover found)"}`);
 }
