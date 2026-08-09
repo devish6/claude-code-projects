@@ -38,7 +38,7 @@ const lastUse = (angle, state) =>
 
 export const isRecentlyUsedAngle = (angle, state, asOf) => {
   const last = lastUse(angle, state);
-  return last !== null && daysBetween(last, asOf) < ANGLE_REPEAT_DAYS;
+  return last !== null && daysBetween(last, asOf) <= ANGLE_REPEAT_DAYS;
 };
 
 /**

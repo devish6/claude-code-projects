@@ -57,6 +57,12 @@ describe("isRecentlyUsedAngle", () => {
       false,
     );
   });
+
+  // Matches state.mjs's inclusive window: day 21 still blocks, day 22 allows
+  test("at exactly 21 days, an angle is still recently used; day 22 opens it", () => {
+    expect(isRecentlyUsedAngle(approved, state, "2026-08-26")).toBe(true);
+    expect(isRecentlyUsedAngle(approved, state, "2026-08-27")).toBe(false);
+  });
 });
 
 describe("pickAngle", () => {
