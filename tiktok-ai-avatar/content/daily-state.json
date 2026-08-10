@@ -2,6 +2,55 @@
   "_comment": "Ledger for npm run daily:viral. V01-V06 are source:'seed-existing' -- history only, never regenerated as compositions (they live in src/viral/templates.ts, hand-authored, locked). Everything V07+ is source:'weekly-plan-w1' (days 1-7, hand-authored) or 'algorithmic' (day 8+, picked by scripts/daily-viral.mjs). Dates for V01-V06 are backfilled placeholders -- correct them if you have the real post dates, it only affects 21-day no-repeat math.",
   "videos": [
     {
+      "v": "V32",
+      "title": "Moolank 3 — Two 3s (Self-Friendly)",
+      "date": "2026-08-10",
+      "category": "compatibility",
+      "moolank": 3,
+      "angleId": "self-friendly",
+      "music": "cipherV15",
+      "variation": {
+        "structure": "standard",
+        "tempo": 140,
+        "layout": "centered",
+        "palette": "ink-violet"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-10-SelfFriendly-Three",
+      "file": "out/qa/v32-selffriendly-three.mp4",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V32",
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V32",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V32",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V32"
+      },
+      "note": "Second content-team video. Angle self-friendly (pickAngle; best-match is inside the 21-day window from V30/V31). ONE English cut for every platform — Hinglish is off (owner 2026-08-10, keep it uniform), so unlike V30/V31 there is no language split and therefore no language/platform confound.",
+      "instagramCaption": "Do two 3s work?\n\nIn Vedic numerology eight of the nine birth numbers list their own number as a friend. Only 7 doesn't — and even then it lists itself as neutral, not an enemy.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 21st? 2+1 = 3.\n\n3 also matches both ways with 6 and 9.\n\nNot on the list? It doesn't mean no.\n\nComment your birth number — or your full date of birth and I'll work it out — and I'll send your matches in the DM. Only comments with a number will trigger it.\n\nnumerology compatibility, birth number, date of birth numerology, moolank compatibility, life path compatibility",
+      "tiktokCaption": "Do two 3s work?\n\nIn Vedic numerology eight of the nine birth numbers list their own number as a friend. Only 7 doesn't — and even then it lists itself as neutral, not an enemy.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 21st? 2+1 = 3.\n\n3 also matches both ways with 6 and 9.\n\nNot on the list? It doesn't mean no.\n\nComment your birth number — or your full date of birth and I'll work it out — and I'll send your matches in the DM. Only comments with a number will trigger it.\n\nnumerology compatibility, birth number, date of birth numerology, moolank compatibility, life path compatibility",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#numerologycompatibility"
+      ]
+    },
+    {
       "v": "PIN01",
       "title": "Self-friendly numbers — Pinterest pin",
       "date": "2026-08-10",

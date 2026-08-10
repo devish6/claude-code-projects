@@ -346,6 +346,62 @@ export const BEST_MATCH_FOUR_EN: ViralVideoProps = {
   ctaText: "Comment M1 / M2 / M4",
 };
 
+/**
+ * Moolank 3 — two 3s. The `self-friendly` angle, and the second video the
+ * content team has authored.
+ *
+ * ⭐⭐ ANGLE: `self-friendly`, returned by `pickAngle` against the real ledger.
+ * NOT `best-match` — V30 and V31 both used it on 2026-08-10, which puts it
+ * inside the 21-day window. Repeating it would be exactly the structural
+ * sameness the window exists to prevent, and "make another one like V30" is a
+ * request for the RESULT, not for the same subject twice.
+ *
+ * 🔴 EVERY CLAIM DERIVED, NONE AUTHORED. 3 lists itself a friend (friendship.ts
+ * row 3 is [3,6,9]); 3&6 and 3&9 are mutual pairs from
+ * derive-compatibility-pairs.mjs; 3=Jupiter from moolank-cards.json. The
+ * "8 numbers yes, 1 no" in the hook sub is the derived count — eight numbers
+ * list themselves, 7 does not.
+ *
+ * ⚠️ THE HOOK ASKS, IT DOES NOT ASSERT. "Two 3s work?" is the compatibility
+ * reel's rule — ask WHY/WHETHER-with-an-answer, never "Do you…?", which invites
+ * a no and a scroll. The sub supplies the stake immediately so the question is
+ * not left hanging for 15s.
+ *
+ * ⚠️ LAST BULLET IS THE EASE LINE, unchanged from V31 down to the character
+ * count. It is load-bearing here for the same reason and one more: this angle
+ * singles out a number (7), so without it the video hands every 7 a verdict.
+ * ⛔ Never cut it to make room for a fourth pair.
+ *
+ * ⚠️ Structure and bed are V30's EXACTLY — cipherV15, frames 40/53/503/593,
+ * value dividing into 64/64/65/64. That is not laziness: those numbers are
+ * tracked beats that already clear the payload ceiling and the 72-frame scene
+ * cap, and re-deriving them for a video of identical shape would risk the
+ * frame-516 failure that the gate caught on V30's first draft for no gain.
+ *
+ * 🎨 `ink-violet`, not V30's `mono`. Palette is the one free axis here, and
+ * `standard|140|centered|mono` is now spent within the 14-day duplicate window.
+ */
+export const SELF_FRIENDLY_THREE: ViralVideoProps = {
+  ...BEST_MATCH_FOUR,
+  hookText: "IF YOU'RE A NUMBER 3",
+  hookAccent: "TWO 3s WORK?",
+  hookSub: "8 numbers yes — 1 no",
+  number: 3,
+  numberLabel: "JUPITER · 3, 6 AND 9",
+  traits: [
+    "3 and 3 — Jupiter twice",
+    "3 and 6 — counsel and warmth",
+    "3 and 9 — knowing and nerve",
+    // 🪤 The same 26 characters as V31. See that template: shorter rewrites
+    // orphan the word "no" onto a second line, on the one bullet that must not
+    // be misread.
+    "Not listed doesn't mean no",
+  ],
+  // 🪤 Still no 👇 — CTAEnding draws its own.
+  ctaText: "Comment M3 / M6 / M9",
+  palette: "ink-violet",
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -356,6 +412,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-07-Contrarian-Thirteen": CONTRARIAN_THIRTEEN,
   "Viral-08-BestMatch-Four": BEST_MATCH_FOUR,
   "Viral-09-BestMatch-Four-EN": BEST_MATCH_FOUR_EN,
+  "Viral-10-SelfFriendly-Three": SELF_FRIENDLY_THREE,
 } as const;
 
 /**
@@ -397,6 +454,15 @@ export const VIRAL_COVERS: Record<
     title: "NUMBER 4 WAALON KA BEST MATCH?",
     accent: "1 AUR 8",
     number: 4,
+  },
+  // The accent carries the reveal, not the pair — on this angle the surprise
+  // IS the count, and "8 YES · 1 NO" is legible at thumbnail size where a list
+  // of numbers would not be.
+  "Viral-10-SelfFriendly-Three": {
+    kicker: "Jupiter",
+    title: "IF YOU'RE A NUMBER 3, DO TWO 3s WORK?",
+    accent: "8 YES · 1 NO",
+    number: 3,
   },
   "Viral-09-BestMatch-Four-EN": {
     kicker: "Rahu",
