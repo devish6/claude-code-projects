@@ -1675,7 +1675,7 @@
         "palette": "mono"
       },
       "variant": "identity",
-      "status": "generated",
+      "status": "published",
       "source": "content-team",
       "needsReview": false,
       "platforms": [],
@@ -1690,7 +1690,10 @@
       "handPostTo": [
         "instagram"
       ],
-      "note": "Hinglish cut, Instagram only, once. English twin is V31."
+      "note": "Hinglish cut. LIVE on Instagram 2026-08-09 23:48 EST, hand-posted. VERIFIED against the Graph API, not recorded from intent. English twin is V31.",
+      "postedAt": "2026-08-10T03:48:48Z",
+      "permalink": "https://www.instagram.com/reel/Db2FZZKI9WT/",
+      "mediaId": "18115383295937733"
     },
     {
       "v": "V31",
@@ -1707,7 +1710,7 @@
         "palette": "mono"
       },
       "variant": "identity",
-      "status": "generated",
+      "status": "scheduled",
       "source": "content-team",
       "needsReview": false,
       "platforms": [],
@@ -1717,14 +1720,16 @@
         "tiktok"
       ],
       "language": "english",
-      "note": "English twin of V30. Same bed/structure/cuts/length; copy is the only difference.",
+      "note": "English twin of V30. Scheduled BY HAND in each platform's own scheduler for noon EST - NOT our API publisher, so the YouTube API zero-distribution finding does not apply. First clean YouTube read on a V-series video.",
       "file": "out/qa/v31-en-final.mp4",
       "utmLinks": {
         "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V31",
         "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V31",
         "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V31",
         "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V31"
-      }
+      },
+      "scheduledFor": "2026-08-10T12:00:00-05:00",
+      "scheduledNatively": true
     }
   ],
   "pipelineMeta": {
