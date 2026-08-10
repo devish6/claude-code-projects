@@ -301,6 +301,51 @@ export const BEST_MATCH_FOUR: ViralVideoProps = {
   layout: "centered",
 };
 
+/**
+ * The SAME video as BEST_MATCH_FOUR, in English.
+ *
+ * ⭐ ONE VIDEO, TWO CUTS, SPLIT BY PLATFORM (owner, 2026-08-09): the Hinglish
+ * cut goes to **Instagram only, once**; this one carries YouTube, Facebook and
+ * TikTok. So it is deliberately identical in every respect except the words —
+ * same bed, same act structure, same cuts, same length, same palette and
+ * layout. Copy is the only variable.
+ *
+ * ⚠️⚠️ THIS IS NOT A LANGUAGE TEST, AND MUST NEVER BE READ AS ONE. Language is
+ * perfectly confounded with platform: if the Instagram cut wins, that is as
+ * easily Instagram as it is Hinglish. Same shape as the ≥6s watch-time rule
+ * turning out to be confounded with era, and as "follower count swamps the
+ * signal" across accounts. A real language test puts both cuts on the SAME
+ * platform, weeks apart.
+ *
+ * 🔴 Claims are the same DERIVED ones — 1&4 and 4&8 are the mutual pairs from
+ * our own friendship.ts; 4=Rahu, 1=Sun, 8=Saturn. Translating must never
+ * quietly add a claim: "Rahu aur Shani" is Rahu and Saturn, not a third thing.
+ *
+ * ⚠️ The last bullet is the reel's `EASE_LINE` and is load-bearing in both
+ * languages — two thirds of viewers will not find their own pair, and telling
+ * them their partner is a "no" is a verdict ON the reader.
+ */
+export const BEST_MATCH_FOUR_EN: ViralVideoProps = {
+  ...BEST_MATCH_FOUR,
+  hookText: "IF YOU'RE A NUMBER 4",
+  hookAccent: "BEST MATCH?",
+  hookSub: "1 and 8 — here's why",
+  numberLabel: "RAHU · MATCH 1 AND 8",
+  traits: [
+    "4 and 1 — both need control",
+    "4 and 8 — Rahu and Saturn, one lane",
+    "4 and 4 — easy with itself too",
+    // 🪤 26 CHARACTERS, WHICH IS EXACTLY ONE LINE at this size — measured, not
+    // guessed. "Not listed? That isn't a no" orphaned the word "no" alone on a
+    // second line and "...It is not a no" orphaned "a no", both of which read
+    // as a typo on the one bullet that must not be misread. Compressed from the
+    // reel's canonical "Not on the list? It doesn't mean no."
+    "Not listed doesn't mean no",
+  ],
+  // 🪤 Still no 👇 — CTAEnding draws its own.
+  ctaText: "Comment M1 / M2 / M4",
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -310,6 +355,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-06-Contrarian-Nine": CONTRARIAN_NINE,
   "Viral-07-Contrarian-Thirteen": CONTRARIAN_THIRTEEN,
   "Viral-08-BestMatch-Four": BEST_MATCH_FOUR,
+  "Viral-09-BestMatch-Four-EN": BEST_MATCH_FOUR_EN,
 } as const;
 
 /**
@@ -350,6 +396,12 @@ export const VIRAL_COVERS: Record<
     kicker: "Rahu",
     title: "NUMBER 4 WAALON KA BEST MATCH?",
     accent: "1 AUR 8",
+    number: 4,
+  },
+  "Viral-09-BestMatch-Four-EN": {
+    kicker: "Rahu",
+    title: "IF YOU'RE A NUMBER 4, BEST MATCH?",
+    accent: "1 AND 8",
     number: 4,
   },
   "Viral-01-Identity-Seven": {

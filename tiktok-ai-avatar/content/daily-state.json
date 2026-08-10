@@ -1686,6 +1686,44 @@
         "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V30",
         "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V30",
         "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V30"
+      },
+      "handPostTo": [
+        "instagram"
+      ],
+      "note": "Hinglish cut, Instagram only, once. English twin is V31."
+    },
+    {
+      "v": "V31",
+      "title": "Moolank 4 — Best Match (English)",
+      "date": "2026-08-10",
+      "category": "compatibility",
+      "moolank": 4,
+      "angleId": "best-match",
+      "music": "cipherV15",
+      "variation": {
+        "structure": "standard",
+        "tempo": 140,
+        "layout": "centered",
+        "palette": "mono"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "platforms": [],
+      "handPostTo": [
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "language": "english",
+      "note": "English twin of V30. Same bed/structure/cuts/length; copy is the only difference.",
+      "file": "out/qa/v31-en-final.mp4",
+      "utmLinks": {
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V31",
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V31",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V31",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V31"
       }
     }
   ],
