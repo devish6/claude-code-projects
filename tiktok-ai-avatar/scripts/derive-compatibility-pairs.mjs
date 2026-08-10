@@ -36,11 +36,16 @@ function readFriendship() {
     process.exit(2);
   }
   const table = {};
-  const row = /(\d):\s*\{\s*friend:\s*\[([^\]]*)\]/g;
+  // `neutral` and `enemy` are captured as well as `friend` because the
+  // self-friendly pin turns on WHICH kind of non-friend 7 is to itself
+  // (neutral, not enemy) — publishing "7 clashes with 7" would be a claim
+  // this table does not make, and would read as a verdict on every 7.
+  const row =
+    /(\d):\s*\{\s*friend:\s*\[([^\]]*)\],\s*neutral:\s*\[([^\]]*)\],\s*enemy:\s*\[([^\]]*)\]/g;
+  const list = (s) => (s.trim() === "" ? [] : s.split(",").map((x) => Number(x.trim())));
   let m;
   while ((m = row.exec(src)) !== null) {
-    const nums = m[2].trim() === "" ? [] : m[2].split(",").map((s) => Number(s.trim()));
-    table[Number(m[1])] = nums;
+    table[Number(m[1])] = { friend: list(m[2]), neutral: list(m[3]), enemy: list(m[4]) };
   }
   if (Object.keys(table).length !== 9) {
     console.error(`Parsed ${Object.keys(table).length} rows, expected 9. Has friendship.ts been reformatted?`);
@@ -54,34 +59,75 @@ const friendship = readFriendship();
 const mutual = [];
 for (let a = 1; a <= 9; a++) {
   for (let b = a + 1; b <= 9; b++) {
-    if (friendship[a].includes(b) && friendship[b].includes(a)) mutual.push([a, b]);
+    if (friendship[a].friend.includes(b) && friendship[b].friend.includes(a)) mutual.push([a, b]);
   }
 }
 const selfFriendly = [];
-for (let n = 1; n <= 9; n++) if (friendship[n].includes(n)) selfFriendly.push(n);
+for (let n = 1; n <= 9; n++) if (friendship[n].friend.includes(n)) selfFriendly.push(n);
 
 console.log(`Mutual best-match pairs (${mutual.length}): ${mutual.map(([a, b]) => `${a}&${b}`).join(", ")}`);
 console.log(`Self-friendly numbers (${selfFriendly.length}): ${selfFriendly.join(", ")}`);
 const notSelf = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter((n) => !selfFriendly.includes(n));
 console.log(`NOT self-friendly: ${notSelf.join(", ") || "(none)"}`);
 
+/**
+ * The `self-friendly` angle's numbers, in the shape the renderer consumes.
+ *
+ * WHY THIS IS EMITTED AND NOT JUST PRINTED: SelfFriendlyPin.tsx and the
+ * Moolank self-friendly video both put these numbers on screen, and a printed
+ * line is not a source a component can import. Writing them here keeps the pin
+ * on the same drift-guarded trace as the pairs — change friendship.ts and this
+ * script fails until the card is regenerated.
+ *
+ * `exceptionSelfStatus` exists because "7 is not friendly to itself" and
+ * "7 clashes with itself" are different claims and only the first is true.
+ */
+const onlySelfMutual = selfFriendly.filter(
+  (n) => !mutual.some(([a, b]) => a === n || b === n),
+);
+const selfBlock = {
+  _derived: "Written by scripts/derive-compatibility-pairs.mjs. Do not hand-edit.",
+  numbers: selfFriendly,
+  exception: notSelf.length === 1 ? notSelf[0] : notSelf,
+  exceptionSelfStatus: notSelf.length === 1
+    ? (friendship[notSelf[0]].enemy.includes(notSelf[0]) ? "enemy" : "neutral")
+    : null,
+  exceptionMatches: notSelf.length === 1 ? friendship[notSelf[0]].friend : [],
+  onlySelfMutual,
+};
+
 const reel = JSON.parse(readFileSync(REEL_JSON, "utf8"));
 const inFile = reel.pairs.map((p) => `${p.a}&${p.b}`).sort().join(",");
 const derived = mutual.map(([a, b]) => `${a}&${b}`).sort().join(",");
+const selfInFile = JSON.stringify(reel.selfFriendlyDerived ?? null);
+const selfDerived = JSON.stringify(selfBlock);
 
-if (inFile === derived) {
+console.log(
+  `Self-mutual only: ${onlySelfMutual.join(", ") || "(none)"} · ` +
+    `${selfBlock.exception} is ${selfBlock.exceptionSelfStatus} to itself, matches ${selfBlock.exceptionMatches.join("/")}`,
+);
+
+if (inFile === derived && selfInFile === selfDerived) {
   console.log("\n✅ compatibility-reel.json matches the friendship table.");
   process.exit(0);
 }
 
 console.error("\n🔴 MISMATCH — compatibility-reel.json disagrees with friendship.ts");
-console.error(`  file:    ${inFile}`);
-console.error(`  derived: ${derived}`);
+if (inFile !== derived) {
+  console.error(`  pairs file:    ${inFile}`);
+  console.error(`  pairs derived: ${derived}`);
+}
+if (selfInFile !== selfDerived) {
+  console.error(`  self file:    ${selfInFile}`);
+  console.error(`  self derived: ${selfDerived}`);
+}
 
 if (!process.argv.includes("--write")) {
   console.error("\nRe-run with --write to rewrite the pairs (prose in `why` is preserved where the pair survives).");
   process.exit(1);
 }
+
+reel.selfFriendlyDerived = selfBlock;
 
 const byKey = new Map(reel.pairs.map((p) => [`${p.a}&${p.b}`, p]));
 reel.pairs = mutual.map(([a, b]) => byKey.get(`${a}&${b}`) ?? { a, b, planets: "TODO", why: "TODO — write this, do not leave it" });

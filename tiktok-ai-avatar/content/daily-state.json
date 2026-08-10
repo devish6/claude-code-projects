@@ -2,6 +2,28 @@
   "_comment": "Ledger for npm run daily:viral. V01-V06 are source:'seed-existing' -- history only, never regenerated as compositions (they live in src/viral/templates.ts, hand-authored, locked). Everything V07+ is source:'weekly-plan-w1' (days 1-7, hand-authored) or 'algorithmic' (day 8+, picked by scripts/daily-viral.mjs). Dates for V01-V06 are backfilled placeholders -- correct them if you have the real post dates, it only affects 21-day no-repeat math.",
   "videos": [
     {
+      "v": "PIN01",
+      "title": "Self-friendly numbers — Pinterest pin",
+      "date": "2026-08-10",
+      "category": "compatibility",
+      "angleId": "self-friendly",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "file": "out/pins/self-friendly-pin.png",
+      "platforms": [
+        "pinterest"
+      ],
+      "handPostTo": [
+        "pinterest"
+      ],
+      "language": "english",
+      "utmLinks": {
+        "pinterest": "https://numevix.com/?utm_source=pinterest&utm_medium=social&utm_campaign=angle&utm_content=PIN01"
+      },
+      "note": "First Pinterest post. A STILL, not a reel — Pinterest is a search+save surface. Numbers derived from friendship.ts via derive-compatibility-pairs.mjs."
+    },
+    {
       "v": "V01",
       "title": "Born On The 7th, 16th or 25th",
       "date": "2026-07-08",

@@ -34,6 +34,7 @@ import {
 import { DAILY_COVERS, DAILY_TEMPLATES } from "./viral/daily-templates";
 import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
+import { SelfFriendlyPin, PIN_WIDTH, PIN_HEIGHT } from "./viral/SelfFriendlyPin";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -320,6 +321,19 @@ export const RemotionRoot: React.FC = () => {
             defaultProps={{ number: n }}
           />
         ))}
+      </Folder>
+
+      {/* Pinterest is a 2:3 platform and crops anything else, so this pin has
+          its own composition rather than reusing the 4:5 InfoCard. */}
+      <Folder name="Pinterest">
+        <Composition
+          id="Pin-SelfFriendly"
+          component={SelfFriendlyPin}
+          durationInFrames={1}
+          fps={30}
+          width={PIN_WIDTH}
+          height={PIN_HEIGHT}
+        />
       </Folder>
 
       <Folder name="Moolank">
