@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
 import { pickAlgorithmicBatch } from "./picker.mjs";
 import { makeHookIndex } from "./hooks-source.mjs";
 
@@ -72,5 +73,68 @@ describe("a day's two videos are a pair, not a duplicate", () => {
     const { concepts } = pickAlgorithmicBatch({ videos: [] }, dayWithTwoSlots, 8, makeHookIndex());
     const cats = new Set(concepts.map((c) => c.category));
     expect(cats.size).toBe(1);
+  });
+});
+
+/**
+ * 🔴🔴 A HOOK THAT CARRIES A NUMBER STATES THAT NUMBER ON SCREEN.
+ *
+ * `id-6-everyone-leans` reads "Venus rules the 6" in its subtext. The picker
+ * matched hook.number correctly on its FIRST attempt and then, if nothing was
+ * free, fell back to `h.category === category` alone — dropping the number
+ * constraint entirely. Measured on a real dry run: V31 was composed as
+ * **Moolank 3**, given that Moolank-6 hook, and set over Jupiter/3 traits. It
+ * would have gone out telling a stranger Venus rules their number.
+ *
+ * Same class as the fabricated moolanks in 8013789: not a crash, not a failing
+ * test — a confident wrong claim, rendered and published.
+ *
+ * A hook with NO `number` makes no such claim and stays a legal fallback.
+ */
+describe("a hook's number must match the video's number", () => {
+  const hooks = makeHookIndex();
+  const LEDGER = JSON.parse(
+    readFileSync(new URL("../../content/daily-state.json", import.meta.url), "utf8"),
+  );
+
+  /**
+   * ⭐ Against the LIVE ledger, not `{ videos: [] }`. The bug needs the
+   * number-matching hook to be unavailable -- taken by the other slot, or
+   * inside the 21-day no-repeat window -- and an empty ledger never gets
+   * there. Written first against empty state, this test passed while the bug
+   * was live and proved nothing.
+   */
+  const realBatch = (dateISO, day) =>
+    pickAlgorithmicBatch(LEDGER, dateISO, day, hooks).concepts;
+
+  const DATES = ["2026-08-09", "2026-08-10", "2026-08-11", "2026-08-12"];
+  const DAYS = Array.from({ length: 30 }, (_, i) => i + 8);
+
+  const everyPairing = () => {
+    const out = [];
+    for (const date of DATES)
+      for (const day of DAYS)
+        for (const c of realBatch(date, day))
+          out.push({ date, day, concept: c, hook: hooks.get(c.hookId) });
+    return out;
+  };
+
+  it("never states a number the video is not about", () => {
+    const wrong = everyPairing()
+      .filter(({ concept, hook }) => hook?.number && hook.number !== concept.moolank)
+      .map(
+        ({ date, day, concept, hook }) =>
+          `${date} d${day}: Moolank ${concept.moolank} got ${hook.id} (n=${hook.number}) "${hook.sub ?? ""}"`,
+      );
+
+    expect(wrong).toEqual([]);
+  });
+
+  // The positive control: this sweep must actually reach the fallback branch,
+  // or the assertion above is vacuous.
+  it("actually exercises the fallback -- a positive control", () => {
+    const identity = everyPairing().filter(({ concept }) => concept.category === "identity");
+
+    expect(identity.length).toBeGreaterThan(20);
   });
 });

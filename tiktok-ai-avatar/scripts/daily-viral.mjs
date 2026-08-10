@@ -54,6 +54,7 @@ import {
 } from "./lib/music-pool.mjs";
 import {
   beatAlignedActs,
+  PAYLOAD_CEILING_FRAMES,
   findDuplicateFingerprints,
   pickVariation,
   structureById,
@@ -226,10 +227,17 @@ const BEAT_MAPS = loadBeatMaps();
  * answers.
  */
 const alignToBed = (acts, music) => {
+  // 🔴🔴 THE PAYLOAD CEILING TRAVELS WITH THE SNAP. Both paths used to align to
+  // the nearest beat with no upper bound, and "nearest" is happily LATER: 28 of
+  // 64 tracked bed x structure combinations landed the payload at frames 64-66,
+  // and the computed grid added 4 more at 140 BPM. Harmless while the QA gate
+  // was advisory; fatal now that it BLOCKS — the bed is chosen automatically,
+  // so roughly half of all future videos would simply refuse to render.
+  const ceilings = { build: PAYLOAD_CEILING_FRAMES };
   const beats = beatsForTrack(music, BEAT_MAPS);
   return beats
-    ? snapActsToBeats(acts, beats)
-    : beatAlignedActs(acts, TRACK_BPM[music], { phaseMs: TRACK_PHASE_MS[music] });
+    ? snapActsToBeats(acts, beats, { ceilings })
+    : beatAlignedActs(acts, TRACK_BPM[music], { phaseMs: TRACK_PHASE_MS[music], ceilings });
 };
 
 batch = concepts.map((concept, slot) => {

@@ -182,6 +182,17 @@ export const structureById = (id) => {
 export const ACT_ORDER = ["hook", "build", "value", "cta"];
 
 /**
+ * The payload must have begun by this frame — 2.0s at 30fps.
+ *
+ * 🪤 DUPLICATED ACROSS THE JS/TS BOUNDARY. `src/viral/qa.ts` owns this as
+ * `PAYLOAD_BY_FRAME` and is the authority, but a .mjs module cannot import a
+ * .ts one without a loader. Duplication is only safe with a check that the two
+ * agree, so variation.test.mjs asserts exactly that — if you change one and not
+ * the other, that test fails.
+ */
+export const PAYLOAD_CEILING_FRAMES = 60;
+
+/**
  * Snaps a structure's act boundaries onto the beat grid of the bed that will
  * actually play under it.
  *
@@ -226,7 +237,7 @@ export const ACT_ORDER = ["hook", "build", "value", "cta"];
  * Returns act seconds, the same shape `structureById` returns, because that is
  * what ViralVideo's `structure` prop takes.
  */
-export const beatAlignedActs = (acts, bpm, { fps = 30, phaseMs = 0 } = {}) => {
+export const beatAlignedActs = (acts, bpm, { fps = 30, phaseMs = 0, ceilings = {} } = {}) => {
   if (!bpm || bpm <= 0) return { ...acts };
   const beatFrames = (60 / bpm) * fps;
 
@@ -246,8 +257,16 @@ export const beatAlignedActs = (acts, bpm, { fps = 30, phaseMs = 0 } = {}) => {
 
   for (const act of ACT_ORDER) {
     targetFrames += (acts[act] ?? 0) * fps;
-    const beats = Math.max(prevBeats + 1, Math.round((targetFrames - phaseFrames) / beatFrames));
-    const frame = Math.max(prevFrame + 1, gridFrame(beats));
+    // 🔴 Same rule as snapActsToBeats: a hard content ceiling outranks grid
+    // alignment. `Math.round` to the nearest beat rounds UP as readily as down,
+    // which put 4 of 16 tempo x structure combinations past the payload ceiling
+    // at 140 BPM. Step back a whole beat rather than land late — still on the
+    // grid — and only clamp when even that is not enough.
+    const capFrame = ceilings[act] ?? Infinity;
+    let beats = Math.max(prevBeats + 1, Math.round((targetFrames - phaseFrames) / beatFrames));
+    while (beats > prevBeats + 1 && gridFrame(beats) > capFrame) beats -= 1;
+
+    const frame = Math.max(prevFrame + 1, Math.min(gridFrame(beats), capFrame));
     aligned[act] = (frame - prevFrame) / fps;
     prevFrame = frame;
     prevBeats = beats;
@@ -293,7 +312,7 @@ export const beatOffsetsMs = (acts, bpm, { fps = 30, phaseMs = 0 } = {}) => {
  * `beats` is an array of seconds from file zero, as produced by
  * `beatMap()` in scripts/lib/tempo.mjs.
  */
-export const snapActsToBeats = (acts, beats, { fps = 30, tolerance = 0.28 } = {}) => {
+export const snapActsToBeats = (acts, beats, { fps = 30, tolerance = 0.28, ceilings = {} } = {}) => {
   if (!beats?.length) return { ...acts };
 
   let target = 0;
@@ -303,18 +322,32 @@ export const snapActsToBeats = (acts, beats, { fps = 30, tolerance = 0.28 } = {}
   for (const act of ACT_ORDER) {
     target += acts[act] ?? 0;
     const minTime = (prevFrame + 1) / fps;
+    // 🔴🔴 A HARD CONTENT RULE OUTRANKS BEAT ALIGNMENT. "Nearest beat within
+    // tolerance" is happily a LATER beat, and for the payload boundary later
+    // is not a rounding difference — it is the 2.0s rule broken. Across the
+    // real maps this put 28 of 64 bed x structure combinations at frames
+    // 64-66, which was survivable only while the gate was advisory. Now that
+    // the gate BLOCKS, those combinations would refuse to render, and the
+    // generator picks its bed automatically.
+    // Snapping EARLIER is still on the beat, so the ceiling costs nothing
+    // musical; only a bed with no reachable earlier beat falls back to the
+    // unsnapped target, itself capped.
+    const capFrame = ceilings[act] ?? Infinity;
 
     let best = null;
     for (const b of beats) {
       if (b < minTime) continue;
+      if (Math.round(b * fps) > capFrame) continue;
       if (best === null || Math.abs(b - target) < Math.abs(best - target)) best = b;
       if (b > target && best !== null && b - target > Math.abs(best - target)) break;
     }
 
-    const frame =
+    const snapped =
       best !== null && Math.abs(best - target) <= tolerance
-        ? Math.max(prevFrame + 1, Math.round(best * fps))
-        : Math.max(prevFrame + 1, Math.round(target * fps));
+        ? Math.round(best * fps)
+        : Math.round(target * fps);
+
+    const frame = Math.max(prevFrame + 1, Math.min(snapped, capFrame));
 
     aligned[act] = (frame - prevFrame) / fps;
     prevFrame = frame;

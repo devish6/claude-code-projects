@@ -1,8 +1,12 @@
 import { describe, expect, test } from "vitest";
+import { readFileSync } from "node:fs";
 
 import {
   LAYOUTS,
   PALETTES,
+  PAYLOAD_CEILING_FRAMES,
+  beatAlignedActs,
+  snapActsToBeats,
   STRUCTURES,
   TEMPOS,
   VARIATION_WINDOW_DAYS,
@@ -361,5 +365,92 @@ describe("the payload lands inside 2 seconds", () => {
   // it is not the broken part.
   test.each(STRUCTURES)("$id keeps a hook of at least 1 second", ({ acts }) => {
     expect(acts.hook).toBeGreaterThanOrEqual(1.0);
+  });
+});
+
+/**
+ * ⭐⭐⭐ BEAT ALIGNMENT MAY NEVER PUSH THE PAYLOAD PAST ITS CEILING.
+ *
+ * Cycle 1 moved the payload to 2.0s and `checkPayloadTiming` enforces frame 60.
+ * But `snapActsToBeats` moved each boundary to the NEAREST beat within 0.28s —
+ * and "nearest" is happily LATER. Measured across the real beat maps, 28 of 64
+ * bed x structure combinations landed the payload at frames 64-66.
+ *
+ * That was tolerable while the gate was advisory. It is not now the gate BLOCKS
+ * the render: those combinations would refuse to render at all, and the
+ * generator picks its bed automatically, so roughly half of all future videos
+ * would simply fail to build.
+ *
+ * 🔴 The ceiling is a content rule; landing on a beat is a preference. When
+ * they conflict the ceiling wins — snap to an EARLIER beat, which is still on
+ * the beat, and only fall back to the unsnapped 2.0s if no beat is reachable.
+ */
+describe("the payload ceiling outranks beat alignment", () => {
+  const maps = JSON.parse(
+    readFileSync(new URL("../../content/beat-maps.json", import.meta.url), "utf8"),
+  );
+  const usable = Object.entries(maps).filter(([, m]) => m?.usable && m.beatsMs?.length);
+
+  const combos = () =>
+    usable.flatMap(([bed, m]) =>
+      STRUCTURES.map((s) => ({
+        bed,
+        structure: s.id,
+        acts: snapActsToBeats(s.acts, m.beatsMs.map((ms) => ms / 1000), {
+          ceilings: { build: PAYLOAD_CEILING_FRAMES },
+        }),
+      })),
+    );
+
+  test("there are real beds and structures to check", () => {
+    expect(combos().length).toBeGreaterThan(20);
+  });
+
+  test("no bed pushes the payload past the ceiling", () => {
+    const over = combos()
+      .map((c) => ({ ...c, valueStart: Math.round((c.acts.hook + c.acts.build) * 30) }))
+      .filter((c) => c.valueStart > PAYLOAD_CEILING_FRAMES)
+      .map((c) => `${c.bed}/${c.structure}: frame ${c.valueStart}`);
+
+    expect(over).toEqual([]);
+  });
+
+  // 🪤 The cheap way to pass the test above is to stop snapping at all. The
+  // hook boundary must still be moved onto a beat.
+  test("still snaps -- a positive control", () => {
+    const unsnapped = STRUCTURES.map((s) => s.acts.hook);
+    const snapped = combos().map((c) => c.acts.hook);
+
+    expect(snapped.some((h) => !unsnapped.includes(h))).toBe(true);
+  });
+
+  /**
+   * 🪤 THE OTHER PATH. `alignToBed` uses snapActsToBeats only when the bed has
+   * a usable tracked map; every other bed falls to `beatAlignedActs`, the
+   * computed grid. It overshot too — 4 of 16 tempo x structure combinations at
+   * 140 BPM — so fixing only the snapper would have left half the failure in
+   * place, on exactly the beds with the least measurement behind them.
+   */
+  test("the computed grid respects the ceiling as well", () => {
+    const over = [];
+    for (const bpm of TEMPOS)
+      for (const s of STRUCTURES) {
+        const a = beatAlignedActs(s.acts, bpm, { ceilings: { build: PAYLOAD_CEILING_FRAMES } });
+        const valueStart = Math.round((a.hook + a.build) * 30);
+        if (valueStart > PAYLOAD_CEILING_FRAMES) over.push(`${bpm}bpm/${s.id}: frame ${valueStart}`);
+      }
+
+    expect(over).toEqual([]);
+  });
+
+  /**
+   * The ceiling is duplicated across the JS/TS boundary: qa.ts owns
+   * PAYLOAD_BY_FRAME, variation.mjs needs it, and a .mjs module cannot import
+   * a .ts one. Duplication is only safe with a check that they agree.
+   */
+  test("the ceiling agrees with qa.ts, which owns it", async () => {
+    const { PAYLOAD_BY_FRAME } = await import("../../src/viral/qa.ts");
+
+    expect(PAYLOAD_CEILING_FRAMES).toBe(PAYLOAD_BY_FRAME);
   });
 });

@@ -118,12 +118,35 @@ export const pickAlgorithmicBatch = (state, dateISO, dayIndex, hooksIndex) => {
     const number = category === "identity" ? (((d + slotIdx) % 9) + 1) : undefined;
     const free = (h) => !takenHookIds.has(h.id) && !isRecentlyUsed(state, { hookId: h.id }, dateISO);
 
-    let hook = hooksIndex.all.find(
-      (h) => h.category === category && (number === undefined || h.number === number) && free(h),
+    // 🔴🔴 A HOOK THAT DECLARES A `number` STATES THAT NUMBER ON SCREEN.
+    // `id-6-everyone-leans` reads "Venus rules the 6" in its subtext; the
+    // comment-bait ones say "Comment 9 if this is you".
+    //
+    // The first pass below always matched correctly. THE FALLBACK WAS THE BUG:
+    // it was `h.category === category` alone, dropping the number constraint
+    // entirely the moment the right hook was taken by the other slot or sat
+    // inside the 21-day no-repeat window. Measured against the live ledger,
+    // that was not rare — EVERY identity video on 2026-08-10 drew a
+    // wrong-numbered hook, e.g. a Moolank 2 video captioned "Venus rules the
+    // 6" over Mercury/2 traits. It would have told a stranger, with total
+    // confidence, that Venus rules their number.
+    //
+    // Same class as the fabricated moolanks in 8013789: no crash, no red test,
+    // just a false claim rendered and published.
+    //
+    // ⛔ A numbered hook is now only ever paired with its own number — and a
+    // `general` video (moolank undefined) is about no number, so it takes only
+    // number-free hooks. Running out is not a licence to lie: authorFallbackHook
+    // writes a correct one for the number in hand.
+    let hook =
+      number === undefined
+        ? undefined
+        : hooksIndex.all.find(
+            (h) => h.category === category && h.number === number && free(h),
+          );
+    hook ??= hooksIndex.all.find(
+      (h) => h.category === category && h.number === undefined && free(h),
     );
-    if (!hook) {
-      hook = hooksIndex.all.find((h) => h.category === category && free(h));
-    }
     if (!hook) {
       hook = authorFallbackHook({ category, number, moolankTraits });
       newHooks.push(hook);
