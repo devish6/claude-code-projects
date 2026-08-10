@@ -211,6 +211,96 @@ export const CONTRARIAN_THIRTEEN: ViralVideoProps = {
   layout: "centered",
 };
 
+/**
+ * Moolank 4 — best match. **The first video built by the content team**, and the
+ * first on an APPROVED angle.
+ *
+ * ⭐⭐⭐ ANGLE: `best-match`, not `trait-per-number`. `pickAngle` returns it
+ * unprompted against the real ledger, and it is the largest effect we have ever
+ * measured — compatibility posts took 51.9K–57.2K on an account whose other
+ * posts did 6.8K–25.9K. Every V-series video before this one was
+ * trait-per-number, which our own numbers mark REJECTED (~205 TikTok views,
+ * 122–213 IG reach). The composition did not have to change to carry it: a
+ * ViralVideo is a number plus four bullets, and what fills the bullets is the
+ * angle.
+ *
+ * 🔴 EVERY NUMBER CLAIM IS DERIVED, NONE AUTHORED. `1&4` and `4&8` are the
+ * mutual pairs from our own friendship.ts via
+ * scripts/derive-compatibility-pairs.mjs (mutual = both rows list the other,
+ * which is why 1&7 and 2&9 are absent despite reading as pairs in one
+ * direction). 4=Rahu, 1=Sun, 8=Saturn come from moolank-cards.json. ⛔ Never
+ * lift a pair from competitor copy — of the pairs popular posts cite, only 4&9
+ * overlaps with our ruleset.
+ *
+ * ⚠️ THE LAST BULLET IS LOAD-BEARING, NOT FILLER. Roughly two thirds of viewers
+ * will not find their own pair here, and a video that implies their actual
+ * partner is a "no" delivers a verdict ON the reader — the same thing that got
+ * the conflict frame rejected and drew a top-liked sceptic's comment on the
+ * post we studied. "Zaroori nahi ki 'no'" is the Hinglish of the reel's
+ * `EASE_LINE`.
+ *
+ * 🌐 HINGLISH IN ROMAN SCRIPT, by the owner's decision of 2026-08-09, which
+ * revises "English everywhere" FOR THIS SERIES ONLY. The binding reason for
+ * that rule was ElevenLabs credits on re-narration, and **the V-series has no
+ * narration at all** — it is on-screen text over a music bed, so a language
+ * change here costs nothing. Roman script also keeps Cinzel/Inter, which carry
+ * no Devanagari and would render Hindi as tofu boxes.
+ *
+ * ⚠️ Structure is PRE-SNAPPED to `cipherV15`'s tracked beats. Frames
+ * **40 / 53 / 503 / 593**. cipherV15 was the WORST payload overshoot in the
+ * pool (2.20s) before the ceiling landed; it now pays out at frame 53 = 1.77s.
+ *
+ * 🪤 `value` and `cta` READ AS ROUND (15.0 / 3.0) AND ARE NOT. 503 and 593 are
+ * real tracked beats that happen to sit on whole seconds; the boundaries either
+ * side of them are not. ⛔ Do not "tidy" them, and do not assume the other two
+ * can be rounded to match.
+ *
+ * 🔴 THE FIRST DRAFT ENDED THE VALUE ACT AT FRAME 516 AND THE GATE REFUSED TO
+ * RENDER IT — one pair scene came out at 73 frames against the 72-frame
+ * `SCENE_CHANGE * 2` ceiling, which is a trait held past 1.2s. Frame 503 is the
+ * neighbouring beat that divides into four even pairs (64/64/65/64), one trait
+ * each, no stagger. The gate caught this on the very first video authored after
+ * it started blocking — it would otherwise have shipped.
+ */
+export const BEST_MATCH_FOUR: ViralVideoProps = {
+  hookText: "NUMBER 4 WAALON KA",
+  hookAccent: "BEST MATCH?",
+  hookSub: "1 aur 8 — aur kyun",
+  variant: "identity",
+  number: 4,
+  numberLabel: "RAHU · MATCH 1 AUR 8",
+  traits: [
+    "4 aur 1 — dono ko control chahiye",
+    "4 aur 8 — Rahu aur Shani, ek lane",
+    "4 aur 4 — khud ke saath bhi easy",
+    "Baaki numbers? Zaroori nahi ki 'no'",
+  ],
+  // 🪤 NO 👇 HERE. CTAEnding draws its own arrow directly under this line, so
+  // an arrow in the copy renders TWO of them stacked. Caught by watching the
+  // render, not by any test.
+  ctaText: "Comment karo M1 / M2 / M4",
+  music: MUSIC.cipherV15,
+  structure: { hook: 1.333, build: 0.433, value: 15.0, cta: 3.0 },
+  palette: "mono",
+  /**
+   * 🔴 `centered`, NOT the `stack` the variation picker offered.
+   *
+   * Watching the first render decided this. `stack` is "editorial: left-aligned,
+   * tight, low" — designed when a value scene held TWO traits in a column. Cycle
+   * 1's one-trait-per-scene split leaves it a SINGLE 62px line pinned to the
+   * bottom-left of a near-white frame, with roughly 70% of the screen empty for
+   * the whole 15s value act. Not a hole like V03's — the frame is never blank —
+   * but the same failure the codebase already names: "empty of content".
+   * `centered` is what V01 uses, at traitSize 72 with the line on the optical
+   * centre.
+   *
+   * Fingerprint `standard|140|centered|mono` is unused in the 14-day window
+   * (V24 is the same structure/tempo/layout on ink-violet, V25 the same palette
+   * on snap|150|stack), so the duplicate-detection axis is unaffected.
+   */
+  layout: "centered",
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -219,6 +309,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-05-Curiosity-Three": CURIOSITY_THREE,
   "Viral-06-Contrarian-Nine": CONTRARIAN_NINE,
   "Viral-07-Contrarian-Thirteen": CONTRARIAN_THIRTEEN,
+  "Viral-08-BestMatch-Four": BEST_MATCH_FOUR,
 } as const;
 
 /**
@@ -252,6 +343,15 @@ export const VIRAL_COVERS: Record<
   keyof typeof VIRAL_TEMPLATES,
   { kicker: string; title: string; accent: string; number: number }
 > = {
+  // First cover on the best-match angle. Kicker still names the ruling planet
+  // so the set reads as one series; the accent carries the payload instead of
+  // a trait, because the payload IS the topic now.
+  "Viral-08-BestMatch-Four": {
+    kicker: "Rahu",
+    title: "NUMBER 4 WAALON KA BEST MATCH?",
+    accent: "1 AUR 8",
+    number: 4,
+  },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set
     // reads as one series in a grid.

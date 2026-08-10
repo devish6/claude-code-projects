@@ -1659,6 +1659,34 @@
         "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=card-reel&utm_content=T369",
         "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=card-reel&utm_content=T369"
       }
+    },
+    {
+      "v": "V30",
+      "title": "Moolank 4 — Best Match",
+      "date": "2026-08-10",
+      "category": "compatibility",
+      "moolank": 4,
+      "angleId": "best-match",
+      "music": "cipherV15",
+      "variation": {
+        "structure": "standard",
+        "tempo": 140,
+        "layout": "centered",
+        "palette": "mono"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "platforms": [],
+      "file": "out/qa/v08-v2.mp4",
+      "language": "hinglish-roman",
+      "utmLinks": {
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V30",
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V30",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V30",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V30"
+      }
     }
   ],
   "pipelineMeta": {
