@@ -76,3 +76,35 @@ describe("buildDailyTemplatesSource", () => {
     expect(src).not.toContain('import { MUSIC }');
   });
 });
+
+/**
+ * 🔴🔴 A RETIRED VIDEO MUST NOT KEEP A COMPOSITION.
+ *
+ * `retired` means we decided not to post it. The generator only excluded
+ * `failed`, so 14 retired rows kept emitting live compositions into
+ * daily-templates.ts -- and every one of them still carried a PRE-CYCLE-1 act
+ * structure, paying out at frames 138-307 against the 60-frame ceiling. They
+ * are the entire reason `runStructuralGates` could not be made blocking: dead
+ * videos were the only thing failing it.
+ *
+ * Keeping them costs a render target that must never ship, and any gate on the
+ * render path has to either fail on them or carry an exemption list. Deleting
+ * the composition is the honest option -- the LEDGER row stays, so the
+ * V-number, the history and the no-repeat math are all untouched.
+ */
+describe("retired videos", () => {
+  const retired = { ...viral, v: "V31", status: "retired", retiredOn: "2026-08-01" };
+
+  test("a retired video gets no composition", () => {
+    const src = buildDailyTemplatesSource({ videos: [retired] });
+
+    expect(src).not.toContain(compositionId(retired));
+  });
+
+  test("a live video alongside it still does", () => {
+    const src = buildDailyTemplatesSource({ videos: [retired, viral] });
+
+    expect(src).toContain(compositionId(viral));
+    expect(src).not.toContain(compositionId(retired));
+  });
+});

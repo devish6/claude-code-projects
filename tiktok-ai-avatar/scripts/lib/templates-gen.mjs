@@ -81,6 +81,15 @@ export const buildDailyTemplatesSource = (state) => {
     (v) =>
       v.source !== "seed-existing" &&
       v.status !== "failed" &&
+      // 🔴🔴 `retired` means we decided not to post it, so it must not keep a
+      // render target. Only `failed` was excluded, and 14 retired rows went on
+      // emitting live compositions -- every one still carrying a PRE-CYCLE-1
+      // act structure that pays out at frames 138-307 against the 60-frame
+      // ceiling. Dead videos were the ONLY thing failing runStructuralGates,
+      // and so the only reason it could not be made blocking.
+      // The LEDGER row stays: V-numbers, history and no-repeat math are
+      // untouched. It is the composition that goes.
+      v.status !== "retired" &&
       // Story videos are in the ledger so they get a V-number, a UTM link and a row the
       // publishers can find — but they are NOT generated from props. They have their own
       // composition (StoryVideo01) built from real narration timings, so there is nothing

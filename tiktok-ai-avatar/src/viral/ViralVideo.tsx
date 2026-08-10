@@ -11,26 +11,8 @@ import { ViralHook, type HookVariant } from "./components/ViralHook";
 import { useShake } from "./motion";
 import { LayoutProvider, useLayout } from "./layout";
 import { PaletteProvider, usePalette } from "./PaletteContext";
-import { ACT, BULLET_STAGGER, makeActs, makeValueScenes, type ActSeconds } from "./timing";
-import { MUSIC } from "../lib/brand";
-import BEAT_MAPS from "../../content/beat-maps.json";
-
-/**
- * Tracked beat times (seconds from video zero) for a bed, or undefined.
- *
- * 🪤 The prop carries the bed's PATH ("music/starlight-v03.mp3") while the beat
- * map is keyed by its MUSIC name ("starlightV03"), so this has to invert the
- * MUSIC map rather than index it. `BrandAudio` starts the bed at frame 0 with
- * no trim, so file time and video time are the same clock.
- *
- * A map is used only when the tracker could actually follow the pulse — an
- * unusable map is worse than none, because it would snap cuts onto noise.
- */
-const beatsFor = (music: string): number[] | undefined => {
-  const name = Object.keys(MUSIC).find((k) => MUSIC[k as keyof typeof MUSIC] === music);
-  const map = name ? (BEAT_MAPS as Record<string, { usable?: boolean; beatsMs?: number[] }>)[name] : undefined;
-  return map?.usable && map.beatsMs?.length ? map.beatsMs.map((ms) => ms / 1000) : undefined;
-};
+import { BULLET_STAGGER, type ActSeconds } from "./timing";
+import { planViralVideo } from "./plan";
 
 export type ViralVideoProps = {
   /** 5–8 words. The first thing on screen, at full size, on frame 0. */
@@ -90,31 +72,27 @@ const montageHold = (i: number, count: number, total: number) =>
  * first, CTA last, nothing held past SCENE_CHANGE — but the absolute lengths
  * and the cut positions differ every time.
  */
-export const ViralVideo: React.FC<ViralVideoProps> = ({
-  hookText,
-  hookAccent,
-  hookSub,
-  variant,
-  number,
-  numberLabel,
-  traits,
-  ctaText,
-  music,
-  structure,
-  palette,
-  layout,
-}) => {
-  const acts = structure ? makeActs(structure) : ACT;
-  // 🔴 Beat-snapping is gated on `structure`, NOT on whether a beat map exists.
-  // V03 and V04 ride beds that DO have usable maps, so snapping on map presence
-  // would silently change the locked V01–V06 baseline that is documented as
-  // rendering byte-identically. `structure` is the existing marker for a
-  // post-2026-07-30 video, and every new video sets it.
-  const scenes = makeValueScenes(acts.valueEnd - acts.valueStart, {
-    beats: structure ? beatsFor(music) : undefined,
-    startFrame: acts.valueStart,
-    traitCount: structure ? traits.length : undefined,
-  });
+export const ViralVideo: React.FC<ViralVideoProps> = (props) => {
+  const {
+    hookText,
+    hookAccent,
+    hookSub,
+    variant,
+    number,
+    numberLabel,
+    traits,
+    ctaText,
+    music,
+    palette,
+    layout,
+  } = props;
+  // ⭐⭐ ONE computation, shared with the gate. This used to live here, inline,
+  // next to a module-private `beatsFor` — which is exactly why
+  // `runStructuralGates` could never block anything: nothing outside this
+  // component could reproduce the numbers the gates were supposed to judge.
+  // Root.tsx's calculateMetadata now calls `assertRenderable` on the SAME
+  // function, so the gate measures the video that actually renders.
+  const { acts, scenes } = planViralVideo(props);
 
   // Traits spread across however many pair scenes the act affords. A longer
   // act adds SCENES rather than stretching them past the 1.2s ceiling, so a

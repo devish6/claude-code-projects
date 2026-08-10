@@ -109,3 +109,35 @@ export const unknownLedgerAngles = (state, angles) => {
     ),
   ];
 };
+
+/**
+ * What a composed video is ABOUT, for the ledger.
+ *
+ * ⭐⭐⭐ THE FALLBACK IS THE POINT. `angleId: concept.angleId` on its own would
+ * be inert — no concept source declares one — and an inert field is worse than
+ * an absent one, because it looks wired. So an undeclared concept gets what
+ * `ViralVideo` demonstrably renders: `number` + `numberLabel` + four `traits`
+ * is "one number, its ruling planet and traits", which IS `trait-per-number`,
+ * whatever the hook's category says on top of it.
+ *
+ * 🔴 That angle is `rejected` in the registry on our own measurements. Writing
+ * it down is not an endorsement — it is the ledger declining to flatter us
+ * about the V-series being a different idea from the card reels. It is the
+ * same idea in a better format (V03 beat them 13.6×), and the two facts should
+ * stop being confused.
+ *
+ * ⛔ A declared id the registry does not define THROWS. Left alone it would
+ * join to nothing in `isRecentlyUsedAngle` and read as never-used forever.
+ */
+export const VIRAL_DEFAULT_ANGLE = "trait-per-number";
+
+export const angleIdForConcept = (concept, angles) => {
+  const declared = concept?.angleId;
+  if (!declared) return VIRAL_DEFAULT_ANGLE;
+  if (!(angles ?? []).some((a) => a.id === declared)) {
+    throw new Error(
+      `concept declares angleId "${declared}", which content/angles.json does not define`,
+    );
+  }
+  return declared;
+};

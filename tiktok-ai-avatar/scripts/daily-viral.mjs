@@ -59,6 +59,7 @@ import {
   structureById,
   snapActsToBeats,
 } from "./lib/variation.mjs";
+import { angleIdForConcept } from "./lib/angles.mjs";
 import { addVideo, formatV, loadState, nextVNumber, saveState } from "./lib/state.mjs";
 import { compositionId, writeDailyTemplates } from "./lib/templates-gen.mjs";
 
@@ -71,6 +72,10 @@ const TOMORROW = args.includes("--tomorrow");
 const WEEKLY_PLAN_PATH = "content/weekly-plan-w1.json";
 const HOOKS_PATH = "src/viral/hooks.ts";
 const DAILY_ENERGY_PATH = "content/daily-energy.json";
+const ANGLES_PATH = "content/angles.json";
+/* 🔴 WHAT each video is ABOUT, recorded on every row so angles.mjs's 21-day
+   no-repeat window can see the V-series at all. Read once per run. */
+const ANGLES = JSON.parse(readFileSync(ANGLES_PATH, "utf8")).angles;
 
 const log = (...a) => process.stdout.write(a.join(" ") + "\n");
 
@@ -272,6 +277,9 @@ batch = concepts.map((concept, slot) => {
     date: RUN_DATE,
     category: concept.category,
     moolank: concept.moolank,
+    // The angle the concept declares, or what ViralVideo actually renders.
+    // Never left blank: an unwritten angleId reads as "never used" forever.
+    angleId: angleIdForConcept(concept, ANGLES),
     hookId: concept.hookId,
     music,
     variation,
@@ -332,6 +340,10 @@ if (slotBFor(RUN_DATE) !== "daily-energy") {
       structure: alignToBed(energyActs, music),
       variation,
     });
+    // composeDailyEnergyEntry builds the same ViralVideo shape, so it carries
+    // the same angle. Stamped here rather than inside daily-energy.mjs so the
+    // registry stays a daily-viral concern and the lib keeps no file I/O.
+    entry.angleId ??= angleIdForConcept(entry, ANGLES);
     addVideo(state, entry);
     batch.push(entry);
   } catch (err) {

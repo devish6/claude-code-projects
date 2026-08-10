@@ -11,21 +11,29 @@ description: Use before rendering or shipping any Numevix video, and when a rend
 
 | Gate | Where | Runs as | Encodes |
 |---|---|---|---|
-| Payload beat lands by 2.0s | `src/viral/qa.ts` | `npm test` — **advisory** | The 6.4s payload behind a withholding `build` act |
-| No scene exceeds `SCENE_CHANGE * 2` | `src/viral/qa.ts` | `npm test` — **advisory** | A trait held on screen for 2.05s |
-| Scene count matches trait count | `src/viral/qa.ts` | `npm test` — **advisory** | A 0.47s bullet flash (fixed in `00dfe8b`) |
-| Frame 1 is legible | `npm run qa:frame -- <mp4>` | against a real output file | An invisible first frame via `useSnap`; the near-black card cold open |
+| Payload beat lands by 2.0s | `src/viral/qa.ts` | ⛔ **BLOCKS THE RENDER** | The 6.4s payload behind a withholding `build` act |
+| No scene exceeds `SCENE_CHANGE * 2` | `src/viral/qa.ts` | ⛔ **BLOCKS THE RENDER** | A trait held on screen for 2.05s |
+| Scene count matches trait count | `src/viral/qa.ts` | ⛔ **BLOCKS THE RENDER** | A 0.47s bullet flash (fixed in `00dfe8b`) |
+| Frame 1 is legible | `npm run qa:frame -- <mp4>` | against a real output file, by hand | An invisible first frame via `useSnap`; the near-black card cold open |
 
-🔴 **NOTHING HERE BLOCKS A RENDER TODAY — say so rather than implying otherwise.**
-`runStructuralGates`, `checkSceneCeilings` and `checkTraitParity` are called only
-from `src/viral/qa.ts`'s own tests. They run under `npm test`, they are advisory,
-and no render path consults them: a render started with a failing structure still
-produces an MP4. `npm run qa:frame` is the only gate pointed at a real output
-file, and it is run by hand.
+✅ **The structural gates now block (2026-08-09).** `src/Root.tsx`'s
+`calculateMetadata` calls `assertRenderable(id, props)` from `src/viral/plan.ts`,
+which throws before the first frame of **any** viral render — CLI or Studio.
+Verified the way it has to be: reverting `Viral-07`'s structure and running
+`npx remotion render` produced **no file**.
 
-▶ **OUTSTANDING: wire the structural gates into the render path** so a failing
-structure actually stops a render. Until that lands, treat a green `npm test` as
-evidence about the generators, not about the video.
+⭐⭐⭐ **Why they were advisory for so long is the lesson.** It was never
+forgetfulness — the gates' inputs (`acts`, `scenes`) were computed *inside*
+`ViralVideo`'s render body next to a module-private `beatsFor`, so nothing
+outside the component could reproduce them. **A gate that cannot be handed its
+own inputs cannot block anything.** `planViralVideo` is that computation lifted
+out; the component, the gate and the tests now read the same numbers.
+
+🪤 Turning them on found **15 failing compositions** — 14 `retired` videos the
+generator was still emitting (fixed: `templates-gen.mjs` now skips `retired`)
+and `Viral-07-Contrarian-Thirteen`, a hand-authored template cycle 1 never
+reached, still paying out at **6.9s**. A green `npm test` said nothing about
+either for weeks.
 
 ## Rules
 

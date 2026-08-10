@@ -184,14 +184,29 @@ export const CONTRARIAN_THIRTEEN: ViralVideoProps = {
    * `snapActsToBeats` only runs pipeline-side (scripts/), so a hand-authored
    * template's ACT boundaries never pass through it — they would sit 55–147ms
    * off the beat while the value act's internal cuts were snapped, which is
-   * worse than not snapping at all. Derived from the editorial intent
-   * {1.6, 5.4, 8.6, 2.8} snapped onto `starlightV03`'s map in
+   * worse than not snapping at all. Snapped onto `starlightV03`'s map in
    * content/beat-maps.json. Total 18.455s.
+   *
+   * 🔴🔴 CYCLE 1 REACHED THIS TEMPLATE LAST. It was {1.747, 5.146, 8.565,
+   * 2.997} — a payload at frame 207, i.e. **6.9 SECONDS**, from the editorial
+   * intent {1.6, 5.4, 8.6, 2.8} of the era whose whole premise the 0–1s
+   * retention data killed. `VIRAL_TIMING` and `STRUCTURES` were both moved to
+   * a 2.0s payload; this hand-authored template was the ONE composition the
+   * change missed, and it is the only thing that was still failing
+   * `checkPayloadTiming` once the retired videos stopped emitting.
+   *
+   * Re-derived, not tidied: `starlightV03`'s beats sit ~0.43s apart, so
+   * **`build` is now literally ONE beat** (0.426) — exactly the contract
+   * VIRAL_TIMING states. Payload lands frame 52 (1.747s), inside the 60-frame
+   * ceiling. `value` absorbs every frame the build gave up, so `valueEnd`
+   * stays on its beat at 15.458s and **the total is unchanged at 18.455s** —
+   * duration is the strongest signal a duplicate detector has, and this is
+   * still one change: the boundaries move, the length does not.
    *
    * ⚠️ These numbers are bed-specific. CHANGE THE BED AND THEY MUST BE
    * RE-DERIVED — `timing.test.ts` fails if they no longer land on a beat.
    */
-  structure: { hook: 1.747, build: 5.146, value: 8.565, cta: 2.997 },
+  structure: { hook: 1.321, build: 0.426, value: 13.711, cta: 2.997 },
   palette: "sage-gold",
   layout: "centered",
 };

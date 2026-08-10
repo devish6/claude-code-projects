@@ -1,6 +1,9 @@
 import { describe, expect, test } from "vitest";
 
 import { SCENE_CHANGE, makeActs } from "./timing";
+import { planViralVideo } from "./plan";
+import { VIRAL_TEMPLATES } from "./templates";
+import { DAILY_TEMPLATES } from "./daily-templates";
 import {
   PAYLOAD_BY_FRAME,
   checkPayloadTiming,
@@ -8,6 +11,7 @@ import {
   checkTraitParity,
   runStructuralGates,
 } from "./qa";
+import { assertRenderable } from "./plan";
 
 /**
  * Every gate here encodes a bug that actually shipped. A rule that depends on
@@ -77,5 +81,62 @@ describe("runStructuralGates", () => {
 
     expect(gates).toHaveLength(3);
     expect(gates.filter((g) => !g.pass)).toHaveLength(2);
+  });
+});
+
+/**
+ * ⭐⭐⭐ THE GATES WERE ADVISORY, AND THIS IS WHY.
+ *
+ * `runStructuralGates` had no production caller. Not an oversight — its inputs
+ * (`acts`, `scenes`) were computed INSIDE ViralVideo's render body, alongside a
+ * private `beatsFor`, so nothing outside the component could reproduce them.
+ * A gate that cannot be handed its own inputs cannot block anything.
+ *
+ * `planViralVideo` is that computation lifted out, so the component, the gates
+ * and this test all read the SAME numbers. Everything shipped has to pass, or
+ * making the gates blocking would break a render that is already out.
+ */
+describe("every shipped composition passes the structural gates", () => {
+  const compositions = Object.entries({ ...VIRAL_TEMPLATES, ...DAILY_TEMPLATES });
+
+  test("there are compositions to check -- a vacuous pass is not a pass", () => {
+    expect(compositions.length).toBeGreaterThan(5);
+  });
+
+  test.each(compositions)("%s", (_id, props) => {
+    const { acts, scenes } = planViralVideo(props);
+    const failed = runStructuralGates({
+      acts,
+      scenes: scenes.pairs,
+      traitCount: props.traits.length,
+    }).filter((g) => !g.pass);
+
+    expect(failed.map((g) => `${g.name}: ${g.detail}`)).toEqual([]);
+  });
+});
+
+/**
+ * 🔴🔴 THE GATES NOW BLOCK. `assertRenderable` is what `calculateMetadata`
+ * calls in src/Root.tsx, so a composition that fails a structural gate cannot
+ * be rendered by the CLI or opened in the Studio — it throws before a single
+ * frame is drawn.
+ *
+ * qa/SKILL.md used to claim the gates "block the render" when nothing called
+ * them. This is that claim made true.
+ */
+describe("assertRenderable", () => {
+  const good = VIRAL_TEMPLATES["Viral-01-Identity-Seven"];
+
+  test("a composition that passes every gate renders", () => {
+    expect(() => assertRenderable("Viral-01-Identity-Seven", good)).not.toThrow();
+  });
+
+  // The exact structure this template shipped with until cycle 1 reached it.
+  test("a payload behind a 5.1s build is refused, and the error says why", () => {
+    const stale = { ...good, structure: { hook: 1.747, build: 5.146, value: 8.565, cta: 2.997 } };
+
+    expect(() => assertRenderable("Viral-07-Contrarian-Thirteen", stale)).toThrow(
+      /Viral-07-Contrarian-Thirteen.*payload beat lands by 2\.0s.*207/s,
+    );
   });
 });

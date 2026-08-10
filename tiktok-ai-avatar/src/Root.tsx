@@ -15,6 +15,7 @@ import { BornWithStrengths, BORN_WITH_STRENGTHS_DURATION } from "./promos/BornWi
 import { Cover } from "./promos/Cover";
 
 import { ViralVideo, type ViralVideoProps } from "./viral/ViralVideo";
+import { assertRenderable, planViralVideo } from "./viral/plan";
 import { StoryVideo } from "./viral/StoryVideo";
 import { STORY_SCRIPTS } from "./viral/story-scripts";
 import { StoryVideo01 } from "./viral/StoryVideo01";
@@ -37,7 +38,7 @@ import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
 import { TOTAL_FRAMES as TALKING_TOTAL } from "./talking/script";
-import { ACT, makeActs } from "./viral/timing";
+import { ACT } from "./viral/timing";
 
 // 1080x1920, 30fps — vertical short-form for TikTok / Reels / Shorts.
 const V = { fps: 30, width: 1080, height: 1920 } as const;
@@ -102,9 +103,16 @@ export const RemotionRoot: React.FC = () => {
                all 28 renders measured exactly 17.450667s and TikTok read the
                set as duplicates. */
             durationInFrames={ACT.total}
-            calculateMetadata={({ props: p }) => ({
-              durationInFrames: p.structure ? makeActs(p.structure).total : ACT.total,
-            })}
+            /* 🔴🔴 THE STRUCTURAL GATES BLOCK HERE, and this is the only place
+               they can. calculateMetadata runs before the first frame of every
+               render — CLI and Studio alike — and a throw stops it dead.
+               `runStructuralGates` previously had NO caller at all, so qa.ts's
+               opening claim that it "blocks the render" was false for the whole
+               life of the file. */
+            calculateMetadata={({ props: p }) => {
+              assertRenderable(id, p);
+              return { durationInFrames: planViralVideo(p).acts.total };
+            }}
             defaultProps={props}
             {...V}
           />

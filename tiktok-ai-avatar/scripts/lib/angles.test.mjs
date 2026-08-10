@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import {
   ANGLE_REPEAT_DAYS,
   isRecentlyUsedAngle,
+  angleIdForConcept,
   pickAngle,
   unknownLedgerAngles,
   validateAngle,
@@ -177,5 +178,41 @@ describe("the ledger joins to the registry", () => {
     const old = { videos: [{ v: "V01", date: "2026-07-16" }] };
 
     expect(unknownLedgerAngles(old, angles)).toEqual([]);
+  });
+});
+
+/**
+ * 🔴 THE LAST LINK. Recording `angleId` on card reels made the window fire for
+ * the M-series; `daily-viral.mjs` composes the V-series and still wrote none,
+ * so every V-series row read as "no angle" and the no-repeat rule stayed half
+ * enforced. Wiring `angleId: concept.angleId` alone would have been INERT --
+ * no concept source sets it -- which is the fail-open shape this whole area
+ * keeps producing. So the fallback is not "unknown", it is what the composition
+ * demonstrably renders.
+ */
+describe("angleIdForConcept", () => {
+  const angles = JSON.parse(
+    readFileSync(new URL("../../content/angles.json", import.meta.url), "utf8"),
+  ).angles;
+
+  test("a concept that declares an angle keeps it", () => {
+    expect(angleIdForConcept({ angleId: "best-match" }, angles)).toBe("best-match");
+  });
+
+  /**
+   * ⭐⭐ A ViralVideo is `number` + `numberLabel` + four `traits`, whatever the
+   * hook's category says on top. That IS "one number, its ruling planet and
+   * traits" — `trait-per-number`, which the registry marks REJECTED on our own
+   * measurements. Recording it is how the ledger stops flattering us: the
+   * V-series is the same angle as the card reels in a different format.
+   */
+  test("a concept that declares nothing gets what the composition actually is", () => {
+    expect(angleIdForConcept({ category: "identity" }, angles)).toBe("trait-per-number");
+  });
+
+  // ⛔ Never silently. An id the registry does not define would join to nothing
+  // and read as never-used forever -- the exact silent failure this closes.
+  test("a declared angle the registry does not define throws", () => {
+    expect(() => angleIdForConcept({ angleId: "made-up" }, angles)).toThrow(/made-up/);
   });
 });
