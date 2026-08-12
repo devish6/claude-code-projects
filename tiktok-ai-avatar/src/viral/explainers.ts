@@ -92,7 +92,17 @@ export const EXPLAINER_FREE_CHART: ExplainerVideoProps = {
   ],
   // 🪤 No 👇 — CTAEnding draws its own arrow.
   ctaText: "Free chart, no account",
-  ctaUrl: "numevix.com/try",
+  /**
+   * 🔴 THE BARE DOMAIN ON SCREEN, THE DEEP LINK IN THE CLICK (owner, 2026-08-12).
+   * A path is noise on a card nobody can tap — it is read, half-remembered and
+   * typed, so it has to be the shortest thing that works. `numevix.com` reaches
+   * the free-chart CTA anyway.
+   * 🪤 This is NOT the destination. `utmLinks.tiktok` still points at
+   * `/try?utm_...`, which is where the tap actually lands, and it must stay
+   * deep-linked — the video promises a free chart with no account, and the
+   * homepage makes that one click further away. ⛔ Do not "make them match".
+   */
+  ctaUrl: "numevix.com",
   /**
    * The owner's own iPhone recording of numevix.com/try, behind a wash.
    *
