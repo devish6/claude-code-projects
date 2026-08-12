@@ -11,7 +11,7 @@ import { ViralHook, type HookVariant } from "./components/ViralHook";
 import { useShake } from "./motion";
 import { LayoutProvider, useLayout } from "./layout";
 import { PaletteProvider, usePalette } from "./PaletteContext";
-import { BULLET_STAGGER, type ActSeconds } from "./timing";
+import { BULLET_STAGGER, spreadTraits, type ActSeconds } from "./timing";
 import { planViralVideo } from "./plan";
 
 export type ViralVideoProps = {
@@ -105,16 +105,10 @@ export const ViralVideo: React.FC<ViralVideoProps> = (props) => {
   // rendered a ~1.7s hole of bare background mid-video. V03 — the account's
   // best post — ships with that hole, and it went unnoticed for weeks because
   // the frame is not blank, just empty of content.
-  const n = scenes.pairs.length;
-  const base = Math.floor(traits.length / n);
-  const extra = traits.length % n;
-  const traitChunks: string[][] = [];
-  let cursor = 0;
-  for (let i = 0; i < n; i++) {
-    const take = base + (i < extra ? 1 : 0);
-    traitChunks.push(traits.slice(cursor, cursor + take));
-    cursor += take;
-  }
+  // 🔴 Lifted to `spreadTraits` in timing.ts so `checkTraitCoverage` can gate on
+  // the SAME deal the component renders. Inline, it was unverifiable from
+  // outside — and it dealt [1,1,1,1,0] on V33, shipping 2.13s of blank screen.
+  const traitChunks = spreadTraits(traits, scenes.pairs.length);
 
   // Interrupts land on the beats where attention historically decays.
   const interruptFrames = [acts.buildStart, acts.valueStart, acts.valueStart + 180];

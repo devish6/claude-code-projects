@@ -1805,6 +1805,56 @@
       },
       "scheduledFor": "2026-08-10T12:00:00-05:00",
       "scheduledNatively": true
+    },
+    {
+      "v": "V33",
+      "title": "Moolank 2 — Not Weak (Belief Correction)",
+      "date": "2026-08-12",
+      "category": "compatibility",
+      "moolank": 2,
+      "angleId": "belief-correction",
+      "music": "cipherV15",
+      "variation": {
+        "structure": "essay",
+        "tempo": 140,
+        "layout": "centered",
+        "palette": "ink-violet"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-11-BeliefCorrection-Two",
+      "file": "out/qa/v33-beliefcorrection-two.mp4",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V33",
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V33",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V33",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V33"
+      },
+      "note": "Third content-team video, and the first on the NEW angle `belief-correction` (registered as `hypothesis` 2026-08-12). pickAngle returned NULL — best-match (V30/V31) and self-friendly (V32/PIN01) are both inside the 21-day window until 2026-09-01 — and null means write a new angle. So the ANGLE is this cycle's one deliberate change, by construction. 🪤 The angle is new to the REGISTRY, not to the account: V03 'Number 8 Is Not Unlucky' (07-14) and V06 'Number 9 Is Not Angry' (07-22) are both on it, which is why 8 and 9 were off the table as topics. 📐 Structure moved standard → essay (19.8s → 23.2s) because holding V32's production exactly would have duplicated V32's own fingerprint standard|140|centered|ink-violet two days apart into the same four feeds. LONGER was chosen over shorter on purpose: it penalises this video's completion rate, so a win on reach or shares cannot be explained by the change. 🪤 READ REACH, SHARE RATE and the 0–1s DROP against V32. Avg watch and completion % are NOT comparable — the cut is 3.4s longer. 🔴 First render shipped a 2.13s HOLE (frames 465–528, stddev 10.3 vs the 18 floor): essay produces 5 value scenes and the video had 4 traits, so spreadTraits dealt [1,1,1,1,0]. Found by rendering and looking; 435 tests were green and qa:frame passed. Fixed by a 5th derived trait AND a new blocking gate, checkTraitCoverage. Caption CTA is V32's VERBATIM so the comment-rate reading stays comparable — the comment ask has now failed at n≈45 and is the next cycle's change, not this one's.",
+      "instagramCaption": "Is 2 a weak number?\n\nIn Vedic numerology 2 is ruled by the Moon. The Moon changes shape every night — and so does a 2's mood. That reads as indecision. It isn't. It's the same sensitivity that lets a 2 read a room before anyone has spoken.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 29th? 2+9 = 11, 1+1 = 2.\n\nStrongest in partnership. Warmth people lean on.\n\nComment your birth number — or your full date of birth and I'll work it out — and I'll send your matches in the DM. Only comments with a number will trigger it.\n\nnumerology, birth number, moolank 2, date of birth numerology, moon numerology",
+      "tiktokCaption": "Is 2 a weak number?\n\nIn Vedic numerology 2 is ruled by the Moon. The Moon changes shape every night — and so does a 2's mood. That reads as indecision. It isn't. It's the same sensitivity that lets a 2 read a room before anyone has spoken.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 29th? 2+9 = 11, 1+1 = 2.\n\nStrongest in partnership. Warmth people lean on.\n\nComment your birth number — or your full date of birth and I'll work it out — and I'll send your matches in the DM. Only comments with a number will trigger it.\n\nnumerology, birth number, moolank 2, date of birth numerology, moon numerology",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#moolank2"
+      ],
+      "suggestedPostTime": "2026-08-12T23:30:00-04:00"
     }
   ],
   "pipelineMeta": {

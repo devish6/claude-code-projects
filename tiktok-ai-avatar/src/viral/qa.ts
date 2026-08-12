@@ -6,7 +6,7 @@
  * a model grading its own output for exactly the reason these are assertions:
  * a score drifts, an assertion does not.
  */
-import { SCENE_CHANGE, sec } from "./timing";
+import { SCENE_CHANGE, sec, spreadTraits } from "./timing";
 
 export type Gate = { name: string; pass: boolean; detail: string };
 
@@ -49,16 +49,50 @@ export const checkTraitParity = (scenes: number[], traitCount: number): Gate => 
   detail: `${scenes.length} scenes for ${traitCount} traits`,
 });
 
+/**
+ * Every value scene must actually receive a trait.
+ *
+ * 🔴🔴 `checkTraitParity` IS NOT THIS CHECK, AND ITS NAME SAYS OTHERWISE. It
+ * reads "scene count matches trait count" and asserts `scenes.length >=
+ * traitCount` — surplus scenes pass. That gap is not theoretical: V33's `essay`
+ * act produced 5 scenes for 4 traits, `spreadTraits` dealt [1,1,1,1,0], and
+ * frames 465–528 rendered at stddev 10.3 against the 18 floor — **2.13 seconds
+ * of blank screen mid-video, through a green suite and a passing `qa:frame`.**
+ *
+ * ⛔ Do not "fix" that by tightening parity to `===`. Scenes exceeding traits is
+ * legal and sometimes required — `makeValueScenes` ADDS scenes rather than
+ * stretching a pair past `SCENE_CHANGE * 2`, which is the rule that keeps a
+ * trait off screen past 1.2s. What must never happen is a scene with nothing in
+ * it, and that is a question about the DEAL, not about the counts. So this gate
+ * runs the real `spreadTraits` — the same function the component renders from —
+ * rather than re-deriving the rule and drifting from it.
+ *
+ * 🪤 `qa:frame` cannot catch this: it only ever looks at frame 0.
+ */
+export const checkTraitCoverage = (scenes: number[], traits: string[]): Gate => {
+  const empty = spreadTraits(traits, scenes.length)
+    .map((chunk, i) => (chunk.length === 0 ? i : -1))
+    .filter((i) => i >= 0);
+  return {
+    name: "every value scene receives a trait",
+    pass: empty.length === 0,
+    detail: empty.length
+      ? `scene(s) ${empty.join(", ")} of ${scenes.length} get no trait from ${traits.length} traits`
+      : `all ${scenes.length} scenes covered by ${traits.length} traits`,
+  };
+};
+
 export const runStructuralGates = ({
   acts,
   scenes,
-  traitCount,
+  traits,
 }: {
   acts: { valueStart: number };
   scenes: number[];
-  traitCount: number;
+  traits: string[];
 }): Gate[] => [
   checkPayloadTiming(acts),
   checkSceneCeilings(scenes),
-  checkTraitParity(scenes, traitCount),
+  checkTraitParity(scenes, traits.length),
+  checkTraitCoverage(scenes, traits),
 ];

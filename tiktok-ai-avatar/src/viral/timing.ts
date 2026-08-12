@@ -202,6 +202,44 @@ export const makeValueScenes = (
   };
 };
 
+/**
+ * Deals traits across value scenes, evenly, never leaving a scene empty-handed.
+ *
+ * ⭐⭐⭐ THIS LIVES HERE SO THE GATE AND THE COMPONENT CANNOT DISAGREE. It was
+ * inline in `ViralVideo`'s render body, which is the same reason
+ * `runStructuralGates` spent its whole life advisory: a rule computed inside
+ * the component is a rule nothing outside the component can check. `plan.ts`
+ * lifted the ACT boundaries out for exactly this reason; this is the same move
+ * for the one remaining derived quantity.
+ *
+ * 🔴🔴 THE HOLE HAS NOW APPEARED IN BOTH DIRECTIONS, AND THIS IS THE SECOND FIX.
+ * The first was traits > scenes: `ceil(traits.length / pairs.length)` sliced by
+ * index put [0,1] and [2,3] in the first two of three scenes and sliced PAST
+ * THE END for the third — a ~1.7s hole of bare background that V03, the
+ * account's best post, still ships. Even spreading fixed that.
+ * ⇒ It did NOT fix scenes > traits. `floor(4/5) = 0` with `4 % 5 = 4` deals
+ * [1,1,1,1,0] and the fifth scene gets nothing. V33 hit it the moment a longer
+ * `essay` act pushed the scene count to five: **frames 465–528 rendered at
+ * stddev 10.3 against the 18 floor — 2.13 seconds of blank screen at 15.5s.**
+ * Caught by rendering and LOOKING, again; 435 tests were green.
+ *
+ * ⛔ Never let this return a zero-length chunk. `checkTraitCoverage` in qa.ts
+ * now blocks the render on it, so a video must supply at least as many traits
+ * as its structure produces scenes.
+ */
+export const spreadTraits = (traits: string[], sceneCount: number): string[][] => {
+  const base = Math.floor(traits.length / sceneCount);
+  const extra = traits.length % sceneCount;
+  const chunks: string[][] = [];
+  let cursor = 0;
+  for (let i = 0; i < sceneCount; i++) {
+    const take = base + (i < extra ? 1 : 0);
+    chunks.push(traits.slice(cursor, cursor + take));
+    cursor += take;
+  }
+  return chunks;
+};
+
 /** Frame offsets for each act. */
 export const ACT = {
   hookStart: 0,

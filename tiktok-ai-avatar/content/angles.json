@@ -18,6 +18,15 @@
       "assertsFacts": false
     },
     {
+      "id": "belief-correction",
+      "frame": "positive",
+      "summary": "A number people are taught to fear, corrected from our own ruleset",
+      "evidence": "OUR OWN ACCOUNT, and the only angle here whose control is internal. V03 'Number 8 Is Not Unlucky' (shipped 2026-07-14) is the best post we have ever made: 1,924 views, avg watch 7s of 17s, skip rate 57.5% 'Lower'. V06 'Number 9 Is Not Angry' (2026-07-22) is the same angle. Second, era-independent instance: the 2026-08-07 card reel whose hook was '13 isn't unlucky' took 20 shares on 271 reach (7.4%) and 12.9% interaction, against its same-week same-format siblings at 0-1 shares and 5.7-6.7% -- M6R 178 reach/0 shares, M5R 159/1. Third: the 2026-07-29 post reached 499 carried by 126 shares. Shares are the only mechanism that has ever moved this account's reach; best-match's V30 took 644 reach and 0 shares.",
+      "caveat": "V03's 1,924 views are CONFOUNDED WITH ERA -- before 2026-07-24 the account's median reach was 1,487, so a big number from 07-14 is not a clean control. What survives the confound is baseline-relative: V03's skip rate read 57.5% 'Lower' against the card reels' 90.3% 'Higher', and the 08-07 share result is same-week, same-format, same era.",
+      "status": "hypothesis",
+      "assertsFacts": false
+    },
+    {
       "id": "trait-per-number",
       "frame": "informational",
       "summary": "One number, its ruling planet and traits",

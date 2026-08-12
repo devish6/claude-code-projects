@@ -9,6 +9,7 @@ import {
   checkPayloadTiming,
   checkSceneCeilings,
   checkTraitParity,
+  checkTraitCoverage,
   runStructuralGates,
 } from "./qa";
 import { assertRenderable } from "./plan";
@@ -69,6 +70,41 @@ describe("checkTraitParity", () => {
   test("passes one trait per scene", () => {
     expect(checkTraitParity([40, 40, 40, 40], 4).pass).toBe(true);
   });
+
+  // 🔴 THE HOLE THIS GATE DOES NOT SEE, pinned so nobody re-derives the
+  // reassurance. Parity is a `>=`, so surplus scenes pass it — and a surplus
+  // scene is exactly what rendered 2.13s of blank screen on V33's first cut.
+  // checkTraitCoverage is the gate that catches it; this test exists to record
+  // that parity alone would have shipped it.
+  test("PASSES the 5-scene/4-trait hole -- which is why coverage exists", () => {
+    expect(checkTraitParity([64, 71, 70, 64, 65], 4).pass).toBe(true);
+  });
+});
+
+describe("checkTraitCoverage", () => {
+  /**
+   * ⭐⭐ THE POSITIVE CONTROL. A gate that has never been seen to fail is
+   * indistinguishable from one that cannot fail — and this codebase has shipped
+   * that exact shape twice (a vacuous grep, and gates with no production
+   * caller). These are V33's REAL numbers: `essay`'s 566-frame value act,
+   * beat-snapped to 64/71/70/64/65, against the four traits it was written with.
+   */
+  test("fails on V33's real 5 scenes with 4 traits", () => {
+    const gate = checkTraitCoverage([64, 71, 70, 64, 65], ["a", "b", "c", "d"]);
+
+    expect(gate.pass).toBe(false);
+    expect(gate.detail).toContain("scene(s) 4");
+  });
+
+  test("passes once the fifth trait is supplied", () => {
+    expect(checkTraitCoverage([64, 71, 70, 64, 65], ["a", "b", "c", "d", "e"]).pass).toBe(true);
+  });
+
+  // Fewer scenes than traits is a parity failure, not a coverage one -- every
+  // scene still gets something. The two gates must not collapse into each other.
+  test("passes when traits outnumber scenes", () => {
+    expect(checkTraitCoverage([50, 50, 50], ["a", "b", "c", "d"]).pass).toBe(true);
+  });
 });
 
 describe("runStructuralGates", () => {
@@ -76,10 +112,10 @@ describe("runStructuralGates", () => {
     const gates = runStructuralGates({
       acts: makeActs({ hook: 1.6, build: 4.8, value: 8.6, cta: 2.4 }),
       scenes: [50, 50, 50],
-      traitCount: 4,
+      traits: ["a", "b", "c", "d"],
     });
 
-    expect(gates).toHaveLength(3);
+    expect(gates).toHaveLength(4);
     expect(gates.filter((g) => !g.pass)).toHaveLength(2);
   });
 });
@@ -108,7 +144,7 @@ describe("every shipped composition passes the structural gates", () => {
     const failed = runStructuralGates({
       acts,
       scenes: scenes.pairs,
-      traitCount: props.traits.length,
+      traits: props.traits,
     }).filter((g) => !g.pass);
 
     expect(failed.map((g) => `${g.name}: ${g.detail}`)).toEqual([]);

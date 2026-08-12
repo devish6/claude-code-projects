@@ -75,7 +75,7 @@ export const assertRenderable = (id: string, props: ViralVideoProps): void => {
   const failed = runStructuralGates({
     acts,
     scenes: scenes.pairs,
-    traitCount: props.traits.length,
+    traits: props.traits,
   }).filter((g) => !g.pass);
 
   if (failed.length) {

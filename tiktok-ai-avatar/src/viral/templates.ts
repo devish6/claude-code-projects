@@ -402,6 +402,102 @@ export const SELF_FRIENDLY_THREE: ViralVideoProps = {
   palette: "ink-violet",
 };
 
+/**
+ * Moolank 2 — "not weak". The `belief-correction` angle, third content-team video.
+ *
+ * ⭐⭐ ANGLE: `belief-correction`, entered as `hypothesis` 2026-08-12. `pickAngle`
+ * returned NULL — best-match (V30/V31) and self-friendly (V32/PIN01) are both
+ * inside the 21-day window until 2026-09-01 — and null means write a new angle,
+ * not ship a repeat. So the angle IS this cycle's one change, by construction.
+ *
+ * 🪤🪤 THE ANGLE IS NEW TO THE REGISTRY, NOT TO THE ACCOUNT. V03 "Number 8 Is
+ * Not Unlucky" (07-14) and V06 "Number 9 Is Not Angry" (07-22) are both on it,
+ * and V03 is the best post we have ever made. ⛔ THAT IS ALSO WHY 8 AND 9 ARE
+ * OFF THE TABLE — the first draft of this video was "8 is not unlucky", which is
+ * V03 verbatim. Check `daily-state.json` for a shipped twin before writing copy;
+ * the no-recycled-ideas rule bites hardest on the ideas that worked.
+ * ⚠️ V03's 1,924 views are CONFOUNDED WITH ERA (pre-07-24 median reach 1,487).
+ * Do not quote them as this angle's warrant — angles.json carries the caveat.
+ *
+ * 🔴 EVERY CLAIM DERIVED FROM `moolank-cards.json` #2, NONE AUTHORED:
+ * "reads a room instantly" and the mood/sensitivity reframe are its
+ * `surpriseFact` ("The Moon changes shape nightly. So does a 2's mood — the same
+ * sensitivity that lets them read a room instantly"); "strongest in partnership"
+ * is `strengths[2]`; "called moody" is `shadow[2]`, quoted as the BELIEF and then
+ * corrected, which is the whole shape of this angle. 2 = Moon, born 2nd/11th/
+ * 20th/29th, both from the same card.
+ *
+ * ⚠️ NO EASE LINE HERE, AND ITS ABSENCE IS DELIBERATE. V30/V31/V32 all close on
+ * "Not listed doesn't mean no" because they LIST PAIRS and two thirds of viewers
+ * will not find theirs. This video lists no pairs, so that line would refer to
+ * nothing — a non-sequitur, not a safeguard. The verdict risk it exists to cover
+ * is absent for the same reason: the copy singles nobody out. ⛔ Do not paste it
+ * back in for consistency with the other three.
+ * ⚠️ For the same reason the on-screen CTA drops the M-list. Naming matches on
+ * screen WOULD be a pair claim, and would put the ease line back in scope.
+ *
+ * 📐 STRUCTURE MOVES TO `essay`, AND THAT IS THE EXPERIMENT'S COST, NOT A TIDY-UP.
+ * Holding V32's production exactly — the point of a one-change cycle — would have
+ * given this video V32's own fingerprint, `standard|140|centered|ink-violet`, two
+ * days apart into the same four feeds. That is the precise condition that got the
+ * previous TikTok account withheld (28 renders, every one 17.450667s), so one axis
+ * HAD to move. Duration is the axis variation.mjs exists to vary, and LONGER was
+ * chosen over shorter on purpose: a 23.4s cut penalises this video's completion
+ * rate, so a win on reach or shares cannot be explained by the change.
+ * 🪤 ⇒ avg watch and completion % are NOT comparable to V32. Reach, share rate
+ * and the 0–1s drop are. Palette, bed, layout, payload frame and language all
+ * hold, so the angle stays the only content variable.
+ *
+ * ⚠️ Act boundaries are cipherV15 TRACKED beats, re-derived for the longer total
+ * rather than scaled from V30's: payload holds at frame 53 (1.777s — the same
+ * beat, so the first two seconds are frame-identical to V32), value ends on the
+ * 20.627s beat (619) and the total lands on 23.198s (696), the tracked beat
+ * nearest `essay`'s 23.4s. Value is 566 frames, which `makeValueScenes` splits
+ * into FIVE scenes — one MORE than the trait count, because four would be 83
+ * frames and breach the 72-frame ceiling.
+ * 🪤 Those five land at **64/71/70/64/65**, not the 67/67/67/67/64 the even
+ * division gives: `snapRun` pulls each boundary onto a tracked cipherV15 beat.
+ * 71 is the tightest any shipped scene has run against the 72 ceiling — read
+ * from `planViralVideo`, not computed by hand. ⛔ Do not lengthen the value act
+ * to "round out" the fifth scene; the next beat out breaches the ceiling.
+ */
+export const BELIEF_CORRECTION_TWO: ViralVideoProps = {
+  ...SELF_FRIENDLY_THREE,
+  hookText: "IF YOU'RE A NUMBER 2",
+  hookAccent: "NOT WEAK",
+  hookSub: "The Moon isn't indecisive",
+  number: 2,
+  numberLabel: "MOON · 2, 11, 20, 29",
+  /**
+   * 🔴 FIVE TRAITS, NOT FOUR, AND THE FIFTH IS NOT PADDING. `essay`'s 566-frame
+   * value act produces FIVE scenes (four would breach the 72-frame ceiling), and
+   * `spreadTraits` deals one trait per scene — so four traits left scene 5 empty
+   * and the first render shipped 2.13s of blank screen at 15.5s. `essay` is a
+   * longer structure; timing.ts's rule for a longer act is "add SCENES, not
+   * seconds", and the honest completion of that is more content.
+   * ⛔ Never pad to reach the count. Every line here is still card #2.
+   *
+   * Order is the angle's shape: name the belief, correct it, evidence it twice,
+   * land the reframe LAST. "Sensitivity is the skill" moved from 4th to 5th for
+   * that reason — it is the sentence the video exists to deliver, and it now
+   * sits on the final scene before the montage.
+   */
+  traits: [
+    // The belief, quoted from shadow[2], then corrected — in that order. Naming
+    // it first is what makes the next line land; leading with the correction
+    // leaves the viewer arguing with a claim nobody made.
+    "Called moody — it's radar",
+    "Reads a room instantly",
+    "Strongest in partnership",
+    // strengths[1], "Warmth and nurturing nature", compressed to one line.
+    "Warmth people lean on",
+    "Sensitivity is the skill",
+  ],
+  // 🪤 Still no 👇 — CTAEnding draws its own.
+  ctaText: "Comment your birth number",
+  structure: { hook: 1.333, build: 0.433, value: 18.861, cta: 2.571 },
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -413,6 +509,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-08-BestMatch-Four": BEST_MATCH_FOUR,
   "Viral-09-BestMatch-Four-EN": BEST_MATCH_FOUR_EN,
   "Viral-10-SelfFriendly-Three": SELF_FRIENDLY_THREE,
+  "Viral-11-BeliefCorrection-Two": BELIEF_CORRECTION_TWO,
 } as const;
 
 /**
@@ -469,6 +566,15 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 4, BEST MATCH?",
     accent: "1 AND 8",
     number: 4,
+  },
+  // The accent carries the CORRECTION, not the belief — same split V03 uses
+  // ("NUMBER 8 IS NOT" / "UNLUCKY"). At thumbnail size the accent is what reads
+  // first, so it has to be the part that contradicts what the viewer expects.
+  "Viral-11-BeliefCorrection-Two": {
+    kicker: "Moon",
+    title: "IF YOU'RE A NUMBER 2, YOU'RE",
+    accent: "NOT WEAK",
+    number: 2,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set
