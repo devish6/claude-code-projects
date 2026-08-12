@@ -47,21 +47,48 @@ import type { ExplainerVideoProps } from "./ExplainerVideo";
  * because high contrast reads better for text-heavy explainer copy in feed.
  * Fingerprint `snap|140|centered|mono` is unused in the 14-day window.
  */
+/**
+ * 🎯 VOCABULARY IS THE TARGETING (owner, 2026-08-12: "target bigger audience,
+ * use birth number / life path number type words").
+ *
+ * The first cut said "Driver and Conductor" and "your compound number" — our
+ * INTERNAL ruleset vocabulary, which almost nobody searches. `birth number` and
+ * `life path number` are the terms the audience actually uses, and on a PROMOTED
+ * video the on-screen text and caption are what the platform indexes.
+ *
+ * ⭐⭐ THE RELABEL IS EXACT, NOT MARKETING. Verified in
+ * `modules/numerology-engine/core.ts`, which names them itself:
+ *   `computeDriver`    — "Driver / Root / Mulank: reduce the birth day"      → BIRTH NUMBER
+ *   `computeConductor` — "Conductor / Destiny / Life-Path: reduce the compound" → LIFE PATH
+ * ⛔ Never relabel a number without re-reading that file. Calling the Driver a
+ * "life path number" would be flatly wrong — it is the day, not the whole date.
+ *
+ * 🪤 "Your Vedic grid" is DELIBERATELY NOT broadened. It is the standing brand
+ * term ("Vedic grid", never "Lo Shu") and renaming it is the owner's call, not a
+ * copy decision. It is the one niche phrase left in the video.
+ *
+ * ⚠️ "Your next 5 years" is measured, not a flourish: `app/try/page.tsx` calls
+ * `computeForecastRange` with `{ fromYear: thisYear - 1, toYear: thisYear + 4 }`,
+ * so from today forward that is exactly five years. ⛔ Do not write "to 2030" —
+ * the range is relative and would date the video.
+ */
 export const EXPLAINER_FREE_CHART: ExplainerVideoProps = {
-  hookText: "A FULL NUMEROLOGY CHART",
-  hookAccent: "FOR FREE",
+  hookText: "YOUR BIRTH NUMBER",
+  hookAccent: "AND LIFE PATH",
   // 🪤 "No account" is the product's word, and it is the friction that actually
   // stops people. Do not soften it to "free to try", which implies a trial.
-  hookSub: "No account. One every day.",
+  hookSub: "Free. No account needed.",
   heroText: "NUMEVIX",
   heroSub: "Vedic numerology",
   traits: [
     // Each ≤26 characters — the measured single-line width at traitSize.
-    "Driver and Conductor",
-    "Your compound number",
+    // 1 and 2 repeat the hook ON PURPOSE: in a 14s promo the two search terms
+    // are the payload, and repeating them feeds the platform's text indexing.
+    "Your birth number",
+    "Your life path number",
     "The numbers you're missing",
     "Your Vedic grid",
-    "And your forecast",
+    "Your next 5 years",
   ],
   // 🪤 No 👇 — CTAEnding draws its own arrow.
   ctaText: "Free chart, no account",
