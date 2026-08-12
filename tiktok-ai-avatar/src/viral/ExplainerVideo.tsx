@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Sequence } from "remotion";
+import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { BrandAudio } from "../components/kit";
 import { AstrolBackground } from "./components/AstrolBackground";
 import { CinematicTransition } from "./components/CinematicTransition";
@@ -55,6 +55,40 @@ export type ExplainerVideoProps = {
   traits: string[];
   ctaText: string;
   ctaUrl?: string;
+  /**
+   * The live site, scrolling behind the copy.
+   *
+   * ⭐ WHY A SCROLL RATHER THAN A STILL (owner, 2026-08-12: "have a nice motion
+   * in the background like scrolling etc"). A promoted explainer that never
+   * shows the product asks the viewer to take every bullet on trust; the actual
+   * page moving behind the words turns each claim into proof, and motion reads
+   * as a live product rather than a flat backdrop.
+   *
+   * 🔴 `wash` IS NOT DECORATION — WITHOUT IT THE FRAME IS UNREADABLE. numevix.com's
+   * hero is big dark serif type and so is this video's hook: same typeface, same
+   * weight, same colour. Overlaid raw they are two headlines fighting, not a
+   * background. The wash drops the page to texture so the copy stays crisp.
+   * ⛔ Do not lower it below ~0.7 without re-running `qa:frame` AND looking —
+   * frame-0 legibility is the one hard gate and this is the only thing in the
+   * composition that can quietly destroy it.
+   *
+   * 🪤 Feed the tallest capture available. `backgroundPositionY` walks 0%→100% of
+   * the IMAGE, so a short image crawls and a tall one glides; the motion is
+   * framed by the asset, not by a pixel constant.
+   */
+  backdrop?: {
+    src: string;
+    wash?: number;
+    /**
+     * How far down the image to travel, in percent, over the whole video.
+     *
+     * 🪤 DEFAULTING TO 100 IS WRONG FOR A TALL CAPTURE and this is the knob that
+     * fixes it. A full mobile page can be 4000px+; walking all of it in 14s is a
+     * blur, not a scroll. Set it so the page drifts at reading pace — the motion
+     * should read as someone browsing, not as a seek bar being dragged.
+     */
+    travel?: number;
+  };
   music: string;
   structure?: ActSeconds;
   palette?: string;
@@ -62,7 +96,7 @@ export type ExplainerVideoProps = {
 };
 
 export const ExplainerVideo: React.FC<ExplainerVideoProps> = (props) => {
-  const { hookText, hookAccent, hookSub, heroText, heroSub, traits, ctaText, ctaUrl, music } =
+  const { hookText, hookAccent, hookSub, heroText, heroSub, traits, ctaText, ctaUrl, music, backdrop } =
     props;
 
   // ⭐⭐ THE SAME planner and therefore the SAME blocking gates as every
@@ -75,7 +109,7 @@ export const ExplainerVideo: React.FC<ExplainerVideoProps> = (props) => {
     <PaletteProvider name={props.palette}>
       <LayoutProvider name={props.layout}>
         <AbsoluteFill>
-          <AstrolBackground />
+          {backdrop ? <ScrollingBackdrop {...backdrop} /> : <AstrolBackground />}
           <BrandAudio src={music} total={acts.total} />
 
           {/* ── HOOK — legible on frame 0, no entrance ramp ─────────────── */}
@@ -145,6 +179,64 @@ export const ExplainerVideo: React.FC<ExplainerVideoProps> = (props) => {
         </AbsoluteFill>
       </LayoutProvider>
     </PaletteProvider>
+  );
+};
+
+/**
+ * The live site, scrolling top to bottom for the whole video, behind a wash.
+ *
+ * ⭐ `backgroundPositionY` 0%→100% with `backgroundSize: "100% auto"` scrolls the
+ * WHOLE image regardless of its height, so this never needs the asset's pixel
+ * dimensions — swap in a taller capture and the motion simply slows to fit.
+ * Doing it with a translated <Img> would have required measuring the file.
+ *
+ * 🪤 Linear, not eased. An eased scroll accelerates mid-video, which reads as a
+ * flick rather than a page being browsed — and the point is that it looks like
+ * someone using the site.
+ */
+const ScrollingBackdrop: React.FC<{ src: string; wash?: number; travel?: number }> = ({
+  src,
+  wash = 0.82,
+  travel = 100,
+}) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const P = usePalette();
+  const y = interpolate(frame, [0, durationInFrames - 1], [0, travel], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    // 🪤 The base fill is NOT redundant. The image is width-fitted, so the frame
+    // is uncovered wherever the asset is shorter than 16:9 — and the wash over
+    // nothing renders as flat grey, which looks like a broken render. Proved with
+    // a landscape stand-in. A tall capture never exposes it; this is the guard for
+    // when someone feeds a short one.
+    <AbsoluteFill style={{ background: P.GRAD_B, overflow: "hidden" }}>
+      {/* 🔴🔴 `<Img>`, NOT a CSS `background-image`. Remotion does not wait for a
+          background-image before encoding a frame, so the backdrop can render
+          EMPTY on the frames it has not loaded yet — the exact blank-frame class
+          of defect this project has now shipped three times. `<Img>` participates
+          in the render's asset wait. @remotion/no-background-image says the same.
+
+          🪤 translateY in PERCENT is what makes this dimension-free: a percentage
+          transform resolves against the ELEMENT's own height, so the scroll adapts
+          to whatever capture is dropped in without measuring the file. */}
+      <Img
+        src={staticFile(src)}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "auto",
+          transform: `translateY(-${y}%)`,
+        }}
+      />
+      {/* 🔴 The readability layer. See `backdrop` on the props type. */}
+      <AbsoluteFill style={{ background: P.GRAD_A, opacity: wash }} />
+    </AbsoluteFill>
   );
 };
 
