@@ -114,11 +114,12 @@ export type ExplainerVideoProps = {
      * is reading the foreground, so the background has to move slower than a real
      * thumb would move it or it pulls the eye off the words.
      *
-     * 🪤 THIS IS WHY THE ASSET IS ENCODED AT 60fps. Slowing a 30fps source to 0.7x
-     * yields 21 distinct source frames for every 30 output frames, so frames
-     * repeat and the scroll judders. From 60fps it is 42 — more than enough for
-     * every output frame to be distinct. ⛔ Do not re-encode the backdrop at 30fps
-     * while any rate below 1 is in use.
+     * 🪤 THIS IS WHY THE ASSET IS ENCODED AT 60fps. Slowing a 30fps source to 0.5x
+     * yields 15 distinct source frames for every 30 output frames, so each one is
+     * held for two and the scroll judders visibly. From 60fps, 0.5x gives exactly
+     * 30 — one distinct source frame per output frame, the smoothest ratio there
+     * is. ⛔ Do not re-encode the backdrop at 30fps while any rate below 1 is in
+     * use, and prefer rates at or above 0.5 for the same reason.
      */
     playbackRate?: number;
   };

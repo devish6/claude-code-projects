@@ -113,15 +113,26 @@ export const EXPLAINER_FREE_CHART: ExplainerVideoProps = {
    * 🔴 The chart is a DEMO — "Sarah Scott", 2001-05-30 — so no real birth data is
    * published. ⛔ Never rebuild this asset from a chart belonging to a real person.
    *
-   * 📐 Built with:
-   *   ffmpeg -ss 4 -t 14.24 -i <recording> \
-   *     -vf "scale=1080:-2,crop=1080:1920:0:300" -an -r 30 ...
+   * 📐 THE SOURCE WINDOW IS CHOSEN, NOT ARBITRARY — 11.3s to 18.7s of the raw
+   * recording, the only stretch where the CHART stays on screen. Owner, 2026-08-12:
+   * the backdrop must be the chart for the whole video. The earlier 4.0s window
+   * drifted onto the forecast list and the "Want your full AI reading?" panel for
+   * most of the middle, which is both off-message and the one thing in frame that
+   * could imply the AI reading is free. ⛔ Do not widen this window without
+   * re-checking what is actually on screen behind every text beat.
+   *   ffmpeg -ss 11.3 -t 7.4 -i <recording> \
+   *     -vf "scale=1080:-2,crop=1080:1920:0:300" -an -r 60 ...
    * The crop drops the iOS status bar and keeps Safari's address bar, which is
-   * what makes it read as a phone rather than a mockup. 429 frames at 30fps
-   * against the composition's 427 — deliberately a hair long, so the backdrop
-   * never runs out before the video does.
+   * what makes it read as a phone rather than a mockup.
+   *
+   * ⭐⭐ 0.5x IS AN EXACT RATIO, NOT A TASTE CALL. A 7.4s window has to cover a
+   * 14.23s video, which forces the rate to ~0.5 — and 0.5 from a 60fps source is
+   * exactly 30 distinct frames per second of 30fps output, so every output frame
+   * gets its own source frame and the scroll cannot judder. The previous 0.65x was
+   * ~39/30: smooth, but it consumed 9.25s of source and no 9.25s window stays on
+   * the chart. ⇒ The constraint and the smoothest rate happened to agree.
    */
-  backdrop: { src: "site/numevix-chart-mobile.mp4", wash: 0.62, playbackRate: 0.65 },
+  backdrop: { src: "site/numevix-chart-mobile.mp4", wash: 0.62, playbackRate: 0.5 },
   music: MUSIC.cipherV15,
   structure: { hook: 1.333, build: 0.444, value: 10.304, cta: 2.147 },
   palette: "mono",
