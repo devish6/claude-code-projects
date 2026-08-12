@@ -93,6 +93,35 @@ export const EXPLAINER_FREE_CHART: ExplainerVideoProps = {
   // 🪤 No 👇 — CTAEnding draws its own arrow.
   ctaText: "Free chart, no account",
   ctaUrl: "numevix.com/try",
+  /**
+   * The owner's own iPhone recording of numevix.com/try, behind a wash.
+   *
+   * ⭐⭐ A REAL RECORDING, NOT A SYNTHESISED SCROLL (owner shot it 2026-08-12).
+   * The motion is a person actually browsing — momentum flicks, small pauses —
+   * and that is most of why it reads as a real product rather than a slideshow.
+   *
+   * ⭐ IT ALSO PROVES THE COPY. The bullets name Driver/Basic, Conductor/Destiny,
+   * Compound, Missing, Combinations/Yogas, the grid and the forecast; the footage
+   * shows every one of them, and the forecast list visibly runs 2025-2026 through
+   * 2030-2031 — which is the "Your next 5 years" bullet, on screen, in the product.
+   *
+   * 🔴 SOURCE TRIM IS A PRIVACY EDIT, NOT A CREATIVE ONE. Both raw recordings end
+   * with the iOS Control Center pulled down, showing the owner's Wi-Fi network
+   * name and battery level. The asset is cut 4.0s–18.24s to exclude it (and the
+   * on-screen keyboard at the head). ⛔ Never re-cut from the raw file without
+   * re-checking the tail.
+   * 🔴 The chart is a DEMO — "Sarah Scott", 2001-05-30 — so no real birth data is
+   * published. ⛔ Never rebuild this asset from a chart belonging to a real person.
+   *
+   * 📐 Built with:
+   *   ffmpeg -ss 4 -t 14.24 -i <recording> \
+   *     -vf "scale=1080:-2,crop=1080:1920:0:300" -an -r 30 ...
+   * The crop drops the iOS status bar and keeps Safari's address bar, which is
+   * what makes it read as a phone rather than a mockup. 429 frames at 30fps
+   * against the composition's 427 — deliberately a hair long, so the backdrop
+   * never runs out before the video does.
+   */
+  backdrop: { src: "site/numevix-chart-mobile.mp4", wash: 0.82 },
   music: MUSIC.cipherV15,
   structure: { hook: 1.333, build: 0.444, value: 10.304, cta: 2.147 },
   palette: "mono",

@@ -1,5 +1,14 @@
 import React from "react";
-import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import {
+  AbsoluteFill,
+  Img,
+  OffthreadVideo,
+  Sequence,
+  interpolate,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import { BrandAudio } from "../components/kit";
 import { AstrolBackground } from "./components/AstrolBackground";
 import { CinematicTransition } from "./components/CinematicTransition";
@@ -202,6 +211,9 @@ const ScrollingBackdrop: React.FC<{ src: string; wash?: number; travel?: number 
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const P = usePalette();
+  // 🪤 A recording carries its own motion; the percentage translate is only for
+  // stills. Applying both would fight the scroll already in the footage.
+  const isVideo = /\.(mp4|mov|webm)$/i.test(src);
   const y = interpolate(frame, [0, durationInFrames - 1], [0, travel], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -214,26 +226,36 @@ const ScrollingBackdrop: React.FC<{ src: string; wash?: number; travel?: number 
     // a landscape stand-in. A tall capture never exposes it; this is the guard for
     // when someone feeds a short one.
     <AbsoluteFill style={{ background: P.GRAD_B, overflow: "hidden" }}>
-      {/* 🔴🔴 `<Img>`, NOT a CSS `background-image`. Remotion does not wait for a
-          background-image before encoding a frame, so the backdrop can render
-          EMPTY on the frames it has not loaded yet — the exact blank-frame class
-          of defect this project has now shipped three times. `<Img>` participates
-          in the render's asset wait. @remotion/no-background-image says the same.
+      {/* ⭐⭐ A SCREEN RECORDING BEATS A SYNTHESISED SCROLL, so both are supported
+          and the extension decides. The owner shot the real thing on an iPhone
+          (2026-08-12), which means the motion is a person actually browsing —
+          the hesitations and the momentum flick are things an interpolate()
+          cannot fake, and they are most of why it reads as real.
+          A still is still allowed: it falls back to the percentage translate. */}
+      {isVideo ? (
+        <OffthreadVideo src={staticFile(src)} muted />
+      ) : (
+        /* 🔴🔴 `<Img>`, NOT a CSS `background-image`. Remotion does not wait for a
+           background-image before encoding a frame, so the backdrop can render
+           EMPTY on the frames it has not loaded yet — the exact blank-frame class
+           of defect this project has now shipped three times. `<Img>` participates
+           in the render's asset wait. @remotion/no-background-image says the same.
 
-          🪤 translateY in PERCENT is what makes this dimension-free: a percentage
-          transform resolves against the ELEMENT's own height, so the scroll adapts
-          to whatever capture is dropped in without measuring the file. */}
-      <Img
-        src={staticFile(src)}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "auto",
-          transform: `translateY(-${y}%)`,
-        }}
-      />
+           🪤 translateY in PERCENT is what makes this dimension-free: a percentage
+           transform resolves against the ELEMENT's own height, so the scroll adapts
+           to whatever capture is dropped in without measuring the file. */
+        <Img
+          src={staticFile(src)}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "auto",
+            transform: `translateY(-${y}%)`,
+          }}
+        />
+      )}
       {/* 🔴 The readability layer. See `backdrop` on the props type. */}
       <AbsoluteFill style={{ background: P.GRAD_A, opacity: wash }} />
     </AbsoluteFill>
