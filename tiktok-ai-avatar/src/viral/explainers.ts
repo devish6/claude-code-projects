@@ -121,7 +121,7 @@ export const EXPLAINER_FREE_CHART: ExplainerVideoProps = {
    * against the composition's 427 — deliberately a hair long, so the backdrop
    * never runs out before the video does.
    */
-  backdrop: { src: "site/numevix-chart-mobile.mp4", wash: 0.82 },
+  backdrop: { src: "site/numevix-chart-mobile.mp4", wash: 0.62 },
   music: MUSIC.cipherV15,
   structure: { hook: 1.333, build: 0.444, value: 10.304, cta: 2.147 },
   palette: "mono",

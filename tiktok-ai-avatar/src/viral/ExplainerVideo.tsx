@@ -77,9 +77,19 @@ export type ExplainerVideoProps = {
    * hero is big dark serif type and so is this video's hook: same typeface, same
    * weight, same colour. Overlaid raw they are two headlines fighting, not a
    * background. The wash drops the page to texture so the copy stays crisp.
-   * ⛔ Do not lower it below ~0.7 without re-running `qa:frame` AND looking —
-   * frame-0 legibility is the one hard gate and this is the only thing in the
-   * composition that can quietly destroy it.
+   * 📐 CALIBRATED BY RENDERING STILLS AT FOUR LEVELS AND LOOKING (2026-08-12).
+   * Shipped at **0.62**, lowered from 0.82 because the owner read the first cut as
+   * "too whitewashed" — and they were right, 0.18 of backdrop is barely product.
+   * | wash | verdict |
+   * |------|---------|
+   * | 0.82 | too washed; the site reads as vague texture, proves nothing |
+   * | 0.72 | visible but timid |
+   * | **0.62** | **shipped** — chart clearly legible, copy still dominant |
+   * | 0.52 | forecast rows start crowding the bullets |
+   * 🪤 frame-0 stddev went UP at 0.62 (41.14 vs 40.1), because backdrop detail adds
+   * variance — so `qa:frame` PASSING IS NOT EVIDENCE THE COPY IS READABLE. It
+   * measures contrast, not legibility; a wash low enough to bury the text would
+   * score higher, not lower. ⛔ Below ~0.55, judge it by looking. Only looking.
    *
    * 🪤 Feed the tallest capture available. `backgroundPositionY` walks 0%→100% of
    * the IMAGE, so a short image crawls and a tall one glides; the motion is
