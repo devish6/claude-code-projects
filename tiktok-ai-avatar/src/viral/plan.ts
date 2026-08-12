@@ -44,7 +44,18 @@ export const beatsFor = (music: string): number[] | undefined => {
  * rendering byte-identically. `structure` is the existing marker for a
  * post-2026-07-30 video, and every new video sets it.
  */
-export const planViralVideo = (props: ViralVideoProps) => {
+/**
+ * The only three props the planner and the gates actually read.
+ *
+ * ⭐ Widened from `ViralVideoProps` so a composition that is NOT a ViralVideo —
+ * EXP01, the promoted consumer explainer, which has no moolank and therefore no
+ * `number`/`numberLabel` — still goes through the SAME `assertRenderable`. A
+ * gate that only guards one component leaves every other render ungated, and
+ * this file exists because ungated renders shipped twice.
+ */
+export type PlannableVideo = Pick<ViralVideoProps, "structure" | "music" | "traits">;
+
+export const planViralVideo = (props: PlannableVideo) => {
   const acts = props.structure ? makeActs(props.structure) : ACT;
   const scenes = makeValueScenes(acts.valueEnd - acts.valueStart, {
     beats: props.structure ? beatsFor(props.music) : undefined,
@@ -70,7 +81,7 @@ export const planViralVideo = (props: ViralVideoProps) => {
  * at 6.9s) had been failing since cycle 1 moved the standard, in a repo where
  * the suite was green the entire time.
  */
-export const assertRenderable = (id: string, props: ViralVideoProps): void => {
+export const assertRenderable = (id: string, props: PlannableVideo): void => {
   const { acts, scenes } = planViralVideo(props);
   const failed = runStructuralGates({
     acts,

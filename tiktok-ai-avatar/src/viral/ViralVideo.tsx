@@ -254,7 +254,16 @@ const TraitPair: React.FC<{ traits: string[]; startIndex: number }> = ({
 };
 
 /** Rapid recap — 4 traits flash past in 1.4s to spike rewatches. */
-const Montage: React.FC<{ traits: string[]; total: number }> = ({ traits, total }) => (
+/**
+ * The rapid recap before the CTA.
+ *
+ * ⭐ EXPORTED so `ExplainerVideo` can render the montage slot `makeValueScenes`
+ * reserves for it. It was module-private, and EXP01's first cut simply omitted
+ * the slot — 1.73s of blank screen at 10.3s, the same class of defect as V33's
+ * empty fifth scene. A planner that reserves a slot and a component that does
+ * not fill it is the recurring bug in this file's history.
+ */
+export const Montage: React.FC<{ traits: string[]; total: number }> = ({ traits, total }) => (
   <AbsoluteFill>
     {traits.map((t, i) => (
       <Sequence

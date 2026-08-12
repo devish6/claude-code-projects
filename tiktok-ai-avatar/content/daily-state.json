@@ -1855,6 +1855,42 @@
         "#moolank2"
       ],
       "suggestedPostTime": "2026-08-12T23:30:00-04:00"
+    },
+    {
+      "v": "EXP01",
+      "title": "A Full Numerology Chart, For Free (explainer)",
+      "date": "2026-08-12",
+      "category": "explainer",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "EXP01-FreeChart",
+      "file": "out/qa/exp01-freechart.mp4",
+      "language": "english",
+      "platforms": [
+        "tiktok"
+      ],
+      "handPostTo": [
+        "tiktok"
+      ],
+      "promoted": {
+        "platform": "tiktok",
+        "mechanism": "TikTok Promote",
+        "budgetCadPerDay": 13,
+        "days": 1
+      },
+      "utmLinks": {
+        "tiktok": "https://numevix.com/try?utm_source=tiktok&utm_medium=paid&utm_campaign=promote&utm_content=EXP01"
+      },
+      "note": "PROMOTED consumer explainer — the first paid post, and the first video with no V-number. 🔴 No V-number by design (owner 2026-08-12): V-numbers are coupled to angles.json, and pickAngle's 21-day window plus the no-recycled-ideas rule both key off angleId. A video with no angle would pollute that sequence. Own prefix, like PIN01. 🎯 Targets CONSUMERS, not practitioners (owner 2026-08-12). The practitioner cut is parked until Numevix Studio is close — it had no destination, and Promote cannot target an occupation. ⚠️ Accepted with eyes open: this pays to amplify a funnel with a measured 0–1s leak (every TikTok post reads 'stopped watching at 0:01', 1.7–2.0s avg watch, 0 comments ever). Promotion buys impressions into that; it does not fix the first second. ⛔ Do not re-litigate. 🔴 Every claim is the product's own copy, read off the live app: /try says 'One free chart per day, no account needed'; anon-chart renders Driver/Basic, Conductor/Destiny, Compound, Missing, Combinations/Yogas, grid and forecast, labelled 'Free preview chart, not saved'. The AI reading is NOT free — it needs a free account via /api/claim — and neither the video nor the caption claims otherwise. 📐 snap structure (14.2s class), cipherV15, payload frame 53 (1.777s — the same beat V30/V32/V33 pay out on). Fingerprint snap|140|centered|mono, unused in the 14-day window. Shorter is used deliberately here: it does not improve the hook, but it improves the completion metric the PAID delivery system reads. 🔴 First render shipped a 1.73s HOLE at 10.3s — makeValueScenes reserves scenes.montage frames and the component never rendered them. Same class as V33. Fixed by exporting Montage from ViralVideo and rendering the slot. 🪤 The frame scanner FALSE-POSITIVED on this video's light `mono` palette: a short dark line on a near-white ground falls under an absolute stddev floor calibrated on dark frames. Use a floor relative to the video's OWN median stddev, and look at the frames before believing either answer.",
+      "tiktokCaption": "A full numerology chart, for free — no account needed.\n\nOne free chart every day at numevix.com/try. Enter a name and a date of birth and you get your Driver and Conductor numbers, your compound number, the numbers missing from your chart, your Vedic grid and your forecast.\n\nIt's a free preview chart and it isn't saved. If you want to keep it, get your personalised AI reading and chat about your numbers, a free account does that.\n\nVedic numerology, done properly.",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#freechart"
+      ],
+      "suggestedPostTime": "2026-08-12"
     }
   ],
   "pipelineMeta": {

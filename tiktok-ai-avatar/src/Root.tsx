@@ -16,6 +16,8 @@ import { Cover } from "./promos/Cover";
 
 import { ViralVideo, type ViralVideoProps } from "./viral/ViralVideo";
 import { assertRenderable, planViralVideo } from "./viral/plan";
+import { ExplainerVideo } from "./viral/ExplainerVideo";
+import { EXPLAINER_TEMPLATES } from "./viral/explainers";
 import { StoryVideo } from "./viral/StoryVideo";
 import { STORY_SCRIPTS } from "./viral/story-scripts";
 import { StoryVideo01 } from "./viral/StoryVideo01";
@@ -160,6 +162,29 @@ export const RemotionRoot: React.FC = () => {
             />
           );
         })}
+      </Folder>
+
+      {/*
+        Promoted explainers. Separate folder AND separate component from the
+        V-series: no moolank, no angle, no V-number. They still go through
+        `assertRenderable`, which is why `PlannableVideo` exists — a gate that
+        guards only one component leaves every other render ungated.
+      */}
+      <Folder name="Explainers">
+        {Object.entries(EXPLAINER_TEMPLATES).map(([id, props]) => (
+          <Composition
+            key={id}
+            id={id}
+            component={ExplainerVideo}
+            durationInFrames={ACT.total}
+            calculateMetadata={({ props: p }) => {
+              assertRenderable(id, p);
+              return { durationInFrames: planViralVideo(p).acts.total };
+            }}
+            defaultProps={props}
+            {...V}
+          />
+        ))}
       </Folder>
 
       <Folder name="Numevix-Promos">

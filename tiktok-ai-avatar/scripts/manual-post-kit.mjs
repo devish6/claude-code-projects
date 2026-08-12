@@ -43,10 +43,15 @@ const REPO = fileURLToPath(new URL("..", import.meta.url));
  */
 const ids = process.argv
   .slice(2)
-  .filter((a) => /^(V\d+|M\d+R)$/i.test(a))
+  // 🪤 EXP\d+ was added 2026-08-12 and the omission was NOT cosmetic: an id the
+  // filter does not recognise falls through to an empty list and prints the
+  // usage line, which reads as "you typed it wrong" rather than "this prefix is
+  // unsupported". Any NEW prefix (PIN, EXP, …) must be added here or staging
+  // silently refuses it.
+  .filter((a) => /^(V\d+|M\d+R|EXP\d+)$/i.test(a))
   .map((a) => a.toUpperCase());
 if (!ids.length) {
-  console.error("Usage: npm run kit -- V25 [V28 …]   |   npm run kit -- M5R");
+  console.error("Usage: npm run kit -- V25 [V28 …]   |   npm run kit -- M5R   |   npm run kit -- EXP01");
   process.exit(1);
 }
 
@@ -133,12 +138,29 @@ for (const id of ids) {
     copyFileSync(coverPath, join(outDir, `${entry.v} - cover${coverPath.slice(coverPath.lastIndexOf("."))}`));
   }
 
+  /**
+   * 🔴 ONLY BUILD CAPTIONS FOR THE PLATFORMS THIS ROW ACTUALLY TARGETS.
+   *
+   * This used to call all four builders unconditionally, which is fine while
+   * every video goes everywhere — and wrong the moment one does not. EXP01 is
+   * TikTok-only, and `buildInstagramMedia` correctly threw
+   * "no instagram utm link — refusing to publish untracked".
+   * ⭐ That gate is RIGHT and must not be softened: an untracked post is
+   * unattributable. The bug was asking it about a platform we are not posting
+   * to. ⛔ Never add a placeholder UTM to get past it — that fabricates the
+   * attribution the gate exists to guarantee.
+   */
+  const targets = new Set(
+    (entry.handPostTo?.length ? entry.handPostTo : (entry.platforms ?? [])).map((p) => p.toLowerCase()),
+  );
+  const wants = (p) => targets.size === 0 || targets.has(p);
+
   // Instagram fetches from a URL in the real flow; posting by hand needs none,
   // so a placeholder satisfies the validator and the caption is unaffected.
-  const ig = buildInstagramMedia(entry, "https://example.com/placeholder.mp4");
-  const fb = buildFacebookReel(entry);
-  const yt = buildYouTubeMetadata(entry, { privacy: "public" });
-  const tt = buildTikTokCaption(entry);
+  const ig = wants("instagram") ? buildInstagramMedia(entry, "https://example.com/placeholder.mp4") : null;
+  const fb = wants("facebook") ? buildFacebookReel(entry) : null;
+  const yt = wants("youtube") ? buildYouTubeMetadata(entry, { privacy: "public" }) : null;
+  const tt = wants("tiktok") ? buildTikTokCaption(entry) : null;
 
   const sheet = [
     `${entry.v} — ${entry.title}`,
@@ -148,28 +170,30 @@ for (const id of ids) {
     "Paste them exactly. Do not retype or 'improve' them — holding the caption",
     "identical is the whole point of posting these by hand.",
     "",
-    "═══ INSTAGRAM (Reel) ═══════════════════════════════════════════════",
-    "",
-    ig.caption,
-    "",
-    "═══ FACEBOOK (Reel) ═══════════════════════════════════════════════",
-    "",
-    fb.description,
-    "",
-    "═══ YOUTUBE (Short) ═══════════════════════════════════════════════",
-    "",
-    `TITLE:`,
-    yt.snippet.title,
-    "",
-    `DESCRIPTION:`,
-    yt.snippet.description,
-    "",
-    `TAGS: ${yt.snippet.tags.join(", ")}`,
-    "",
-    "═══ TIKTOK ════════════════════════════════════════════════════════",
-    "",
-    typeof tt === "string" ? tt : (tt.caption ?? JSON.stringify(tt)),
-    "",
+    ...(ig ? ["═══ INSTAGRAM (Reel) ═══════════════════════════════════════════════", "", ig.caption, ""] : []),
+    ...(fb ? ["═══ FACEBOOK (Reel) ═══════════════════════════════════════════════", "", fb.description, ""] : []),
+    ...(yt
+      ? [
+          "═══ YOUTUBE (Short) ═══════════════════════════════════════════════",
+          "",
+          `TITLE:`,
+          yt.snippet.title,
+          "",
+          `DESCRIPTION:`,
+          yt.snippet.description,
+          "",
+          `TAGS: ${yt.snippet.tags.join(", ")}`,
+          "",
+        ]
+      : []),
+    ...(tt
+      ? [
+          "═══ TIKTOK ════════════════════════════════════════════════════════",
+          "",
+          typeof tt === "string" ? tt : (tt.caption ?? JSON.stringify(tt)),
+          "",
+        ]
+      : []),
     "═══════════════════════════════════════════════════════════════════",
     "",
     "AFTER POSTING: send the post URLs. They go into the ledgers at",
