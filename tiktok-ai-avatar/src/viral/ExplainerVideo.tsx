@@ -107,6 +107,20 @@ export type ExplainerVideoProps = {
      * should read as someone browsing, not as a seek bar being dragged.
      */
     travel?: number;
+    /**
+     * Playback rate for a recording backdrop. <1 slows the scroll.
+     *
+     * ⭐ A phone scroll shot at natural speed is TOO FAST behind copy: the viewer
+     * is reading the foreground, so the background has to move slower than a real
+     * thumb would move it or it pulls the eye off the words.
+     *
+     * 🪤 THIS IS WHY THE ASSET IS ENCODED AT 60fps. Slowing a 30fps source to 0.7x
+     * yields 21 distinct source frames for every 30 output frames, so frames
+     * repeat and the scroll judders. From 60fps it is 42 — more than enough for
+     * every output frame to be distinct. ⛔ Do not re-encode the backdrop at 30fps
+     * while any rate below 1 is in use.
+     */
+    playbackRate?: number;
   };
   music: string;
   structure?: ActSeconds;
@@ -213,11 +227,12 @@ export const ExplainerVideo: React.FC<ExplainerVideoProps> = (props) => {
  * flick rather than a page being browsed — and the point is that it looks like
  * someone using the site.
  */
-const ScrollingBackdrop: React.FC<{ src: string; wash?: number; travel?: number }> = ({
-  src,
-  wash = 0.82,
-  travel = 100,
-}) => {
+const ScrollingBackdrop: React.FC<{
+  src: string;
+  wash?: number;
+  travel?: number;
+  playbackRate?: number;
+}> = ({ src, wash = 0.82, travel = 100, playbackRate = 1 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const P = usePalette();
@@ -243,7 +258,7 @@ const ScrollingBackdrop: React.FC<{ src: string; wash?: number; travel?: number 
           cannot fake, and they are most of why it reads as real.
           A still is still allowed: it falls back to the percentage translate. */}
       {isVideo ? (
-        <OffthreadVideo src={staticFile(src)} muted />
+        <OffthreadVideo src={staticFile(src)} muted playbackRate={playbackRate} />
       ) : (
         /* 🔴🔴 `<Img>`, NOT a CSS `background-image`. Remotion does not wait for a
            background-image before encoding a frame, so the backdrop can render
