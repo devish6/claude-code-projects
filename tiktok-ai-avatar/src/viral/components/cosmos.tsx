@@ -2,6 +2,7 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { hash, hashRange } from "../../lib/brand";
 import { usePalette } from "../PaletteContext";
+import { relativeLuminance } from "../palette";
 
 /**
  * Cosmos — the moving parts of AstrolBackground.
@@ -357,55 +358,72 @@ export const Motes: React.FC<{ density: number; pulse: number }> = ({ density, p
 };
 
 /* ---------------------------------------------------------------------------
- * SacredGeometry — the layer the owner actually asked for.
+ * SacredGeometry — METATRON'S CUBE BUILT OUT OF THE NUMERALS.
  *
- * 🔴 REFERENCE, 2026-08-13: the owner pointed at a set of images and said "that
- * is what I want in the background with motion" — gold line-art sacred geometry
- * on a deep jewel ground: a flower-of-life core, nested polygons, concentric
- * rings with fine radial ticks, and the numerals 1-9 arranged around the
- * circle. The brief with them: *a slowly rotating geometric structure behind
- * the content — circle, triangle, hexagon, concentric circles — with numerology
- * numbers positioned around it.*
+ * 🔴🔴 SECOND ATTEMPT. The first was rejected: *"too subtle and very boring."*
+ * That was a real mistake and worth naming, because the cause was not taste —
+ * I stacked two dimmers in series. The art was drawn at ~0.3 alpha AND placed
+ * inside `CalmCentre`, which pulls the centre band to ~26%. 0.3 x 0.26 is 0.08.
+ * At eight percent nothing is a design; it is a smudge. Protecting legibility is
+ * correct, but it is a REASON TO MOVE THE ART OFF THE COPY, never a reason to
+ * fade it until it disappears.
  *
- * ⭐ WHY IT BELONGS TO THIS ACCOUNT rather than being decoration: the ring of
- * 1-9 IS the subject. Every video names two or three of those numerals, so the
- * backdrop is the same alphabet the copy is written in.
+ * 📐 THE REFERENCE (owner, 2026-08-13, three images): Metatron's Cube on black,
+ * every node a glowing gold medallion with a numeral inside, all-pairs lines
+ * between nodes, concentric outer rings with fine ticks, heavy bloom.
+ * ⭐ It is the right reference for THIS account because the figure is made of
+ * the subject: thirteen nodes, and the copy names two or three of those digits
+ * in every video.
  *
- * ⭐⭐ EVERY RING TURNS AT A DIFFERENT RATE AND HALF OF THEM TURN THE OTHER WAY.
- * Periods are deliberately non-harmonic (0.9 / -1.4 / 2.1 / -0.7 / 1.6 deg per
- * second), so the figure never returns to a pose it has already held inside a
- * 24s reel. A single shared rotation would read as one rigid object spinning,
- * which is the "texture" failure the rebuild exists to escape.
+ * ⭐⭐ HOW LEGIBILITY IS KEPT WITHOUT DIMMING: the cube is drawn at full
+ * strength and the DENSE PART IS MOVED, not faded. `GEO_CY` sits well above the
+ * trait band, so the copy lands in the open lower field of the figure rather
+ * than inside the lattice. `CalmCentre` still wraps it as a backstop, but it is
+ * no longer doing the whole job alone.
  *
- * 🪤 THE NUMERALS ARE POSITIONED ROUND THE RING BUT NEVER ROTATED WITH IT — each
- * digit is placed at its computed x/y and drawn upright. Rotating the group
- * instead (the obvious shortcut) tumbles them, and an upside-down 6 is a 9. On a
- * numerology account that is not a cosmetic bug.
- *
- * 🪤 Drawn at low alpha and placed INSIDE `CalmCentre`, which pulls the centre
- * band to ~26%. The reference art is dense and bright through the middle; at
- * full strength across the optical centre it fills the counters of the type and
- * the copy turns to mud — worst on `sage-gold`, the light palette with dark ink.
- * ⛔ Do not raise these alphas without re-checking sage-gold at the trait band.
+ * 🪤 NUMERALS ARE COUNTER-ROTATED PER NODE. The cube rotates; each medallion's
+ * digit is rotated back by exactly the cube's angle so it stays upright. An
+ * upside-down 6 is a 9 — on a numerology account that is not cosmetic.
+ * 🪤 The glow is a WIDE LOW-ALPHA STROKE UNDER a crisp one, not an SVG filter.
+ * feGaussianBlur over a lattice this dense costs real render time per frame,
+ * and this repo renders the whole set on every copy change.
+ * ⛔ Tune on `sage-gold` first — light ground, dark ink. Gold-on-cream is the
+ * lowest-contrast pairing here, so DIAL_INK carries the lines on that palette.
  * ------------------------------------------------------------------------- */
 
-/** Vertices of a regular n-gon, radius r, rotated by `rot` degrees. */
-const polygon = (n: number, r: number, rot = 0): string =>
-  Array.from({ length: n }, (_, i) => {
-    const a = ((i / n) * 360 + rot - 90) * (Math.PI / 180);
-    return `${(CX + r * Math.cos(a)).toFixed(1)},${(CY + r * Math.sin(a)).toFixed(1)}`;
-  }).join(" ");
-
-/** Flower-of-life core: six circles around one, all of radius r. */
-const FLOWER: [number, number][] = [
-  [0, 0],
-  ...Array.from({ length: 6 }, (_, i): [number, number] => {
-    const a = (i / 6) * Math.PI * 2;
-    return [Math.cos(a), Math.sin(a)];
+/** Metatron's Cube: centre + inner hex (r) + outer hex (r*sqrt3, offset 30deg). */
+const MET_R = 152;
+const MET_NODES: { x: number; y: number; ring: 0 | 1 | 2 }[] = [
+  { x: 0, y: 0, ring: 0 },
+  ...Array.from({ length: 6 }, (_, i) => {
+    const a = ((i * 60 - 90) * Math.PI) / 180;
+    return { x: Math.cos(a) * MET_R, y: Math.sin(a) * MET_R, ring: 1 as const };
+  }),
+  ...Array.from({ length: 6 }, (_, i) => {
+    const a = ((i * 60 - 60) * Math.PI) / 180;
+    const r = MET_R * Math.sqrt(3);
+    return { x: Math.cos(a) * r, y: Math.sin(a) * r, ring: 2 as const };
   }),
 ];
 
-const NUMERALS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+/** Every node-to-node line. That all-pairs lattice IS Metatron's Cube. */
+const MET_EDGES: [number, number][] = MET_NODES.flatMap((_, i) =>
+  MET_NODES.slice(i + 1).map((_, j): [number, number] => [i, i + 1 + j]),
+);
+
+/** Digits on the twelve outer nodes; the centre stays open for the halo. */
+const MET_DIGITS = [7, 3, 4, 9, 2, 8, 6, 1, 5, 2, 8, 6];
+
+/**
+ * Geometry centre and scale are set so the ENTIRE figure clears the trait band.
+ * 🪤 Measured, not guessed: outer tick radius 344 + 20 = 364, so at GEO_CY 470
+ * the lowest ink lands at y=834 and the trait line sits at ~910. The first bold
+ * pass had the figure at 690 with radius 496 — its bottom edge reached 1186 and
+ * a medallion sat directly on the copy. Raising opacity is what made that
+ * visible; it was always there.
+ * ⛔ If you enlarge MET_R or the rings, re-check GEO_CY + outer radius < 840.
+ */
+const GEO_CY = 470;
 
 export const SacredGeometry: React.FC<{ pulse: number }> = ({ pulse }) => {
   const P = usePalette();
@@ -413,91 +431,110 @@ export const SacredGeometry: React.FC<{ pulse: number }> = ({ pulse }) => {
   const { fps } = useVideoConfig();
   const t = frame / fps;
 
-  const gold = P.DIAL_INK;
-  const lift = 1 + pulse * 0.5;
+  /**
+   * 🔴🔴 NOT `P.DIAL_INK`. That token carries alpha INSIDE the colour
+   * (`oklch(... / 0.30)`), so using it multiplied a third dimmer onto the two
+   * already in play — 0.92 opacity x 0.30 baked alpha x 0.26 centre mask is
+   * about SEVEN PERCENT, which is exactly why the first attempt read as a
+   * smudge. A token whose name says "ink" is not a paint colour.
+   * The reference is bright gold on near-black, so the gold is explicit and
+   * opaque, and it flips to a deep bronze on light grounds where a pale gold
+   * would vanish into cream.
+   */
+  /* 🪤 BOTH gradient stops, not one. Reading GRAD_B alone called `sage-gold`
+     DARK — its far stop is deep even though the palette is a light cream — so
+     the light palette got the bright-gold lattice meant for black grounds plus
+     near-black discs. The ground is a gradient; if EITHER end is light, the
+     art has to be dark-on-light. */
+  const lightGround =
+    Math.max(relativeLuminance(P.GRAD_A), relativeLuminance(P.GRAD_B)) > 0.45;
+  const gold = lightGround ? "oklch(0.46 0.10 74)" : "oklch(0.84 0.15 86)";
+  /* Disc behind each medallion. Without it the all-pairs lattice runs straight
+     through the digits and a 6 crossed by two lines stops reading as a 6. The
+     reference art does the same thing — every numeral sits on its own ground. */
+  const disc = lightGround ? "oklch(0.95 0.02 92)" : "oklch(0.17 0.02 60)";
+  const lift = 1 + pulse * 0.6;
+  const spin = t * 1.6;
 
-  // Ring of numerals sits OUTSIDE the trait band's horizontal extent so the
-  // digits flank the copy rather than sitting under it.
-  const numR = 486;
-  const numRot = t * -0.7;
+  const node = (n: { x: number; y: number }) => ({
+    x: CX + n.x,
+    y: GEO_CY + n.y,
+  });
 
   return (
-    <svg
-      width="1080"
-      height="1920"
-      viewBox="0 0 1080 1920"
-      style={{ position: "absolute", inset: 0 }}
-    >
-      {/* concentric rings + fine radial ticks */}
-      <g stroke={gold} fill="none" opacity={0.3 * lift}>
-        {[236, 318, 402, 528].map((r, i) => (
-          <circle key={r} cx={CX} cy={CY} r={r} strokeWidth={i === 3 ? 1.6 : 1} />
-        ))}
-      </g>
+    <svg width="1080" height="1920" viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
+      <g transform={`rotate(${spin} ${CX} ${GEO_CY})`}>
+        {/* lattice — wide soft pass under a crisp pass, which is the bloom */}
+        <g stroke={gold} fill="none" strokeLinecap="round">
+          <g opacity={0.22 * lift} strokeWidth={7}>
+            {MET_EDGES.map(([a, b], i) => {
+              const p1 = node(MET_NODES[a]);
+              const p2 = node(MET_NODES[b]);
+              return <line key={i} x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} />;
+            })}
+          </g>
+          <g opacity={0.7 * lift} strokeWidth={1.6}>
+            {MET_EDGES.map(([a, b], i) => {
+              const p1 = node(MET_NODES[a]);
+              const p2 = node(MET_NODES[b]);
+              return <line key={i} x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} />;
+            })}
+          </g>
+        </g>
 
-      <g opacity={0.26 * lift} transform={`rotate(${t * 1.6} ${CX} ${CY})`}>
-        {Array.from({ length: 72 }, (_, i) => {
-          const a = ((i / 72) * 360 - 90) * (Math.PI / 180);
-          const r0 = 540;
-          const r1 = 540 + (i % 6 === 0 ? 22 : 11);
+        {/* concentric outer rings + ticks */}
+        <g stroke={gold} fill="none" opacity={0.62 * lift}>
+          {[294, 330, 344].map((r, i) => (
+            <circle key={r} cx={CX} cy={GEO_CY} r={r} strokeWidth={i === 1 ? 2.4 : 1.2} />
+          ))}
+        </g>
+        <g opacity={0.5 * lift}>
+          {Array.from({ length: 96 }, (_, i) => {
+            const a = ((i / 96) * 360 - 90) * (Math.PI / 180);
+            const r1 = 344 + (i % 8 === 0 ? 20 : 9);
+            return (
+              <line
+                key={i}
+                x1={CX + 344 * Math.cos(a)}
+                y1={GEO_CY + 344 * Math.sin(a)}
+                x2={CX + r1 * Math.cos(a)}
+                y2={GEO_CY + r1 * Math.sin(a)}
+                stroke={gold}
+                strokeWidth={i % 8 === 0 ? 2.2 : 1}
+              />
+            );
+          })}
+        </g>
+
+        {/* medallions: glowing ring + upright numeral */}
+        {MET_NODES.map((n, i) => {
+          if (n.ring === 0) return null;
+          const { x, y } = node(n);
+          const outer = n.ring === 1 ? 44 : 40;
+          const digit = MET_DIGITS[i - 1];
+          const breathe = 0.7 + 0.3 * Math.sin(t * 1.1 + i * 1.7);
           return (
-            <line
-              key={i}
-              x1={CX + r0 * Math.cos(a)}
-              y1={CY + r0 * Math.sin(a)}
-              x2={CX + r1 * Math.cos(a)}
-              y2={CY + r1 * Math.sin(a)}
-              stroke={gold}
-              strokeWidth={0.9}
-            />
-          );
-        })}
-      </g>
-
-      {/* nested polygons, counter-rotating on non-harmonic periods */}
-      <g stroke={gold} fill="none" opacity={0.34 * lift}>
-        <polygon points={polygon(3, 430, t * 0.9)} strokeWidth={1.3} />
-        <polygon points={polygon(3, 430, t * 0.9 + 180)} strokeWidth={1.3} />
-        <polygon points={polygon(6, 318, t * -1.4)} strokeWidth={1.1} />
-        <polygon points={polygon(4, 372, t * 2.1)} strokeWidth={1} />
-      </g>
-
-      {/* flower-of-life core — the brightest element, and the most masked */}
-      <g
-        stroke={gold}
-        fill="none"
-        opacity={0.3 * lift}
-        transform={`rotate(${t * -0.55} ${CX} ${CY})`}
-      >
-        {FLOWER.map(([dx, dy], i) => (
-          <circle key={i} cx={CX + dx * 104} cy={CY + dy * 104} r={104} strokeWidth={1} />
-        ))}
-      </g>
-
-      {/* the 1-9 ring: the subject of every video in this series */}
-      <g opacity={0.42 * lift}>
-        {NUMERALS.map((n, i) => {
-          const deg = (i / NUMERALS.length) * 360 + numRot;
-          const a = (deg - 90) * (Math.PI / 180);
-          const x = CX + numR * Math.cos(a);
-          const y = CY + numR * Math.sin(a);
-          // Breathe each numeral on its own phase so the ring shimmers rather
-          // than pulsing as one block.
-          const glow = 0.72 + 0.28 * Math.sin(t * 0.9 + i * 1.7);
-          return (
-            <text
-              key={n}
-              x={x}
-              y={y}
-              fill={gold}
-              opacity={glow}
-              fontSize={62}
-              fontWeight={700}
-              textAnchor="middle"
-              dominantBaseline="central"
-            >
-              {n}
-            </text>
+            <g key={i}>
+              <circle cx={x} cy={y} r={outer - 2} fill={disc} opacity={0.88} />
+              <circle cx={x} cy={y} r={outer + 7} fill="none" stroke={gold} strokeWidth={9} opacity={0.16 * breathe * lift} />
+              <circle cx={x} cy={y} r={outer} fill="none" stroke={gold} strokeWidth={2.6} opacity={0.92 * breathe * lift} />
+              <circle cx={x} cy={y} r={outer - 11} fill="none" stroke={gold} strokeWidth={1.1} opacity={0.5 * breathe * lift} />
+              {/* counter-rotated so the digit never tumbles */}
+              <g transform={`rotate(${-spin} ${x} ${y})`}>
+                <text
+                  x={x}
+                  y={y}
+                  fill={gold}
+                  opacity={0.96 * breathe * lift}
+                  fontSize={outer + 6}
+                  fontWeight={700}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                >
+                  {digit}
+                </text>
+              </g>
+            </g>
           );
         })}
       </g>

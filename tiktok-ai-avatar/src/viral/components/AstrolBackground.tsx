@@ -120,10 +120,21 @@ export const AstrolBackground: React.FC<{
         </AbsoluteFill>
 
         <Orbits pulse={pulse} />
-        <SacredGeometry pulse={pulse} />
         <Motes density={particleDensity} pulse={pulse} />
         <PulseRing progress={ringProgress} />
       </CalmCentre>
+
+      {/*
+        🔴 DELIBERATELY OUTSIDE `CalmCentre`. Inside it the cube was multiplied
+        down to a smudge and the owner rejected it as "too subtle and very
+        boring" — correctly. Legibility here is bought by GEOMETRY, not opacity:
+        `GEO_CY` puts the dense lattice and every medallion ABOVE the trait band,
+        so the copy sits in the figure's open lower field. Only thin outer arcs
+        pass behind the type.
+        ⛔ Do not "fix" this by putting it back in the mask. That is the change
+        that produced the version that got rejected.
+      */}
+      <SacredGeometry pulse={pulse} />
 
       {/* Warm edge darkening — anchors the frame, keeps text off the edges.
           Outside the mask: this is contrast, not decoration. */}
