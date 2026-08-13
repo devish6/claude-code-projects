@@ -60,6 +60,32 @@ export const ViralCover: React.FC<ViralCoverProps> = ({ palette, ...props }) => 
   </PaletteProvider>
 );
 
+/**
+ * How far the watermark hangs off the right edge.
+ *
+ * 🔴 THE BUG THIS FIXES. The bleed was a flat `right: -80`, tuned by eye on wide
+ * numerals. At `fontSize: 640` that clips ~18% off a 7 or a 2, which still reads
+ * as the digit. **"1" is far narrower than every other numeral**, so the same 80px
+ * removed most of its ink and the cover rendered a grey SLAB running off the edge
+ * — unrecognisable as a number at all.
+ *
+ * 🔴 IT DID SHIP. `Viral-04-Identity-One` ("You Hate Being Told What To Do",
+ * 2026-07-17) carries a 1 and went out with the slab; it was simply never looked
+ * at, because covers had no consumer until the publishers began setting them on
+ * 07-31 — the same blind spot, and the same two weeks, as the sage-gold mismatch
+ * documented above. ⚠️ V04's cover as POSTED therefore differs from what this
+ * composition renders today. That is a fix, not a regression, but do not describe
+ * the two as identical.
+ * ⭐ The other 11 covers run 2, 3, 4, 7, 8 and the string "UPI" and are unchanged
+ * by this — `watermarkBleed` returns the original -80 for every one of them.
+ *
+ * 🪤 Judge any change here by RENDERING THE STILL AND LOOKING AT IT. The glyph's
+ * side bearing is a property of the display face, not something computable from the
+ * character, so these numbers are measured by eye and cannot be derived.
+ */
+export const watermarkBleed = (n: number | string): number =>
+  String(n).trim() === "1" ? -8 : -80;
+
 const CoverBody: React.FC<Omit<ViralCoverProps, "palette">> = ({
   kicker,
   title,
@@ -80,7 +106,7 @@ const CoverBody: React.FC<Omit<ViralCoverProps, "palette">> = ({
       <div
         style={{
           position: "absolute",
-          right: -80,
+          right: watermarkBleed(number),
           bottom: 150,
           fontFamily: displayFont,
           fontSize: 640,

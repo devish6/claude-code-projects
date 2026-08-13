@@ -589,6 +589,81 @@ export const BELIEF_CORRECTION_SEVEN: ViralVideoProps = {
   layout: "split",
 };
 
+/**
+ * Moolank 1 — "not arrogant". `belief-correction`, and THE ONE THAT SHIPS AS V34.
+ *
+ * ⭐ WHY 1 AND NOT 7: the owner asked for the series to run IN NUMBER ORDER
+ * (2026-08-12). V33 took 2, so the next belief correction is 1, and 3/4/5/6/7
+ * follow in sequence. `BELIEF_CORRECTION_SEVEN` above is already built, gated and
+ * frame-scanned — it is DEFERRED, not abandoned, and ships when the run reaches 7.
+ * ⛔ Do not delete it to tidy up; re-deriving a passing render costs more than the
+ * dead registry entry does.
+ *
+ * ⭐⭐⭐ EVERYTHING ELSE IS V33 HELD STILL. This is the replication: V33 measured
+ * 1,268 views / 1,140 viewers, the best Instagram post of the post-07-24 era, but
+ * moved BOTH angle and structure against V32 — so it measured the package
+ * `belief-correction + essay` at n=1. Angle, structure, bed, tempo, palette and
+ * payload frame all hold here so a second win means something.
+ *
+ * 📐 ONE DELIBERATE CHANGE: THE CTA. "Comment your birth number" → "Send this to
+ * a 1", and the caption drops the comment→DM ask entirely rather than demoting it
+ * (owner, 2026-08-12). The comment ask has returned 0 comments at n≈45.
+ * 🪤 `ctaGlyph: "👉"` is load-bearing — CTAEnding's default 👇 points at the
+ * comment box. See `BELIEF_CORRECTION_SEVEN` for the full reasoning.
+ *
+ * 🪤 CLOSEST SHIPPED TWIN IS V04 "You Hate Being Told What To Do" (2026-07-17,
+ * hook `id-1-authority`, category `identity`). Checked and cleared, but not
+ * ignored: V04 is a trait statement about resisting authority; this is a belief
+ * ABOUT the number, corrected. Different idea, different angle, ~4 weeks apart.
+ * ⚠️ If a third Moolank 1 video is ever proposed, re-read BOTH before writing.
+ *
+ * 🔴 EVERY CLAIM DERIVED FROM `moolank-cards.json` #1, NONE AUTHORED:
+ * the arrogance/confidence correction is `shadow[0]` ("Pride can harden into ego")
+ * and the card's OWN `problemHook.ask` ("Why does your confidence keep getting read
+ * as ego?"), quoted as the BELIEF then corrected — this angle's whole shape.
+ * "Leadership and initiative" is `strengths[0]` verbatim; "Originality and
+ * determination" is `strengths[2]` + `[3]`; "Never learned to ask for help" is
+ * `surpriseFact` ("The Sun never shares the sky. A 1 gets its confidence from that
+ * — and its inability to ask for help"), which is also the hook sub; "Drive, not
+ * ego" is `innerWorld` ("to use will in service of others, not ego"). 1 = Sun,
+ * born 1st/10th/19th/28th, same card.
+ *
+ * ⚠️ NO PAIR LIST AND THEREFORE NO EASE LINE, exactly as V33. `friendship.ts`
+ * gives 1 the mutual pairs 1&2 and 1&4 — but naming them would be a pair claim and
+ * would put "not listed doesn't mean no" back in scope. ⛔ Keep them out.
+ * 🪤 The card's `luckyNumbers` for 1 are [1,2,4,7], which is NOT the mutual-friend
+ * list — 1 lists 7 but 7's friends are [2,3,6]. Never publish `luckyNumbers` as
+ * matches; `derive-compatibility-pairs.mjs` is the only source for a pair claim.
+ */
+export const BELIEF_CORRECTION_ONE: ViralVideoProps = {
+  ...BELIEF_CORRECTION_SEVEN,
+  hookText: "IF YOU'RE A NUMBER 1",
+  hookAccent: "NOT ARROGANT",
+  hookSub: "The Sun never shares the sky",
+  number: 1,
+  numberLabel: "SUN · 1, 10, 19, 28",
+  /**
+   * FIVE traits for `essay`'s five value scenes at 64/71/70/64/65. ⛔ Never drop
+   * to four — that empties scene 5, which is the 2.13s hole V33 first shipped.
+   * Order is the angle's shape: name the belief, correct it, evidence it twice,
+   * land the reframe LAST.
+   */
+  traits: [
+    // The belief first, then the correction. Both words are the card's own.
+    "Called arrogant — it's confidence",
+    "Leadership and initiative",
+    // The line that stops this being a brag. `surpriseFact` pairs the Sun's
+    // self-sufficiency with the cost of it, and printing only the flattering
+    // half would be the Barnum read the angle exists to avoid.
+    "Never learned to ask for help",
+    "Originality and determination",
+    // The sentence the video exists to deliver, on the last scene before the
+    // montage. `innerWorld`, compressed.
+    "Drive, not ego",
+  ],
+  ctaText: "Send this to a 1",
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -602,6 +677,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-10-SelfFriendly-Three": SELF_FRIENDLY_THREE,
   "Viral-11-BeliefCorrection-Two": BELIEF_CORRECTION_TWO,
   "Viral-12-BeliefCorrection-Seven": BELIEF_CORRECTION_SEVEN,
+  "Viral-13-BeliefCorrection-One": BELIEF_CORRECTION_ONE,
 } as const;
 
 /**
@@ -677,6 +753,12 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 7, YOU'RE",
     accent: "NOT COLD",
     number: 7,
+  },
+  "Viral-13-BeliefCorrection-One": {
+    kicker: "Sun",
+    title: "IF YOU'RE A NUMBER 1, YOU'RE",
+    accent: "NOT ARROGANT",
+    number: 1,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set
