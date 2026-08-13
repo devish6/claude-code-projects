@@ -737,8 +737,8 @@ export const BELIEF_CORRECTION_ONE: ViralVideoProps = {
 export const ONE_WAY_MATCH_NINE: ViralVideoProps = {
   ...SELF_FRIENDLY_THREE,
   hookText: "IF YOU'RE A NUMBER 9",
-  hookAccent: "THEY LIST YOU BACK",
-  hookSub: "Most numbers can't say that",
+  hookAccent: "THEY WANT YOU BACK",
+  hookSub: "Every single one of them",
   number: 9,
   numberLabel: "MARS · 9, 18, 27",
   /**
@@ -753,13 +753,13 @@ export const ONE_WAY_MATCH_NINE: ViralVideoProps = {
    * ⛔ Do not lengthen these to read more naturally. Watch a render if you do.
    */
   traits: [
-    "9's list: 3, 6 and 9",
-    "All three list 9 back",
-    "Not listed isn't a no",
+    "9 wants 3, 6 and 9",
+    "They want 9 back",
+    "Others still work",
     // 6 of the 9 numbers carry at least one one-way entry, so "most" is
     // counted, not rhetorical.
-    "Most lists disagree",
-    "9's all match back",
+    "Most numbers chase",
+    "A 9 never has to",
   ],
   // Share, not comment. The comment ask has returned 0 comments at n~45 across
   // every post and platform; shares are the only mechanism ever measured to
@@ -803,18 +803,18 @@ export const ONE_WAY_MATCH_NINE: ViralVideoProps = {
 export const ONE_WAY_MATCH_EIGHT: ViralVideoProps = {
   ...ONE_WAY_MATCH_NINE,
   hookText: "IF YOU'RE A NUMBER 8",
-  hookAccent: "TWO DON'T LIST YOU BACK",
-  hookSub: "Your list and theirs disagree",
+  hookAccent: "YOU WANT THEM MORE",
+  hookSub: "Two of them, anyway",
   number: 8,
   numberLabel: "SATURN · 8, 17, 26",
   traits: [
-    "8's list: 3, 4, 6, 8",
+    "8 wants 3 and 6",
     // Directional, per Slice 2b. NOT "8 and 3 clash" — the table does not say
     // that, and 8's own row calls 3 a friend.
-    "3 and 6 don't list 8",
-    "Not listed isn't a no",
-    "8's mutual: 4 and 8",
-    "Two hold both ways",
+    "They don't want 8",
+    "Others still work",
+    "4 and 8 want 8 back",
+    "Two who do is enough",
   ],
   ctaText: "Send this to an 8",
   structure: { hook: 1.2, build: 0.8, value: 15.2, cta: 2.4 },
@@ -863,16 +863,17 @@ export const ONE_WAY_MATCH_EIGHT: ViralVideoProps = {
 export const ONE_WAY_MATCH_SEVEN: ViralVideoProps = {
   ...ONE_WAY_MATCH_NINE,
   hookText: "IF YOU'RE A NUMBER 7",
-  hookAccent: "2 LISTS YOU BACK",
-  hookSub: "Both ways, not one",
+  hookAccent: "ONE WANTS YOU BACK",
+  hookSub: "And one is enough",
   number: 7,
   numberLabel: "KETU · 7, 16, 25",
   traits: [
-    "7's list: 2, 3 and 6",
-    "2 lists 7 back too",
-    // friendship.ts puts 7 in its OWN neutral row, not its enemy row. Saying
-    // "7 clashes with 7" would be a claim the table does not make.
-    "7 is never its enemy",
+    "7 wants 2, 3 and 6",
+    "2 wants 7 back",
+    // The gentle landing. friendship.ts puts 7 in its OWN neutral row, never
+    // its enemy row, and 2 is a genuine two-way match — so "one is enough" is
+    // the true reading AND the one that does not tell a 7 they are alone.
+    "One is enough",
   ],
   ctaText: "Send this to a 7",
   structure: { hook: 1.2, build: 0.8, value: 10.2, cta: 2.0 },
