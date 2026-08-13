@@ -7,12 +7,19 @@ import { Snap, useFloat, useGlowPulse } from "../motion";
 /**
  * The only place branding is permitted — final ~3 seconds.
  *
- * The comment prompt comes FIRST and is the largest element; the wordmark and
- * URL are secondary. Comments are the strongest algorithmic signal available,
- * so the CTA optimises for a reply, not for a click.
+ * The ask comes FIRST and is the largest element; the wordmark and URL are
+ * secondary. The CTA optimises for an engagement action, not for a click.
+ *
+ * 🔴 THIS FILE USED TO SAY "comments are the strongest algorithmic signal
+ * available, so the CTA optimises for a reply". OUR OWN NUMBERS FALSIFIED THAT.
+ * The comment ask has now returned 0 comments on every post, on every platform,
+ * at n≈45 — the comment→DM funnel has never once fired. What HAS moved this
+ * account's reach, three times, is SHARES: 20 shares → 271 reach (2026-08-07),
+ * 126 shares → 499 (07-29), and V33's 6 shares + 4 reposts → 1,140 viewers
+ * against V30's 644 on zero shares. From V34 the ask is a share ask.
  */
 export const CTAEnding: React.FC<{
-  /** The engagement ask, e.g. "Comment your birth date". */
+  /** The engagement ask, e.g. "Send this to a 7". */
   text: string;
   url?: string;
   brandName?: string;
@@ -29,7 +36,18 @@ export const CTAEnding: React.FC<{
    * different face per language stops being one brand.
    */
   uiFont?: string;
-}> = ({ text, url = "numevix.com", brandName = "Numevix", uiFont = UI }) => {
+  /**
+   * The glyph under the ask. Defaults to 👇, which points at the comment box —
+   * correct for a comment ask and WRONG for anything else.
+   *
+   * 🪤 A share ask under a 👇 tells the viewer to do one thing and points them
+   * at another, on the one card the whole cycle is being measured on. On Reels
+   * and Shorts the send/share control sits on the RIGHT action rail, so a share
+   * ask passes 👉. ⛔ Do not change the default — V01–V33 all ride it, and the
+   * templates that pass nothing must keep rendering byte-identically.
+   */
+  glyph?: string;
+}> = ({ text, url = "numevix.com", brandName = "Numevix", uiFont = UI, glyph = "👇" }) => {
   const P = usePalette();
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -74,7 +92,7 @@ export const CTAEnding: React.FC<{
           transform: `translateY(${arrowY}px)`,
         }}
       >
-        👇
+        {glyph}
       </div>
 
       <Snap delay={14} y={30}>

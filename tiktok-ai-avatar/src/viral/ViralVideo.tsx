@@ -25,6 +25,11 @@ export type ViralVideoProps = {
   /** Exactly 4. Each 3–7 words. */
   traits: string[];
   ctaText: string;
+  /**
+   * Glyph under the CTA ask. Omitted means 👇 (a comment ask). A share ask
+   * must pass 👉 — the send control is on the right action rail, not below.
+   */
+  ctaGlyph?: string;
   music: string;
   /**
    * Per-video act structure. Optional so the locked V01-V06 baseline renders
@@ -82,6 +87,7 @@ export const ViralVideo: React.FC<ViralVideoProps> = (props) => {
     numberLabel,
     traits,
     ctaText,
+    ctaGlyph,
     music,
     palette,
     layout,
@@ -217,7 +223,11 @@ export const ViralVideo: React.FC<ViralVideoProps> = (props) => {
       {/* ── CTA 18–21s — the only branded frames ────────────────────────── */}
       <Sequence from={acts.ctaStart} durationInFrames={acts.total - acts.ctaStart}>
         <CinematicTransition type="zoomIn">
-          <CTAEnding text={ctaText} durationInFrames={acts.total - acts.ctaStart} />
+          <CTAEnding
+            text={ctaText}
+            glyph={ctaGlyph}
+            durationInFrames={acts.total - acts.ctaStart}
+          />
         </CinematicTransition>
       </Sequence>
       </AbsoluteFill>

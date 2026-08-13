@@ -1821,7 +1821,7 @@
         "palette": "ink-violet"
       },
       "variant": "identity",
-      "status": "generated",
+      "status": "posted",
       "source": "content-team",
       "needsReview": false,
       "composition": "Viral-11-BeliefCorrection-Two",
@@ -1845,7 +1845,7 @@
         "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V33",
         "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V33"
       },
-      "note": "Third content-team video, and the first on the NEW angle `belief-correction` (registered as `hypothesis` 2026-08-12). pickAngle returned NULL — best-match (V30/V31) and self-friendly (V32/PIN01) are both inside the 21-day window until 2026-09-01 — and null means write a new angle. So the ANGLE is this cycle's one deliberate change, by construction. 🪤 The angle is new to the REGISTRY, not to the account: V03 'Number 8 Is Not Unlucky' (07-14) and V06 'Number 9 Is Not Angry' (07-22) are both on it, which is why 8 and 9 were off the table as topics. 📐 Structure moved standard → essay (19.8s → 23.2s) because holding V32's production exactly would have duplicated V32's own fingerprint standard|140|centered|ink-violet two days apart into the same four feeds. LONGER was chosen over shorter on purpose: it penalises this video's completion rate, so a win on reach or shares cannot be explained by the change. 🪤 READ REACH, SHARE RATE and the 0–1s DROP against V32. Avg watch and completion % are NOT comparable — the cut is 3.4s longer. 🔴 First render shipped a 2.13s HOLE (frames 465–528, stddev 10.3 vs the 18 floor): essay produces 5 value scenes and the video had 4 traits, so spreadTraits dealt [1,1,1,1,0]. Found by rendering and looking; 435 tests were green and qa:frame passed. Fixed by a 5th derived trait AND a new blocking gate, checkTraitCoverage. Caption CTA is V32's VERBATIM so the comment-rate reading stays comparable — the comment ask has now failed at n≈45 and is the next cycle's change, not this one's.",
+      "note": "Third content-team video, and the first on the NEW angle `belief-correction` (registered as `hypothesis` 2026-08-12). pickAngle returned NULL — best-match (V30/V31) and self-friendly (V32/PIN01) are both inside the 21-day window until 2026-09-01 — and null means write a new angle. So the ANGLE is this cycle's one deliberate change, by construction. 🪤 The angle is new to the REGISTRY, not to the account: V03 'Number 8 Is Not Unlucky' (07-14) and V06 'Number 9 Is Not Angry' (07-22) are both on it, which is why 8 and 9 were off the table as topics. 📐 Structure moved standard → essay (19.8s → 23.2s) because holding V32's production exactly would have duplicated V32's own fingerprint standard|140|centered|ink-violet two days apart into the same four feeds. LONGER was chosen over shorter on purpose: it penalises this video's completion rate, so a win on reach or shares cannot be explained by the change. 🪤 READ REACH, SHARE RATE and the 0–1s DROP against V32. Avg watch and completion % are NOT comparable — the cut is 3.4s longer. 🔴 First render shipped a 2.13s HOLE (frames 465–528, stddev 10.3 vs the 18 floor): essay produces 5 value scenes and the video had 4 traits, so spreadTraits dealt [1,1,1,1,0]. Found by rendering and looking; 435 tests were green and qa:frame passed. Fixed by a 5th derived trait AND a new blocking gate, checkTraitCoverage. Caption CTA is V32's VERBATIM so the comment-rate reading stays comparable — the comment ask has now failed at n≈45 and is the next cycle's change, not this one's. \n\n📈 MEASURED 2026-08-12 (owner's dashboard, ~1.5 days live) -- V33 WON, and it is the best Instagram post of the post-07-24 era. 1,268 views / 1,140 viewers against V32's 169/137 and V30's 759/644, same week, same era; Instagram ranked it '1 of 10 latest' and labelled Viewers, avg watch time (6.9s), Follows (2) all 'Higher' and skip rate (67.2%) 'Lower'. First non-zero comment in n~45. 🔴 THE WIN IS NOT ASSIGNABLE TO THE ANGLE ALONE: this row changed angle AND structure against V32, so what is measured is the PACKAGE belief-correction+essay. ⭐⭐ THE GAIN IS IN THE TAIL, NOT THE HOOK -- 0-1s hold ~48% is WORSE than V32's 63.2% and V30's 69.5%, but ~20% were still watching at 15s where V32 was at 13.3% by 6s. The essay body holds; the first second still leaks, exactly as First Second predicted. 🪤 THE LEDGER SAID 2026-08-12T23:30 AND THE VIEWS CHART STARTS AUG 11 -- it went out roughly a day before the row claims. A ledger records what we REQUESTED. status corrected 'generated' -> 'posted'.",
       "instagramCaption": "Is 2 a weak number?\n\nIn Vedic numerology 2 is ruled by the Moon. The Moon changes shape every night — and so does a 2's mood. That reads as indecision. It isn't. It's the same sensitivity that lets a 2 read a room before anyone has spoken.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 29th? 2+9 = 11, 1+1 = 2.\n\nStrongest in partnership. Warmth people lean on.\n\nComment your birth number — or your full date of birth and I'll work it out — and I'll send your matches in the DM. Only comments with a number will trigger it.\n\nnumerology, birth number, moolank 2, date of birth numerology, moon numerology",
       "tiktokCaption": "Is 2 a weak number?\n\nIn Vedic numerology 2 is ruled by the Moon. The Moon changes shape every night — and so does a 2's mood. That reads as indecision. It isn't. It's the same sensitivity that lets a 2 read a room before anyone has spoken.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 29th? 2+9 = 11, 1+1 = 2.\n\nStrongest in partnership. Warmth people lean on.\n\nComment your birth number — or your full date of birth and I'll work it out — and I'll send your matches in the DM. Only comments with a number will trigger it.\n\nnumerology, birth number, moolank 2, date of birth numerology, moon numerology",
       "hashtags": [
@@ -1854,7 +1854,60 @@
         "#birthnumber",
         "#moolank2"
       ],
-      "suggestedPostTime": "2026-08-12T23:30:00-04:00"
+      "suggestedPostTime": "2026-08-12T23:30:00-04:00",
+      "measured": {
+        "source": "owner's Instagram dashboard, screenshots IMG_2161-2165, read 2026-08-12 ~22:08 EDT",
+        "platform": "instagram",
+        "readAt": "2026-08-12T22:08:00-04:00",
+        "ageAtRead": "~1.5 days",
+        "views": 1268,
+        "viewers": 1140,
+        "rankOfLatest": "1 of 10",
+        "avgWatchSeconds": 6.9,
+        "follows": 2,
+        "likes": 27,
+        "comments": 1,
+        "reposts": 4,
+        "shares": 6,
+        "saves": 8,
+        "rates": {
+          "skip": 0.672,
+          "share": 0.005,
+          "like": 0.024,
+          "save": 0.007,
+          "repost": 0.004,
+          "comment": 0.001
+        },
+        "baselineLabels": {
+          "viewers": "Higher",
+          "avgWatchTime": "Higher",
+          "follows": "Higher",
+          "skipRate": "Lower",
+          "saveRate": "Higher",
+          "commentRate": "Higher",
+          "shareRate": "Lower",
+          "likeRate": "Lower",
+          "repostRate": "Lower"
+        },
+        "audience": {
+          "followers": 0.021,
+          "nonFollowers": 0.979
+        },
+        "sources": {
+          "reelsTab": 0.726,
+          "explore": 0.188,
+          "feed": 0.048,
+          "stories": 0.029,
+          "other": 0.006
+        },
+        "retentionPixelRead": {
+          "1s": 0.48,
+          "2s": 0.38,
+          "15s": 0.2,
+          "23s": 0.05
+        },
+        "caveat": "Rates are computed on VIEWERS (1,140), not views -- verified: 27/1140=2.4% like, 6/1140=0.53% share, 8/1140=0.70% save, 1/1140=0.09% comment, 4/1140=0.35% repost. The 'Lower' labels on share/like/repost are DENOMINATOR EFFECTS, not declines: absolute shares went 0 (V30) and ~1 (V32) to 6. Retention figures are PIXEL-READ off the curve, same method as V30/V32, and are approximate."
+      }
     },
     {
       "v": "EXP01",
@@ -1892,6 +1945,56 @@
         "#freechart"
       ],
       "suggestedPostTime": "2026-08-12"
+    },
+    {
+      "v": "V34",
+      "title": "Moolank 7 — Not Cold (Belief Correction)",
+      "date": "2026-08-13",
+      "category": "compatibility",
+      "moolank": 7,
+      "angleId": "belief-correction",
+      "music": "cipherV15",
+      "variation": {
+        "structure": "essay",
+        "tempo": 140,
+        "layout": "split",
+        "palette": "ink-violet"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-12-BeliefCorrection-Seven",
+      "file": "out/qa/v34-beliefcorrection-seven.mp4",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V34",
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V34",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V34",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V34"
+      },
+      "instagramCaption": "Are number 7s cold?\n\nIn Vedic numerology 7 is ruled by Ketu — Rahu's other half, a body with no head. A 7 sees everything coming, and trusts almost none of it. That reads as cold. It isn't. It's the same depth that lets a 7 read people properly before deciding anything.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nTrust comes slowly. That is not distance — it is attention.\n\nKnow a 7? Send this to them.\n\nnumerology, birth number, moolank 7, ketu numerology, date of birth numerology",
+      "tiktokCaption": "Are number 7s cold?\n\nIn Vedic numerology 7 is ruled by Ketu — Rahu's other half, a body with no head. A 7 sees everything coming, and trusts almost none of it. That reads as cold. It isn't. It's the same depth that lets a 7 read people properly before deciding anything.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nTrust comes slowly. That is not distance — it is attention.\n\nKnow a 7? Send this to them.\n\nnumerology, birth number, moolank 7, ketu numerology, date of birth numerology",
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#moolank7"
+      ],
+      "suggestedPostTime": "2026-08-13T23:30:00-04:00",
+      "note": "Fourth content-team video and the REPLICATION of V33. ⭐⭐⭐ V33 measured as the best Instagram post of the post-07-24 era (1,268 views / 1,140 viewers vs V32's 169/137 and V30's 759/644, same week same era), but it moved TWO things against V32 — angle AND structure — so it measured the PACKAGE belief-correction+essay at n=1. This video holds the angle AND the structure on a different number to take it to n=2. 🔴 pickAngle RETURNED NULL AND WAS OVERRIDDEN BY THE OWNER (2026-08-12): with three approved angles and a ~1-day cadence, the 21-day window makes pickAngle return null in perpetuity and silently demand a brand-new angle every post — which is what made the angle the change on V32→V33 and would have deferred the CTA test a third time. ⚠️ The window rule is not wrong, it is UNSATISFIABLE at this cadence; splitting the angle window from the hook window is a separate change and was deliberately NOT bundled here. 📐 THE ONE DELIBERATE CHANGE IS THE CTA: 'Comment your birth number' → 'Send this to a 7', and the caption DROPS the comment→DM ask entirely rather than demoting it (owner, 2026-08-12) — the comment ask has returned 0 comments at n≈45 on every post and platform. 🪤 ctaGlyph '👉' is load-bearing, NOT decoration: CTAEnding's default 👇 points at the comment box, and a share ask over a 👇 points the viewer somewhere other than where it just told them to go. ⚠️ LAYOUT centered→split IS FORCED, NOT CHOSEN — pickVariation hard-skips any candidate matching the previous video's layout, and holding V33's production exactly would also reproduce its whole fingerprint. essay|140|split|ink-violet is unused in the 14-day window. Layout was the axis because structure HAD to hold (the tail is the result being replicated), palette is reserved as the next cycle's test, and tempo would move the payload off frame 53. 🪤 STRUCTURE/BED/TEMPO HELD ⇒ V34 IS THE SAME 23.198s AS V33, the one duplicate signal not broken here; accepted knowingly, since the historical failure was 28 renders at an identical 17.450667s, not two. 🔴 EVERY CLAIM DERIVED FROM moolank-cards.json #7: 'Reads people deeply' is relationships verbatim, 'Sees everything coming' is surpriseFact, 'Finds grace through difficulty' is strengths[3], and the cold/caution correction is relationships ('trust comes slowly') + shadow[0] ('Questions even the good things') quoted as the BELIEF then corrected. ⚠️ NO PAIR LIST AND NO EASE LINE, as V33: friendship.ts gives 7 the friends [2,3,6] and makes 7 the one number neutral to itself, but naming any of it would be a pair claim and would hand a 7 a verdict about being alone. ⛔ Do not add the matches. ✅ QA: 440 tests, assertRenderable PASS, qa:frame PASS (mean 35.95 / stddev 38), plan identical to V33 (696 frames, payload frame 53, scenes 64/71/70/64/65 for 5 traits). 🏆 ALL 696 FRAMES SCANNED, not just frame 0 — 6 short dips (3-4 frames each) at the scene crossfades and the CTA cut, min stddev 10.3. THE SHIPPED, WINNING V33 RENDER HAS THE IDENTICAL PATTERN AT THE IDENTICAL FRAMES (195/259/330/400/464/619, min 10.3), so they are crossfade midpoints, not holes — confirmed by pulling frames 196 and 465 and LOOKING: the trait text is present at low opacity. Frame 465 is the exact range where V33's original 2.13s hole was, and it now renders 'Depth, not distance'. 📏 PRE-REGISTERED READ (this cycle has two variables, angle-held + CTA-changed, so say in advance what each metric answers): REACH/VIEWS and the 0-1s drop and tail read the REPLICATION (does belief-correction+essay win again on a new number); SHARE RATE PER VIEWER reads the CTA. Comment count is expected to go to 0 by construction and carries no information. 🪤 V33's row claimed 2026-08-12T23:30 and its views chart starts Aug 11 — confirm the actual post time on the platform, not from this file."
     }
   ],
   "pipelineMeta": {

@@ -498,6 +498,97 @@ export const BELIEF_CORRECTION_TWO: ViralVideoProps = {
   structure: { hook: 1.333, build: 0.433, value: 18.861, cta: 2.571 },
 };
 
+/**
+ * Moolank 7 — "not cold". `belief-correction` AGAIN, and that is the point.
+ *
+ * ⭐⭐⭐ THIS IS A REPLICATION, NOT A NEW IDEA. V33 measured at 1,268 views /
+ * 1,140 viewers ~1.5 days in — the best Instagram post of the post-07-24 era,
+ * against V32's 169/137 and V30's 759/644 in the same week and the same era,
+ * with Instagram labelling Viewers, avg watch (6.9s) and Follows all "Higher"
+ * and skip rate (67.2%) "Lower". But V33 moved TWO things against V32 — angle
+ * AND structure — so what it actually measured is the PACKAGE
+ * `belief-correction + essay`, at n=1. Holding both here on a different number
+ * is what takes it to n=2 and separates the angle from the structure.
+ *
+ * 🔴 `pickAngle` RETURNED NULL AND WAS DELIBERATELY OVERRIDDEN (owner,
+ * 2026-08-12). All three approved angles now sit inside the 21-day window, so
+ * with a ~1-day cadence and three angles `pickAngle` returns null in perpetuity
+ * and silently demands a brand-new angle every single post. That is what made
+ * the angle the change on V32→V33, and following it here would have deferred the
+ * CTA test a third time and left V33's win permanently un-replicated. ⚠️ The
+ * window rule is not wrong — it is unsatisfiable at this cadence. Fixing it
+ * properly (splitting the angle window from the hook window) is a separate
+ * change and was deliberately NOT bundled into this cycle.
+ *
+ * 📐 ONE DELIBERATE CHANGE: THE CTA. `ctaText` goes from V33's "Comment your
+ * birth number" to "Send this to a 7", and the caption drops the comment→DM ask
+ * entirely rather than keeping it as a second line (owner, 2026-08-12). The
+ * comment ask has returned 0 comments at n≈45 across every post and platform;
+ * shares are the only mechanism ever measured to move this account's reach.
+ * 🪤 `ctaGlyph: "👉"` is NOT decoration — CTAEnding's default 👇 points at the
+ * comment box, and a share ask over a 👇 tells the viewer one thing and points
+ * them at another on the exact card being measured.
+ *
+ * ⚠️ LAYOUT MOVED centered → split, AND IT IS FORCED, NOT CHOSEN. `pickVariation`
+ * hard-skips any candidate whose layout equals the previous video's, and holding
+ * V33's production exactly would also have reproduced its whole fingerprint
+ * `essay|140|centered|ink-violet` two days apart. `essay|140|split|ink-violet` is
+ * unused in the 14-day window. Layout was picked as the axis because it is the
+ * only one that does not damage the replication: structure had to hold (the tail
+ * IS the result being replicated), palette is reserved as the next cycle's test,
+ * and tempo would move the payload off frame 53.
+ * 🪤 STRUCTURE, BED AND TEMPO ARE HELD, SO V34 IS THE SAME 23.198s AS V33 — the
+ * one duplicate-detection signal not broken here. Accepted knowingly: the
+ * historical failure was 28 renders at an identical 17.450667s, not two, and
+ * breaking it means moving structure, which is the thing being replicated.
+ *
+ * 🔴 EVERY CLAIM DERIVED FROM `moolank-cards.json` #7, NONE AUTHORED:
+ * "Reads people deeply" is `relationships` verbatim; "Sees everything coming" is
+ * `surpriseFact` ("A 7 sees everything coming, and trusts almost none of it");
+ * "Finds grace through difficulty" is `strengths[3]` verbatim; the cold/caution
+ * correction is `relationships` ("trust comes slowly") plus `shadow[0]`
+ * ("Questions even the good things"), quoted as the BELIEF and then corrected,
+ * which is this angle's whole shape. 7 = Ketu, born 7th/16th/25th, same card.
+ *
+ * ⚠️ NO PAIR LIST AND THEREFORE NO EASE LINE, exactly as V33. `friendship.ts`
+ * gives 7 the friends [2,3,6] and makes 7 the ONE number neutral to itself — but
+ * naming any of that on screen would be a pair claim, would put "not listed
+ * doesn't mean no" back in scope, and would hand a 7 a verdict about being alone.
+ * ⛔ Do not add the matches to the video. The caption does not carry them either.
+ */
+export const BELIEF_CORRECTION_SEVEN: ViralVideoProps = {
+  ...BELIEF_CORRECTION_TWO,
+  hookText: "IF YOU'RE A NUMBER 7",
+  hookAccent: "NOT COLD",
+  hookSub: "Trust just takes longer",
+  number: 7,
+  numberLabel: "KETU · 7, 16, 25",
+  /**
+   * FIVE traits, matching `essay`'s five value scenes at 64/71/70/64/65 — the
+   * structure is inherited unchanged, so the trait count must be too. Four
+   * would leave scene 5 empty, which is the 2.13s hole V33 shipped on its first
+   * render. ⛔ Never drop to four here.
+   *
+   * Order is the angle's shape, same as V33: name the belief, correct it,
+   * evidence it twice, land the reframe LAST.
+   */
+  traits: [
+    // The belief first, then the correction. Leading with the correction leaves
+    // the viewer arguing with a claim nobody made.
+    "Called cold — it's caution",
+    "Reads people deeply",
+    "Sees everything coming",
+    "Finds grace through difficulty",
+    // The sentence the video exists to deliver, on the final scene before the
+    // montage. "Distance" is the belief being retired; "depth" is `personality`.
+    "Depth, not distance",
+  ],
+  ctaText: "Send this to a 7",
+  // 🪤 Overrides CTAEnding's 👇. See the note above — this is load-bearing.
+  ctaGlyph: "👉",
+  layout: "split",
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -510,6 +601,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-09-BestMatch-Four-EN": BEST_MATCH_FOUR_EN,
   "Viral-10-SelfFriendly-Three": SELF_FRIENDLY_THREE,
   "Viral-11-BeliefCorrection-Two": BELIEF_CORRECTION_TWO,
+  "Viral-12-BeliefCorrection-Seven": BELIEF_CORRECTION_SEVEN,
 } as const;
 
 /**
@@ -575,6 +667,16 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 2, YOU'RE",
     accent: "NOT WEAK",
     number: 2,
+  },
+  // Same accent-carries-the-correction split as V33 and V03. 🪤 The title says
+  // "YOU'RE" and the accent completes it — the two are ONE sentence broken over
+  // the split, so neither half reads on its own. Do not reword one without the
+  // other.
+  "Viral-12-BeliefCorrection-Seven": {
+    kicker: "Ketu",
+    title: "IF YOU'RE A NUMBER 7, YOU'RE",
+    accent: "NOT COLD",
+    number: 7,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set
