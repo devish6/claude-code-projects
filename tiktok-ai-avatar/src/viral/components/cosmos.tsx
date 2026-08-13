@@ -355,3 +355,152 @@ export const Motes: React.FC<{ density: number; pulse: number }> = ({ density, p
     </>
   );
 };
+
+/* ---------------------------------------------------------------------------
+ * SacredGeometry — the layer the owner actually asked for.
+ *
+ * 🔴 REFERENCE, 2026-08-13: the owner pointed at a set of images and said "that
+ * is what I want in the background with motion" — gold line-art sacred geometry
+ * on a deep jewel ground: a flower-of-life core, nested polygons, concentric
+ * rings with fine radial ticks, and the numerals 1-9 arranged around the
+ * circle. The brief with them: *a slowly rotating geometric structure behind
+ * the content — circle, triangle, hexagon, concentric circles — with numerology
+ * numbers positioned around it.*
+ *
+ * ⭐ WHY IT BELONGS TO THIS ACCOUNT rather than being decoration: the ring of
+ * 1-9 IS the subject. Every video names two or three of those numerals, so the
+ * backdrop is the same alphabet the copy is written in.
+ *
+ * ⭐⭐ EVERY RING TURNS AT A DIFFERENT RATE AND HALF OF THEM TURN THE OTHER WAY.
+ * Periods are deliberately non-harmonic (0.9 / -1.4 / 2.1 / -0.7 / 1.6 deg per
+ * second), so the figure never returns to a pose it has already held inside a
+ * 24s reel. A single shared rotation would read as one rigid object spinning,
+ * which is the "texture" failure the rebuild exists to escape.
+ *
+ * 🪤 THE NUMERALS ARE POSITIONED ROUND THE RING BUT NEVER ROTATED WITH IT — each
+ * digit is placed at its computed x/y and drawn upright. Rotating the group
+ * instead (the obvious shortcut) tumbles them, and an upside-down 6 is a 9. On a
+ * numerology account that is not a cosmetic bug.
+ *
+ * 🪤 Drawn at low alpha and placed INSIDE `CalmCentre`, which pulls the centre
+ * band to ~26%. The reference art is dense and bright through the middle; at
+ * full strength across the optical centre it fills the counters of the type and
+ * the copy turns to mud — worst on `sage-gold`, the light palette with dark ink.
+ * ⛔ Do not raise these alphas without re-checking sage-gold at the trait band.
+ * ------------------------------------------------------------------------- */
+
+/** Vertices of a regular n-gon, radius r, rotated by `rot` degrees. */
+const polygon = (n: number, r: number, rot = 0): string =>
+  Array.from({ length: n }, (_, i) => {
+    const a = ((i / n) * 360 + rot - 90) * (Math.PI / 180);
+    return `${(CX + r * Math.cos(a)).toFixed(1)},${(CY + r * Math.sin(a)).toFixed(1)}`;
+  }).join(" ");
+
+/** Flower-of-life core: six circles around one, all of radius r. */
+const FLOWER: [number, number][] = [
+  [0, 0],
+  ...Array.from({ length: 6 }, (_, i): [number, number] => {
+    const a = (i / 6) * Math.PI * 2;
+    return [Math.cos(a), Math.sin(a)];
+  }),
+];
+
+const NUMERALS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+export const SacredGeometry: React.FC<{ pulse: number }> = ({ pulse }) => {
+  const P = usePalette();
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const t = frame / fps;
+
+  const gold = P.DIAL_INK;
+  const lift = 1 + pulse * 0.5;
+
+  // Ring of numerals sits OUTSIDE the trait band's horizontal extent so the
+  // digits flank the copy rather than sitting under it.
+  const numR = 486;
+  const numRot = t * -0.7;
+
+  return (
+    <svg
+      width="1080"
+      height="1920"
+      viewBox="0 0 1080 1920"
+      style={{ position: "absolute", inset: 0 }}
+    >
+      {/* concentric rings + fine radial ticks */}
+      <g stroke={gold} fill="none" opacity={0.3 * lift}>
+        {[236, 318, 402, 528].map((r, i) => (
+          <circle key={r} cx={CX} cy={CY} r={r} strokeWidth={i === 3 ? 1.6 : 1} />
+        ))}
+      </g>
+
+      <g opacity={0.26 * lift} transform={`rotate(${t * 1.6} ${CX} ${CY})`}>
+        {Array.from({ length: 72 }, (_, i) => {
+          const a = ((i / 72) * 360 - 90) * (Math.PI / 180);
+          const r0 = 540;
+          const r1 = 540 + (i % 6 === 0 ? 22 : 11);
+          return (
+            <line
+              key={i}
+              x1={CX + r0 * Math.cos(a)}
+              y1={CY + r0 * Math.sin(a)}
+              x2={CX + r1 * Math.cos(a)}
+              y2={CY + r1 * Math.sin(a)}
+              stroke={gold}
+              strokeWidth={0.9}
+            />
+          );
+        })}
+      </g>
+
+      {/* nested polygons, counter-rotating on non-harmonic periods */}
+      <g stroke={gold} fill="none" opacity={0.34 * lift}>
+        <polygon points={polygon(3, 430, t * 0.9)} strokeWidth={1.3} />
+        <polygon points={polygon(3, 430, t * 0.9 + 180)} strokeWidth={1.3} />
+        <polygon points={polygon(6, 318, t * -1.4)} strokeWidth={1.1} />
+        <polygon points={polygon(4, 372, t * 2.1)} strokeWidth={1} />
+      </g>
+
+      {/* flower-of-life core — the brightest element, and the most masked */}
+      <g
+        stroke={gold}
+        fill="none"
+        opacity={0.3 * lift}
+        transform={`rotate(${t * -0.55} ${CX} ${CY})`}
+      >
+        {FLOWER.map(([dx, dy], i) => (
+          <circle key={i} cx={CX + dx * 104} cy={CY + dy * 104} r={104} strokeWidth={1} />
+        ))}
+      </g>
+
+      {/* the 1-9 ring: the subject of every video in this series */}
+      <g opacity={0.42 * lift}>
+        {NUMERALS.map((n, i) => {
+          const deg = (i / NUMERALS.length) * 360 + numRot;
+          const a = (deg - 90) * (Math.PI / 180);
+          const x = CX + numR * Math.cos(a);
+          const y = CY + numR * Math.sin(a);
+          // Breathe each numeral on its own phase so the ring shimmers rather
+          // than pulsing as one block.
+          const glow = 0.72 + 0.28 * Math.sin(t * 0.9 + i * 1.7);
+          return (
+            <text
+              key={n}
+              x={x}
+              y={y}
+              fill={gold}
+              opacity={glow}
+              fontSize={62}
+              fontWeight={700}
+              textAnchor="middle"
+              dominantBaseline="central"
+            >
+              {n}
+            </text>
+          );
+        })}
+      </g>
+    </svg>
+  );
+};

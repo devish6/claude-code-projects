@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { Dial } from "../../components/vfx";
 import { usePalette } from "../PaletteContext";
-import { Aurora, CalmCentre, LightSweeps, Motes, Orbits, PulseRing } from "./cosmos";
+import { Aurora, CalmCentre, LightSweeps, Motes, Orbits, PulseRing, SacredGeometry } from "./cosmos";
 
 /**
  * Living backdrop.
@@ -24,8 +24,9 @@ import { Aurora, CalmCentre, LightSweeps, Motes, Orbits, PulseRing } from "./cos
  *   2. LightSweeps — two soft bands crossing the frame on 13.4s and 8.9s
  *   3. Orbits — tilted ellipses with travelling bodies (the concept layer)
  *   4. Dials — the numerology motif, kept, now breathing and counter-rotating
- *   5. Motes — three depth bands flowing on a shared current (real parallax)
- *   6. PulseRing — the one layer that reacts to a beat
+ *   5. SacredGeometry — nested polygons, rings and the 1-9 numeral ring
+ *   6. Motes — three depth bands flowing on a shared current (real parallax)
+ *   7. PulseRing — the one layer that reacts to a beat
  *
  * ⭐⭐ LEGIBILITY IS NOT NEGOTIATED WITH, IT IS ENFORCED STRUCTURALLY. Layers
  * 1–6 are all children of `CalmCentre`, which masks them to ~26% strength
@@ -119,6 +120,7 @@ export const AstrolBackground: React.FC<{
         </AbsoluteFill>
 
         <Orbits pulse={pulse} />
+        <SacredGeometry pulse={pulse} />
         <Motes density={particleDensity} pulse={pulse} />
         <PulseRing progress={ringProgress} />
       </CalmCentre>
