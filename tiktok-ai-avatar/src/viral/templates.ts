@@ -664,6 +664,239 @@ export const BELIEF_CORRECTION_ONE: ViralVideoProps = {
   ctaText: "Send this to a 1",
 };
 
+/* ===========================================================================
+ * ANGLE: `one-way-match` — NEW 2026-08-13. The first angle since
+ * `belief-correction`, and written because the replication of that one FAILED.
+ *
+ * 🔴🔴 WHAT V34 MEASURED, AND WHY THIS EXISTS. V33 (Moolank 2, "not weak") took
+ * 1,268 views / 1,140 viewers. V34 held the whole package — same angle, same
+ * `essay`, same tempo, same bed, same 23.198s — on Moolank 1 and took **189
+ * views / 159 viewers**, avg watch 3.8s against V33's 6.9s, skip 84.0%
+ * ("Higher") against 67.2% ("Lower"), 0 follows against 2. The package did NOT
+ * replicate at n=2.
+ * ⭐⭐⭐ THE DIAGNOSTIC IS IN THE CURVE, NOT THE TOTAL. Both videos hold ~48% at
+ * 1s — identical. V33 still had ~20% at 15s; V34 was at ~5% by 3s and flat
+ * after. The hook was reproduced exactly and the TAIL was not, so what failed
+ * is the body, not the first second. The most economical reading: "2 is weak"
+ * is a belief a 2 has actually been wounded by, and "1 is arrogant" is one a 1
+ * half-enjoys. `belief-correction` needs a belief that stings; it does not
+ * generalise to every number, which is precisely what running it in number
+ * order forces it to do.
+ *
+ * ⚠️ V34 ALSO MOVED TWO THINGS, NOT ONE. The ledger records the CTA
+ * (comment -> share) as "the one change", but `layout` went centered -> split
+ * in the same cycle. So the tail collapse cannot be cleanly assigned to topic
+ * over layout from V34 alone. Recorded rather than resolved.
+ *
+ * 📐 WHAT THIS ANGLE IS: your friend list and their friend list are not the
+ * same list. Derived entirely from `friendship.ts` — a pair counts as mutual
+ * only when BOTH rows name the other, which is the exact test
+ * `scripts/derive-compatibility-pairs.mjs` applies and the exact distinction
+ * `best-match` DISCARDS ("one-way entries are excluded on purpose"). This angle
+ * publishes the thing best-match deliberately hid, so it is new content off a
+ * table already on screen twice.
+ *
+ * 🔴 EVERY NUMBER CLAIM BELOW IS DERIVED, NONE AUTHORED. Read out of
+ * lib/numerology/friendship.ts on 2026-08-13:
+ *     n | friend      | mutual    | one-way
+ *     3 | [3,6,9]     | [3,6,9]   | []
+ *     6 | [3,6,9]     | [3,6,9]   | []
+ *     7 | [2,3,6]     | [2]       | [3,6]
+ *     8 | [3,4,6,8]   | [4,8]     | [3,6]
+ *     9 | [3,6,9]     | [3,6,9]   | []
+ * 3, 6 and 9 are the only numbers whose every match is mutual, and they list
+ * only each other — a closed triangle. Six of the nine have at least one
+ * one-way match, which is what makes "most numbers" true rather than rhetorical.
+ *
+ * 🪤 "Not listed doesn't mean no" IS NOT OPTIONAL AND IS NOT PADDING. Every
+ * pair-claim video in this repo carries it on screen (V31, V32) because naming
+ * a match list tells everyone else they are missing from it. 26 characters,
+ * measured to be exactly one line at trait size — do not rewrite it shorter or
+ * the word "no" orphans onto a second line, on the one bullet that must not be
+ * misread. `snap` has only three trait slots and cannot hold it, so V37 carries
+ * it in the caption instead and makes no exclusionary claim on screen.
+ *
+ * ⛔ THE ASYMMETRY MUST STAY DIRECTIONAL. Slice 2b's lesson applies verbatim:
+ * `relation(a,b)` is a ROOT-NUMBER table read as "b as seen from a's row", so
+ * "3 and 6 don't list 8 back" is sayable and "8 and 3 clash" is not. Never
+ * collapse a one-way entry into a symmetric verdict.
+ * ========================================================================= */
+
+/**
+ * V35 — Moolank 9. `essay`, and the strongest of the three: 9 is inside the
+ * closed 3-6-9 triangle, so its answer is a clean positive and the sting sits
+ * entirely in the setup ("most numbers have a one-way match") rather than on
+ * the viewer.
+ *
+ * 🔴 FIVE TRAITS, NOT FOUR. `essay`'s value act plans FIVE pairs whatever
+ * `traits.length` is — verified against `planViralVideo` on 2026-08-13:
+ * essay/4-traits and essay/5-traits both return pairs=[64,64,64,64,65]. Four
+ * traits therefore leaves scene 5 empty, which is the 2.13s of blank screen
+ * V33 shipped on its first render. ⛔ Never drop to four here.
+ */
+export const ONE_WAY_MATCH_NINE: ViralVideoProps = {
+  ...SELF_FRIENDLY_THREE,
+  hookText: "IF YOU'RE A NUMBER 9",
+  hookAccent: "THEY LIST YOU BACK",
+  hookSub: "Most numbers can't say that",
+  number: 9,
+  numberLabel: "MARS · 9, 18, 27",
+  /**
+   * 🪤 EVERY LINE IS <= 21 CHARACTERS. The repo's existing "26 characters is
+   * exactly one line" note is TRUE ONLY FOR THE LAYOUT AND TRAIT SIZE IT WAS
+   * WRITTEN AGAINST — re-measured by rendering and looking on 2026-08-13, a
+   * 25-char line wraps on `centered` here. 21 is the verified ceiling. The first render of this video used `grid`, whose column is
+   * narrower still, and "9's list: 3, 6 and 9" wrapped with the trailing 9
+   * ALONE on line two — on a video whose entire claim is what is on 9's list.
+   * Same orphan failure the repo already documents for "Not listed doesn't
+   * mean no", one character worse: here the orphan is the number itself.
+   * ⛔ Do not lengthen these to read more naturally. Watch a render if you do.
+   */
+  traits: [
+    "9's list: 3, 6 and 9",
+    "All three list 9 back",
+    "Not listed isn't a no",
+    // 6 of the 9 numbers carry at least one one-way entry, so "most" is
+    // counted, not rhetorical.
+    "Most lists disagree",
+    "9's all match back",
+  ],
+  // Share, not comment. The comment ask has returned 0 comments at n~45 across
+  // every post and platform; shares are the only mechanism ever measured to
+  // move this account's reach (20 shares -> 271, 126 -> 499).
+  // 🪤 ctaGlyph 👉 is load-bearing: CTAEnding's default 👇 points at the comment
+  // box, and a share ask over a 👇 points the viewer somewhere it did not ask.
+  ctaText: "Send this to a 9",
+  ctaGlyph: "👉",
+  structure: { hook: 1.2, build: 0.8, value: 18.8, cta: 2.6 },
+  palette: "ember",
+  /**
+   * 🔴🔴 `centered` ON ALL THREE, AND THE VARIATION RULE IS KNOWINGLY NOT
+   * SATISFIED ON THIS ONE AXIS. THE 26-CHARACTER ONE-LINE LIMIT IS
+   * LAYOUT-SPECIFIC, which the repo's existing notes do not say — they were all
+   * written against `centered`. Measured by rendering and LOOKING on
+   * 2026-08-13: `grid` wrapped a 20-char line, `fullbleed` wrapped 25, `split`
+   * wrapped 26. Only `centered` holds ~26. Every other layout caps near 20,
+   * which no line carrying two number lists can meet.
+   * The three still differ on structure, tempo and palette, so the
+   * `structure|tempo|layout|palette` fingerprint is unique across all three AND
+   * against V32-V34. Trading a REAL orphaned-word defect for a theoretical
+   * duplicate-detection risk on one of four axes is the wrong trade, and
+   * `centered` is the layout the account's best-ever post (V33) shipped on.
+   */
+  layout: "centered",
+  // 150 BPM. `tempo` is not a prop — the bed IS the tempo, and holding
+  // cipherV15 (140) across V32-V34 is a fingerprint axis left unmoved for
+  // three videos. helixV19 is tracked and usable at 149.95.
+  music: MUSIC.helixV19,
+};
+
+/**
+ * V36 — Moolank 8. `standard`, and the angle's sharpest case: 8 lists four
+ * numbers and only two list it back.
+ *
+ * 🔴 FIVE TRAITS BECAUSE FOUR BREACHES THE CEILING. `standard` with FOUR traits
+ * plans pairs=[73,68,64,65] — 73 frames against the 72-frame pair ceiling
+ * (SCENE_CHANGE * 2). Five traits plan [64,52,51,51,52], all clear. Measured
+ * with `planViralVideo`, not reasoned about. ⛔ Do not trim to four.
+ */
+export const ONE_WAY_MATCH_EIGHT: ViralVideoProps = {
+  ...ONE_WAY_MATCH_NINE,
+  hookText: "IF YOU'RE A NUMBER 8",
+  hookAccent: "TWO DON'T LIST YOU BACK",
+  hookSub: "Your list and theirs disagree",
+  number: 8,
+  numberLabel: "SATURN · 8, 17, 26",
+  traits: [
+    "8's list: 3, 4, 6, 8",
+    // Directional, per Slice 2b. NOT "8 and 3 clash" — the table does not say
+    // that, and 8's own row calls 3 a friend.
+    "3 and 6 don't list 8",
+    "Not listed isn't a no",
+    "8's mutual: 4 and 8",
+    "Two hold both ways",
+  ],
+  ctaText: "Send this to an 8",
+  structure: { hook: 1.2, build: 0.8, value: 15.2, cta: 2.4 },
+  palette: "sage-gold",
+  /**
+   * 🔴🔴 `centered` ON ALL THREE, AND THE VARIATION RULE IS KNOWINGLY NOT
+   * SATISFIED ON THIS ONE AXIS. THE 26-CHARACTER ONE-LINE LIMIT IS
+   * LAYOUT-SPECIFIC, which the repo's existing notes do not say — they were all
+   * written against `centered`. Measured by rendering and LOOKING on
+   * 2026-08-13: `grid` wrapped a 20-char line, `fullbleed` wrapped 25, `split`
+   * wrapped 26. Only `centered` holds ~26. Every other layout caps near 20,
+   * which no line carrying two number lists can meet.
+   * The three still differ on structure, tempo and palette, so the
+   * `structure|tempo|layout|palette` fingerprint is unique across all three AND
+   * against V32-V34. Trading a REAL orphaned-word defect for a theoretical
+   * duplicate-detection risk on one of four axes is the wrong trade, and
+   * `centered` is the layout the account's best-ever post (V33) shipped on.
+   */
+  layout: "centered",
+  // 128 BPM, tracked and usable at 128.15.
+  music: MUSIC.pulseV13,
+};
+
+/**
+ * V37 — Moolank 7. `snap`, and DELIBERATELY THE GENTLE CUT.
+ *
+ * 🔴🔴 7 IS THE ONE NUMBER THIS ANGLE CAN HURT. Its mutual set is [2] alone and
+ * it is the only number not friendly to itself. The full one-way reading —
+ * "you list three, one lists you back" — hands a 7 a verdict about being alone,
+ * which `BELIEF_CORRECTION_SEVEN` already refused to do on the same table and
+ * for the same reason. So this cut names what IS mutual and what 7 is to
+ * itself, and never counts what is missing.
+ * ⛔ Do not "complete the set" by adding the one-way line here. It is omitted on
+ * purpose, and the omission is the point.
+ *
+ * 🪤 `snap` has THREE trait slots (pairs=[52,64,64]), which cannot hold "Not
+ * listed doesn't mean no". That is survivable ONLY because this cut makes no
+ * exclusionary claim on screen — no "only", no count of who is missing. The
+ * line still ships in the caption.
+ *
+ * ⭐ Shortest of the three on purpose. Every tail this account has ever measured
+ * collapses; V34 was flat at ~5% from 3s to 23s, which is 20 seconds of video
+ * nobody watched. 14.2s is the first real test of whether a shorter cut holds a
+ * larger FRACTION, and it is cheap to run as the third of a set.
+ */
+export const ONE_WAY_MATCH_SEVEN: ViralVideoProps = {
+  ...ONE_WAY_MATCH_NINE,
+  hookText: "IF YOU'RE A NUMBER 7",
+  hookAccent: "2 LISTS YOU BACK",
+  hookSub: "Both ways, not one",
+  number: 7,
+  numberLabel: "KETU · 7, 16, 25",
+  traits: [
+    "7's list: 2, 3 and 6",
+    "2 lists 7 back too",
+    // friendship.ts puts 7 in its OWN neutral row, not its enemy row. Saying
+    // "7 clashes with 7" would be a claim the table does not make.
+    "7 is never its enemy",
+  ],
+  ctaText: "Send this to a 7",
+  structure: { hook: 1.2, build: 0.8, value: 10.2, cta: 2.0 },
+  palette: "ink-violet",
+  /**
+   * 🔴🔴 `centered` ON ALL THREE, AND THE VARIATION RULE IS KNOWINGLY NOT
+   * SATISFIED ON THIS ONE AXIS. THE 26-CHARACTER ONE-LINE LIMIT IS
+   * LAYOUT-SPECIFIC, which the repo's existing notes do not say — they were all
+   * written against `centered`. Measured by rendering and LOOKING on
+   * 2026-08-13: `grid` wrapped a 20-char line, `fullbleed` wrapped 25, `split`
+   * wrapped 26. Only `centered` holds ~26. Every other layout caps near 20,
+   * which no line carrying two number lists can meet.
+   * The three still differ on structure, tempo and palette, so the
+   * `structure|tempo|layout|palette` fingerprint is unique across all three AND
+   * against V32-V34. Trading a REAL orphaned-word defect for a theoretical
+   * duplicate-detection risk on one of four axes is the wrong trade, and
+   * `centered` is the layout the account's best-ever post (V33) shipped on.
+   */
+  layout: "centered",
+  // 165 BPM, tracked and usable at 164.95 — the fastest bed in the library,
+  // paired with the shortest structure.
+  music: MUSIC.kineticV18,
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -678,6 +911,9 @@ export const VIRAL_TEMPLATES = {
   "Viral-11-BeliefCorrection-Two": BELIEF_CORRECTION_TWO,
   "Viral-12-BeliefCorrection-Seven": BELIEF_CORRECTION_SEVEN,
   "Viral-13-BeliefCorrection-One": BELIEF_CORRECTION_ONE,
+  "Viral-14-OneWayMatch-Nine": ONE_WAY_MATCH_NINE,
+  "Viral-15-OneWayMatch-Eight": ONE_WAY_MATCH_EIGHT,
+  "Viral-16-OneWayMatch-Seven": ONE_WAY_MATCH_SEVEN,
 } as const;
 
 /**
@@ -759,6 +995,24 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 1, YOU'RE",
     accent: "NOT ARROGANT",
     number: 1,
+  },
+  "Viral-14-OneWayMatch-Nine": {
+    kicker: "Mars",
+    title: "IF YOU'RE A NUMBER 9",
+    accent: "THEY LIST YOU BACK",
+    number: 9,
+  },
+  "Viral-15-OneWayMatch-Eight": {
+    kicker: "Saturn",
+    title: "IF YOU'RE A NUMBER 8",
+    accent: "TWO DON'T LIST YOU BACK",
+    number: 8,
+  },
+  "Viral-16-OneWayMatch-Seven": {
+    kicker: "Ketu",
+    title: "IF YOU'RE A NUMBER 7",
+    accent: "2 LISTS YOU BACK",
+    number: 7,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set

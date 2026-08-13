@@ -1995,6 +1995,144 @@
       ],
       "suggestedPostTime": "2026-08-13T23:30:00-04:00",
       "note": "Fourth content-team video and the REPLICATION of V33. ⭐ NUMBER CHANGED 7 → 1 (owner, 2026-08-12): the belief-correction series runs IN NUMBER ORDER, and V33 took 2, so 1 ships next and 3/4/5/6/7 follow. Viral-12-BeliefCorrection-Seven is already built, gated and frame-scanned — DEFERRED, not abandoned; it ships when the run reaches 7. ⛔ Do not delete it to tidy up. ⭐⭐⭐ V33 measured as the best Instagram post of the post-07-24 era (1,268 views / 1,140 viewers vs V32's 169/137 and V30's 759/644, same week same era), but it moved TWO things against V32 — angle AND structure — so it measured the PACKAGE belief-correction+essay at n=1. This video holds the angle AND the structure on a different number to take it to n=2. 🔴 pickAngle RETURNED NULL AND WAS OVERRIDDEN BY THE OWNER (2026-08-12): with three approved angles and a ~1-day cadence, the 21-day window makes pickAngle return null in perpetuity and silently demand a brand-new angle every post — which is what made the angle the change on V32→V33 and would have deferred the CTA test a third time. ⚠️ The window rule is not wrong, it is UNSATISFIABLE at this cadence; splitting the angle window from the hook window is a separate change and was deliberately NOT bundled here. 📐 THE ONE DELIBERATE CHANGE IS THE CTA: 'Comment your birth number' → 'Send this to a 1', and the caption DROPS the comment→DM ask entirely rather than demoting it (owner, 2026-08-12) — the comment ask has returned 0 comments at n≈45 on every post and platform. 🪤 ctaGlyph '👉' is load-bearing, NOT decoration: CTAEnding's default 👇 points at the comment box, and a share ask over a 👇 points the viewer somewhere other than where it just told them to go. ⚠️ LAYOUT centered→split IS FORCED, NOT CHOSEN — pickVariation hard-skips any candidate matching the previous video's layout, and holding V33's production exactly would also reproduce its whole fingerprint. essay|140|split|ink-violet is unused in the 14-day window. Layout was the axis because structure HAD to hold (the tail is the result being replicated), palette is reserved as the next cycle's test, and tempo would move the payload off frame 53. 🪤 STRUCTURE/BED/TEMPO HELD ⇒ V34 IS THE SAME 23.198s AS V33, the one duplicate signal not broken here; accepted knowingly, since the historical failure was 28 renders at an identical 17.450667s, not two. 🔴 EVERY CLAIM DERIVED FROM moolank-cards.json #1: the arrogance/confidence correction is shadow[0] ('Pride can harden into ego') AND the card's own problemHook.ask ('Why does your confidence keep getting read as ego?'), quoted as the BELIEF then corrected; 'Leadership and initiative' is strengths[0] verbatim; 'Originality and determination' is strengths[2]+[3]; 'Never learned to ask for help' is surpriseFact ('The Sun never shares the sky. A 1 gets its confidence from that — and its inability to ask for help'), which is also the hook sub; 'Drive, not ego' is innerWorld. 🪤 CLOSEST SHIPPED TWIN IS V04 'You Hate Being Told What To Do' (2026-07-17, hook id-1-authority, category identity) — checked and cleared: V04 is a trait statement about resisting authority, this is a belief ABOUT the number, corrected. Different idea, different angle, ~4 weeks apart. ⚠️ Re-read both before any third Moolank 1 video. ⚠️ NO PAIR LIST AND NO EASE LINE, as V33: friendship.ts gives 1 the mutual pairs 1&2 and 1&4, but naming them would be a pair claim. 🪤 The card's luckyNumbers for 1 are [1,2,4,7] and are NOT the mutual-friend list — 1 lists 7 but 7's friends are [2,3,6]. Never publish luckyNumbers as matches. 🏆 ALL 696 FRAMES SCANNED, not just frame 0 — 6 short dips (3-4 frames each) at the scene crossfades and the CTA cut, min stddev 10.3. THE SHIPPED, WINNING V33 RENDER HAS THE IDENTICAL PATTERN AT THE IDENTICAL FRAMES (195/259/330/400/464/619, min 10.3), so they are crossfade midpoints, not holes — confirmed by pulling frames 196 and 465 and LOOKING: the trait text is present at low opacity. Frame 465 is the exact range where V33's original 2.13s hole was, and it now renders 'Depth, not distance'. 📏 PRE-REGISTERED READ (this cycle has two variables, angle-held + CTA-changed, so say in advance what each metric answers): REACH/VIEWS and the 0-1s drop and tail read the REPLICATION (does belief-correction+essay win again on a new number); SHARE RATE PER VIEWER reads the CTA. Comment count is expected to go to 0 by construction and carries no information. 🪤 V33's row claimed 2026-08-12T23:30 and its views chart starts Aug 11 — confirm the actual post time on the platform, not from this file."
+    },
+    {
+      "v": "V35",
+      "title": "Moolank 9 — They List You Back (One-Way Match)",
+      "date": "2026-08-13",
+      "category": "compatibility",
+      "moolank": 9,
+      "angleId": "one-way-match",
+      "music": "helixV19",
+      "variation": {
+        "structure": "essay",
+        "tempo": 150,
+        "layout": "centered",
+        "palette": "ember"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-14-OneWayMatch-Nine",
+      "file": "out/qa/v35-onewaymatch-nine.mp4",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V35",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V35",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V35",
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V35"
+      },
+      "note": "One-way-match set, video 1 of 3, staged for the owner to schedule before a 3-day absence. NUMBERS RUN 9 -> 8 -> 7, continuing the descending order the last four posts already followed (V30 m4, V32 m3, V33 m2, V34 m1) — owner 2026-08-13: numbers stay in numerical order even when the angle changes. THE ANGLE IS NEW BECAUSE belief-correction DID NOT REPLICATE: V34 held V33's entire package on a different number and fell 1,268 -> 189 views, with an IDENTICAL ~48% hold at 1s and a tail that collapsed to ~5% by 3s — the hook replicated, the body did not. Every claim derived from friendship.ts. All three ship on `centered`: the one-line character ceiling is LAYOUT-SPECIFIC (grid wrapped 20 chars, fullbleed 25, split 26, centered ~21), so layout could not be varied without orphaning a word onto its own line; structure, tempo and palette all differ instead.",
+      "instagramCaption": "In Vedic numerology 9's friends are 3, 6 and 9 — and all three list 9 back.\n\nThat is rarer than it sounds. Most numbers carry at least one match that only runs one way: you list them, they don't list you.\n\n3, 6 and 9 only list each other. It is a closed circle, and 9 is inside it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 27th? 2+7 = 9.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 9 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "tiktokCaption": "In Vedic numerology 9's friends are 3, 6 and 9 — and all three list 9 back.\n\nThat is rarer than it sounds. Most numbers carry at least one match that only runs one way: you list them, they don't list you.\n\n3, 6 and 9 only list each other. It is a closed circle, and 9 is inside it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 27th? 2+7 = 9.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 9 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "facebookCaption": "In Vedic numerology 9's friends are 3, 6 and 9 — and all three list 9 back.\n\nThat is rarer than it sounds. Most numbers carry at least one match that only runs one way: you list them, they don't list you.\n\n3, 6 and 9 only list each other. It is a closed circle, and 9 is inside it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 27th? 2+7 = 9.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 9 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "youtubeTitle": "Moolank 9 — They List You Back (One-Way Match)",
+      "youtubeDescription": "In Vedic numerology 9's friends are 3, 6 and 9 — and all three list 9 back.\n\nThat is rarer than it sounds. Most numbers carry at least one match that only runs one way: you list them, they don't list you.\n\n3, 6 and 9 only list each other. It is a closed circle, and 9 is inside it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 27th? 2+7 = 9.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 9 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility"
+    },
+    {
+      "v": "V36",
+      "title": "Moolank 8 — Two Do Not List You Back (One-Way Match)",
+      "date": "2026-08-14",
+      "category": "compatibility",
+      "moolank": 8,
+      "angleId": "one-way-match",
+      "music": "pulseV13",
+      "variation": {
+        "structure": "standard",
+        "tempo": 128,
+        "layout": "centered",
+        "palette": "sage-gold"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-15-OneWayMatch-Eight",
+      "file": "out/qa/v36-onewaymatch-eight.mp4",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V36",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V36",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V36",
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V36"
+      },
+      "note": "One-way-match set, video 2 of 3, staged for the owner to schedule before a 3-day absence. NUMBERS RUN 9 -> 8 -> 7, continuing the descending order the last four posts already followed (V30 m4, V32 m3, V33 m2, V34 m1) — owner 2026-08-13: numbers stay in numerical order even when the angle changes. THE ANGLE IS NEW BECAUSE belief-correction DID NOT REPLICATE: V34 held V33's entire package on a different number and fell 1,268 -> 189 views, with an IDENTICAL ~48% hold at 1s and a tail that collapsed to ~5% by 3s — the hook replicated, the body did not. Every claim derived from friendship.ts. All three ship on `centered`: the one-line character ceiling is LAYOUT-SPECIFIC (grid wrapped 20 chars, fullbleed 25, split 26, centered ~21), so layout could not be varied without orphaning a word onto its own line; structure, tempo and palette all differ instead.",
+      "instagramCaption": "In Vedic numerology 8 lists four numbers as friends: 3, 4, 6 and 8.\n\nBut 3 and 6 don't list 8 back — their circle is 3, 6 and 9. So two of those four only run one way.\n\nThe two that hold in both directions are 4 and 8.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 26th? 2+6 = 8.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 8 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "tiktokCaption": "In Vedic numerology 8 lists four numbers as friends: 3, 4, 6 and 8.\n\nBut 3 and 6 don't list 8 back — their circle is 3, 6 and 9. So two of those four only run one way.\n\nThe two that hold in both directions are 4 and 8.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 26th? 2+6 = 8.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 8 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "facebookCaption": "In Vedic numerology 8 lists four numbers as friends: 3, 4, 6 and 8.\n\nBut 3 and 6 don't list 8 back — their circle is 3, 6 and 9. So two of those four only run one way.\n\nThe two that hold in both directions are 4 and 8.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 26th? 2+6 = 8.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 8 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "youtubeTitle": "Moolank 8 — Two Do Not List You Back (One-Way Match)",
+      "youtubeDescription": "In Vedic numerology 8 lists four numbers as friends: 3, 4, 6 and 8.\n\nBut 3 and 6 don't list 8 back — their circle is 3, 6 and 9. So two of those four only run one way.\n\nThe two that hold in both directions are 4 and 8.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 26th? 2+6 = 8.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 8 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility"
+    },
+    {
+      "v": "V37",
+      "title": "Moolank 7 — 2 Lists You Back (One-Way Match)",
+      "date": "2026-08-15",
+      "category": "compatibility",
+      "moolank": 7,
+      "angleId": "one-way-match",
+      "music": "kineticV18",
+      "variation": {
+        "structure": "snap",
+        "tempo": 165,
+        "layout": "centered",
+        "palette": "ink-violet"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-16-OneWayMatch-Seven",
+      "file": "out/qa/v37-onewaymatch-seven.mp4",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V37",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V37",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V37",
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V37"
+      },
+      "note": "One-way-match set, video 3 of 3, staged for the owner to schedule before a 3-day absence. NUMBERS RUN 9 -> 8 -> 7, continuing the descending order the last four posts already followed (V30 m4, V32 m3, V33 m2, V34 m1) — owner 2026-08-13: numbers stay in numerical order even when the angle changes. THE ANGLE IS NEW BECAUSE belief-correction DID NOT REPLICATE: V34 held V33's entire package on a different number and fell 1,268 -> 189 views, with an IDENTICAL ~48% hold at 1s and a tail that collapsed to ~5% by 3s — the hook replicated, the body did not. Every claim derived from friendship.ts. All three ship on `centered`: the one-line character ceiling is LAYOUT-SPECIFIC (grid wrapped 20 chars, fullbleed 25, split 26, centered ~21), so layout could not be varied without orphaning a word onto its own line; structure, tempo and palette all differ instead.",
+      "instagramCaption": "In Vedic numerology 7 lists 2, 3 and 6 — and 2 lists 7 back, both ways.\n\n7 is also the one number that isn't friendly to itself. But the table calls 7 NEUTRAL to 7, never an enemy. Two 7s aren't a clash — they just don't double up.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 7 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "tiktokCaption": "In Vedic numerology 7 lists 2, 3 and 6 — and 2 lists 7 back, both ways.\n\n7 is also the one number that isn't friendly to itself. But the table calls 7 NEUTRAL to 7, never an enemy. Two 7s aren't a clash — they just don't double up.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 7 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "facebookCaption": "In Vedic numerology 7 lists 2, 3 and 6 — and 2 lists 7 back, both ways.\n\n7 is also the one number that isn't friendly to itself. But the table calls 7 NEUTRAL to 7, never an enemy. Two 7s aren't a clash — they just don't double up.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 7 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "youtubeTitle": "Moolank 7 — 2 Lists You Back (One-Way Match)",
+      "youtubeDescription": "In Vedic numerology 7 lists 2, 3 and 6 — and 2 lists 7 back, both ways.\n\n7 is also the one number that isn't friendly to itself. But the table calls 7 NEUTRAL to 7, never an enemy. Two 7s aren't a clash — they just don't double up.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nNot on the list? It doesn't mean no. The table only ranks the strongest pulls.\n\nSend this to a 7 and ask if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility"
     }
   ],
   "pipelineMeta": {

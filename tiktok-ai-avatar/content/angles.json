@@ -41,6 +41,15 @@
       "evidence": "Conflict-framed posts measured 1,115-1,436 likes against the positive frame's 35K. The top-liked comment on one was a sceptic mocking the account. Also delivers a verdict ON the reader, which is why the Barnum hooks were rejected.",
       "status": "rejected",
       "assertsFacts": false
+    },
+    {
+      "id": "one-way-match",
+      "frame": "positive",
+      "summary": "Your friend list and their friend list are not the same list",
+      "evidence": "NEW 2026-08-13, status hypothesis -- registered because belief-correction FAILED to replicate. V33 (Moolank 2) took 1,268 views/1,140 viewers; V34 held the entire package (same angle, essay, tempo, bed, 23.198s) on Moolank 1 and took 189/159, avg watch 3.8s vs 6.9s, skip 84.0% (Higher) vs 67.2% (Lower), 0 follows vs 2. Both held ~48% at 1s -- IDENTICAL hooks -- and diverged entirely in the tail: V33 ~20% at 15s, V34 ~5% from 3s on. So the hook replicated and the body did not. Derived from friendship.ts: a pair counts only when BOTH rows name the other, which is the exact distinction best-match DISCARDS (\"one-way entries are excluded on purpose\"). This angle publishes what best-match deliberately hid.",
+      "caveat": "UNMEASURED, n=0. Registered as `hypothesis`, NOT approved -- V33 is the standing warning against promoting an angle off one number. 3, 6 and 9 are the only numbers whose every match is mutual and they list only each other, so the 9 cut lands positive while the 8 cut lands on a real asymmetry; if 9 wins and 8 does not, that is a TOPIC effect, not an angle effect, and the same trap that produced V34. 7 is deliberately given the gentle cut (its mutual set is [2] alone and it is the only number not friendly to itself) -- BELIEF_CORRECTION_SEVEN refused to hand a 7 a verdict about being alone on the same table, and that refusal is inherited here. Also: all three ship on `centered` because the one-line character ceiling is layout-specific and only centered clears it, so layout is NOT a variation axis across this set.",
+      "status": "hypothesis",
+      "assertsFacts": false
     }
   ]
 }
