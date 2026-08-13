@@ -52,7 +52,16 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
   /** The original: everything centred, generous gaps. */
   centered: {
     padX: 80,
-    safeTop: SAFE_TOP,
+    /**
+     * 🔴 DELIBERATELY DEEPER THAN `SAFE_TOP`. `justify: "center"` centres the
+     * block between safeTop and safeBottom, so this is the knob that sets the
+     * copy's height. The backdrop's Metatron's Cube occupies the upper field
+     * (lowest ink at y=834); at the shared SAFE_TOP the text centred at ~921
+     * and sat right on the figure's lower arc. 0.25 puts it at ~1046, clear of
+     * the cube and still well above the platform caption bar.
+     * ⛔ If the cube's GEO_CY or radii change, re-check this against it.
+     */
+    safeTop: Math.round(HEIGHT * 0.25),
     safeBottom: SAFE_BOTTOM,
     justify: "center",
     align: "center",
