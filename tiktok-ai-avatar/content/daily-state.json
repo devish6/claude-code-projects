@@ -2133,6 +2133,52 @@
       "facebookCaption": "If you're a 7, you don't let many people in — and you don't need to.\n\nIn Vedic numerology 7 gets on with 2, 3 and 6, and 2 feels the same way back. That one runs both directions.\n\n7 is also the only number that isn't listed as its own friend. But it's marked neutral to itself, never an enemy. Two 7s don't clash. They just don't double up.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 7 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
       "youtubeTitle": "Moolank 7 — One Wants You Back (One-Way Match)",
       "youtubeDescription": "If you're a 7, you don't let many people in — and you don't need to.\n\nIn Vedic numerology 7 gets on with 2, 3 and 6, and 2 feels the same way back. That one runs both directions.\n\n7 is also the only number that isn't listed as its own friend. But it's marked neutral to itself, never an enemy. Two 7s don't clash. They just don't double up.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 25th? 2+5 = 7.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 7 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility"
+    },
+    {
+      "v": "V38",
+      "title": "Moolank 6 — You Don't Want Them Back (One-Way Match)",
+      "date": "2026-08-17",
+      "category": "compatibility",
+      "moolank": 6,
+      "angleId": "one-way-match",
+      "music": "meridianV16",
+      "variation": {
+        "structure": "standard",
+        "tempo": 140,
+        "layout": "centered",
+        "palette": "sage-gold"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-17-OneWayMatch-Six",
+      "file": "out/qa/v38-onewaymatch-six.mp4",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V38",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V38",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V38",
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V38"
+      },
+      "note": "V38, first cut on the RECEIVING end of one-way-match and the first video built on the 2026-08-16 measurement of V33-V37. ⭐⭐⭐ THE PREDICTOR IS BODY SURVIVAL, hold(5s)/hold(1s), measured in pixels off five IG retention charts: V33 45.8% -> 1,268 views, V36 42.1% -> 1,896, V35 31.9% -> 253, V34 27.6% -> 189, V37 18.6% -> 180. Two clusters, no middle. The 0.5s hold no longer discriminates (all five sit 77.6-84.6%), so the first second is solved and the new Metatron background bought nothing there — V36 tied V33 exactly at 84.6%. ⭐⭐⭐ THE ANGLE IS NOT THE UNIT OF ANALYSIS, THE STING IS: sorting the five by whether the claim is UNFLATTERING ABOUT THE VIEWER splits winners from losers perfectly and does so ACROSS TWO ANGLES (V33 'you are not weak' and V36 'you want them more' wound and won; V34 'not arrogant', V35 'they want you back' and V37 'one wants you back' flatter or console and died). belief-correction was therefore abandoned on a false read — the old ledger claim that V33 and V34 both held '~48% at 1s, identical' is measured FALSE (67.3% vs 52.5%), it was eyeballed off the chart's knee. ⇒ 6 IS BUILT TO STING. 6 is Venus, the giver; telling a 6 that three numbers want them and they want none of them back accuses the giver of withholding. ⛔ Do NOT re-cut this as 'three numbers want you' — that is the V35 mistake. 🔴 THE MUTUAL SIDE OF 6 IS CLOSED: 6's friend row is [3,6,9] and all of it is mutual, but that is the 3-6-9 closed loop already published as one-off T369 on 2026-08-05, and a published IDEA is never reused. Derived from friendship.ts by counting every ordered pair 2026-08-16: incoming one-way is 3<-[5,7,8], 6<-[5,7,8], 7<-[1,4], 9<-[2,5], 2<-[4]; 6 ties 3 for the most one-sided admirers and 6's enemy array is empty (only 5 and 6 are). 🔴🔴 FINGERPRINT: this is NOT a byte-for-byte V36 clone because structure|tempo|layout|palette must not repeat inside VARIATION_WINDOW_DAYS (14) and duplicate fingerprints are what suppressed the first TikTok account to zero views. V36 is standard|128|centered|sage-gold posted 2026-08-14, unavailable until 2026-08-28. ONE axis moves and it is deliberately the one a scrolling human cannot see: tempo 128 -> 140. Structure, layout and palette — everything visible — are held identical to the best post the account has ever had. meridianV16 (140.03) is used over cipherV15 (139.95) because cipher already ran on V32-V34 and meridian has never shipped, which refreshes the bed without spending ElevenLabs credits or adding a second uncontrolled variable. 🪤 If V38 wins, the package is confirmed and the NEXT video decomposes it by varying palette (is sage-gold's light card doing work in a dark Reels grid, or is it the sting?). If it loses with the same package, the sting theory is what failed. 🔴 FIVE TRAITS: standard with four plans a 73-frame pair against the 72-frame ceiling. Verified with planViralVideo — pairs=[51,52,51,52,51]. ✅ COVER ACCENT MATCHES hookAccent, enforced by src/viral/covers.test.ts. V35-V37 shipped a cover saying 'LIST' behind a video saying 'WANT' because 7145f0d rewrote hookAccent and missed VIRAL_COVERS; owner 2026-08-16 chose to fix it from this video rather than re-render three live reels, so those three are a closed legacy exception in that test.",
+      "instagramCaption": "If you're a 6, people want more from you than you want from them.\n\nIn Vedic numerology 5, 7 and 8 all name 6 as a friend. 6 names none of them back — the table puts all three at neutral.\n\nThe ones a 6 does want are 3 and 9, and both want 6 back. A short list, and every name on it runs both ways.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 24th? 2+4 = 6.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls — and 6 has no enemies at all, one of only two numbers that doesn't.\n\nSend this to a 6 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "tiktokCaption": "If you're a 6, people want more from you than you want from them.\n\nIn Vedic numerology 5, 7 and 8 all name 6 as a friend. 6 names none of them back — the table puts all three at neutral.\n\nThe ones a 6 does want are 3 and 9, and both want 6 back. A short list, and every name on it runs both ways.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 24th? 2+4 = 6.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls — and 6 has no enemies at all, one of only two numbers that doesn't.\n\nSend this to a 6 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "facebookCaption": "If you're a 6, people want more from you than you want from them.\n\nIn Vedic numerology 5, 7 and 8 all name 6 as a friend. 6 names none of them back — the table puts all three at neutral.\n\nThe ones a 6 does want are 3 and 9, and both want 6 back. A short list, and every name on it runs both ways.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 24th? 2+4 = 6.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls — and 6 has no enemies at all, one of only two numbers that doesn't.\n\nSend this to a 6 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "youtubeTitle": "Moolank 6 — You Don't Want Them Back (One-Way Match)",
+      "youtubeDescription": "If you're a 6, people want more from you than you want from them.\n\nIn Vedic numerology 5, 7 and 8 all name 6 as a friend. 6 names none of them back — the table puts all three at neutral.\n\nThe ones a 6 does want are 3 and 9, and both want 6 back. A short list, and every name on it runs both ways.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 24th? 2+4 = 6.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls — and 6 has no enemies at all, one of only two numbers that doesn't.\n\nSend this to a 6 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility"
     }
   ],
   "pipelineMeta": {

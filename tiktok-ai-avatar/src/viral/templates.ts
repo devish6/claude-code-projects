@@ -898,6 +898,93 @@ export const ONE_WAY_MATCH_SEVEN: ViralVideoProps = {
   music: MUSIC.kineticV18,
 };
 
+/**
+ * V38 — Moolank 6, and the angle turned around: this is the FIRST cut on the
+ * RECEIVING end of a one-way match.
+ *
+ * ⭐⭐⭐ WHY 6 IS NOT ANOTHER "YOUR MATCHES ARE MUTUAL" VIDEO. 6's own row is
+ * `friend: [3, 6, 9]` and every one of those lists 6 back, so the mutual
+ * reading of 6 is the closed 3-6-9 triangle — WHICH HAS ALREADY SHIPPED as the
+ * one-off `T369` ("Numerology 3 6 9 — The Part Nobody Explains", 2026-08-05).
+ * The standing rule is that a published content IDEA is never reused, so the
+ * mutual side of 6 is closed. What is NOT published is the other direction.
+ *
+ * 🔴 DERIVED FROM `friendship.ts`, COUNTED NOT GUESSED (2026-08-16). Scanning
+ * every ordered pair for "a lists b as friend, b does not list a":
+ *   incoming one-way  3 ← [5,7,8]   6 ← [5,7,8]   7 ← [1,4]   9 ← [2,5]   2 ← [4]
+ * **5, 7 and 8 all name 6 a friend, and 6 names none of them back** — all
+ * three sit in 6's `neutral` row. 6 ties 3 for the most one-sided admirers in
+ * the whole table, and 6's `enemy` list is EMPTY (only 5 and 6 are).
+ *
+ * ⭐⭐⭐ THE CLAIM HAS TO STING, AND THIS ONE DOES — measured 2026-08-16 across
+ * five videos. Sorting V33/V34/V35/V36/V37 by whether the claim says something
+ * UNFLATTERING ABOUT THE VIEWER splits the winners from the losers perfectly,
+ * and it does so across two different angles, so the angle was never the
+ * variable. 6 is Venus, the giver — telling a 6 that three numbers want them
+ * and they want none of them back accuses the giver of withholding, which is
+ * the same shape as "2 is weak" (V33) and "you want them more" (V36).
+ * ⛔ Do NOT re-cut this as "three numbers want you" — that is flattery, it is
+ * the V35 mistake ("THEY WANT YOU BACK", 253 views), and the accent is the only
+ * line most viewers read. The sting must be the thing 6 does not give back.
+ *
+ * 🪤 THE LANDING IS DERIVED, NOT SOFTENING FOR ITS OWN SAKE. 6's enemy list is
+ * literally empty, so "6 has no enemies" is a fact, not a consolation — and it
+ * resolves the sting honestly: a 6 is not rejecting those three, the table puts
+ * them at neutral. V36 landed warm after a stinging claim and won; V37 landed
+ * warm after a CONSOLING claim and lost. The landing is safe; the claim is what
+ * must wound.
+ *
+ * 🔴🔴 THE FINGERPRINT IS WHY THIS IS NOT A BYTE-FOR-BYTE V36 CLONE. The
+ * disciplined move after a win is to hold the package and change one thing —
+ * but `structure|tempo|layout|palette` must not repeat inside
+ * VARIATION_WINDOW_DAYS (14), and duplicate fingerprints are what got the first
+ * TikTok account suppressed to literal zero views. V36 is
+ * `standard|128|centered|sage-gold` and posted 2026-08-14, so that exact
+ * package is unavailable until 2026-08-28.
+ * ⇒ ONE axis moves, and it is deliberately the one a scrolling human cannot
+ * see: **tempo, 128 → 140**. Structure, layout and palette — everything visible
+ * — are held identical to the best post the account has ever had.
+ * ⭐ `meridianV16` (140.03) is used rather than `cipherV15` (139.95) because
+ * cipher already ran on V32-V34 and meridian has never shipped; that refreshes
+ * the bed without spending ElevenLabs credits on a tempo the pool already
+ * covers, and without adding a second uncontrolled variable to the test.
+ *
+ * 🔴 FIVE TRAITS, for V36's reason exactly: `standard` with FOUR traits plans a
+ * 73-frame pair against the 72-frame ceiling (SCENE_CHANGE * 2). Verified with
+ * `planViralVideo`, not reasoned about. ⛔ Do not trim to four.
+ *
+ * 🪤 EVERY LINE IS <= 21 CHARACTERS, the verified `centered` ceiling. The
+ * longest here is "A 6 wants none back" at 19.
+ */
+export const ONE_WAY_MATCH_SIX: ViralVideoProps = {
+  ...ONE_WAY_MATCH_NINE,
+  hookText: "IF YOU'RE A NUMBER 6",
+  // The sting. 19 chars. ⛔ Not "THREE WANT YOU BACK" — see the warning above.
+  hookAccent: "YOU DON'T WANT THEM",
+  hookSub: "Three of them want you",
+  number: 6,
+  numberLabel: "VENUS · 6, 15, 24",
+  traits: [
+    // Counted from friendship.ts: 5, 7 and 8 each carry 6 in `friend`.
+    "5, 7 and 8 want 6",
+    // Directional, per Slice 2b — 6's row puts all three at NEUTRAL, so this
+    // says "not returned", never "clash".
+    "A 6 wants none back",
+    "6 wants 3 and 9",
+    "They want 6 back",
+    // 6's `enemy` array is empty. One of only two numbers (with 5) that is.
+    "6 has no enemies",
+  ],
+  ctaText: "Send this to a 6",
+  structure: { hook: 1.2, build: 0.8, value: 15.2, cta: 2.4 },
+  palette: "sage-gold",
+  // `centered`, as V33-V37. The one-line ceiling is layout-specific and only
+  // `centered` holds past ~21 chars; see the note on ONE_WAY_MATCH_NINE.
+  layout: "centered",
+  // 140 BPM, tracked and usable at 140.03. The single moved axis.
+  music: MUSIC.meridianV16,
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -915,6 +1002,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-14-OneWayMatch-Nine": ONE_WAY_MATCH_NINE,
   "Viral-15-OneWayMatch-Eight": ONE_WAY_MATCH_EIGHT,
   "Viral-16-OneWayMatch-Seven": ONE_WAY_MATCH_SEVEN,
+  "Viral-17-OneWayMatch-Six": ONE_WAY_MATCH_SIX,
 } as const;
 
 /**
@@ -1014,6 +1102,23 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 7",
     accent: "2 LISTS YOU BACK",
     number: 7,
+  },
+  /**
+   * 🔴🔴 FIRST COVER WRITTEN UNDER THE MATCHING RULE. The three entries above
+   * still carry the DATA-STRUCTURE wording ("LIST") that the owner rejected on
+   * 2026-08-13: `7145f0d` rewrote `hookAccent` on the video props and MISSED
+   * this map, so V35-V37 shipped a video saying "THEY WANT YOU BACK" behind a
+   * thumbnail saying "THEY LIST YOU BACK". Those three are left as the record
+   * of what was published (owner: fix it from the next video, do not redo them)
+   * and are named in the legacy exception list in `covers.test.ts`.
+   * ⇒ From here on, `accent` MUST equal the video's `hookAccent`. The test
+   * enforces it; a new concept cannot be added without them matching.
+   */
+  "Viral-17-OneWayMatch-Six": {
+    kicker: "Venus",
+    title: "IF YOU'RE A NUMBER 6",
+    accent: "YOU DON'T WANT THEM",
+    number: 6,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set
