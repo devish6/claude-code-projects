@@ -1093,6 +1093,114 @@ export const ONE_WAY_MATCH_FIVE: ViralVideoProps = {
   music: MUSIC.quartzV20,
 };
 
+/**
+ * V40 — Moolank 4, and the first video in this series written to be FELT
+ * rather than decoded.
+ *
+ * 🔴 DERIVED FROM `friendship.ts`, COUNTED NOT GUESSED (2026-08-18).
+ *     4: friend [1,2,4,7,8] · neutral [5,6] · enemy [3,9]
+ * Scanning every ordered pair for "a names b a friend":
+ *   · 4 names FOUR others (1, 2, 7, 8). Every other number names at most
+ *     three — 1→[2,4,7], 2→[1,7,9], 3→[6,9], 5→[3,6,9], 6→[3,9], 7→[2,3,6],
+ *     8→[3,4,6], 9→[3,6]. **4's is the longest outgoing row in the table.**
+ *   · Named 4 back: **1** (`[1,2,4,7]`) and **8** (`[3,4,6,8]`). Two of four.
+ *   · One-way out: **2** and **7**. Neither holds 4 as an enemy — 2's neutral
+ *     row is [3,4,5,6] and 7's is [1,4,5,7,8] — so both hold a 4 at exactly
+ *     `neutral`. Not rejected. Not chosen.
+ *
+ * 🪤 RECYCLE CHECK — 4 IS THE ONE NUMBER THIS SERIES CANNOT WRITE FREELY.
+ * `BEST_MATCH_FOUR` / `BEST_MATCH_FOUR_EN` (V30/V31, published 08-10) already
+ * shipped 4's MUTUAL set as their whole payload: "your best matches are 1 and
+ * 8". That post is the account's second-biggest TikTok result. So this video is
+ * built strictly on the COMPLEMENT — the two that do not count 4 back — and
+ * 1 and 8 appear only in the closing turn. ⛔ Never re-cut this as "your best
+ * matches are 1 and 8"; that is V30 verbatim and breaks the standing
+ * no-recycled-ideas rule.
+ *
+ * ⭐⭐⭐ WHY THE FORMAT MOVES, AND WHY IT IS THE OWNER'S CALL, NOT A DRIFT.
+ * Owner instruction 2026-08-18: "make the video so it's humanized, emotional
+ * and easily understandable. If that means you have to slow the video down a
+ * bit to add more context, feel free." That authorises the axis every previous
+ * video in this series held fixed. The measurement backs it: V35-V39 are five
+ * straight Instagram losers (253 / 1,896* / 180 / 194 / 183 — *V36 excepted),
+ * and V39's body survival was **18.8%**, the worst yet, with the collapse
+ * landing between 1.5s (41.8% held) and 3.0s (16.9%). The lines it collapsed
+ * on read "5 wants 3, 6 and 9" and "None want 5 back" — table notation, not
+ * language. **Nothing in the ledger has ever tested whether a human sentence
+ * holds better than a lookup row**, because every cut so far has been terse.
+ *
+ * 🔴 SO THIS IS THE SLOWEST LEGAL CUT THE SYSTEM CAN PRODUCE. `long` (27.8s)
+ * has NEVER shipped; its 690-frame value act gives `makeValueScenes`
+ * montage 110 / number 174 / pairBudget 406, and `byTime = ceil(406/72) = 6`
+ * ⇒ SIX scenes at ~68 frames (2.27s) each, against V39's five. ⛔ Six traits
+ * is therefore a FLOOR, not a preference: five would leave scene 6 empty and
+ * ship the blank-screen hole `checkTraitCoverage` exists to block.
+ *
+ * 🔴🔴 FINGERPRINT `long|128|stack|ember` — TWO axes have never shipped at all.
+ * Structure `long` is unused across the whole ledger, and `stack` is the only
+ * layout in `LAYOUTS` never rendered (7 videos on `centered`, 1 on `split`).
+ * 128 last appeared 08-14 and `ember` 08-13, both outside the pairing. Verified
+ * against `findDuplicateFingerprints` and the 14-day window, not read off a
+ * list.
+ *
+ * 🪤🪤 THE ONE THING NOT YET MEASURED IS `stack`'s LINE CEILING. The repo's
+ * ceilings were measured by rendering and looking: `centered` ~26, `split` 26,
+ * `fullbleed` 25, `grid` 20. **`stack` has never been rendered, so it has no
+ * measured ceiling** — its 62px trait on 904px of usable width should sit near
+ * `split`, but "should" is what the 21-character correction already caught once.
+ * Every line here is <= 25 and the longest is "Neutral, not against you" at 24.
+ * ⛔ DO NOT SHIP THIS WITHOUT RENDERING IT AND LOOKING AT A TRAIT FRAME.
+ *
+ * 🪤 BED: `obsidianV14` (127.95 BPM tracked, usable map). Chosen on DURATION,
+ * not taste — `blackVelvetAria` is the other fresh bed at this tempo and it is
+ * **25.0s against a 27.8s cut**, which would have shipped 2.8s of silence under
+ * the CTA. The 32.08s beds are the only ones `long` can ride.
+ */
+export const ONE_WAY_MATCH_FOUR: ViralVideoProps = {
+  ...ONE_WAY_MATCH_NINE,
+  hookText: "IF YOU'RE A NUMBER 4",
+  // 19 chars, the length every shipped accent in this series has used.
+  // ⛔ Not "YOUR BEST MATCHES ARE 1 AND 8" — that is V30, already published.
+  hookAccent: "TWO DON'T COUNT YOU",
+  hookSub: "You counted them first",
+  number: 4,
+  numberLabel: "RAHU · 4, 13, 22, 31",
+  /**
+   * 🔴 SIX TRAITS, one per scene, and the order IS the emotional arc — the
+   * thing the owner asked for. Recognition (1-2), the split (3-4), the name for
+   * what the other half actually is (5), the turn (6). Every line is a
+   * sentence a person would say out loud; none is a list of digits, which is
+   * the single deliberate break from V35-V39.
+   */
+  traits: [
+    // 4 names 1, 2, 7 and 8. Second person, because the count is about them.
+    "You count four of them",
+    // 4's outgoing row is the longest in the table. Counted above, not asserted.
+    "No number counts more",
+    // 1 and 8 name 4 back. Withheld by name until the last line.
+    "Two count you back",
+    // 2 and 7 do not, and never have — neither has ever listed 4.
+    "Two never have",
+    // ⭐ THE LINE THIS VIDEO EXISTS FOR. `neutral`, said in language: 2 and 7
+    // hold 4 in their neutral rows, not their enemy rows. Not rejected — not
+    // chosen. ⛔ Never soften this to "they still like you"; that is flattery,
+    // and it is the V35 failure verbatim.
+    "Neutral, not against you",
+    // The turn, and the only place the mutual set is allowed to appear.
+    "1 and 8 always counted",
+  ],
+  // Share, not comment: the comment ask has returned 0 comments at n~50 on
+  // every post and platform. ctaGlyph 👉 is inherited from NINE and is
+  // load-bearing — CTAEnding's default 👇 points at the comment box.
+  ctaText: "Send this to a 4",
+  // `long`, 27.8s. Clean act seconds; `snapRun` pulls the inner cuts onto
+  // obsidianV14's tracked beats at render time.
+  structure: { hook: 1.2, build: 0.8, value: 23.0, cta: 2.8 },
+  palette: "ember",
+  layout: "stack",
+  music: MUSIC.obsidianV14,
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -1112,6 +1220,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-16-OneWayMatch-Seven": ONE_WAY_MATCH_SEVEN,
   "Viral-17-OneWayMatch-Six": ONE_WAY_MATCH_SIX,
   "Viral-18-OneWayMatch-Five": ONE_WAY_MATCH_FIVE,
+  "Viral-19-OneWayMatch-Four": ONE_WAY_MATCH_FOUR,
 } as const;
 
 /**
@@ -1235,6 +1344,13 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 5",
     accent: "NOBODY WANTS 5 BACK",
     number: 5,
+  },
+  // Third cover under the matching rule — `accent` is `hookAccent` verbatim.
+  "Viral-19-OneWayMatch-Four": {
+    kicker: "Rahu",
+    title: "IF YOU'RE A NUMBER 4",
+    accent: "TWO DON'T COUNT YOU",
+    number: 4,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set
