@@ -985,6 +985,114 @@ export const ONE_WAY_MATCH_SIX: ViralVideoProps = {
   music: MUSIC.meridianV16,
 };
 
+/**
+ * V39 — Moolank 5, and the hardest fact in the whole table.
+ *
+ * 🔴 DERIVED FROM `friendship.ts`, COUNTED NOT GUESSED (2026-08-17). Scanning
+ * every ordered pair for "a names b a friend":
+ *     n | friend      | mutual  | one-way out | NAMED BY
+ *     5 | [3,5,6,9]   | [5]     | [3,6,9]     | [5]
+ * **5 is the only number in the table that no other number names as a friend.**
+ * Its whole outgoing list is one-way, its mutual set is itself alone, and it
+ * appears in nobody's `enemy` row either — so every other number holds a 5 at
+ * exactly `neutral`. Nobody's friend, nobody's enemy. Verified against 1, 2, 4,
+ * 7 and 8, each of which is named by at least two rows; 5 is unique.
+ *
+ * ⭐⭐⭐ THE STING RULE IS NARROWER THAN V38 SAID, AND V38 IS THE MEASUREMENT
+ * THAT NARROWED IT. Measured 2026-08-17 off the owner's IG screenshots: V38
+ * took 194 views / 164 viewers, avg watch 3.9s (*Lower*), skip 80.2%
+ * (*Higher*), 0 follows, on a package held VISUALLY IDENTICAL to the best post
+ * the account has ever had. Body survival hold(5s)/hold(1s) = 17.1/54.9 =
+ * **31.1%**, which is inside the loser cluster (<32%) the V38 build predicted
+ * would die — the predictor held at n=6, the package did not.
+ * Re-sorting all six by WHAT THE CLAIM DOES TO THE VIEWER splits them perfectly
+ * where "is it unflattering?" no longer does:
+ *   · names a wound the viewer ALREADY FEELS → held the body → WON
+ *       V33 "2 IS NOT WEAK" (1,268) · V36 "YOU WANT THEM MORE" (1,896)
+ *   · hands the viewer an ACCUSATION, or flatters, or consoles → died
+ *       V34 "1 IS NOT ARROGANT" (189) · V35 "THEY WANT YOU BACK" (253)
+ *       V37 "ONE WANTS YOU BACK" (180) · V38 "YOU DON'T WANT THEM" (194)
+ * V38 wounded in the wrong direction: it accused a 6 of withholding. An
+ * accusation about your character makes a viewer defensive and they scroll; a
+ * pain they are already carrying makes them stay. ⭐ Screen every claim on
+ * "does this name something they already feel?" — not merely "does it sting?"
+ *
+ * ⭐⭐⭐ WHICH IS WHY 5 IS THE STRONGEST CUT THIS TABLE CAN PRODUCE. Mercury,
+ * the communicator — the number that gets along with everyone. Telling a 5
+ * "you are everybody's friend and nobody's match" is not a verdict invented
+ * about them; it is the exact thing a 5 already suspects. It is the V33/V36
+ * shape at its purest, and the fact underneath it is unique in the ruleset.
+ *
+ * 🪤 THE LANDING IS DERIVED AND IT IS LOAD-BEARING. `angle`'s standing rule is
+ * never to leave a verdict on the reader, and `BELIEF_CORRECTION_SEVEN` and
+ * V37 both refused to tell a 7 they were alone. This cut goes further than
+ * either, so the resolution has to be real rather than kind: 5's `enemy` array
+ * is literally EMPTY (one of only two, with 6), and 5 IS mutual with 5. So the
+ * turn is a counted fact, not a consolation — and V36 proves a warm landing
+ * after a wounding claim is what wins, while V37 proves a warm landing after a
+ * CONSOLING claim is what loses. ⛔ Do not re-cut this as "5 gets on with
+ * everyone" — that is flattery and it is the V35 failure verbatim.
+ *
+ * 🔴🔴 FINGERPRINT: ONE INVISIBLE AXIS OFF A PROVEN WINNER — the same method
+ * V38 used, pointed at the other winner. V36's package
+ * (`standard|128|centered|sage-gold`) is locked until 08-28 and V33's
+ * (`essay|140|centered|ink-violet`) until 08-26, so neither can be reused
+ * inside VARIATION_WINDOW_DAYS. This takes V33's — the account's #2 post — and
+ * moves TEMPO ONLY, 140 → 150: `essay|150|centered|ink-violet`, unique against
+ * every entry in the ledger.
+ * ⭐ It also breaks a look that has now shipped twice in four days. V36 (08-14)
+ * and V38 (08-17) are both `sage-gold|standard|centered` at 19.6s, and V38's
+ * hold at 1s fell to 54.9% against V36's 67.7% on near-identical frames — which
+ * is either the claim or viewers recognising a card they scrolled past two days
+ * earlier, and those two are not separable from V38 alone. Going dark, long and
+ * 23.4s removes the second explanation instead of running it a third time.
+ * ⭐ `quartzV20` (149.91, tracked, 5.9ms spread) has NEVER shipped, so the bed
+ * is fresh without spending ElevenLabs credits on a tempo the pool covers.
+ *
+ * 🔴 FIVE TRAITS, as `essay` requires — its value act plans five pairs whatever
+ * `traits.length` is, and four would leave scene 5 blank (the 2.13s hole V33
+ * shipped on its first render). Verified with `planViralVideo` on quartzV20:
+ * pairs=[60,72,72,60,72], payload at frame 60 = 2.0s, every pair at or under
+ * the 72-frame ceiling. ⛔ Do not trim to four.
+ *
+ * 🪤 EVERY LINE IS <= 21 CHARACTERS, the verified `centered` trait ceiling; the
+ * longest here is "5 wants 3, 6 and 9" and "Only a 5 wants a 5" at 18. The
+ * accent is 19, matching V38's, because the accent renders far larger than a
+ * trait and 18-19 is the only length this angle has actually shipped.
+ */
+export const ONE_WAY_MATCH_FIVE: ViralVideoProps = {
+  ...ONE_WAY_MATCH_NINE,
+  hookText: "IF YOU'RE A NUMBER 5",
+  // The wound, not an accusation. 19 chars. ⛔ Not "YOU GET ON WITH EVERYONE".
+  hookAccent: "NOBODY WANTS 5 BACK",
+  hookSub: "You want three of them",
+  number: 5,
+  numberLabel: "MERCURY · 5, 14, 23",
+  traits: [
+    // 5's friend row is [3,5,6,9]; the three others are 3, 6 and 9.
+    "5 wants 3, 6 and 9",
+    // Directional, per Slice 2b: 3, 6 and 9 each list [3,6,9], so 5 is absent
+    // from all three. Says "not returned", never "clash".
+    "None want 5 back",
+    // The uniqueness, and the only genuinely new fact this angle has left:
+    // no row in the table names 5 except 5's own.
+    "No one else does",
+    // mutual([5]) = [5]. The turn.
+    "Only a 5 wants a 5",
+    // 5's `enemy` array is empty, and 5 appears in no other number's enemy row
+    // either. Counted, not softened.
+    "5 has no enemies",
+  ],
+  ctaText: "Send this to a 5",
+  structure: { hook: 1.2, build: 0.8, value: 18.8, cta: 2.6 },
+  palette: "ink-violet",
+  // `centered`, as V33-V38. The one-line ceiling is layout-specific and only
+  // `centered` holds past ~21 chars; see the note on ONE_WAY_MATCH_NINE.
+  layout: "centered",
+  // 150 BPM, tracked and usable at 149.91. The single moved axis.
+  music: MUSIC.quartzV20,
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -1003,6 +1111,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-15-OneWayMatch-Eight": ONE_WAY_MATCH_EIGHT,
   "Viral-16-OneWayMatch-Seven": ONE_WAY_MATCH_SEVEN,
   "Viral-17-OneWayMatch-Six": ONE_WAY_MATCH_SIX,
+  "Viral-18-OneWayMatch-Five": ONE_WAY_MATCH_FIVE,
 } as const;
 
 /**
@@ -1119,6 +1228,13 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 6",
     accent: "YOU DON'T WANT THEM",
     number: 6,
+  },
+  // Second cover under the matching rule — `accent` is `hookAccent` verbatim.
+  "Viral-18-OneWayMatch-Five": {
+    kicker: "Mercury",
+    title: "IF YOU'RE A NUMBER 5",
+    accent: "NOBODY WANTS 5 BACK",
+    number: 5,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set

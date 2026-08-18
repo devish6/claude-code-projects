@@ -92,11 +92,19 @@ describe("publishable entries carry hashtags", () => {
     expect([...LEGACY_TAGLESS].sort()).toEqual(["V35", "V36", "V37"]);
   });
 
-  /** ⭐ Positive control: the rule reaches the newest entry, not just old ones. */
-  test("V38 is under the rule and tagged", () => {
-    const v38 = state.videos.find((v) => v.v === "V38");
-    expect(v38, "V38 missing from the ledger").toBeDefined();
-    expect(LEGACY_TAGLESS.has("V38")).toBe(false);
-    expect(v38.hashtags.length).toBeGreaterThan(0);
+  /**
+   * ⭐ Positive control: the rule reaches the NEWEST entry, not just old ones.
+   *
+   * 🪤 This used to name V38 by hand. A hardcoded control stops being a control
+   * the moment a newer entry is appended — it keeps passing on an entry nobody
+   * is editing any more, which is the same "a rule that depends on someone
+   * noticing" failure the top of this file exists to close. The ledger is
+   * append-only, so the last publishable entry IS the newest one.
+   */
+  test("the newest publishable entry is under the rule and tagged", () => {
+    const newest = publishable.at(-1);
+    expect(newest, "no publishable entry in the ledger").toBeDefined();
+    expect(LEGACY_TAGLESS.has(newest.v)).toBe(false);
+    expect(newest.hashtags?.length ?? 0, `${newest.v} has no hashtags`).toBeGreaterThan(0);
   });
 });
