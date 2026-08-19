@@ -1143,13 +1143,21 @@ export const ONE_WAY_MATCH_FIVE: ViralVideoProps = {
  * against `findDuplicateFingerprints` and the 14-day window, not read off a
  * list.
  *
- * 🪤🪤 THE ONE THING NOT YET MEASURED IS `stack`'s LINE CEILING. The repo's
- * ceilings were measured by rendering and looking: `centered` ~26, `split` 26,
- * `fullbleed` 25, `grid` 20. **`stack` has never been rendered, so it has no
- * measured ceiling** — its 62px trait on 904px of usable width should sit near
- * `split`, but "should" is what the 21-character correction already caught once.
- * Every line here is <= 25 and the longest is "Neutral, not against you" at 24.
- * ⛔ DO NOT SHIP THIS WITHOUT RENDERING IT AND LOOKING AT A TRAIT FRAME.
+ * ⭐⭐⭐ THE LINES ARE ALLOWED TO WRAP HERE, AND THAT IS THE POINT. Owner,
+ * 2026-08-18, on the first cut: *"V40 is not easy on the eyes — people will not
+ * understand 'You count four of them', 'No number counts more'. It's more
+ * convenient to read 'You are attracted towards four of them'."* Correct, and it
+ * exposes a rule this repo had been enforcing without ever deciding it: the
+ * one-line character ceiling made every trait a telegram. `TraitBullet` sets no
+ * `nowrap`, so a trait has ALWAYS been free to run two lines — the measured
+ * ceilings (`centered` ~26, `split` 26, `fullbleed` 25, `grid` 20, and `stack`
+ * 24, measured here by rendering) describe where ONE line ends, not where a
+ * trait must.
+ * 🪤 The real defect the ceilings were guarding against is an ORPHAN — one word
+ * stranded on line two, which is what wrecked an early `grid` cut. A balanced
+ * two-line break is not that. The longest line here is 44 characters and every
+ * wrap was rendered and looked at.
+ * ⛔ STILL DO NOT SHIP A CHANGE TO THESE LINES WITHOUT RENDERING ONE AND LOOKING.
  *
  * 🪤 BED: `obsidianV14` (127.95 BPM tracked, usable map). Chosen on DURATION,
  * not taste — `blackVelvetAria` is the other fresh bed at this tempo and it is
@@ -1159,10 +1167,13 @@ export const ONE_WAY_MATCH_FIVE: ViralVideoProps = {
 export const ONE_WAY_MATCH_FOUR: ViralVideoProps = {
   ...ONE_WAY_MATCH_NINE,
   hookText: "IF YOU'RE A NUMBER 4",
-  // 19 chars, the length every shipped accent in this series has used.
   // ⛔ Not "YOUR BEST MATCHES ARE 1 AND 8" — that is V30, already published.
-  hookAccent: "TWO DON'T COUNT YOU",
-  hookSub: "You counted them first",
+  // 🔴 "COUNT" WAS REJECTED BY THE OWNER 2026-08-18 as unreadable ("people will
+  // not understand 'You count four of them'"), so it is gone from the accent
+  // and the sub as well as the traits — the cover and the film have to speak
+  // the same English, and covers.test.ts pins accent === hookAccent anyway.
+  hookAccent: "TWO DON'T FEEL IT BACK",
+  hookSub: "And you liked them first",
   number: 4,
   numberLabel: "RAHU · 4, 13, 22, 31",
   /**
@@ -1173,21 +1184,21 @@ export const ONE_WAY_MATCH_FOUR: ViralVideoProps = {
    * the single deliberate break from V35-V39.
    */
   traits: [
-    // 4 names 1, 2, 7 and 8. Second person, because the count is about them.
-    "You count four of them",
+    // 4's friend row names 1, 2, 7 and 8 — four others.
+    "You're drawn to four of them",
     // 4's outgoing row is the longest in the table. Counted above, not asserted.
-    "No number counts more",
+    "No other number likes that many",
     // 1 and 8 name 4 back. Withheld by name until the last line.
-    "Two count you back",
+    "Only two feel the same way back",
     // 2 and 7 do not, and never have — neither has ever listed 4.
-    "Two never have",
+    "The other two never have",
     // ⭐ THE LINE THIS VIDEO EXISTS FOR. `neutral`, said in language: 2 and 7
     // hold 4 in their neutral rows, not their enemy rows. Not rejected — not
     // chosen. ⛔ Never soften this to "they still like you"; that is flattery,
     // and it is the V35 failure verbatim.
-    "Neutral, not against you",
+    "You're not disliked — just not on their list",
     // The turn, and the only place the mutual set is allowed to appear.
-    "1 and 8 always counted",
+    "1 and 8 always felt it back",
   ],
   // Share, not comment: the comment ask has returned 0 comments at n~50 on
   // every post and platform. ctaGlyph 👉 is inherited from NINE and is
@@ -1349,7 +1360,7 @@ export const VIRAL_COVERS: Record<
   "Viral-19-OneWayMatch-Four": {
     kicker: "Rahu",
     title: "IF YOU'RE A NUMBER 4",
-    accent: "TWO DON'T COUNT YOU",
+    accent: "TWO DON'T FEEL IT BACK",
     number: 4,
   },
   "Viral-01-Identity-Seven": {
