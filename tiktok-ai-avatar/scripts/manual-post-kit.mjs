@@ -48,7 +48,10 @@ const ids = process.argv
   // usage line, which reads as "you typed it wrong" rather than "this prefix is
   // unsupported". Any NEW prefix (PIN, EXP, …) must be added here or staging
   // silently refuses it.
-  .filter((a) => /^(V\d+|M\d+R|EXP\d+)$/i.test(a))
+  // LIVE\d+ added 2026-08-19 for the TikTok Live promo. The comment above is
+  // not hypothetical — LIVE01 hit exactly the described failure on its first
+  // staging attempt and printed the usage line as though the id were a typo.
+  .filter((a) => /^(V\d+|M\d+R|EXP\d+|LIVE\d+)$/i.test(a))
   .map((a) => a.toUpperCase());
 if (!ids.length) {
   console.error("Usage: npm run kit -- V25 [V28 …]   |   npm run kit -- M5R   |   npm run kit -- EXP01");

@@ -149,6 +149,144 @@ export const EXPLAINER_FREE_CHART: ExplainerVideoProps = {
   layout: "centered",
 };
 
+/**
+ * LIVE01 — the promo for the TikTok Live on Sat 22 Aug, 7:00–7:30pm ET.
+ *
+ * 🔴 IT MUST POST THU 20 AND FRI 21. The Live is Saturday, so a promo built any
+ * later than Wednesday cannot run twice before the event, and a single showing
+ * of an event promo is a wasted event.
+ *
+ * 🔴 NOT A V-NUMBER, for the same reason EXP01 is not: V-numbers are coupled to
+ * `content/angles.json`, and both `pickAngle`'s 21-day window and the
+ * no-recycled-ideas rule key off `angleId`. This is an event promo with no
+ * numerology angle, so a V-number would put an un-angled row into the sequence
+ * that machinery reads. Own prefix, like EXP01 and PIN01.
+ *
+ * ⭐⭐⭐ THE BIRTH YEAR IS THE PRICE OF ENTRY, NOT A POLITE ASK (owner, 2026-08-18).
+ * The ask lands in the HERO beat at 2.0s, not in the CTA. Reason, measured: the
+ * last five reels returned **0 comments between them** across every platform, and
+ * V39's retention shows only **16.9% of viewers still there at 3s** — so a CTA at
+ * 25s is addressed to almost nobody.
+ *
+ * 🪤🪤 THE STRUCTURE DOES NOT CONTROL THAT, AND I FIRST WROTE THAT IT DID.
+ * The initial cut chose `snap` "because it is the only structure whose hero beat
+ * opens at 2.0s". That is false: the Cycle-1 re-cut of 2026-08-09 set
+ * `hook 1.2 + build 0.8` in **all four** structures precisely so the payload lands
+ * on frame 60 every time. I read the pool instead of comparing it.
+ * ⭐⭐⭐ **Read the list, and you will find the reason you went looking for.**
+ *
+ * ⇒ With the 2.0s ask free either way, the structure is chosen on READABILITY, and
+ * that decides it against `snap`. Measured with `planViralVideo`, not estimated:
+ * `snap` plans pair scenes of [28,42,28,42,28] frames — **0.93s on a 24-character
+ * line**, which is ~190wpm with no pause. `essay` affords far more. The owner's
+ * 2026-08-18 direction is explicit — *"humanized, emotional and easily
+ * understandable… slower if that buys context"* — and "a shorter cut holds more"
+ * is already recorded DEAD (32s→12s bought 0.4s of attention). ⛔ Do not re-cut
+ * this to `snap` for completion rate; the trait lines become unreadable.
+ *
+ * ⭐ THE DEFAULT 👇 GLYPH IS CORRECT HERE, AND IT IS THE INVERSE OF V40.
+ * V40 passed `ctaGlyph: "👉"` because a SHARE ask must point at the right action
+ * rail. This video's whole mechanic IS a comment, so `CTAEnding`'s default 👇 —
+ * pointing straight at the comment box — is the load-bearing choice. ⛔ Do not
+ * "fix" this to 👉 for consistency with the V-series.
+ *
+ * 🔴 EVERY CLAIM READ OFF THE PRODUCT, NOT MEMORY (prod DB, 2026-08-19).
+ * `Product.annual-forecast` describes itself as *"A full year ahead, read through
+ * your Mahadasha and Antardasha planetary cycles… how energy shifts across the
+ * four QUARTERS"*. ⇒ the trait says **quarter by quarter**. The first draft said
+ * "month by month", which would have been a false claim about our own report.
+ * ⛔ It is the **Annual Forecast**. NEVER "Annual Report" — the TikTok event copy
+ * gets this wrong and the video must not inherit the error.
+ *
+ * 🪤 "7PM ET" IS SPELLED OUT ON PURPOSE. 7pm Eastern is 4:30am IST, and 15 of our
+ * 49 mailable users are in India. A bare "7pm" would have Indian viewers arrive
+ * twelve hours late to an empty stream. Stating the zone does not fix the
+ * scheduling problem — that is the owner's call — but it stops the video causing it.
+ *
+ * 🔴🔴 DO NOT POST THIS UNTIL THE 50% COUPON EXISTS AND IS TESTED ON **BOTH**
+ * PROCESSORS. The video promises "everyone else: 50% off", and no discount has
+ * ever been exercised on the Dodo path — which is the path every Indian buyer
+ * takes. A percentage is the safe shape (`amount_off` breaks INR), but shape is
+ * not existence. Posting first would send viewers to a code that does not apply.
+ *
+ * 🎨 Fingerprint `essay|128|centered|mono`, checked against `daily-state.json`'s
+ * 14-day window: `essay` has shipped at 140 and 150 but never at 128, and no essay
+ * has ever run on `mono`. V40 was `stack`, so the previous-layout rule passes.
+ * `mono` is the light palette EXP01 chose for text-heavy offer copy, and it keeps
+ * the promos visually separate from the V-series so neither confounds the other's
+ * measurement.
+ *
+ * 🪤🪤 IT WAS BUILT ON `fullbleed` FIRST — WHICH HAS NEVER SHIPPED — AND RENDERING
+ * IT IS THE ONLY REASON THAT IS NOT WHAT SHIPPED. Two defects, both invisible to
+ * every gate (qa:frame PASSED, the 84-frame scan was clean, trait coverage was
+ * full, tsc and 475 tests green):
+ *   1. **A 24-character trait ORPHANED its last word** — "Three of you get it free"
+ *      broke as *"Three of you get it" / "free"*. ⇒ `fullbleed`'s real one-line
+ *      ceiling is **~19 characters**, not the ~25 recorded for it. I took that
+ *      number from V40's note instead of measuring it here.
+ *   2. **The CTA rendered ON TOP OF the mandala** — black type across the gold
+ *      graphic — and orphaned "year" as well.
+ * ⭐⭐⭐ The fix is the LAYOUT, not shorter copy. V40 established that the char
+ * ceiling guards against an ORPHAN, not against a second line, and that enforcing
+ * it as a hard trait limit is what made V33–V39 read like telegrams. `centered` has
+ * a measured ~26 ceiling, so every line here fits on one at its natural length —
+ * and the fingerprint stays unused either way, so nothing was traded for it.
+ * ⛔ Do not move this back to `fullbleed` without re-rendering and LOOKING at both
+ * a trait frame and the CTA frame.
+ * 🪤 BED CHECKED ON DURATION, THE WAY V40'S WAS. `pulseV13` is 128.15 BPM (matching
+ * the 128 tempo) and **32.078s measured with ffprobe** against a 23.4s cut — no
+ * silence under the CTA. ⛔ Do not swap in a 25s bed without re-measuring.
+ *
+ * 🪤 NO BACKDROP, DELIBERATELY. EXP01's backdrop is a recording of a CHART, which
+ * is off-message for an event promo and would put the product page behind copy
+ * about a livestream. `AstrolBackground` carries it instead.
+ */
+export const EXPLAINER_LIVE_PROMO: ExplainerVideoProps = {
+  hookText: "YOUR 2027, READ LIVE",
+  // 17 chars. The giveaway is the strongest thing we have, and this is an event
+  // promo — there is nothing to be gained by burying it.
+  hookAccent: "THREE OF YOU FREE",
+  hookSub: "Saturday, 7pm Eastern",
+  // ⭐ THE ASK, at 2.0s. Not in the CTA. See the note above.
+  heroText: "YOUR BIRTH YEAR",
+  heroSub: "Comment it to enter",
+  traits: [
+    // Trait COUNT is a floor set by the plan, not a preference: `essay`'s value
+    // act plans N pair scenes, and fewer traits than scenes ships the
+    // blank-screen hole `checkTraitCoverage` exists to block. Verified with
+    // planViralVideo below, not assumed.
+    // Each <= 24 chars, inside `centered`'s measured ~26 single-line ceiling —
+    // verified by rendering and looking, not by trusting the recorded number.
+    "The Annual Forecast",
+    // The product's own word for what it does. Verified against the prod row.
+    "Quarter by quarter",
+    "Three of you get it free",
+    // ⛔ Never phrase this as a discount on a SUBSCRIPTION. It is 50% off one
+    // fixed-cost report. Monad is never named, never discounted.
+    "Everyone else: 50% off",
+    "Live Sat 22 Aug, 7pm ET",
+  ],
+  /**
+   * 16 chars — and the CTA slot has its OWN, SMALLER ceiling than a trait.
+   *
+   * 📐 MEASURED BY RENDERING, IN TWO STEPS. "Follow + comment your year" (26)
+   * orphaned "year"; "Follow + comment below" (22) still orphaned "below", on a
+   * layout whose TRAIT lines hold 24 comfortably. ⇒ CTA type is set larger, so
+   * ~26 is a trait number and must never be reused here. The CTA ceiling is
+   * **~16–17 characters**.
+   *
+   * ⛔ It does not need to say what to comment: the HERO beat says "YOUR BIRTH
+   * YEAR / Comment it to enter" at 2.0s, and the default 👇 points at the box.
+   */
+  ctaText: "Follow + comment",
+  // ⛔ No ctaGlyph — the default 👇 is the correct one here. See above.
+  music: MUSIC.pulseV13,
+  structure: { hook: 1.2, build: 0.8, value: 18.8, cta: 2.6 },
+  palette: "mono",
+  layout: "centered",
+};
+
 export const EXPLAINER_TEMPLATES = {
   "EXP01-FreeChart": EXPLAINER_FREE_CHART,
+  "LIVE01-TikTokLive": EXPLAINER_LIVE_PROMO,
 } as const;

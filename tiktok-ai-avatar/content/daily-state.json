@@ -2303,6 +2303,43 @@
       "tiktokCaption": "If you're a 4, you're drawn to more people than any other number is.\n\nIn Vedic numerology 4 is pulled towards 1, 2, 7 and 8. That is four of them — and no other birth number is drawn to four. Every other one stops at three.\n\nTwo of them feel the same way back. 1 does, and 8 does. Those are the matches that run in both directions, and they have been there the whole time.\n\n2 and 7 do not. But look at where a 4 actually sits for them: not in the enemy row — in the neutral one. You are not disliked. You are just not on their list. For the number that reaches for more people than anyone, that is the part that stings.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 22nd? 2+2 = 4.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 4 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
       "youtubeTitle": "Moolank 4 — You Are Not Disliked (One-Way Match)",
       "youtubeDescription": "If you're a 4, you're drawn to more people than any other number is.\n\nIn Vedic numerology 4 is pulled towards 1, 2, 7 and 8. That is four of them — and no other birth number is drawn to four. Every other one stops at three.\n\nTwo of them feel the same way back. 1 does, and 8 does. Those are the matches that run in both directions, and they have been there the whole time.\n\n2 and 7 do not. But look at where a 4 actually sits for them: not in the enemy row — in the neutral one. You are not disliked. You are just not on their list. For the number that reaches for more people than anyone, that is the part that stings.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 22nd? 2+2 = 4.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 4 and see if they agree."
+    },
+    {
+      "v": "LIVE01",
+      "title": "2027 Live — Three Free Annual Forecasts (promo)",
+      "date": "2026-08-19",
+      "category": "promo",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": true,
+      "composition": "LIVE01-TikTokLive",
+      "file": "out/qa/live01-tiktoklive.mp4",
+      "language": "english",
+      "platforms": [
+        "tiktok"
+      ],
+      "handPostTo": [
+        "tiktok"
+      ],
+      "music": "pulseV13",
+      "variation": {
+        "structure": "essay",
+        "tempo": 128,
+        "layout": "centered",
+        "palette": "mono"
+      },
+      "tiktokCaption": "We're going live on Saturday to read 2027.\n\nThree people watching get their Annual Forecast free — a full year ahead, read through your Mahadasha and Antardasha cycles, quarter by quarter. Everyone else who's there gets it half price, and only while we're live.\n\nTo enter: follow, then put your birth year in the comments. That's the whole entry. We pull the three on the stream.\n\nSaturday 22 August, 7:00–7:30pm Eastern.",
+      "hashtags": [
+        "#numerology",
+        "#annualforecast",
+        "#2027",
+        "#vedicnumerology",
+        "#live"
+      ],
+      "utmLinks": {
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=organic&utm_campaign=live-2026-08-22&utm_content=LIVE01"
+      },
+      "note": "Promo for the TikTok Live on Sat 22 Aug, 7:00-7:30pm ET. MUST POST THU 20 AND FRI 21 - a promo built later cannot run twice before the event. NO V-NUMBER by design: V-numbers are coupled to angles.json and both pickAngle's 21-day window and the no-recycled-ideas rule key off angleId; this has no angle. Own prefix, like EXP01 and PIN01. THE BIRTH-YEAR ASK LANDS AT 2.0s IN THE HERO BEAT, not in the CTA (owner 2026-08-18) - the last five reels returned 0 comments between them and V39 held only 16.9% at 3s, so a CTA at 25s is addressed to almost nobody. The default 👇 glyph is correct here and is the INVERSE of V40's 👉: this mechanic IS a comment. Claims verified against the prod Product row 2026-08-19: the Annual Forecast reads 'quarter by quarter', NOT month by month - the first draft said month and would have been false. It is the ANNUAL FORECAST, never 'Annual Report' (the TikTok event copy gets this wrong; the video must not inherit it). '7pm ET' is spelled out because 7pm Eastern is 4:30am IST and 15 of 49 mailable users are in India. BLOCKER: DO NOT POST UNTIL THE 50% COUPON EXISTS AND IS TESTED ON BOTH STRIPE AND DODO - no discount has ever been exercised on the Dodo path, which is every Indian buyer's path. Built on fullbleed first; rendering it showed a 24-char trait orphaning its last word and the CTA rendering over the mandala, so it moved to centered. CTA slot has its own smaller ceiling (~16-17 chars), not the trait ~26."
     }
   ],
   "pipelineMeta": {
