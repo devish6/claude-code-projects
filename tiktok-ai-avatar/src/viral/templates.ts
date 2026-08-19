@@ -1172,8 +1172,15 @@ export const ONE_WAY_MATCH_FOUR: ViralVideoProps = {
   // not understand 'You count four of them'"), so it is gone from the accent
   // and the sub as well as the traits — the cover and the film have to speak
   // the same English, and covers.test.ts pins accent === hookAccent anyway.
-  hookAccent: "TWO DON'T FEEL IT BACK",
-  hookSub: "And you liked them first",
+  // 🔴 OWNER'S WORDING, 2026-08-18, chosen over my "TWO NEVER FELT IT". 20 chars,
+  // two lines on the cover — the three-line accent it replaces pushed the title
+  // block up into the Metatron cube.
+  // ⭐ It also flips what the cover DOES: it states the reassurance and lets the
+  // sub carry the sting, and trait 5 then completes the same sentence at 17.9s
+  // ("You're not disliked — just not on their list"). Hook and payoff now rhyme
+  // deliberately instead of the cover spending the whole claim up front.
+  hookAccent: "YOU ARE NOT DISLIKED",
+  hookSub: "Two just never felt it",
   number: 4,
   numberLabel: "RAHU · 4, 13, 22, 31",
   /**
@@ -1360,7 +1367,7 @@ export const VIRAL_COVERS: Record<
   "Viral-19-OneWayMatch-Four": {
     kicker: "Rahu",
     title: "IF YOU'RE A NUMBER 4",
-    accent: "TWO DON'T FEEL IT BACK",
+    accent: "YOU ARE NOT DISLIKED",
     number: 4,
   },
   "Viral-01-Identity-Seven": {
