@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { DISPLAY, UI } from "../fonts";
+import { useLayout } from "../layout";
 import { usePalette } from "../PaletteContext";
 import { Burst, useAberration, useCameraDrift, useGlowPulse } from "../motion";
 
@@ -36,6 +37,14 @@ export const ViralHook: React.FC<{
   uiFont = UI,
 }) => {
   const P = usePalette();
+  // 🔴🔴 THE HOOK USED TO IGNORE THE LAYOUT ENTIRELY. Everything below that
+  // reads `L` was a hardcoded constant, so `layout` moved the body and left
+  // frame 0 identical on every video in the series. See the block comment on
+  // `LayoutSpec.hookJustify`. `centered` reproduces the old numbers exactly.
+  const L = useLayout();
+  const isLeft = L.hookAlign === "left";
+  const headlineSize = Math.round(L.hookSize * 0.875);
+  const subSize = Math.round(L.hookSize * 0.40625);
   const frame = useCurrentFrame();
   const scale = useCameraDrift(durationInFrames, 1, 1.08);
   const ab = useAberration(0, 8, 10);
@@ -71,17 +80,20 @@ export const ViralHook: React.FC<{
   return (
     <AbsoluteFill
       style={{
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 70,
-        textAlign: "center",
+        alignItems: isLeft ? "flex-start" : "center",
+        justifyContent: L.hookJustify,
+        paddingLeft: L.hookPad,
+        paddingRight: L.hookPad,
+        paddingTop: L.hookPad,
+        paddingBottom: L.hookPadBottom,
+        textAlign: L.hookAlign,
         transform: `scale(${scale})`,
       }}
     >
       <div
         style={{
           fontFamily: displayFont,
-          fontSize: 112,
+          fontSize: headlineSize,
           fontWeight: 900,
           lineHeight: 1.02,
           color: P.TEXT,
@@ -96,8 +108,11 @@ export const ViralHook: React.FC<{
             <span
               style={{
                 position: "absolute",
-                left: `calc(50% - ${ab}px)`,
-                transform: "translateX(-50%)",
+                // 🪤 The ghosts were centre-anchored too. On a left-aligned
+                // hook `calc(50% ± ab)` pushes them half a frame off the
+                // headline they are supposed to ghost.
+                left: isLeft ? -ab : `calc(50% - ${ab}px)`,
+                transform: isLeft ? undefined : "translateX(-50%)",
                 color: "rgba(150,40,30,0.32)",
                 width: "100%",
               }}
@@ -108,8 +123,8 @@ export const ViralHook: React.FC<{
             <span
               style={{
                 position: "absolute",
-                left: `calc(50% + ${ab}px)`,
-                transform: "translateX(-50%)",
+                left: isLeft ? ab : `calc(50% + ${ab}px)`,
+                transform: isLeft ? undefined : "translateX(-50%)",
                 color: "rgba(30,90,120,0.32)",
                 width: "100%",
               }}
@@ -128,7 +143,7 @@ export const ViralHook: React.FC<{
             style={{
               marginTop: 26,
               fontFamily: displayFont,
-              fontSize: 128,
+              fontSize: L.hookSize,
               fontWeight: 900,
               lineHeight: 1,
               color: accentColor,
@@ -147,7 +162,7 @@ export const ViralHook: React.FC<{
             style={{
               marginTop: 34,
               fontFamily: uiFont,
-              fontSize: 52,
+              fontSize: subSize,
               fontWeight: 700,
               color: P.TEXT,
               opacity: 0.9,

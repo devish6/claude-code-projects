@@ -35,6 +35,34 @@ export type LayoutSpec = {
   justify: "flex-start" | "center" | "flex-end";
   /** Text alignment within the block. */
   align: "left" | "center";
+  /**
+   * Where the HOOK block sits. The hook is its own composition — it renders no
+   * traits, so it does not share the body's safe box and gets its own geometry.
+   *
+   * 🔴🔴 THESE EXIST BECAUSE `hookSize` WAS DEAD FOR THE WHOLE V-SERIES.
+   * `ViralHook` hardcoded `alignItems/justifyContent: center`, `padding: 70`
+   * and `fontSize: 112/128/52`, and never called `useLayout()`. So the
+   * `layout` prop moved the BODY and left the FIRST FRAME identical on every
+   * video — V35-V40 all shipped the same centred hook, and V40 shipped
+   * `layout: "stack"` while still rendering dead-centre. The only field that
+   * described the hook, `hookSize`, was read by nothing but a test asserting
+   * it was greater than zero. Measured consequence: four consecutive posts
+   * pinned at a 54.9-56.5% 1s hold while the team varied palette, tempo and
+   * duration and believed it was varying the composition.
+   * ⭐ `centered`'s values below reproduce the old hardcoded rendering EXACTLY
+   * (70px padding, centre/centre, 112/128/52), so every published video
+   * re-renders unchanged and stays usable as a control.
+   */
+  hookJustify: "flex-start" | "center" | "flex-end";
+  hookAlign: "left" | "center";
+  /** Hook padding on left, right and top. */
+  hookPad: number;
+  /** Hook padding at the bottom — larger where `hookJustify` pins text low. */
+  hookPadBottom: number;
+  /**
+   * Accent size. The headline is 0.875x this and the subtext 0.40625x, which
+   * at the `centered` value of 128 is exactly the 112 / 128 / 52 that shipped.
+   */
   hookSize: number;
   traitSize: number;
   /** Space between trait lines. */
@@ -65,6 +93,10 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
     safeBottom: SAFE_BOTTOM,
     justify: "center",
     align: "center",
+    hookJustify: "center",
+    hookAlign: "center",
+    hookPad: 70,
+    hookPadBottom: 70,
     hookSize: 128,
     traitSize: 72,
     gap: 64,
@@ -78,6 +110,10 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
     safeBottom: Math.round(HEIGHT * 0.3),
     justify: "flex-start",
     align: "left",
+    hookJustify: "flex-start",
+    hookAlign: "left",
+    hookPad: 96,
+    hookPadBottom: Math.round(HEIGHT * 0.3),
     hookSize: 116,
     traitSize: 66,
     gap: 44,
@@ -91,6 +127,10 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
     safeBottom: SAFE_BOTTOM,
     justify: "center",
     align: "left",
+    hookJustify: "center",
+    hookAlign: "left",
+    hookPad: 48,
+    hookPadBottom: 48,
     hookSize: 164,
     traitSize: 88,
     gap: 32,
@@ -109,6 +149,10 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
     safeBottom: SAFE_BOTTOM,
     justify: "center",
     align: "left",
+    hookJustify: "center",
+    hookAlign: "left",
+    hookPad: 56,
+    hookPadBottom: 56,
     hookSize: 120,
     traitSize: 48,
     gap: 28,
@@ -122,6 +166,10 @@ export const LAYOUT_SPECS: Record<LayoutName, LayoutSpec> = {
     safeBottom: Math.round(HEIGHT * 0.22),
     justify: "flex-end",
     align: "left",
+    hookJustify: "flex-end",
+    hookAlign: "left",
+    hookPad: 88,
+    hookPadBottom: Math.round(HEIGHT * 0.2),
     hookSize: 104,
     traitSize: 62,
     gap: 28,

@@ -1219,7 +1219,96 @@ export const ONE_WAY_MATCH_FOUR: ViralVideoProps = {
   music: MUSIC.obsidianV14,
 };
 
+/**
+ * Moolank 3 — "EVERYONE LIKES A 3 · EXCEPT TWO". THE ONE THAT SHIPS AS V41.
+ *
+ * ⭐⭐⭐ THE FIRST VIDEO IN THE SERIES WITH A DIFFERENT FIRST FRAME. V35-V40
+ * all rendered the identical hook — centred block, 112/128/52, Metatron cube
+ * directly above — because `ViralHook` never called `useLayout()` and the
+ * `layout` prop only ever moved the BODY. V40 shipped `layout: "stack"` and
+ * still rendered dead-centre. Measured cost: the 1s hold sat at 54.9 / 54.9 /
+ * 56.5 / 54.9 across V37-V40 while palette, tempo and duration were varied and
+ * the composition could not move. Now that the hook reads the spec, `stack`
+ * puts this hook LEFT-ALIGNED IN THE LOWER THIRD at 91/104/42 — the first
+ * genuinely different card the account has posted in six.
+ * 🎯 SUCCESS IS THE 1s HOLD BACK ABOVE 60%, not views. The body build is held
+ * close to V40's on purpose so the hook stays the one thing being measured.
+ *
+ * 🔴 EVERY CLAIM DERIVED FROM `friendship.ts`, NONE AUTHORED. Counted
+ * 2026-08-19 over all nine rows (scratchpad/derive3.py):
+ *   · named FRIEND by 3, 5, 6, 7, 8, 9 — SIX of the nine, the joint most of
+ *     any number in the table.
+ *   · 6 is the only other number named that widely, and 6's enemy list is
+ *     EMPTY. 3's is not.
+ *   · 3 is named an ENEMY by exactly two rows: 1 and 4.
+ *   · 3's own enemy row is [1] — so 1 is MUTUAL and a 3 already knows.
+ *     4 names 3 an enemy while 3 holds 4 at `neutral`. ⭐ THAT ASYMMETRY IS
+ *     THE WHOLE VIDEO: the dislike a 3 cannot see.
+ *
+ * ⭐⭐ THE STING IS IN THE ACCENT, WHICH IS WHERE V40 LOST IT. V40's accent
+ * ("YOU ARE NOT DISLIKED") is reassurance — the V35/V37 consolation failure —
+ * and its wound was demoted to the sub-line. Here the accent is the wound:
+ * "EXCEPT TWO" names something a widely-liked person already carries, and it
+ * asks a question the body pays off (which two, and why one is invisible).
+ * ⛔ Never soften this to "almost everyone likes you"; that is flattery and it
+ * is the V35 failure verbatim.
+ * 🪤 Ten characters, one line. V40's three-line accent orphaned the word "NOT"
+ * on its own line, deferring the meaning to line three at the exact moment the
+ * viewer decides.
+ *
+ * 🎨 `ink-violet`. 🪤 `mono` was tried first and rejected on a rendered frame:
+ * its ACCENT is `oklch(0.48 0.14 230)` — BLUE — so the hook lost the gold the
+ * whole account is built on, and the near-white ground read washed out and
+ * low-contrast, which is the `first-second` skill's named prime suspect for a
+ * card that "reads as not-a-video". Palette is not the lever (V38 proved that),
+ * so it is deliberately held IN-FAMILY here to keep the hook GEOMETRY the one
+ * thing that changed. Dark also separates it from V40's ember on the grid.
+ * 🪤 BED: `vertexV17` (164.03 BPM tracked, 2.5ms spread — the tightest map in
+ * the pool) and the only bed in `beat-maps.json` that has never shipped.
+ * ⏱ 16.4s. Distinct from V37 14.2 / V38 19.6 / V39 23.4 / V40 27.8, and
+ * deliberately clear of 17.45s, the fixed duration TikTok once withheld the
+ * set for.
+ */
+export const LIKED_EXCEPT_TWO_THREE: ViralVideoProps = {
+  hookText: "EVERYONE LIKES A 3",
+  hookAccent: "EXCEPT TWO",
+  hookSub: "Born 3rd, 12th, 21st or 30th",
+  variant: "identity",
+  number: 3,
+  numberLabel: "JUPITER · 3, 12, 21, 30",
+  /**
+   * FIVE TRAITS, one per scene, and the order is the arc: the flattering fact
+   * (1), the one number that beats it (2), the catch that turns it (3), the
+   * count (4), the sting (5). Every line is a sentence a person would say out
+   * loud — the register the owner asked for, carried on from V40.
+   */
+  traits: [
+    // Rows naming 3 as a friend: 3, 5, 6, 7, 8, 9. Counted, not asserted.
+    "Six of the nine call you a friend",
+    // 6 is named by the same six rows — the only other number that is.
+    "Only 6 is liked that widely",
+    // 6's enemy array is empty; 3's is [1, 4]. This is the hinge of the video.
+    "But nobody dislikes a 6",
+    // The two rows that name 3 an enemy: 1 and 4.
+    "Two of them dislike a 3",
+    // ⭐ THE LINE THIS VIDEO EXISTS FOR. 3's own enemy row is [1], so 1 is
+    // mutual and visible. 4 names 3 an enemy while 3 holds 4 at neutral — a
+    // one-way dislike a 3 has no way of noticing. ⛔ Never cut this to make
+    // room; without it the video is a count, not a wound.
+    "1 you knew about. 4 you never did",
+  ],
+  // Share, not comment — the comment ask has returned 0 comments at n~50.
+  ctaText: "Send this to a 3",
+  // 16.4s. Payload at hook + build = 2.0s exactly, the PAYLOAD_BY_FRAME target;
+  // `snapRun` pulls the inner cuts onto vertexV17's tracked beats at render.
+  structure: { hook: 1.2, build: 0.8, value: 11.9, cta: 2.5 },
+  palette: "ink-violet",
+  layout: "stack",
+  music: MUSIC.vertexV17,
+};
+
 export const VIRAL_TEMPLATES = {
+  "Viral-20-LikedExceptTwo-Three": LIKED_EXCEPT_TWO_THREE,
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
   "Viral-03-Contrarian-Eight": CONTRARIAN_EIGHT,
@@ -1369,6 +1458,18 @@ export const VIRAL_COVERS: Record<
     title: "IF YOU'RE A NUMBER 4",
     accent: "YOU ARE NOT DISLIKED",
     number: 4,
+  },
+  /**
+   * Fourth cover under the matching rule. ⭐ The first cover in the series that
+   * does NOT open "IF YOU'RE A NUMBER n" — the grid is the surface where the
+   * template is recognised, and eight consecutive posts carried that same line.
+   * The `Viral-01` cover already set the precedent for a different opening.
+   */
+  "Viral-20-LikedExceptTwo-Three": {
+    kicker: "Jupiter",
+    title: "EVERYONE LIKES A 3",
+    accent: "EXCEPT TWO",
+    number: 3,
   },
   "Viral-01-Identity-Seven": {
     // Kicker names the ruling planet on every single-number cover, so the set

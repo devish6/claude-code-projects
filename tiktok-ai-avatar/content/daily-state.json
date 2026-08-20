@@ -2340,6 +2340,62 @@
         "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=organic&utm_campaign=live-2026-08-22&utm_content=LIVE01"
       },
       "note": "Promo for the TikTok Live on Sat 22 Aug, 7:00-7:30pm ET. MUST POST THU 20 AND FRI 21 - a promo built later cannot run twice before the event. NO V-NUMBER by design: V-numbers are coupled to angles.json and both pickAngle's 21-day window and the no-recycled-ideas rule key off angleId; this has no angle. Own prefix, like EXP01 and PIN01. THE BIRTH-YEAR ASK LANDS AT 2.0s IN THE HERO BEAT, not in the CTA (owner 2026-08-18) - the last five reels returned 0 comments between them and V39 held only 16.9% at 3s, so a CTA at 25s is addressed to almost nobody. The default 👇 glyph is correct here and is the INVERSE of V40's 👉: this mechanic IS a comment. Claims verified against the prod Product row 2026-08-19: the Annual Forecast reads 'quarter by quarter', NOT month by month - the first draft said month and would have been false. It is the ANNUAL FORECAST, never 'Annual Report' (the TikTok event copy gets this wrong; the video must not inherit it). '7pm ET' is spelled out because 7pm Eastern is 4:30am IST and 15 of 49 mailable users are in India. BLOCKER: DO NOT POST UNTIL THE 50% COUPON EXISTS AND IS TESTED ON BOTH STRIPE AND DODO - no discount has ever been exercised on the Dodo path, which is every Indian buyer's path. Built on fullbleed first; rendering it showed a 24-char trait orphaning its last word and the CTA rendering over the mandala, so it moved to centered. CTA slot has its own smaller ceiling (~16-17 chars), not the trait ~26."
+    },
+    {
+      "v": "V41",
+      "title": "Moolank 3 — Everyone Likes A 3 Except Two",
+      "date": "2026-08-19",
+      "category": "compatibility",
+      "moolank": 3,
+      "angleId": "one-way-match",
+      "music": "vertexV17",
+      "variation": {
+        "structure": "brief",
+        "tempo": 165,
+        "layout": "stack",
+        "palette": "ink-violet"
+      },
+      "variant": "identity",
+      "status": "generated",
+      "source": "content-team",
+      "needsReview": false,
+      "composition": "Viral-20-LikedExceptTwo-Three",
+      "language": "english",
+      "platforms": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "handPostTo": [
+        "instagram",
+        "youtube",
+        "facebook",
+        "tiktok"
+      ],
+      "utmLinks": {
+        "instagram": "https://numevix.com/?utm_source=instagram&utm_medium=social&utm_campaign=daily&utm_content=V41",
+        "youtube": "https://numevix.com/?utm_source=youtube&utm_medium=social&utm_campaign=daily&utm_content=V41",
+        "facebook": "https://numevix.com/?utm_source=facebook&utm_medium=social&utm_campaign=daily&utm_content=V41",
+        "tiktok": "https://numevix.com/?utm_source=tiktok&utm_medium=social&utm_campaign=daily&utm_content=V41"
+      },
+      "hashtags": [
+        "#numerology",
+        "#vedicnumerology",
+        "#birthnumber",
+        "#numerologycompatibility",
+        "#fyp",
+        "#freechart",
+        "#compatibility",
+        "#bestmatch",
+        "#numbers"
+      ],
+      "note": "V41, and THE FIRST VIDEO IN THE SERIES WITH A DIFFERENT FIRST FRAME. Cause found 2026-08-19: ViralHook never called useLayout(), so it hardcoded centre/centre and 112/128/52 and the `layout` prop only ever moved the BODY. V35-V40 all rendered the identical hook; V40 shipped layout:'stack' and still rendered dead-centre. Measured cost: the 1s hold sat at 54.9/54.9/56.5/54.9 across V37-V40 while palette, tempo and duration were varied and the composition could not move. Hook now reads the spec, so `stack` puts this one LEFT-ALIGNED IN THE LOWER THIRD at 91/104/42. TARGET: the 1s hold back above 60% — NOT views. angleId is deliberately still one-way-match and the body build is close to V40's, so the hook geometry is the one thing being measured. Claim counted over all nine rows of friendship.ts: 3 is named a friend by 3,5,6,7,8,9 (six, joint most); 6 is named as widely but its enemy row is EMPTY while 3's is [1,4]; 3's own enemy row is [1] so 1 is mutual and visible, and 4 names 3 an enemy while 3 holds 4 at neutral — the one-way dislike a 3 cannot see, which is the line the video exists for. structure 'brief' (16.4s) is hand-authored and NOT in STRUCTURES: snap/standard/essay/long were used by V37/V38/V39/V40 respectively, so every registered duration was inside the window, and duration must keep varying. Deliberately clear of 17.45s. Palette held in-family: `mono` was rendered and rejected — its ACCENT is blue, which drops the gold the account is built on, and the near-white ground read washed out.",
+      "instagramCaption": "If you're a 3, almost everyone warms to you. That is not the compliment it sounds like — it is the reason the two who don't stay in your head for years.\n\nIn Vedic numerology, six of the nine numbers name 3 as a friend: 3, 5, 6, 7, 8 and 9. Only one other number is liked that widely, and that is 6.\n\nHere is the difference between them. Nobody dislikes a 6 — its enemy row is empty. A 3's is not. Two numbers name 3 an enemy: 1 and 4.\n\nYou already know about the 1. A 3 names 1 straight back, so that one is mutual and out in the open — you can feel it in the room.\n\nThe 4 is the one that stings. 4 names 3 an enemy, but a 3 holds 4 at neutral. Nothing wrong, nothing noticed. It only runs one way, and you are standing on the side that cannot see it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 21st? 2+1 = 3.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 3 and see if they agree.",
+      "facebookCaption": "If you're a 3, almost everyone warms to you. That is not the compliment it sounds like — it is the reason the two who don't stay in your head for years.\n\nIn Vedic numerology, six of the nine numbers name 3 as a friend: 3, 5, 6, 7, 8 and 9. Only one other number is liked that widely, and that is 6.\n\nHere is the difference between them. Nobody dislikes a 6 — its enemy row is empty. A 3's is not. Two numbers name 3 an enemy: 1 and 4.\n\nYou already know about the 1. A 3 names 1 straight back, so that one is mutual and out in the open — you can feel it in the room.\n\nThe 4 is the one that stings. 4 names 3 an enemy, but a 3 holds 4 at neutral. Nothing wrong, nothing noticed. It only runs one way, and you are standing on the side that cannot see it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 21st? 2+1 = 3.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 3 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "tiktokCaption": "If you're a 3, almost everyone warms to you. That is not the compliment it sounds like — it is the reason the two who don't stay in your head for years.\n\nIn Vedic numerology, six of the nine numbers name 3 as a friend: 3, 5, 6, 7, 8 and 9. Only one other number is liked that widely, and that is 6.\n\nHere is the difference between them. Nobody dislikes a 6 — its enemy row is empty. A 3's is not. Two numbers name 3 an enemy: 1 and 4.\n\nYou already know about the 1. A 3 names 1 straight back, so that one is mutual and out in the open — you can feel it in the room.\n\nThe 4 is the one that stings. 4 names 3 an enemy, but a 3 holds 4 at neutral. Nothing wrong, nothing noticed. It only runs one way, and you are standing on the side that cannot see it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 21st? 2+1 = 3.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 3 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility",
+      "youtubeTitle": "Moolank 3 — Everyone Likes A 3 Except Two",
+      "youtubeDescription": "If you're a 3, almost everyone warms to you. That is not the compliment it sounds like — it is the reason the two who don't stay in your head for years.\n\nIn Vedic numerology, six of the nine numbers name 3 as a friend: 3, 5, 6, 7, 8 and 9. Only one other number is liked that widely, and that is 6.\n\nHere is the difference between them. Nobody dislikes a 6 — its enemy row is empty. A 3's is not. Two numbers name 3 an enemy: 1 and 4.\n\nYou already know about the 1. A 3 names 1 straight back, so that one is mutual and out in the open — you can feel it in the room.\n\nThe 4 is the one that stings. 4 names 3 an enemy, but a 3 holds 4 at neutral. Nothing wrong, nothing noticed. It only runs one way, and you are standing on the side that cannot see it.\n\nYour birth number is the day of the month you were born, added down to one digit. Born on the 21st? 2+1 = 3.\n\nNot on the list? It doesn't mean no. The table only names the strongest pulls.\n\nSend this to a 3 and see if they agree.\n\nnumerology compatibility, birth number, moolank compatibility, date of birth numerology, life path compatibility"
     }
   ],
   "pipelineMeta": {
