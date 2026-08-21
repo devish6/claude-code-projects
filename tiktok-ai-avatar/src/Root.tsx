@@ -38,6 +38,8 @@ import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
 import { SelfFriendlyPin, PIN_WIDTH, PIN_HEIGHT } from "./viral/SelfFriendlyPin";
 import { MutualPairsPin } from "./viral/MutualPairsPin";
+import { KineticVideo, kineticMetadata } from "./viral/kinetic/KineticVideo";
+import { V43_SCENES, V43_PAYOFF_INDEX } from "./viral/kinetic/v43-moolank-1";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -347,6 +349,21 @@ export const RemotionRoot: React.FC = () => {
             defaultProps={{ number: n }}
           />
         ))}
+      </Folder>
+
+      {/* The KINETIC format. A photographic ground per scene, hard-cut, with the
+          answer withheld past the watch-time gate. Built because V42 held the
+          second-best 1s hook of the era and still averaged 2.66s of watch time —
+          the frame never changed. See src/viral/kinetic/scenes.ts. */}
+      <Folder name="Kinetic">
+        <Composition
+          id="Kinetic-V43-Moolank-1"
+          component={KineticVideo}
+          defaultProps={{ scenes: V43_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() => kineticMetadata("Kinetic-V43-Moolank-1", V43_SCENES, V43_PAYOFF_INDEX)}
+        />
       </Folder>
 
       {/* Pinterest is a 2:3 platform and crops anything else, so this pin has

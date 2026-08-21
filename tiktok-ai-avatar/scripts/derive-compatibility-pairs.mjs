@@ -96,18 +96,76 @@ const selfBlock = {
   onlySelfMutual,
 };
 
+/**
+ * Per-number relationship facts, for the KINETIC 1-9 run.
+ *
+ * WHY THIS EXISTS: the V-series wrote one claim per number by hand and the run
+ * died — nine restatements of one idea, nothing past position 4 clearing 263.
+ * The market's healthy runs (@astroanjalividya, @soulguidance_tanishve) hold
+ * 100K+ per instalment because each cycle carries a NEW CATEGORY, not a new
+ * sentence about the same one. That needs every number's full row available to
+ * the renderer, not just the mutual pairs.
+ *
+ * For each n:
+ *   selfFriendly - does n list itself as a friend? (only 7 does not)
+ *   mutual       - both rows name each other (excludes self)
+ *   oneWayOut    - n calls them a friend; they do NOT call n one back
+ *   oneWayIn     - they call n a friend; n does NOT call them one back
+ *   heldBy       - how each other number holds n: friend | neutral | enemy
+ *
+ * ⚠️ `heldBy` carries `enemy` because a video must be able to AVOID it. The
+ * standing rule is never leave a verdict on the reader, and the conflict-pairs
+ * angle is `rejected`. This block exists so the renderer knows what NOT to say.
+ */
+const perNumber = {};
+for (let n = 1; n <= 9; n++) {
+  const mutual = [], oneWayOut = [], oneWayIn = [];
+  for (let o = 1; o <= 9; o++) {
+    if (o === n) continue;
+    const out = friendship[n].friend.includes(o);
+    const back = friendship[o].friend.includes(n);
+    if (out && back) mutual.push(o);
+    else if (out) oneWayOut.push(o);
+    else if (back) oneWayIn.push(o);
+  }
+  const heldBy = {};
+  for (let o = 1; o <= 9; o++) {
+    heldBy[o] = friendship[o].friend.includes(n)
+      ? "friend"
+      : friendship[o].neutral.includes(n)
+        ? "neutral"
+        : friendship[o].enemy.includes(n)
+          ? "enemy"
+          : "unlisted";
+  }
+  perNumber[n] = {
+    selfFriendly: friendship[n].friend.includes(n),
+    friends: friendship[n].friend.filter((x) => x !== n),
+    mutual,
+    oneWayOut,
+    oneWayIn,
+    heldBy,
+  };
+}
+const perNumberBlock = {
+  _derived: "Written by scripts/derive-compatibility-pairs.mjs. Do not hand-edit.",
+  numbers: perNumber,
+};
+
 const reel = JSON.parse(readFileSync(REEL_JSON, "utf8"));
 const inFile = reel.pairs.map((p) => `${p.a}&${p.b}`).sort().join(",");
 const derived = mutual.map(([a, b]) => `${a}&${b}`).sort().join(",");
 const selfInFile = JSON.stringify(reel.selfFriendlyDerived ?? null);
 const selfDerived = JSON.stringify(selfBlock);
+const perInFile = JSON.stringify(reel.perNumberDerived ?? null);
+const perDerived = JSON.stringify(perNumberBlock);
 
 console.log(
   `Self-mutual only: ${onlySelfMutual.join(", ") || "(none)"} · ` +
     `${selfBlock.exception} is ${selfBlock.exceptionSelfStatus} to itself, matches ${selfBlock.exceptionMatches.join("/")}`,
 );
 
-if (inFile === derived && selfInFile === selfDerived) {
+if (inFile === derived && selfInFile === selfDerived && perInFile === perDerived) {
   console.log("\n✅ compatibility-reel.json matches the friendship table.");
   process.exit(0);
 }
@@ -121,6 +179,9 @@ if (selfInFile !== selfDerived) {
   console.error(`  self file:    ${selfInFile}`);
   console.error(`  self derived: ${selfDerived}`);
 }
+if (perInFile !== perDerived) {
+  console.error("  per-number block differs from friendship.ts");
+}
 
 if (!process.argv.includes("--write")) {
   console.error("\nRe-run with --write to rewrite the pairs (prose in `why` is preserved where the pair survives).");
@@ -128,6 +189,7 @@ if (!process.argv.includes("--write")) {
 }
 
 reel.selfFriendlyDerived = selfBlock;
+reel.perNumberDerived = perNumberBlock;
 
 const byKey = new Map(reel.pairs.map((p) => [`${p.a}&${p.b}`, p]));
 reel.pairs = mutual.map(([a, b]) => byKey.get(`${a}&${b}`) ?? { a, b, planets: "TODO", why: "TODO — write this, do not leave it" });

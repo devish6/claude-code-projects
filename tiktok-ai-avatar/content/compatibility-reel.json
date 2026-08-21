@@ -102,5 +102,261 @@
     "onlySelfMutual": [
       5
     ]
+  },
+  "perNumberDerived": {
+    "_derived": "Written by scripts/derive-compatibility-pairs.mjs. Do not hand-edit.",
+    "numbers": {
+      "1": {
+        "selfFriendly": true,
+        "friends": [
+          2,
+          4,
+          7
+        ],
+        "mutual": [
+          2,
+          4
+        ],
+        "oneWayOut": [
+          7
+        ],
+        "oneWayIn": [],
+        "heldBy": {
+          "1": "friend",
+          "2": "friend",
+          "3": "enemy",
+          "4": "friend",
+          "5": "neutral",
+          "6": "neutral",
+          "7": "neutral",
+          "8": "enemy",
+          "9": "neutral"
+        }
+      },
+      "2": {
+        "selfFriendly": true,
+        "friends": [
+          1,
+          7,
+          9
+        ],
+        "mutual": [
+          1,
+          7
+        ],
+        "oneWayOut": [
+          9
+        ],
+        "oneWayIn": [
+          4
+        ],
+        "heldBy": {
+          "1": "friend",
+          "2": "friend",
+          "3": "neutral",
+          "4": "friend",
+          "5": "neutral",
+          "6": "neutral",
+          "7": "friend",
+          "8": "neutral",
+          "9": "neutral"
+        }
+      },
+      "3": {
+        "selfFriendly": true,
+        "friends": [
+          6,
+          9
+        ],
+        "mutual": [
+          6,
+          9
+        ],
+        "oneWayOut": [],
+        "oneWayIn": [
+          5,
+          7,
+          8
+        ],
+        "heldBy": {
+          "1": "enemy",
+          "2": "neutral",
+          "3": "friend",
+          "4": "enemy",
+          "5": "friend",
+          "6": "friend",
+          "7": "friend",
+          "8": "friend",
+          "9": "friend"
+        }
+      },
+      "4": {
+        "selfFriendly": true,
+        "friends": [
+          1,
+          2,
+          7,
+          8
+        ],
+        "mutual": [
+          1,
+          8
+        ],
+        "oneWayOut": [
+          2,
+          7
+        ],
+        "oneWayIn": [],
+        "heldBy": {
+          "1": "friend",
+          "2": "neutral",
+          "3": "neutral",
+          "4": "friend",
+          "5": "neutral",
+          "6": "neutral",
+          "7": "neutral",
+          "8": "friend",
+          "9": "enemy"
+        }
+      },
+      "5": {
+        "selfFriendly": true,
+        "friends": [
+          3,
+          6,
+          9
+        ],
+        "mutual": [],
+        "oneWayOut": [
+          3,
+          6,
+          9
+        ],
+        "oneWayIn": [],
+        "heldBy": {
+          "1": "neutral",
+          "2": "neutral",
+          "3": "neutral",
+          "4": "neutral",
+          "5": "friend",
+          "6": "neutral",
+          "7": "neutral",
+          "8": "neutral",
+          "9": "neutral"
+        }
+      },
+      "6": {
+        "selfFriendly": true,
+        "friends": [
+          3,
+          9
+        ],
+        "mutual": [
+          3,
+          9
+        ],
+        "oneWayOut": [],
+        "oneWayIn": [
+          5,
+          7,
+          8
+        ],
+        "heldBy": {
+          "1": "neutral",
+          "2": "neutral",
+          "3": "friend",
+          "4": "neutral",
+          "5": "friend",
+          "6": "friend",
+          "7": "friend",
+          "8": "friend",
+          "9": "friend"
+        }
+      },
+      "7": {
+        "selfFriendly": false,
+        "friends": [
+          2,
+          3,
+          6
+        ],
+        "mutual": [
+          2
+        ],
+        "oneWayOut": [
+          3,
+          6
+        ],
+        "oneWayIn": [
+          1,
+          4
+        ],
+        "heldBy": {
+          "1": "friend",
+          "2": "friend",
+          "3": "neutral",
+          "4": "friend",
+          "5": "neutral",
+          "6": "neutral",
+          "7": "neutral",
+          "8": "neutral",
+          "9": "enemy"
+        }
+      },
+      "8": {
+        "selfFriendly": true,
+        "friends": [
+          3,
+          4,
+          6
+        ],
+        "mutual": [
+          4
+        ],
+        "oneWayOut": [
+          3,
+          6
+        ],
+        "oneWayIn": [],
+        "heldBy": {
+          "1": "neutral",
+          "2": "enemy",
+          "3": "neutral",
+          "4": "friend",
+          "5": "neutral",
+          "6": "neutral",
+          "7": "neutral",
+          "8": "friend",
+          "9": "neutral"
+        }
+      },
+      "9": {
+        "selfFriendly": true,
+        "friends": [
+          3,
+          6
+        ],
+        "mutual": [
+          3,
+          6
+        ],
+        "oneWayOut": [],
+        "oneWayIn": [
+          2,
+          5
+        ],
+        "heldBy": {
+          "1": "enemy",
+          "2": "friend",
+          "3": "friend",
+          "4": "enemy",
+          "5": "friend",
+          "6": "friend",
+          "7": "enemy",
+          "8": "enemy",
+          "9": "friend"
+        }
+      }
+    }
   }
 }
