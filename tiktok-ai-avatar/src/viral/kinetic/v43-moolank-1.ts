@@ -135,8 +135,11 @@ export const V43_SCENES: KineticScene[] = [
     scrim: "light",
     fg: "#EAF0FF",
     accent: "#8FB4FF",
-    headline: `So ${d.mutual.length === 2 ? "two" : String(d.mutual.length)} others`,
-    sub: "list you back",
+    // 🪤 NOT "list you back". "List" is friendship.ts row jargon — nobody says
+    // it out loud, and it leaked in from the one-way-match era. Plain language
+    // is a standing rule; the payoff line is the worst place to break it.
+    headline: `So only ${d.mutual.length === 2 ? "two" : String(d.mutual.length)}`,
+    sub: "match you back",
   },
   {
     seconds: 1.8,
