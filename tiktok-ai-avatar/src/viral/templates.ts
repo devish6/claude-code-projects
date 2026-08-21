@@ -1307,7 +1307,99 @@ export const LIKED_EXCEPT_TWO_THREE: ViralVideoProps = {
   music: MUSIC.vertexV17,
 };
 
+/**
+ * V42 — MOOLANK 2, and the first cut in ten posts that is NOT one-way-match.
+ *
+ * ⭐⭐⭐ WHY THE ANGLE CHANGED. `content/angles.json` still carries
+ * `one-way-match` at `status: "hypothesis"` — it was never promoted. V35-V41
+ * are all one-way-match and the run reads 263 / 1,935 / 187 / 201 / 215 / 203 /
+ * 192: one win at the fourth exposure and nothing above 263 since. Meanwhile
+ * `best-match` is APPROVED, on a same-account control (@numberswithrimzim
+ * 51.9K-57.2K vs that account's 6.8K-25.9K), and has not shipped since V30/V31.
+ *
+ * ⭐⭐⭐ WHY THE HOOK LEADS WITH THE BIRTHDATE. The account's own two best posts
+ * ever both open on the date, not on the number: `MOOLANK 5 · Born on the 5th,
+ * 14th or 23rd?` (2,408) and `BORN ON THE 7TH, 16TH OR 25TH? YOU'RE A 7`
+ * (1,418). Nine straight posts opened `IF YOU'RE A NUMBER n`, which a viewer
+ * can only answer if they ALREADY KNOW their number — and 93.6% of V41's
+ * viewers were non-followers. V41 then removed even that cue and took the
+ * worst 1s hold in the series (45.9% by Instagram's own tooltip).
+ * The market agrees: the biggest reel in the niche right now is "Are you
+ * Dating/Married to a moolank no. 5 (Born on 5, 14, 23)" at 180K.
+ *
+ * 🪤 PACKAGE HELD AS CLOSE TO V36 AS THE DUPLICATE RULE ALLOWS. V36 is
+ * `standard|128|centered|sage-gold`, posted 08-14 and locked until 08-28, so
+ * tempo moves to 150 and everything else matches the best post of the era.
+ * That is deliberate: V38 already proved the package alone does not win, so
+ * the package is the CONTROL here and the angle + hook copy are the variable.
+ * ⛔ Do not also move layout or palette — `stack` has now lost twice (V40, V41).
+ *
+ * EVERY LINE COUNTED FROM friendship.ts, 2026-08-20:
+ *   2: { friend: [1, 2, 7, 9], neutral: [3, 4, 5, 6], enemy: [8] }
+ *   - outgoing to OTHERS = 1, 7, 9 (three; self excluded on purpose so trait 2
+ *     can say "only 1 and 7" without the self-match contradicting it)
+ *   - 1's friends [1,2,4,7] contains 2 -> MUTUAL; 7's friends [2,3,6] contains
+ *     2 -> MUTUAL; 9's friends [3,6,9] does NOT -> one-way, and 9 holds 2 at
+ *     neutral ([1,2,5,8])
+ *   - 4's friends [1,2,4,7,8] contains 2 while 2 holds 4 at neutral -> the
+ *     one-way running TOWARDS a 2
+ *   - NO row in the table names 2 in `enemy`. Only 2, 5 and 6 have that.
+ */
+export const BEST_MATCH_TWO: ViralVideoProps = {
+  // ⭐ The date, not the number. This is the one line a cold viewer can answer.
+  hookText: "BORN 2nd, 11th, 20th OR 29th?",
+  // ⭐ The ANSWER, in the 128pt line. Screen the accent, not the concept —
+  // V40's accent consoled and buried its payload in the sub. This one pays off
+  // the question immediately, which is what makes the frame worth saving.
+  //
+  // 🔴 12 CHARS IS NOT A STYLE CHOICE — IT IS THE COVER'S GEOMETRY.
+  // The first cut ran "1 AND 7 MATCH BACK" (18 chars). On the video that is a
+  // clean two-line accent, but the COVER stacks title + accent from a fixed
+  // origin: 18 chars wraps to THREE lines, which lifts the whole block two
+  // lines up and drives "BORN 2nd," straight through the Metatron lattice.
+  // Rendered against `Viral-01-Identity-Seven-Cover` (1,418 views, the account's
+  // #3 all-time) as the control: its accent "YOU'RE A 7" is ONE line and its
+  // title clears the cube. Three candidates were rendered and compared —
+  // "MATCH: 1 AND 7" still wrapped to two and still collided; "1 AND 7" and
+  // "IT'S 1 AND 7" both reproduce V01's geometry exactly.
+  // ⛔ Never take this accent past ~13 characters without re-rendering the cover.
+  // 🪤 The `MOON` kicker is still half-buried in the cube — that is PRE-EXISTING
+  // and V01's `KETU` does the same on the proven cover, so it is left alone
+  // here rather than fixed as a second change. It is a real bug; it is not this
+  // video's bug.
+  hookAccent: "IT'S 1 AND 7",
+  hookSub: "The only two that match you back",
+  variant: "identity",
+  number: 2,
+  numberLabel: "MOON · 2, 11, 20, 29",
+  /**
+   * FIVE TRAITS, and the arc is: the count, the answer, a one-way you GIVE, a
+   * one-way you GET, then the positive landing. ⭐ It ends on the counted good
+   * news rather than the wound — the whole recent run ended on rejection and
+   * the whole market ends on something the viewer can use.
+   * ⛔ Trait 1 says "three others", not "four numbers": 2's friend row includes
+   * itself, and "four" would contradict "only 1 and 7 say it back" in trait 2.
+   */
+  traits: [
+    "You call three others a friend",
+    "Only 1 and 7 say it back",
+    "You like 9. 9 stays neutral",
+    "4 likes you. You never noticed",
+    "And no number dislikes a 2",
+  ],
+  // ⭐ Targeted share, not a generic one — names the two numbers the video just
+  // handed the viewer, so the share has an address. The comment ask stays dead.
+  ctaText: "Send this to your 1 or your 7",
+  // `standard` = 19.6s, V36's structure.
+  structure: { hook: 1.2, build: 0.8, value: 15.2, cta: 2.4 },
+  palette: "sage-gold",
+  layout: "centered",
+  // 149.95 BPM, interval sd 4.8ms. The fresh 150 bed — quartzV20 went on V39.
+  music: MUSIC.helixV19,
+};
+
 export const VIRAL_TEMPLATES = {
+  "Viral-21-BestMatch-Two": BEST_MATCH_TWO,
   "Viral-20-LikedExceptTwo-Three": LIKED_EXCEPT_TWO_THREE,
   "Viral-01-Identity-Seven": IDENTITY_SEVEN,
   "Viral-02-Curiosity-Hidden": CURIOSITY_HIDDEN,
@@ -1453,6 +1545,18 @@ export const VIRAL_COVERS: Record<
     number: 5,
   },
   // Third cover under the matching rule — `accent` is `hookAccent` verbatim.
+  /**
+   * ⭐ Cover accent is pinned to `hookAccent` by covers.test.ts. It also breaks
+   * the `IF YOU'RE A NUMBER n` opening that ran across nine consecutive grid
+   * tiles — the grid is where the template is recognised, and `Viral-01`'s
+   * `BORN ON THE 7th, 16th OR 25th?` (1,418 views) is the precedent.
+   */
+  "Viral-21-BestMatch-Two": {
+    kicker: "Moon",
+    title: "BORN 2nd, 11th, 20th OR 29th?",
+    accent: "IT'S 1 AND 7",
+    number: 2,
+  },
   "Viral-19-OneWayMatch-Four": {
     kicker: "Rahu",
     title: "IF YOU'RE A NUMBER 4",
