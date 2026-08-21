@@ -28,9 +28,16 @@ import { FPS, sec } from "../timing";
  * the old format does on every single cut.
  */
 
-/** No scene may hold the full frame longer than this. Tighter than SCENE_CHANGE
- *  because the whole frame now turns over, not just the copy on top of it. */
-export const KINETIC_SCENE_MAX = sec(1.7);
+/**
+ * No scene may hold the full frame longer than this.
+ *
+ * 🔴 RAISED 1.7s -> 2.2s after watching the first cut: it read as TOO FAST.
+ * Turning the frame over is the point, but a scene the viewer cannot finish
+ * reading is a scene they leave. The market reference cuts every 1.5-2.5s, and
+ * the goal here is average watch time, not cut count - a fast cut nobody
+ * finishes reading costs the very metric the format exists to move.
+ */
+export const KINETIC_SCENE_MAX = sec(2.2);
 
 /** ...nor be so short it cannot be read. Measured floor from the montage work:
  *  under ~0.35s a line is not read, it is glimpsed. A full-frame scene carries

@@ -1,5 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
+import { BrandAudio } from "../../components/kit";
+import { MUSIC } from "../../lib/brand";
 import { DISPLAY, UI } from "../fonts";
 import { FPS, sec } from "../timing";
 import { type KineticScene, assertKineticRenderable, sceneOffsets, totalFrames } from "./scenes";
@@ -150,10 +152,23 @@ const Scene: React.FC<{ scene: KineticScene; frames: number; isFirst: boolean }>
   );
 };
 
+/**
+ * 🔴 THE BED IS NOT OPTIONAL. The first cut of this format shipped with NO
+ * audio at all — caught by the owner watching it, not by any gate. Every
+ * V-series video carried a bed; the format rewrite dropped it silently because
+ * ViralVideo mounts BrandAudio and this composition was written from scratch.
+ *
+ * `kineticV18` rather than V42's `helixV19`: the bed is part of the
+ * fingerprint, and reusing the losing cut's bed on a format test muddies it.
+ */
+export const KINETIC_MUSIC = MUSIC.kineticV18;
+
 export const KineticVideo: React.FC<{ scenes: KineticScene[] }> = ({ scenes }) => {
   const offsets = sceneOffsets(scenes);
+  const total = totalFrames(scenes);
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
+      <BrandAudio src={KINETIC_MUSIC} total={total} start={0} fadeIn={2} vol={0.46} fadeFloor={0.85} />
       {scenes.map((s, i) => (
         <Sequence key={i} from={offsets[i]} durationInFrames={sec(s.seconds)}>
           <Scene scene={s} frames={sec(s.seconds)} isFirst={i === 0} />

@@ -13,6 +13,7 @@ import {
   totalFrames,
 } from "./scenes";
 import { V43_SCENES, V43_PAYOFF_INDEX } from "./v43-moolank-1";
+import { KINETIC_MUSIC } from "./KineticVideo";
 
 const scene = (seconds: number, bg: string): KineticScene => ({ seconds, bg, fg: "#fff" });
 
@@ -106,10 +107,22 @@ describe("V43 — Moolank 1, the first kinetic cut", () => {
     expect(gate.ok).toBe(true);
   });
 
-  test("sits in the proven duration band (V36 won at 19.65s)", () => {
+  test("sits in a sane duration band", () => {
+    // V36 won at 19.65s, but the gate is average WATCH TIME, not completion,
+    // so a slower, readable cut is allowed to run longer than the old format.
     const seconds = totalFrames(V43_SCENES) / 30;
     expect(seconds).toBeGreaterThan(17);
-    expect(seconds).toBeLessThan(21);
+    expect(seconds).toBeLessThan(26);
+  });
+
+  test("carries a music bed — the first kinetic cut shipped silent", () => {
+    expect(KINETIC_MUSIC).toBeTruthy();
+    expect(KINETIC_MUSIC).toMatch(/^music\/.+\.mp3$/);
+  });
+
+  test("no scene is too fast to read", () => {
+    // The owner called the first cut "a tad bit too fast". Nothing under 1.5s.
+    for (const s of V43_SCENES) expect(s.seconds).toBeGreaterThanOrEqual(1.5);
   });
 
   test("the frame turns over at least 10 times", () => {

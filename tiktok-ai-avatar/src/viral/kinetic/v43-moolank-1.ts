@@ -76,7 +76,7 @@ const FRIEND_COUNT_WORD = (WORDS[FRIEND_COUNT] ?? String(FRIEND_COUNT)).toUpperC
 export const V43_SCENES: KineticScene[] = [
   // ── The hook. Birthdate cue first; no answer anywhere on screen. ──────────
   {
-    seconds: 1.6,
+    seconds: 1.9,
     bg: "gold-a",
     fg: "#F6EFE2",
     accent: "#E8B44C",
@@ -85,7 +85,7 @@ export const V43_SCENES: KineticScene[] = [
   },
   // ── The count. This is the loop: FOUR, but which four? ───────────────────
   {
-    seconds: 1.4,
+    seconds: 2.0,
     bg: "night-a",
     scrim: "light",
     fg: "#EAF0FF",
@@ -95,7 +95,7 @@ export const V43_SCENES: KineticScene[] = [
   },
   // ── The turn, promised early and paid at 14.6s. ──────────────────────────
   {
-    seconds: 1.3,
+    seconds: 1.8,
     bg: "stone-a",
     fg: "#EDEDED",
     accent: "#B9B9B9",
@@ -104,7 +104,7 @@ export const V43_SCENES: KineticScene[] = [
   },
   // ── Reveal 1 of 4 — and it is the viewer. 1 is self-friendly. ────────────
   {
-    seconds: 1.5,
+    seconds: 1.9,
     bg: "gold-b",
     fg: "#F6EFE2",
     accent: "#E8B44C",
@@ -113,15 +113,15 @@ export const V43_SCENES: KineticScene[] = [
     sub: "One of the few at ease with its own number",
   },
   // ── Reveal 2 of 4 ────────────────────────────────────────────────────────
-  { seconds: 1.4, bg: "water-a", scrim: "light", fg: "#EAF2FF", accent: "#9CC4E4", kicker: p12.planets, digit: 2 },
-  { seconds: 1.5, bg: "water-b", scrim: "light", fg: "#EAF2FF", accent: "#9CC4E4", headline: p12.why },
+  { seconds: 1.9, bg: "water-a", scrim: "light", fg: "#EAF2FF", accent: "#9CC4E4", kicker: p12.planets, digit: 2 },
+  { seconds: 1.7, bg: "water-b", scrim: "light", fg: "#EAF2FF", accent: "#9CC4E4", headline: p12.why },
   // ── Reveal 3 of 4 ────────────────────────────────────────────────────────
-  { seconds: 1.4, bg: "ember-a", fg: "#FFF0E6", accent: "#FF8A4C", kicker: p14.planets, digit: 4 },
+  { seconds: 1.5, bg: "ember-a", fg: "#FFF0E6", accent: "#FF8A4C", kicker: p14.planets, digit: 4 },
   { seconds: 1.5, bg: "ember-b", fg: "#FFF0E6", accent: "#FF8A4C", headline: p14.why },
   // ── Reveal 4 of 4 — the one that does not pay back. ──────────────────────
-  { seconds: 1.4, bg: "violet-a", fg: "#F6EAFF", accent: "#C89BFF", kicker: "MOON & KETU", digit: d.oneWayOut[0] },
+  { seconds: 1.5, bg: "violet-a", fg: "#F6EAFF", accent: "#C89BFF", kicker: "MOON & KETU", digit: d.oneWayOut[0] },
   {
-    seconds: 1.6,
+    seconds: 1.9,
     bg: "violet-b",
     fg: "#F6EAFF",
     accent: "#C89BFF",
@@ -139,7 +139,7 @@ export const V43_SCENES: KineticScene[] = [
     sub: "list you back",
   },
   {
-    seconds: 1.6,
+    seconds: 1.8,
     bg: "gold-c",
     fg: "#F6EFE2",
     accent: "#E8B44C",
