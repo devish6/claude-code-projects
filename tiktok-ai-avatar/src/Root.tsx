@@ -37,6 +37,7 @@ import { DAILY_COVERS, DAILY_TEMPLATES } from "./viral/daily-templates";
 import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
 import { SelfFriendlyPin, PIN_WIDTH, PIN_HEIGHT } from "./viral/SelfFriendlyPin";
+import { MutualPairsPin } from "./viral/MutualPairsPin";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -354,6 +355,14 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="Pin-SelfFriendly"
           component={SelfFriendlyPin}
+          durationInFrames={1}
+          fps={30}
+          width={PIN_WIDTH}
+          height={PIN_HEIGHT}
+        />
+        <Composition
+          id="Pin-MutualPairs"
+          component={MutualPairsPin}
           durationInFrames={1}
           fps={30}
           width={PIN_WIDTH}
