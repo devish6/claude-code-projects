@@ -45,10 +45,17 @@ export const BANDS = {
   chrome: { top: 0, bottom: 150, keepClear: true },
   /** The headline — the highest place the platform leaves alone. */
   header: { top: 150, bottom: 560, keepClear: false },
-  /** The HOST. Halo only, nothing to read. */
-  presenter: { top: 560, bottom: 1120, keepClear: true },
-  /** The offer — sits above the comment stream, below the host's shoulders. */
-  offer: { top: 1120, bottom: 1440, keepClear: false },
+  /**
+   * The offer, stacked DIRECTLY under the header rather than pushed to the
+   * bottom of the frame. 🎯 THIS IS A GREEN-SCREEN BACKGROUND, not a backdrop
+   * the host stands beside: the compositor puts the host in FRONT of the whole
+   * image, so there is no band they stand "in" — they simply cover whatever is
+   * behind them, from the chest down and outward. Every readable thing
+   * therefore goes above the head, in one block at the top.
+   */
+  offer: { top: 560, bottom: 880, keepClear: false },
+  /** Behind the host. Halo only — it lights their outline off the ground. */
+  presenter: { top: 880, bottom: 1440, keepClear: true },
   /** Comments stack up from here on the left; caption bar at the very bottom. */
   comments: { top: 1440, bottom: 1920, keepClear: true },
 } as const;
@@ -65,10 +72,10 @@ export const BLOCKS = [
   { id: "eyebrow", band: "header", top: 178, height: 40 },
   { id: "headline", band: "header", top: 246, height: 210 },
   { id: "sub", band: "header", top: 476, height: 44 },
-  { id: "giveaway", band: "offer", top: 1146, height: 92 },
-  { id: "rule", band: "offer", top: 1258, height: 2 },
-  { id: "code", band: "offer", top: 1284, height: 96 },
-  { id: "site", band: "offer", top: 1392, height: 40 },
+  { id: "giveaway", band: "offer", top: 586, height: 92 },
+  { id: "rule", band: "offer", top: 698, height: 2 },
+  { id: "code", band: "offer", top: 724, height: 96 },
+  { id: "site", band: "offer", top: 832, height: 40 },
 ] as const satisfies readonly {
   id: string;
   band: BandName;
