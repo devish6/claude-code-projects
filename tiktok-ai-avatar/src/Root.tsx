@@ -38,6 +38,7 @@ import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
 import { SelfFriendlyPin, PIN_WIDTH, PIN_HEIGHT } from "./viral/SelfFriendlyPin";
 import { MutualPairsPin } from "./viral/MutualPairsPin";
+import { LiveBackdrop, LIVE_WIDTH, LIVE_HEIGHT } from "./viral/LiveBackdrop";
 import { KineticVideo, kineticMetadata } from "./viral/kinetic/KineticVideo";
 import { V43_SCENES, V43_PAYOFF_INDEX } from "./viral/kinetic/v43-moolank-1";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
@@ -384,6 +385,29 @@ export const RemotionRoot: React.FC = () => {
           fps={30}
           width={PIN_WIDTH}
           height={PIN_HEIGHT}
+        />
+      </Folder>
+
+      {/* The backdrop a TikTok LIVE composites the host into. Two stills: the
+          clean frame, and a guides pass showing where the platform's chrome and
+          comment stream land, so the bands can be checked against a real phone. */}
+      <Folder name="Live">
+        <Composition
+          id="Live-Backdrop-2027"
+          component={LiveBackdrop}
+          durationInFrames={1}
+          fps={30}
+          width={LIVE_WIDTH}
+          height={LIVE_HEIGHT}
+        />
+        <Composition
+          id="Live-Backdrop-2027-Guides"
+          component={LiveBackdrop}
+          defaultProps={{ guides: true }}
+          durationInFrames={1}
+          fps={30}
+          width={LIVE_WIDTH}
+          height={LIVE_HEIGHT}
         />
       </Folder>
 
