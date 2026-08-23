@@ -41,6 +41,7 @@ import { MutualPairsPin } from "./viral/MutualPairsPin";
 import { LiveBackdrop, LIVE_WIDTH, LIVE_HEIGHT } from "./viral/LiveBackdrop";
 import { KineticVideo, kineticMetadata } from "./viral/kinetic/KineticVideo";
 import { V43_SCENES, V43_PAYOFF_INDEX } from "./viral/kinetic/v43-moolank-1";
+import { V44_SCENES, V44_PAYOFF_INDEX } from "./viral/kinetic/v44-name-number-1";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -364,6 +365,18 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           calculateMetadata={() => kineticMetadata("Kinetic-V43-Moolank-1", V43_SCENES, V43_PAYOFF_INDEX)}
+        />
+        {/* V44 holds V43's package EXACTLY — same 13 scenes, same seconds, same
+            ground order, same bed — so that the CATEGORY and the CTA are the
+            only things that changed. V43 changed four things at once and cannot
+            be read as a format test; this one can. */}
+        <Composition
+          id="Kinetic-V44-NameNumber-1"
+          component={KineticVideo}
+          defaultProps={{ scenes: V44_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() => kineticMetadata("Kinetic-V44-NameNumber-1", V44_SCENES, V44_PAYOFF_INDEX)}
         />
       </Folder>
 
