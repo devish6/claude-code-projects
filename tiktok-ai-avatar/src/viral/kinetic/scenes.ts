@@ -71,6 +71,23 @@ export type KineticScene = {
    * `numevix.com` disappeared. Match the scrim to the ground, not to a default.
    */
   scrim?: "light" | "normal" | "heavy";
+  /**
+   * How the ground moves under this scene, as a scale ramp across its whole
+   * duration. Omitted = the default slow 6% push every scene has always had.
+   *
+   * 🔴 ADDED FOR V45, AND DELIBERATELY OPTIONAL. V43 and V44 are the controls
+   * for the format and must keep rendering byte-for-byte as published, so the
+   * default is unchanged and neither of them sets this field.
+   *
+   * 🎯 WHAT IT IS FOR: a pull-IN (from > to) moves fastest at the start, so the
+   * frame is visibly moving inside the first second. Measured 2026-08-23,
+   * @numberswithrimzim's prediction chip over STATIC b-roll scored 29.1K
+   * against @soulguidance_tanishve's 93K–232K on the same chip with motion —
+   * motion at frame 1 is the visible difference between the two.
+   * 🪤 This moves the GROUND only. Scene 0's type stays static: frame 0 is the
+   * poster frame and has shipped blank twice.
+   */
+  push?: { from: number; to: number };
 };
 
 export type Gate = { name: string; ok: boolean; detail?: string };

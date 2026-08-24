@@ -42,6 +42,7 @@ import { LiveBackdrop, LIVE_WIDTH, LIVE_HEIGHT } from "./viral/LiveBackdrop";
 import { KineticVideo, kineticMetadata } from "./viral/kinetic/KineticVideo";
 import { V43_SCENES, V43_PAYOFF_INDEX } from "./viral/kinetic/v43-moolank-1";
 import { V44_SCENES, V44_PAYOFF_INDEX } from "./viral/kinetic/v44-name-number-1";
+import { V45_SCENES, V45_PAYOFF_INDEX } from "./viral/kinetic/v45-september-year-turn";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -377,6 +378,20 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           calculateMetadata={() => kineticMetadata("Kinetic-V44-NameNumber-1", V44_SCENES, V44_PAYOFF_INDEX)}
+        />
+        {/* V45 answers what V44 measured: the category changed and FRAME 0 did
+            not, and the 1s hold halved (61.2% -> ~42%, 134 views, below the ~200
+            seeding floor). So this cut holds the package again — same 13 scenes,
+            same seconds, same grounds, same bed — and changes only the opening:
+            a hook shape this account has never posted, and a ground that is
+            visibly moving inside the first second. Judge it on the 1s hold. */}
+        <Composition
+          id="Kinetic-V45-September-YearTurn"
+          component={KineticVideo}
+          defaultProps={{ scenes: V45_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() => kineticMetadata("Kinetic-V45-September-YearTurn", V45_SCENES, V45_PAYOFF_INDEX)}
         />
       </Folder>
 

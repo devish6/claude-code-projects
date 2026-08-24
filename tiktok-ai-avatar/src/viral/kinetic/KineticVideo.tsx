@@ -39,10 +39,19 @@ const SCRIMS = {
     "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.62) 70%, rgba(0,0,0,0.80) 100%)",
 } as const;
 
-const Ground: React.FC<{ bg: string; frames: number; scrim: keyof typeof SCRIMS }> = ({ bg, frames, scrim }) => {
+const Ground: React.FC<{
+  bg: string;
+  frames: number;
+  scrim: keyof typeof SCRIMS;
+  push?: { from: number; to: number };
+}> = ({ bg, frames, scrim, push }) => {
   const f = useCurrentFrame();
   // A slow push keeps a still photograph from reading as a still photograph.
-  const scale = interpolate(f, [0, frames], [1, 1 + GROUND_DRIFT], {
+  // 🪤 The DEFAULT is the original 1 -> 1.06 drift and must stay that way — V43
+  //    and V44 are the format controls and neither one passes `push`.
+  const from = push?.from ?? 1;
+  const to = push?.to ?? 1 + GROUND_DRIFT;
+  const scale = interpolate(f, [0, frames], [from, to], {
     extrapolateRight: "clamp",
   });
   return (
@@ -74,7 +83,7 @@ const Scene: React.FC<{ scene: KineticScene; frames: number; isFirst: boolean }>
 
   return (
     <AbsoluteFill>
-      <Ground bg={scene.bg} frames={frames} scrim={scene.scrim ?? "normal"} />
+      <Ground bg={scene.bg} frames={frames} scrim={scene.scrim ?? "normal"} push={scene.push} />
       <AbsoluteFill
         style={{
           padding: "0 96px",
