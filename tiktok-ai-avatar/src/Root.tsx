@@ -43,6 +43,7 @@ import { KineticVideo, kineticMetadata } from "./viral/kinetic/KineticVideo";
 import { V43_SCENES, V43_PAYOFF_INDEX } from "./viral/kinetic/v43-moolank-1";
 import { V44_SCENES, V44_PAYOFF_INDEX } from "./viral/kinetic/v44-name-number-1";
 import { V45_SCENES, V45_PAYOFF_INDEX } from "./viral/kinetic/v45-september-year-turn";
+import { V46_SCENES, V46_PAYOFF_INDEX } from "./viral/kinetic/v46-alphabet-no-nine";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -392,6 +393,28 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           calculateMetadata={() => kineticMetadata("Kinetic-V45-September-YearTurn", V45_SCENES, V45_PAYOFF_INDEX)}
+        />
+        {/* V46 stops tweaking the hook. V45 measured 41.5% at 1s / skip .879,
+            but its verdict was void (its own header says scene 0 bundled two
+            changes) and — the finding that ends this way of working — the
+            post-to-post noise between cuts that were SUPPOSED to match is 0.155
+            to 0.188 skip, larger than the 0.125 V45 was trying to read. MDE at
+            n=1 is ~0.33 against a full observed range of 0.345, so a one-post
+            hook A/B on this account can detect nothing at all.
+            So this cut changes class, not wording: no birthdate filter in the
+            hook (34 of the last 38 posts open on one, disqualifying ~8 of 9
+            viewers inside the window the 1s hold measures), 12.4s instead of
+            22.656s (V45's payoff sat at 17.6s, where retention is 4%), and a
+            ground the run has never opened on — V43/V44/V45 all used gold-a and
+            V43/V44's frame 0 is 99.5% identical pixels.
+            ⛔ It is the FIRST OF A 5-POST ARM. Do not judge it on its own. */}
+        <Composition
+          id="Kinetic-V46-Alphabet-No-Nine"
+          component={KineticVideo}
+          defaultProps={{ scenes: V46_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() => kineticMetadata("Kinetic-V46-Alphabet-No-Nine", V46_SCENES, V46_PAYOFF_INDEX)}
         />
       </Folder>
 
