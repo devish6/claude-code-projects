@@ -135,3 +135,66 @@ describe("V46 — structure", () => {
     expect(hook).not.toMatch(/MOOLANK/i);
   });
 });
+
+/**
+ * ⭐⭐⭐ THE OWNER'S NOTE ON v1 OF THIS CUT, AS A GATE.
+ *
+ * v1 opened on "THE ALPHABET HAS NO 9". Owner: *"not catchy at all. I would
+ * skip it because I don't know what this means, like there is no context."*
+ * It was a fact about a system, with no person in it — a payoff in a hook's
+ * clothes. Every one of the account's best-holding openings is second person
+ * and plain: .559 "People call 9s aggressive", .671 "Is 2 a weak number?",
+ * .690 "If you're an 8, you've probably given more than you got".
+ */
+describe("V46 — the hook speaks to a person, in plain words", () => {
+  const hook = V46_SCENES[0].headline ?? "";
+
+  it("addresses the viewer directly", () => {
+    expect(hook).toMatch(/\bYOU(R)?\b/i);
+  });
+
+  /** 🪤 The jargon that made v1's chip unreadable to a scroller. The chip is
+   *  the one place a stranger is told what world they are in. */
+  it("carries no jargon in the hook or the chip", () => {
+    const opening = `${hook} ${V46_SCENES[0].kicker ?? ""}`;
+    for (const word of ["CHALDEAN", "PYTHAGOREAN", "ANTARDASHA", "MAHADASHA", "PRATAYANDAR"]) {
+      expect(opening.toUpperCase()).not.toContain(word);
+    }
+  });
+
+  /** 🪤 The regression this exists to prevent: the 9 gap is the PAYOFF, and
+   *  putting it back in frame 0 is exactly what v1 did. */
+  it("does not spend the payoff in the hook", () => {
+    expect(hook.toUpperCase()).not.toContain("ALPHABET HAS NO");
+    expect(V46_SCENES[V46_PAYOFF_INDEX].headline?.toUpperCase()).toContain("9");
+  });
+
+  /**
+   * ⭐⭐ `first-second` names the prime suspect for this account's 0–1s death:
+   * "the cold-open card glimpse — dark, low-contrast, near-static ... reads as
+   * NOT A VIDEO". v1 opened on `ember-a` (mean luma 20.5, contrast 13.6) —
+   * darker and flatter than the `gold-a` it was escaping. Assert the opener is
+   * the light ground, since every ground name here is dark except one.
+   */
+  it("opens on the one light, high-contrast ground we own", () => {
+    expect(V46_SCENES[0].bg).toBe("dawn-a");
+  });
+
+  /**
+   * 🔴🔴 THE PALE-GROUND RULE, MEASURED OFF A REAL RENDER RATHER THAN REASONED.
+   *
+   * "Pale ground therefore dark type" is the intuitive rule and it is WRONG in
+   * this format, because every scrim darkens DOWNWARD (light runs 0.05 -> 0.45
+   * alpha). Ink type then fights the scrim and contrast decays down the block:
+   * measured 2.7 / 2.4 / 1.9 / **1.4**:1 against a 3.0:1 large-text floor.
+   * The safe pairing on a pale ground is CREAM type on a HEAVY scrim.
+   */
+  it("pairs the pale opening ground with a heavy scrim and light type", () => {
+    const s = V46_SCENES[0];
+    const hex = (s.fg ?? "").replace("#", "");
+    const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    expect(luma).toBeGreaterThan(200);
+    expect(s.scrim).toBe("heavy");
+  });
+});

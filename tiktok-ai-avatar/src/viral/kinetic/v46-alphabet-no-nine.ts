@@ -83,24 +83,68 @@ import type { KineticScene } from "./scenes";
  * the COUNT next to it does not.
  */
 
-/** The series chip. ⭐ Not "NAME NUMBER · MOOLANK 1" — V44 published that, and
- *  a chip the feed has already shown reads as a repost of a post it skipped. */
-export const KICKER = "CHALDEAN A–Z";
+/**
+ * The series chip. ⭐ Not "NAME NUMBER · MOOLANK 1" — V44 published that, and a
+ * chip the feed has already shown reads as a repost of a post it skipped.
+ *
+ * 🔴 WAS "CHALDEAN A–Z" AND THAT WAS JARGON. The chip is the one place a
+ * scroller gets told what world they are in, and "Chaldean" tells them nothing
+ * unless they already know. Plain words, every time — [[plain language rule]].
+ */
+export const KICKER = "VEDIC NUMEROLOGY";
 
 export const V46_SCENES: KineticScene[] = [
-  // ── The hook. ⭐ A shape this account has never posted AND a ground it has
-  //    never opened on. No moolank, no birthdate, no "BORN [days]?" — the first
-  //    frame in 38 posts that does not ask most of the audience to leave. ─────
+  // ── THE HOOK. ────────────────────────────────────────────────────────────
+  //
+  // 🔴 v1 OF THIS CUT OPENED ON "THE ALPHABET HAS NO 9" AND THAT WAS WRONG.
+  // Owner, on reading it: *"not catchy at all. I would skip it because I don't
+  // know what this means, like there is no context."* He is right, and it is
+  // the same error this file was written to diagnose — it is a fact about a
+  // SYSTEM the viewer has not been told exists, with no person in it and
+  // nothing to recognise. That is a PAYOFF wearing a hook's clothes.
+  //
+  // ⭐⭐⭐ What the account's own best openings actually do — every one of them
+  // is second person and names a belief or feeling the viewer already holds:
+  //   skip .559 "People call 9s aggressive and impatient" (best ever)
+  //   skip .661 "13 isn't unlucky"
+  //   skip .671 "Is 2 a weak number?"        (1,359 views)
+  //   skip .690 "If you're an 8, you've probably given more than you got" (1,935)
+  // ⇒ A question the viewer can ask about THEMSELVES in under a second, in
+  //   words that need no glossary. The 9 gap moves to where it belongs: scene 5.
+  //
+  // ⭐⭐ AND THE GROUND IS NOW LIGHT. `first-second` names the prime suspect for
+  // this account's 0–1s death as "the cold-open card glimpse — dark,
+  // low-contrast, near-static: in a feed that reads as *not a video*". v1 opened
+  // on `ember-a`, which measures mean luma 20.5 at contrast 13.6 — DARKER and
+  // FLATTER than the `gold-a` it was trying to escape (24.5 / 30.9). `dawn-a` is
+  // the only genuinely light ground we own: mean 115.0, contrast 77.3, and the
+  // account's biggest posts were all shot on the LIGHT format (V36 frame 0 mean
+  // ~150–175) while every kinetic cut has been dark (~21).
+  // 🔴🔴 AND THE TYPE IS CREAM ON A HEAVY SCRIM, NOT INK ON A LIGHT ONE.
+  // I tried ink-on-pale first, reasoning that a pale ground wants dark type.
+  // MEASURED OFF THE RENDER, it fails: every scrim in this format darkens
+  // DOWNWARD (light = 0.05 -> 0.45 alpha), so dark type and the scrim fight
+  // each other and contrast decays down the block —
+  //     chip 2.7:1 · line 1 2.4:1 · line 2 1.9:1 · line 3 **1.4:1**
+  // against a 3.0:1 large-text floor. That is the same defect already on record
+  // ("the dawn ground is pale, so the CTA's dark type had almost no contrast
+  // and numevix.com disappeared") arrived at from the other direction.
+  // ⇒ dawn-a + `heavy` + cream. The scrim lands the frame near mean luma ~50 —
+  //   still 2-3x brighter than any opening this account has shipped (gold-a 24,
+  //   ember-a 17) and on the highest-contrast ground we own.
   {
     seconds: 1.9,
-    bg: "ember-a",
-    fg: "#FFF0E6",
-    accent: "#FF8A4C",
+    bg: "dawn-a",
+    scrim: "heavy",
+    fg: "#FFF6EA",
+    accent: "#F4CE8E",
     kicker: KICKER,
-    headline: "THE ALPHABET HAS NO 9",
+    headline: "WHAT NUMBER IS YOUR NAME?",
   },
-  // ── The mechanism, stated plainly and early. Small, and hiding it would only
-  //    make the video coy. The LOOP is not this; it is what the gap means. ────
+  // ── The promise, paid at ~2s. ⭐ `first-second`: "the promise must be
+  //    specific and payable within 2 seconds". The hook asks a question about
+  //    the viewer; this answers HOW, immediately, so the cut is never coy about
+  //    the thing it opened on. The 9 gap is a SECOND, deeper loop on top. ─────
   {
     seconds: 1.7,
     bg: "night-a",
@@ -110,23 +154,24 @@ export const V46_SCENES: KineticScene[] = [
     headline: "EVERY LETTER IS A NUMBER",
     sub: "A is 1. B is 2. C is 3.",
   },
-  // ── THE LOOP OPENS AT 3.6s. ⛔ EIGHT is spelled — see the numerals note. ──
+  // ── The method, in words a stranger can follow. ──────────────────────────
   {
-    seconds: 1.6,
+    seconds: 1.5,
     bg: "stone-a",
     fg: "#EDEDED",
     accent: "#B9B9B9",
-    headline: "AND THEY STOP AT EIGHT",
-    sub: "twenty-six letters, eight values",
+    headline: "ADD THEM UP",
+    sub: "then add again, down to one digit",
   },
+  // ── THE SECOND LOOP OPENS AT 5.1s. ⛔ EIGHT is spelled — numerals note. ──
   {
     seconds: 1.8,
     bg: "water-a",
     scrim: "light",
     fg: "#EAF2FF",
     accent: "#9CC4E4",
-    headline: "NOT ONE LETTER IS A 9",
-    sub: "not anywhere in the alphabet",
+    headline: "BUT THEY STOP AT EIGHT",
+    sub: "not one letter is a 9",
   },
   // ── Why the gap is worth 12 seconds. 9 is Mars. ⚠️ Trait language only —
   //    no prediction, no outcome. ───────────────────────────────────────────
@@ -153,14 +198,18 @@ export const V46_SCENES: KineticScene[] = [
   //    measured constraint, not reach. It is the video's own claim continued:
   //    the reel gave them the letters, the profile gives them their name.
   //    ⛔ Never a bare URL — a muted viewer cannot click it.
+  //    🪤 `ember-b`, not `dawn-a`: dawn now opens the cut, and `gold-c` would
+  //       have cut from gold-b to another brown silk — a boundary the eye reads
+  //       as no cut at all, which is the exact blindness `checkFrameChanges`
+  //       exists to catch and cannot, because it only compares the bg STRING.
   {
     seconds: 1.8,
-    bg: "dawn-a",
-    scrim: "heavy",
-    fg: "#FFF4E6",
-    accent: "#F0C88A",
-    headline: "Your whole name has one number",
-    sub: "@numevix · work yours out free in bio",
+    bg: "ember-b",
+    scrim: "light",
+    fg: "#FFF0E6",
+    accent: "#FF8A4C",
+    headline: "Work out your whole name",
+    sub: "@numevix · free in bio",
   },
 ];
 
