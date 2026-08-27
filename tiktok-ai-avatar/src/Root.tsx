@@ -44,6 +44,7 @@ import { V43_SCENES, V43_PAYOFF_INDEX } from "./viral/kinetic/v43-moolank-1";
 import { V44_SCENES, V44_PAYOFF_INDEX } from "./viral/kinetic/v44-name-number-1";
 import { V45_SCENES, V45_PAYOFF_INDEX } from "./viral/kinetic/v45-september-year-turn";
 import { V46_SCENES, V46_PAYOFF_INDEX } from "./viral/kinetic/v46-alphabet-no-nine";
+import { V47_SCENES, V47_PAYOFF_INDEX } from "./viral/kinetic/v47-first-letter";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -415,6 +416,22 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           calculateMetadata={() => kineticMetadata("Kinetic-V46-Alphabet-No-Nine", V46_SCENES, V46_PAYOFF_INDEX)}
+        />
+
+        {/* V47 — POST 2 OF THE SAME 5-POST ARM. The package is HELD EXACTLY:
+            same 7 scenes, same seconds array, same ground order, same scrims,
+            same bed, 12.352s, payoff at index 5. Only the episode copy moves,
+            because a one-post read on this account detects nothing (skip_rate
+            SD 0.092 over 60 reels; MDE at n=1 = 0.257 against effects of 0.1).
+            🔴 The frame-0 STRING still changes — V43/V44 opened on 99.5%
+            identical pixels and V44's hold halved. Ground stays dawn-a. */}
+        <Composition
+          id="Kinetic-V47-First-Letter"
+          component={KineticVideo}
+          defaultProps={{ scenes: V47_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() => kineticMetadata("Kinetic-V47-First-Letter", V47_SCENES, V47_PAYOFF_INDEX)}
         />
       </Folder>
 
