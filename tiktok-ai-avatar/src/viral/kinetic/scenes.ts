@@ -88,6 +88,65 @@ export type KineticScene = {
    * poster frame and has shipped blank twice.
    */
   push?: { from: number; to: number };
+  /**
+   * ⭐⭐⭐ THE ARTEFACT. ADDED FOR V48, AND DELIBERATELY OPTIONAL.
+   *
+   * 🔴 WHY IT EXISTS. Measured 2026-08-27 against the market: the biggest
+   * numerology short anyone could observe in the "your name" category is a
+   * FACELESS FLAT CARD WITH A LOOKUP TABLE ON IT — 3M views from a channel with
+   * 13.6K subscribers. Two more faceless cards did 2.6M and 1.3M. Faceless text
+   * cards are not the handicap; ABSTRACT text cards are.
+   *
+   * ⭐ The dividing line is USE vs INFORMATION. Every faceless winner puts a
+   * complete, copyable artefact on screen in frame 0 — a table, an A–Z grid, a
+   * two-step recipe. It is a TOOL: the viewer stays to read it, or leaves with a
+   * screenshot, and a screenshot is a save. Our format up to V47 put a
+   * STATEMENT on screen, which is finished the moment it is read. Same format,
+   * opposite function.
+   *
+   * 📉 What the statement format costs, measured on V47: 44.9% of viewers gone
+   * inside second 1, then 60.1% OF THE SURVIVORS gone inside second 2 — 78%
+   * gone by 2s. And the class it belongs to is 0-for-30 at clearing 500 reach
+   * across the whole 61-post window.
+   *
+   * 🪤 OPTIONAL, AND THAT IS LOAD-BEARING. V43 and V44 are the format's
+   * controls and must keep rendering byte-for-byte as published; V45–V47 are a
+   * held package. None of them sets this field, so none of their frames move.
+   * The same reasoning that kept `push` optional keeps this optional.
+   */
+  table?: KineticTable;
+};
+
+/**
+ * A compact lookup grid — headers on both axes, one short mark per cell, and at
+ * most one thing lit.
+ *
+ * 🎯 THE LIT CELL IS THE MOTION. "Something must physically move that is not
+ * text" is the third rule this primitive was built for: a card that only
+ * animates its own words has no visual proposition, because the sentence and
+ * the picture are the same object. A row lighting, then a column, then the one
+ * cell where they cross, tells the story before the words finish.
+ * ⛔ Never a face. The owner's face is dead-tested at ~700 views against
+ * faceless winners at 1,268–2,408.
+ */
+export type KineticTable = {
+  /** Small label set over the columns. */
+  colTitle?: string;
+  /** Small label set on its side, down the left of the rows. */
+  rowTitle?: string;
+  /** Column headers, left to right. */
+  cols: string[];
+  /** Row headers, top to bottom. */
+  rows: string[];
+  /** `cells[row][col]`. Must be exactly `rows.length` x `cols.length`. */
+  cells: string[][];
+  /**
+   * The one thing that lights up. `{ row }` lights a whole row, `{ col }` a
+   * whole column, `{ row, col }` the single cell where they cross.
+   * 🪤 Omitted on scene 0 on purpose — see `assertKineticRenderable`'s note on
+   * the poster frame. Nothing may animate there.
+   */
+  highlight?: { row?: number; col?: number };
 };
 
 export type Gate = { name: string; ok: boolean; detail?: string };
@@ -145,6 +204,49 @@ export const checkPayoffLate = (scenes: KineticScene[], payoffIndex: number, min
   };
 };
 
+/**
+ * 🔴 THE ARTEFACT MUST BE A RECTANGLE, AND ITS LIT CELL MUST EXIST.
+ *
+ * A ragged `cells` array does not throw — React renders the short row and the
+ * grid silently loses a column, which is the same class of failure as the blank
+ * frame 0: the render "works" and the frame is wrong. An out-of-range highlight
+ * is worse, because it lights nothing at all and the scene's one moving thing
+ * quietly stops moving.
+ *
+ * 🪤 VACUOUS BY DESIGN FOR EVERY CUT BEFORE V48. No V43–V47 scene sets `table`,
+ * so this gate passes them without looking at anything — which is exactly why
+ * adding it to `runKineticGates` cannot change a single published frame.
+ */
+export const checkTableShape = (scenes: KineticScene[]): Gate => {
+  const bad: string[] = [];
+  scenes.forEach((s, i) => {
+    const t = s.table;
+    if (!t) return;
+    if (t.cells.length !== t.rows.length) {
+      bad.push(`scene ${i}: ${t.cells.length} row(s) of cells for ${t.rows.length} row header(s)`);
+    }
+    t.cells.forEach((row, r) => {
+      if (row.length !== t.cols.length) {
+        bad.push(`scene ${i} row ${r}: ${row.length} cell(s) for ${t.cols.length} column(s)`);
+      }
+    });
+    const h = t.highlight;
+    if (!h) return;
+    if (h.row === undefined && h.col === undefined) bad.push(`scene ${i}: highlight lights nothing`);
+    if (h.row !== undefined && (h.row < 0 || h.row >= t.rows.length)) {
+      bad.push(`scene ${i}: highlight row ${h.row} is outside 0..${t.rows.length - 1}`);
+    }
+    if (h.col !== undefined && (h.col < 0 || h.col >= t.cols.length)) {
+      bad.push(`scene ${i}: highlight column ${h.col} is outside 0..${t.cols.length - 1}`);
+    }
+  });
+  return {
+    name: "every table is a full rectangle and lights a cell that exists",
+    ok: bad.length === 0,
+    detail: bad.length ? bad.join(", ") : undefined,
+  };
+};
+
 export const totalFrames = (scenes: KineticScene[]): number =>
   scenes.reduce((a, s) => a + sec(s.seconds), 0);
 
@@ -162,6 +264,7 @@ export const runKineticGates = (scenes: KineticScene[], payoffIndex: number): Ga
   checkFrameChanges(scenes),
   checkSceneDurations(scenes),
   checkPayoffLate(scenes, payoffIndex),
+  checkTableShape(scenes),
 ];
 
 /** Throws before frame 1, the way `assertRenderable` does for ViralVideo. */

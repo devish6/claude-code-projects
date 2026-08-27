@@ -4,7 +4,13 @@ import { BrandAudio } from "../../components/kit";
 import { MUSIC } from "../../lib/brand";
 import { DISPLAY, UI } from "../fonts";
 import { FPS, sec } from "../timing";
-import { type KineticScene, assertKineticRenderable, sceneOffsets, totalFrames } from "./scenes";
+import {
+  type KineticScene,
+  type KineticTable,
+  assertKineticRenderable,
+  sceneOffsets,
+  totalFrames,
+} from "./scenes";
 
 /**
  * The KINETIC composition — a photographic ground per scene, hard-cut.
@@ -71,6 +77,159 @@ const Ground: React.FC<{
   );
 };
 
+/**
+ * ⭐⭐⭐ THE ARTEFACT ON SCREEN. See `KineticTable` in scenes.ts for why.
+ *
+ * 🪤 THE SIZES HERE ARE NOT TASTE, THEY ARE THE PHONE'S CHROME. Instagram lays
+ * its caption and action rail over the video, so a grid that fills the frame is
+ * a grid with a username through it. The whole artefact is kept inside
+ * x = 96..844 and, once the block is centred, y ≈ 400..1520 of a 1080x1920
+ * frame — clear of the right-hand button rail and the bottom caption band.
+ * ⛔ Do not widen `CELL` to "use the space". The space is not ours.
+ *
+ * 🪤 AND IT MUST BE DRAWN STATIC ON SCENE 0. Frame 0 is the poster frame and
+ * this repo has shipped it blank twice. The lit cell is the one thing that
+ * animates, and it animates only on scenes 1+, where `isFirst` is false.
+ */
+const CELL = 72;
+const HEADER = 56;
+
+const KineticTableView: React.FC<{
+  table: KineticTable;
+  fg: string;
+  accent: string;
+  isFirst: boolean;
+}> = ({ table, fg, accent, isFirst }) => {
+  const f = useCurrentFrame();
+  // The lit cell fades and swells in over ~9 frames. On the poster frame there
+  // is no ramp at all — it is simply already lit.
+  const lit = isFirst ? 1 : interpolate(f, [2, 11], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const h = table.highlight;
+  const isLit = (r: number, c: number) =>
+    h ? (h.row === undefined || h.row === r) && (h.col === undefined || h.col === c) : false;
+
+  const cellBox = (content: string, on: boolean, key: string) => (
+    <div
+      key={key}
+      style={{
+        width: CELL,
+        height: CELL,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: `2px solid ${on ? accent : "rgba(255,255,255,0.22)"}`,
+        backgroundColor: on ? accent : "rgba(0,0,0,0.42)",
+        opacity: on ? lit : 1,
+        transform: on ? `scale(${0.86 + 0.14 * lit})` : "none",
+        fontFamily: UI,
+        fontSize: content.length > 1 ? 30 : 26,
+        fontWeight: 700,
+        color: on ? "#12100E" : fg,
+      }}
+    >
+      {content}
+    </div>
+  );
+
+  return (
+    <div style={{ marginTop: 30 }}>
+      {table.colTitle && (
+        <div
+          style={{
+            fontFamily: UI,
+            fontSize: 28,
+            fontWeight: 800,
+            letterSpacing: 4,
+            textTransform: "uppercase",
+            color: accent,
+            marginLeft: HEADER + 44,
+            marginBottom: 10,
+          }}
+        >
+          {table.colTitle}
+        </div>
+      )}
+      <div style={{ display: "flex", alignItems: "flex-start" }}>
+        {table.rowTitle && (
+          <div
+            style={{
+              width: 44,
+              height: HEADER + table.rows.length * CELL,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                transform: "rotate(-90deg)",
+                whiteSpace: "nowrap",
+                fontFamily: UI,
+                fontSize: 28,
+                fontWeight: 800,
+                letterSpacing: 4,
+                textTransform: "uppercase",
+                color: accent,
+              }}
+            >
+              {table.rowTitle}
+            </div>
+          </div>
+        )}
+        <div>
+          {/* Column headers. The corner is deliberately empty — a label there
+              reads as a cell and the viewer counts ten columns, not nine. */}
+          <div style={{ display: "flex" }}>
+            <div style={{ width: HEADER, height: HEADER }} />
+            {table.cols.map((c, i) => (
+              <div
+                key={`c${i}`}
+                style={{
+                  width: CELL,
+                  height: HEADER,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: UI,
+                  fontSize: 34,
+                  fontWeight: 800,
+                  color: h?.col === i ? accent : fg,
+                  opacity: h?.col === i ? 1 : 0.75,
+                  textShadow: "0 6px 20px rgba(0,0,0,0.85)",
+                }}
+              >
+                {c}
+              </div>
+            ))}
+          </div>
+          {table.rows.map((r, ri) => (
+            <div key={`r${ri}`} style={{ display: "flex" }}>
+              <div
+                style={{
+                  width: HEADER,
+                  height: CELL,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: UI,
+                  fontSize: 34,
+                  fontWeight: 800,
+                  color: h?.row === ri ? accent : fg,
+                  opacity: h?.row === ri ? 1 : 0.75,
+                  textShadow: "0 6px 20px rgba(0,0,0,0.85)",
+                }}
+              >
+                {r}
+              </div>
+              {table.cells[ri].map((cell, ci) => cellBox(cell, isLit(ri, ci), `${ri}-${ci}`))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Scene: React.FC<{ scene: KineticScene; frames: number; isFirst: boolean }> = ({
   scene,
   frames,
@@ -130,7 +289,16 @@ const Scene: React.FC<{ scene: KineticScene; frames: number; isFirst: boolean }>
           <div
             style={{
               fontFamily: DISPLAY,
-              fontSize: scene.headline.length > 34 ? 92 : 118,
+              // 🪤 A scene carrying the artefact gives up type size to it. At
+              //    118 a two-line claim plus a 9-row grid overruns 1920 and the
+              //    bottom row lands under Instagram's caption band.
+              fontSize: scene.table
+                ? scene.headline.length > 30
+                  ? 74
+                  : 92
+                : scene.headline.length > 34
+                  ? 92
+                  : 118,
               lineHeight: 1.06,
               color: scene.fg,
               textShadow: "0 12px 44px rgba(0,0,0,0.6)",
@@ -155,6 +323,15 @@ const Scene: React.FC<{ scene: KineticScene; frames: number; isFirst: boolean }>
           >
             {scene.sub}
           </div>
+        )}
+
+        {scene.table && (
+          <KineticTableView
+            table={scene.table}
+            fg={scene.fg}
+            accent={scene.accent ?? scene.fg}
+            isFirst={isFirst}
+          />
         )}
       </AbsoluteFill>
     </AbsoluteFill>

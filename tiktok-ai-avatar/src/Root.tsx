@@ -45,6 +45,7 @@ import { V44_SCENES, V44_PAYOFF_INDEX } from "./viral/kinetic/v44-name-number-1"
 import { V45_SCENES, V45_PAYOFF_INDEX } from "./viral/kinetic/v45-september-year-turn";
 import { V46_SCENES, V46_PAYOFF_INDEX } from "./viral/kinetic/v46-alphabet-no-nine";
 import { V47_SCENES, V47_PAYOFF_INDEX } from "./viral/kinetic/v47-first-letter";
+import { V48_SCENES, V48_PAYOFF_INDEX } from "./viral/kinetic/v48-driver-conductor";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -432,6 +433,36 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           calculateMetadata={() => kineticMetadata("Kinetic-V47-First-Letter", V47_SCENES, V47_PAYOFF_INDEX)}
+        />
+
+        {/* V48 ENDS THE ARM RATHER THAN CONTINUING IT, for two measured
+            reasons: the 5-post arm's MDE is 0.115 against effects of
+            0.062–0.090 so it could never have fired, and the CLASS it runs —
+            an opening line that states a fact about the system — is 0 for 30
+            at clearing 500 reach across the whole 61-post window, while every
+            one of the 10 posts that ever cleared 1,000 opened on an identity
+            or a belief.
+            So this cut changes what is ON SCREEN, not the wording: frame 0
+            carries a CLAIM (no question to answer in your head and scroll) and
+            a 9x9 ARTEFACT the viewer can screenshot, which is what every
+            faceless winner in the market scan does and what our statement
+            cards never did. A row lights, then a column, then the one cell
+            where they cross — the first non-text motion this format has had.
+            The CTA asks for a save, not a comment: comments are 0 on 24 of the
+            last 25 posts, and saves-per-reach is the one rising signal.
+            🔴 Ground stays dawn-a because it is the only one of 13 above mean
+            luma 40 and a dark opener is the diagnosed 0–1s killer; the FRAME is
+            new by the grid, measured 40.1% identical to V47's against the
+            99.5% that halved V44's hold. */}
+        <Composition
+          id="Kinetic-V48-Driver-Conductor"
+          component={KineticVideo}
+          defaultProps={{ scenes: V48_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            kineticMetadata("Kinetic-V48-Driver-Conductor", V48_SCENES, V48_PAYOFF_INDEX)
+          }
         />
       </Folder>
 
