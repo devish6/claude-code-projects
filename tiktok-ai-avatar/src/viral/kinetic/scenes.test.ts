@@ -9,6 +9,7 @@ import {
   checkFrameChanges,
   checkPayoffLate,
   checkSceneDurations,
+  sceneEntrance,
   sceneOffsets,
   totalFrames,
 } from "./scenes";
@@ -180,5 +181,36 @@ describe("V43 — Moolank 1, the first kinetic cut", () => {
       .join(" ")
       .toUpperCase();
     expect(opening).not.toContain("2 AND 4");
+  });
+});
+
+describe("sceneEntrance", () => {
+  // 🔴🔴 MEASURED ON THE PUBLISHED V48 mp4, 2026-08-28. Frame 54 (1.808s) is
+  // 50% non-black at mean luma 55.4. Frame 56 (1.875s) is 0.19% NON-BLACK at
+  // mean 7.05 — the copy had faded to nothing over a dark ground, and the
+  // whole frame is black. It settles only at 2.277s.
+  //
+  // That frame is the payload beat. `timing.ts` moved the payload to 2.0s
+  // BECAUSE viewers were leaving before anything promised arrived, and it
+  // renders empty. It sits inside the segment where 56.9% of the survivors of
+  // second 1 leave.
+  //
+  // KineticVideo.tsx's own header forbids exactly this: "HARD CUT, NEVER A
+  // CROSS-FADE… a dissolve averages two grounds together for its whole
+  // duration, which is exactly the 'nothing happened' frame this format exists
+  // to eliminate." Ramping the copy's opacity from 0 IS that cross-fade.
+  test("a scene's copy is fully opaque on that scene's own first frame", () => {
+    expect(sceneEntrance(0, false).opacity).toBe(1);
+  });
+
+  test("the poster frame is still static", () => {
+    expect(sceneEntrance(0, true)).toEqual({ opacity: 1, lift: 0 });
+  });
+
+  // The slide is not the defect and is kept — it moves copy that is already
+  // visible, so no frame is ever empty because of it.
+  test("copy still slides up over the first frames of a scene", () => {
+    expect(sceneEntrance(0, false).lift).toBeGreaterThan(0);
+    expect(sceneEntrance(7, false).lift).toBe(0);
   });
 });

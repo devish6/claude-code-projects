@@ -8,6 +8,7 @@ import {
   type KineticScene,
   type KineticTable,
   assertKineticRenderable,
+  sceneEntrance,
   sceneOffsets,
   totalFrames,
 } from "./scenes";
@@ -237,8 +238,7 @@ const Scene: React.FC<{ scene: KineticScene; frames: number; isFirst: boolean }>
 }) => {
   const f = useCurrentFrame();
   // 🪤 isFirst renders static — frame 0 is the poster frame and must be populated.
-  const enter = isFirst ? 1 : interpolate(f, [0, 5], [0, 1], { extrapolateRight: "clamp" });
-  const lift = isFirst ? 0 : interpolate(f, [0, 7], [16, 0], { extrapolateRight: "clamp" });
+  const { opacity: enter, lift } = sceneEntrance(f, isFirst);
 
   return (
     <AbsoluteFill>

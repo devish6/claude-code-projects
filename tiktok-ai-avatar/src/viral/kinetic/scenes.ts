@@ -260,6 +260,24 @@ export const sceneOffsets = (scenes: KineticScene[]): number[] => {
   return out;
 };
 
+/**
+ * How a scene's copy arrives, at frame `f` of that scene's own Sequence.
+ *
+ * 🔴 LIFTED OUT OF `Scene` ON PURPOSE. Three times now this repo has shipped a
+ * frame nobody could check because the rule that produced it was computed
+ * inside the component's render body. `spreadTraits` and `planViralVideo` were
+ * the first two. This is the third.
+ */
+export const sceneEntrance = (f: number, isFirst: boolean): { opacity: number; lift: number } => {
+  if (isFirst) return { opacity: 1, lift: 0 };
+  const ramp = (to: number) => (f >= to ? 1 : f <= 0 ? 0 : f / to);
+  // ⛔ NEVER RAMP THIS FROM 0. The copy is what lights a dark ground, so a
+  // fade-in from zero renders the cut frame black — measured at 0.19%
+  // non-black on the published V48. The slide below is the entrance; the
+  // opacity is a hard cut, which is what this format says it is.
+  return { opacity: 1, lift: 16 - 16 * ramp(7) };
+};
+
 export const runKineticGates = (scenes: KineticScene[], payoffIndex: number): Gate[] => [
   checkFrameChanges(scenes),
   checkSceneDurations(scenes),
