@@ -9,6 +9,7 @@ import {
   type KineticTable,
   assertKineticRenderable,
   sceneEntrance,
+  tableLit,
   sceneOffsets,
   totalFrames,
 } from "./scenes";
@@ -102,9 +103,8 @@ const KineticTableView: React.FC<{
   isFirst: boolean;
 }> = ({ table, fg, accent, isFirst }) => {
   const f = useCurrentFrame();
-  // The lit cell fades and swells in over ~9 frames. On the poster frame there
-  // is no ramp at all — it is simply already lit.
-  const lit = isFirst ? 1 : interpolate(f, [2, 11], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  // ⛔ EMPHASIS ONLY, NEVER PRESENCE. See `tableLit` in scenes.ts.
+  const lit = tableLit(f, isFirst);
   const h = table.highlight;
   const isLit = (r: number, c: number) =>
     h ? (h.row === undefined || h.row === r) && (h.col === undefined || h.col === c) : false;
@@ -118,17 +118,40 @@ const KineticTableView: React.FC<{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        // THE CELL'S OWN PRESENCE IS CONSTANT. Never `opacity: lit` here -
+        // that is what made the whole "5" column VANISH from the published V49
+        // at frame 57, on the same frame whose subtitle reads "the 23rd sits in
+        // the 5 column". The accent wash below is the only thing that ramps.
+        position: "relative",
         border: `2px solid ${on ? accent : "rgba(255,255,255,0.22)"}`,
-        backgroundColor: on ? accent : "rgba(0,0,0,0.42)",
-        opacity: on ? lit : 1,
-        transform: on ? `scale(${0.86 + 0.14 * lit})` : "none",
+        backgroundColor: "rgba(0,0,0,0.42)",
+        opacity: 1,
+        // The swell survives as motion, at a floor that cannot open a seam in
+        // the grid lines at the cut.
+        transform: on ? `scale(${0.94 + 0.06 * lit})` : "none",
         fontFamily: UI,
         fontSize: content.length > 1 ? 30 : 26,
         fontWeight: 700,
-        color: on ? "#12100E" : fg,
+        color: fg,
       }}
     >
       {content}
+      {on && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: accent,
+            color: "#12100E",
+            opacity: lit,
+          }}
+        >
+          {content}
+        </div>
+      )}
     </div>
   );
 

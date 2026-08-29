@@ -278,6 +278,32 @@ export const sceneEntrance = (f: number, isFirst: boolean): { opacity: number; l
   return { opacity: 1, lift: 16 - 16 * ramp(7) };
 };
 
+/**
+ * How hard the highlighted cells are lit, at frame `f` of the scene's Sequence.
+ *
+ * 🔴🔴 THE SECOND HALF OF THE BLACK-CUT BUG, AND IT SHIPPED IN V49. The fix in
+ * `e7f210c` stopped the COPY fading from zero and left the ARTEFACT doing it:
+ * `KineticVideo.tsx` applied this ramp as `opacity` on the whole highlighted
+ * cell, so border, background and digit all vanished together. Measured on the
+ * PUBLISHED V49 mp4: at frame 57 — the cut, 1.900s — the entire "5" column is
+ * ABSENT from the grid, on the very frame whose sub-line reads *"the 23rd sits
+ * in the 5 column · that is your number."* At the 2.0s payload beat it is still
+ * at 11%, settling only at frame 68 (2.267s).
+ *
+ * ⭐⭐⭐ AND `judgeEveryFrame` CANNOT SEE IT. That gate compares each frame's
+ * whole-frame stddev against a fraction of the video's median; a four-cell hole
+ * is ~1% of the frame and moves it by nothing. V49's frame 57 reads stddev 41.4
+ * and passes with room. **A gate that detects a blackout does not detect a local
+ * hole** — do not read the fix commit as having closed the class.
+ *
+ * ⇒ This value may only drive EMPHASIS: the accent wash and the swell. Cell
+ * PRESENCE — border, background, digit — is a constant and must never read it.
+ */
+export const tableLit = (f: number, isFirst: boolean): number => {
+  if (isFirst) return 1;
+  return f >= 9 ? 1 : f <= 0 ? 0 : f / 9;
+};
+
 export const runKineticGates = (scenes: KineticScene[], payoffIndex: number): Gate[] => [
   checkFrameChanges(scenes),
   checkSceneDurations(scenes),

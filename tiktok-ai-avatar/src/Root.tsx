@@ -47,6 +47,8 @@ import { V46_SCENES, V46_PAYOFF_INDEX } from "./viral/kinetic/v46-alphabet-no-ni
 import { V47_SCENES, V47_PAYOFF_INDEX } from "./viral/kinetic/v47-first-letter";
 import { V48_SCENES, V48_PAYOFF_INDEX } from "./viral/kinetic/v48-driver-conductor";
 import { V49_SCENES, V49_PAYOFF_INDEX } from "./viral/kinetic/v49-days-per-number";
+import { QuietVideo, quietMetadata } from "./viral/quiet/QuietVideo";
+import { V50_SCENES, V50_PAYOFF_INDEX } from "./viral/quiet/v50-two-am";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -482,6 +484,25 @@ export const RemotionRoot: React.FC = () => {
           calculateMetadata={() =>
             kineticMetadata("Kinetic-V49-Days-Per-Number", V49_SCENES, V49_PAYOFF_INDEX)
           }
+        />
+      </Folder>
+
+      {/* ⭐⭐⭐ QUIET IS A SECOND FORMAT, NOT A KINETIC EPISODE — its own folder
+          because it shares no code with kinetic and must not drift into it.
+          V43–V49 are the account's only controls and keep rendering
+          byte-for-byte as published; nothing under Quiet imports from
+          `viral/kinetic/`. Owner instruction 2026-08-29: "change the style,
+          make it emotionally touching, make it something extremely relatable."
+          ⛔ Record that as an INSTRUCTION, never as a measurement — V49's 84
+          views is one draw from a distribution whose sigma is a factor of 4. */}
+      <Folder name="Quiet">
+        <Composition
+          id="Quiet-V50-Two-AM"
+          component={QuietVideo}
+          defaultProps={{ scenes: V50_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() => quietMetadata("Quiet-V50-Two-AM", V50_SCENES, V50_PAYOFF_INDEX)}
         />
       </Folder>
 

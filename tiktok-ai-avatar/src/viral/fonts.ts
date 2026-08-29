@@ -1,4 +1,5 @@
 import { loadFont as loadCinzel } from "@remotion/google-fonts/Cinzel";
+import { loadFont as loadCormorant } from "@remotion/google-fonts/CormorantGaramond";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 import { loadFont as loadNotoSerifDev } from "@remotion/google-fonts/NotoSerifDevanagari";
 import { loadFont as loadNotoSansDev } from "@remotion/google-fonts/NotoSansDevanagari";
@@ -35,8 +36,29 @@ const notoSansDev = loadNotoSansDev("normal", {
   subsets: ["devanagari"],
 });
 
+/**
+ * ⭐ THE QUIET FORMAT'S FACE — AND WHY IT IS NOT CINZEL.
+ *
+ * 🪤 CINZEL HAS NO TRUE LOWERCASE. It is an inscriptional Roman face, so its
+ * "lowercase" renders as small caps: `v50-two-am.ts` is written in sentence
+ * case with contractions specifically so the cut reads as a person speaking,
+ * and Cinzel silently rendered the whole thing as MONUMENTAL CAPS — visible
+ * only once the frames were pulled and looked at, never in the source.
+ *
+ * ⇒ Cormorant Garamond, at 600. A literary Garamond with real lowercase and a
+ * high-contrast, intimate texture — the register of a line someone wrote to
+ * you, not a line carved over a door. ⛔ Do NOT switch `DISPLAY` to it: Cinzel
+ * is part of V43–V49's fingerprint and those are the account's only controls.
+ */
+const cormorant = loadCormorant("normal", {
+  weights: ["500", "600"],
+  subsets: ["latin"],
+});
+
 /** Headlines, hook lines, big numbers. */
 export const DISPLAY = cinzel.fontFamily;
+/** The quiet format's held sentences. Real lowercase — see the note above. */
+export const QUIET_DISPLAY = cormorant.fontFamily;
 /** Body, bullets, CTA — anything read fast. */
 export const UI = inter.fontFamily;
 

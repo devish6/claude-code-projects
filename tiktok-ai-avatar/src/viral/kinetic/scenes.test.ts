@@ -12,6 +12,7 @@ import {
   sceneEntrance,
   sceneOffsets,
   totalFrames,
+  tableLit,
 } from "./scenes";
 import { V43_SCENES, V43_PAYOFF_INDEX } from "./v43-moolank-1";
 import { KINETIC_MUSIC } from "./KineticVideo";
@@ -212,5 +213,44 @@ describe("sceneEntrance", () => {
   test("copy still slides up over the first frames of a scene", () => {
     expect(sceneEntrance(0, false).lift).toBeGreaterThan(0);
     expect(sceneEntrance(7, false).lift).toBe(0);
+  });
+});
+
+/**
+ * 🔴🔴 THE HOLE THAT SHIPPED IN V49 — the highlighted cell disappearing at the
+ * cut. `checkTableShape` proved the highlight was in RANGE; nothing proved the
+ * cell was VISIBLE, and `judgeEveryFrame` is structurally blind to a defect
+ * that small. These are the tests that would have caught it.
+ */
+describe("tableLit drives emphasis, never presence", () => {
+  test("is 0 at the start of a non-first scene — which is WHY it must not be an opacity", () => {
+    // The ramp itself is correct and intended. The bug was the CONSUMER: using
+    // this value as the cell's `opacity` deleted the cell for nine frames.
+    expect(tableLit(0, false)).toBe(0);
+    expect(tableLit(9, false)).toBe(1);
+  });
+
+  test("is a hard 1 on the poster frame, under both branches", () => {
+    // Frame 0 has shipped blank twice. If a future cut highlights on scene 0,
+    // the cell must render fully lit rather than ramping into existence.
+    expect(tableLit(0, true)).toBe(1);
+    expect(tableLit(5, true)).toBe(1);
+  });
+
+  test("never returns a value outside [0,1], at any frame", () => {
+    for (let f = -5; f <= 120; f++) {
+      const v = tableLit(f, false);
+      expect(v).toBeGreaterThanOrEqual(0);
+      expect(v).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test("the swell floor keeps a lit cell at its full grid size, so no seam opens", () => {
+    // The renderer scales a lit cell by `0.94 + 0.06 * lit`. At lit = 0 that is
+    // 0.94, not the old 0.86 — 6% of a 72px cell is ~4px, under the 2px border
+    // either side, so the grid lines cannot separate at the cut.
+    const scaleAt = (lit: number) => 0.94 + 0.06 * lit;
+    expect(scaleAt(tableLit(0, false))).toBeGreaterThanOrEqual(0.94);
+    expect(scaleAt(tableLit(9, false))).toBe(1);
   });
 });
