@@ -46,6 +46,7 @@ import { V45_SCENES, V45_PAYOFF_INDEX } from "./viral/kinetic/v45-september-year
 import { V46_SCENES, V46_PAYOFF_INDEX } from "./viral/kinetic/v46-alphabet-no-nine";
 import { V47_SCENES, V47_PAYOFF_INDEX } from "./viral/kinetic/v47-first-letter";
 import { V48_SCENES, V48_PAYOFF_INDEX } from "./viral/kinetic/v48-driver-conductor";
+import { V49_SCENES, V49_PAYOFF_INDEX } from "./viral/kinetic/v49-days-per-number";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -462,6 +463,24 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             kineticMetadata("Kinetic-V48-Driver-Conductor", V48_SCENES, V48_PAYOFF_INDEX)
+          }
+        />
+        {/* V49 REPEATS V48's FORMAT DELIBERATELY. Measured 2026-08-28: the
+            creative held constant spans 10x in views (three reels four minutes
+            apart went 1,683 / 216 / 2,409; byte-identical captions a day apart
+            went 1,935 / 188). sigma of log10 views is ~0.6, so a 2x effect
+            needs 62 posts an arm. The noise floor forbids RE-CUTTING, not
+            publishing — and V48 never tested its own thesis, because its 81
+            cells were all dots. This is the first cut with a table you can
+            actually look something up in. */}
+        <Composition
+          id="Kinetic-V49-Days-Per-Number"
+          component={KineticVideo}
+          defaultProps={{ scenes: V49_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            kineticMetadata("Kinetic-V49-Days-Per-Number", V49_SCENES, V49_PAYOFF_INDEX)
           }
         />
       </Folder>
