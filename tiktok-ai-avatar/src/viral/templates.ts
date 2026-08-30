@@ -1398,6 +1398,93 @@ export const BEST_MATCH_TWO: ViralVideoProps = {
   music: MUSIC.helixV19,
 };
 
+/**
+ * V51 — "Difficulties in your marriage?" · the WOUND hook, the POSITIVE payoff.
+ *
+ * ⭐⭐⭐ THIS IS A FORMAT TEST, NOT A NEW ANGLE. It revives `ViralVideo` — the
+ * fast, 1.2s-ceiling format last shipped at V34 and abandoned for `kinetic`,
+ * then `quiet` — and carries V50's EMOTIONAL register into it. The skeleton
+ * (hook → number → four beats → CTA) is held exactly; only the copy register
+ * moves. One variable, so a result is assignable.
+ *
+ * 🎯 JUDGE ON LIKES PER VIEW, NOT VIEWS. Measured 2026-08-30: the account's
+ * daily reach roughly HALVED (~185/day Aug 16-21 → ~94/day Aug 25-30) while the
+ * per-post floor did not move (212 → 202 median). A views readout right now
+ * cannot separate "weak cut" from "throttled account". Likes/view is conditioned
+ * on the views actually served, so it survives that. Baseline 4.03% (466/11,567,
+ * 90 days), beat 8.0%. 🪤 VOID if reach clears ~400 — breakouts run ~1.03% and
+ * the denominator swamps it.
+ *
+ * ⚖️ THE OWNER GAVE THE HOOK; THE PAYOFF WAS CHANGED ON EVIDENCE (2026-08-30).
+ * "Are you facing difficulties in your marriage?" PASSES the sting rule — it
+ * names a pain the viewer already feels, which is a wound, not an accusation
+ * (wounds won V33 and V36; accusations, flattery and consolation went 0-for-4).
+ * But paying it off with WHICH PAIRS CLASH is the conflict frame this account
+ * already researched and rejected on 2026-08-06: positive compatibility framing
+ * measured 51.9K-57.2K views on a same-account control against 6.8K-25.9K for
+ * everything else, while conflict-framed rivals sat at 1,436 and 1,115 likes —
+ * an order of magnitude down. So: open on the wound, resolve POSITIVE. Telling
+ * someone whose marriage is struggling that their numbers clash is also a
+ * verdict ON the reader, which is the same failure that killed the Barnum hooks.
+ *
+ * 🔴 NOTHING NUMEROLOGICAL HERE IS AUTHORED. Both pair lines are
+ * `content/compatibility-reel.json`, which `scripts/derive-compatibility-pairs.mjs`
+ * writes by parsing `vedic-numerology/lib/numerology/friendship.ts` and which
+ * exits non-zero when the two disagree. 6's mutual partners are exactly 3 and 9
+ * (pairs 3&6 and 6&9); "good counsel meets real warmth" and "each keeps the
+ * other honest" are those rows' own `why` text, RE-CASED and stripped of the
+ * trailing period to sit on a bullet — the words are the JSON's, the casing is
+ * not, and `marriage-v51.test.ts` compares them normalised so a reworded pair in
+ * the JSON breaks the build instead of silently drifting. Beat 3 is a FEELING and makes
+ * no claim about numbers, so it needs no derivation — that is the V50 register.
+ *
+ * ⚠️ BEAT 4 IS THE EASE LINE AND IS LOAD-BEARING. `CLOSING_LINE` verbatim.
+ * Roughly two thirds of viewers will not find their pair; without it they read
+ * the video as a verdict against their marriage — the exact thing the positive
+ * payoff exists to avoid. ⛔ Never cut it to make room.
+ *
+ * 📐 STRUCTURE: value 10s → FOUR value scenes, one beat each, 430 frames /
+ * 14.333s. Derived by probing `planViralVideo`, not guessed: 8-15s all yield 4
+ * clean pairs; 16s breaches the SCENE_CHANGE*2 ceiling (76, 77 > 72); and
+ * V33's `essay` 18.861s yields FIVE scenes, so four traits would leave scene 4
+ * empty — the exact 2.13s-of-blank-screen bug V33 shipped. 10s was chosen over
+ * the other passing lengths because the ask was FAST: ~2.2s a beat, and 14.333s
+ * is shorter than V50's 15s. It is also a duration this account has never
+ * shipped, which breaks the duplicate-detection signal that flagged 28 renders
+ * at an identical 17.450667s.
+ *
+ * 🪤 NO 👇 IN `ctaText` — CTAEnding draws its own arrow underneath, and copy
+ * that carries one renders two stacked. Default glyph is correct here: this is
+ * a comment ask, so 👇 points at the right control. ⚠️ Comment asks buy DMs,
+ * NOT reach (rimzim's comment-CTA posts are her lowest-reach) — that is fine
+ * while the readout is likes/view, but do not expect distribution from it.
+ */
+export const MARRIAGE_NOT_THE_LOVE: ViralVideoProps = {
+  ...BEST_MATCH_FOUR,
+  hookText: "DIFFICULTIES IN YOUR MARRIAGE?",
+  hookAccent: "IT'S NOT THE LOVE",
+  hookSub: "Two numbers, wanting different things",
+  variant: "identity",
+  number: 6,
+  numberLabel: "VENUS · MATCH 3 AND 9",
+  traits: [
+    // compatibility-reel.json, pair 3&6 — its `why`, re-cased for a bullet.
+    "6 and 3 — good counsel meets real warmth",
+    // compatibility-reel.json, pair 6&9 — its `why`, trimmed to the clause that
+    // fits a bullet. Shortened, never added to.
+    "6 and 9 — each keeps the other honest",
+    // A feeling, not a claim. No derivation needed, and none implied.
+    "It was never a lack of love",
+    // CLOSING_LINE verbatim. The ease line. Do not cut.
+    "Not on the list? It doesn't mean no.",
+  ],
+  ctaText: "Comment your two numbers",
+  music: MUSIC.starlightV03,
+  structure: { hook: 1.333, build: 0.433, value: 10.0, cta: 2.571 },
+  palette: "sage-gold",
+  layout: "centered",
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-21-BestMatch-Two": BEST_MATCH_TWO,
   "Viral-20-LikedExceptTwo-Three": LIKED_EXCEPT_TWO_THREE,
@@ -1420,6 +1507,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-17-OneWayMatch-Six": ONE_WAY_MATCH_SIX,
   "Viral-18-OneWayMatch-Five": ONE_WAY_MATCH_FIVE,
   "Viral-19-OneWayMatch-Four": ONE_WAY_MATCH_FOUR,
+  "Viral-22-Marriage-NotTheLove": MARRIAGE_NOT_THE_LOVE,
 } as const;
 
 /**
@@ -1453,6 +1541,20 @@ export const VIRAL_COVERS: Record<
   keyof typeof VIRAL_TEMPLATES,
   { kicker: string; title: string; accent: string; number: number }
 > = {
+  // 6 is Venus, so the kicker keeps the series' ruling-planet convention.
+  // ⭐ 6 replaced 2 deliberately: V42 already published "Moolank 2 — It's 1 And
+  // 7", so a 2 here would have repeated a shipped IDEA. 6 has never carried a
+  // best-match cut, and Venus is the marriage planet — for THIS hook the payload
+  // and the wound finally name the same thing.
+  // The accent is the RELIEF, not the wound: the cover has to carry the same
+  // positive turn the video does, or the thumbnail alone reads as a verdict on
+  // someone's marriage.
+  "Viral-22-Marriage-NotTheLove": {
+    kicker: "Venus",
+    title: "DIFFICULTIES IN YOUR MARRIAGE?",
+    accent: "IT'S NOT THE LOVE",
+    number: 6,
+  },
   // First cover on the best-match angle. Kicker still names the ruling planet
   // so the set reads as one series; the accent carries the payload instead of
   // a trait, because the payload IS the topic now.
