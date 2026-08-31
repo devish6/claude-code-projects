@@ -1485,6 +1485,58 @@ export const MARRIAGE_NOT_THE_LOVE: ViralVideoProps = {
   layout: "centered",
 };
 
+/**
+ * V52 — the SAME reel as V51, with ONE variable changed: the hook.
+ *
+ * ⭐⭐⭐ WHY THIS EXISTS. V51's format test came back NEGATIVE on its own
+ * pre-registered bar: likes/view 4.05% (7/173) against a 4.03% baseline and an
+ * 8.0% target. Reach 146 vs a 176 median. But the Instagram retention card
+ * (2026-08-31) says the format was never actually tested: **41.1% of viewers
+ * remained at 0:01** — 58.9% left while the HOOK was still on screen — and the
+ * curve then flattens (~22% at 0:02, ~7% at 0:14). Average watch 3.03s of
+ * 14.33s. The people who survive second one largely stay; almost nobody
+ * reached the payload. A likes/view figure computed over views that never saw
+ * the value is not a verdict on the value.
+ *
+ * ⇒ The hook is the constraint, so the hook is the only thing that moves.
+ *
+ * 🔴 V51's hook stacked THREE text elements into 1.333s — hookText, hookAccent
+ * AND hookSub ("DIFFICULTIES IN YOUR MARRIAGE?" / "IT'S NOT THE LOVE" / "Two
+ * numbers, wanting different things"). That breaks this file's own first rule,
+ * stated at the top of hooks.ts: "One idea per hook. If it needs a comma to
+ * hold two thoughts, it's two hooks." It held three, and asked a cold viewer —
+ * 91.7% non-followers, arriving on the Reels tab — to read all of it in the
+ * one second in which 58.9% of them left.
+ *
+ * ⚖️ THE WOUND IS KEPT, THE READING IS NOT. "The love isn't the problem"
+ * names the same pain V51's hook named and still passes the sting rule — it is
+ * a wound, not an accusation, and it concedes something in the viewer's favour
+ * rather than diagnosing them. It is one thought, five words, legible at a
+ * glance. `hookAccent` and `hookSub` are OMITTED, not shortened: they are
+ * optional on ViralVideoProps, and the point is that there is nothing else to
+ * read.
+ *
+ * 📐 EVERYTHING ELSE IS HELD IDENTICAL — traits, number, numberLabel, CTA,
+ * music, palette, layout, and `structure` (so the duration stays 14.333s).
+ * One variable, so a result is assignable. The traits are still
+ * `content/compatibility-reel.json`'s own words; `marriage-v51.test.ts`'s
+ * derivation guards apply unchanged because the trait array is the same array.
+ *
+ * 🎯 JUDGE ON THE RETENTION CARD'S 1-SECOND HOLD, NOT ON VIEWS AND NOT ON
+ * LIKES/VIEW. The account's daily reach is still depressed (184.7/day Aug 16-21
+ * → 107.3/day Aug 25-30, and 72 on Aug 31), so views cannot separate a better
+ * hook from a throttled account. The 1-second hold is conditioned on the views
+ * actually served, and it is the exact quantity this change targets.
+ * **Beat 41.1%.** Anything at or under it says the hook was not the constraint,
+ * and the next move is the format, not the copy.
+ */
+export const MARRIAGE_LOVE_ISNT_THE_PROBLEM: ViralVideoProps = {
+  ...MARRIAGE_NOT_THE_LOVE,
+  hookText: "THE LOVE ISN'T THE PROBLEM",
+  hookAccent: undefined,
+  hookSub: undefined,
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-21-BestMatch-Two": BEST_MATCH_TWO,
   "Viral-20-LikedExceptTwo-Three": LIKED_EXCEPT_TWO_THREE,
@@ -1508,6 +1560,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-18-OneWayMatch-Five": ONE_WAY_MATCH_FIVE,
   "Viral-19-OneWayMatch-Four": ONE_WAY_MATCH_FOUR,
   "Viral-22-Marriage-NotTheLove": MARRIAGE_NOT_THE_LOVE,
+  "Viral-23-Marriage-OneIdeaHook": MARRIAGE_LOVE_ISNT_THE_PROBLEM,
 } as const;
 
 /**
@@ -1553,6 +1606,18 @@ export const VIRAL_COVERS: Record<
     kicker: "Venus",
     title: "DIFFICULTIES IN YOUR MARRIAGE?",
     accent: "IT'S NOT THE LOVE",
+    number: 6,
+  },
+  // V52. The video's hook is ONE line with no accent, and the cover matches it
+  // — `covers.test.ts` asserts accent === hookAccent, so an accent here would
+  // put a second thought back on the thumbnail, which is the exact thing the
+  // re-cut removes. The wound-then-relief turn the V51 comment above insists on
+  // is carried INSIDE the single line: "the love isn't the problem" concedes in
+  // the reader's favour, so the thumbnail cannot read as a verdict either.
+  "Viral-23-Marriage-OneIdeaHook": {
+    kicker: "Venus",
+    title: "THE LOVE ISN'T THE PROBLEM",
+    accent: undefined,
     number: 6,
   },
   // First cover on the best-match angle. Kicker still names the ruling planet
