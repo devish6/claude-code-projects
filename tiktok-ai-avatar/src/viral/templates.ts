@@ -1537,6 +1537,65 @@ export const MARRIAGE_LOVE_ISNT_THE_PROBLEM: ViralVideoProps = {
   hookSub: undefined,
 };
 
+/**
+ * V53 — "YOU'RE NOT COLD" · the belief-correction angle, with a ONE-ELEMENT hook.
+ *
+ * ⭐⭐⭐ THIS IS A NEW IDEA, DELIBERATELY. The rule against burning a fresh idea
+ * while distribution is degraded existed for ONE reason: a view-count result
+ * cannot separate "weak idea" from "throttled account". V51's retention card
+ * (2026-08-31) retires that premise. The 1-second hold is conditioned on the
+ * views actually served, so a new idea IS now interpretable under depressed
+ * reach. The rule was obeyed one post past its expiry; this is the correction.
+ *
+ * ⚖️ THE ANGLE IS THE MEASURED WINNER, NOT A GUESS. `belief-correction` was
+ * PROMOTED to approved on V33 — the first current-era, same-account,
+ * unconfounded-by-era test the angle ever had. `BELIEF_CORRECTION_SEVEN` was
+ * built under it and then never published. It is pre-approved, evidence-backed
+ * and unspent, which is exactly what a fresh idea should be.
+ *
+ * 🔴 IT CARRIED V51'S DEFECT. Its hook was THREE text elements — "IF YOU'RE A
+ * NUMBER 7" + "NOT COLD" + "Trust just takes longer" — the same stacking that
+ * lost 58.9% of V51's viewers inside the first second, and the same breach of
+ * hooks.ts's own first rule. Shipping it unchanged would have repeated the
+ * measured failure with new copy.
+ *
+ * ⚖️ THE HOOK CARRIES WOUND AND RELIEF IN ONE LINE. "You're not cold" names a
+ * pain a 7 has actually been handed by other people, and answers it in the same
+ * three words. That matters twice over: it passes the sting rule (a wound, not
+ * an accusation — the accusation is what OTHERS made, and this contradicts it),
+ * and it satisfies the cover contract, which requires the thumbnail to carry the
+ * RELIEF rather than the wound alone. A one-element hook and a relief-bearing
+ * cover would otherwise conflict; a line that does both resolves it.
+ *
+ * ⭐ IT IS ALSO A BROADER DOOR THAN THE NUMBER. 91.7% of V51's viewers were
+ * non-followers on the Reels tab. "You're not cold" stops anyone who has ever
+ * been called cold; `numberLabel` then reveals whose story it is. Broad hook,
+ * specific payload — the opposite of "IF YOU'RE A NUMBER 7", which asks a
+ * stranger to self-select before they have any reason to.
+ *
+ * 📐 FIVE traits and the inherited `essay` structure are UNCHANGED from
+ * BELIEF_CORRECTION_SEVEN — five value scenes need five traits, and four leaves
+ * scene 5 empty (the 2.13s hole V33 shipped). Every claim stays derived from
+ * `moolank-cards.json` #7; nothing here is authored. No pair list, so no ease
+ * line, exactly as V33 — naming 7's matches would hand a 7 a verdict about
+ * being alone.
+ *
+ * 🎯 JUDGE ON THE 1-SECOND HOLD. BEAT 41.1%. Not views — reach is still
+ * depressed (107.3/day Aug 25-30, 72 on Aug 31).
+ */
+export const BELIEF_CORRECTION_SEVEN_ONE_IDEA: ViralVideoProps = {
+  ...BELIEF_CORRECTION_SEVEN,
+  hookText: "YOU'RE NOT COLD",
+  hookAccent: undefined,
+  hookSub: undefined,
+  // `centered` rather than the inherited layout: left-aligned, the single line
+  // runs into the top-left of the number wheel, and "COLD" sits on top of the 6.
+  // Legible, but sloppy on the one post whose whole thesis is that the first
+  // second must be readable at a glance. Centred is also what V50 and V51 used,
+  // the two best-measured cuts this account has.
+  layout: "centered",
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-21-BestMatch-Two": BEST_MATCH_TWO,
   "Viral-20-LikedExceptTwo-Three": LIKED_EXCEPT_TWO_THREE,
@@ -1552,6 +1611,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-10-SelfFriendly-Three": SELF_FRIENDLY_THREE,
   "Viral-11-BeliefCorrection-Two": BELIEF_CORRECTION_TWO,
   "Viral-12-BeliefCorrection-Seven": BELIEF_CORRECTION_SEVEN,
+  "Viral-24-NotCold-Seven": BELIEF_CORRECTION_SEVEN_ONE_IDEA,
   "Viral-13-BeliefCorrection-One": BELIEF_CORRECTION_ONE,
   "Viral-14-OneWayMatch-Nine": ONE_WAY_MATCH_NINE,
   "Viral-15-OneWayMatch-Eight": ONE_WAY_MATCH_EIGHT,
@@ -1661,6 +1721,16 @@ export const VIRAL_COVERS: Record<
     kicker: "Ketu",
     title: "IF YOU'RE A NUMBER 7, YOU'RE",
     accent: "NOT COLD",
+    number: 7,
+  },
+  // V53. hookAccent is undefined, so `covers.test.ts` requires accent undefined
+  // here too. The single line carries the relief itself — "you're not cold"
+  // contradicts the insult rather than restating it — so the thumbnail cannot
+  // read as a verdict on the reader, which is what the accent normally guards.
+  "Viral-24-NotCold-Seven": {
+    kicker: "Ketu",
+    title: "YOU'RE NOT COLD",
+    accent: undefined,
     number: 7,
   },
   "Viral-13-BeliefCorrection-One": {
