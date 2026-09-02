@@ -19,7 +19,14 @@ import type { HookVariant } from "./components/ViralHook";
 export type ViralCoverProps = {
   kicker: string;
   title: string;
-  accent: string;
+  /**
+   * 🪤 OPTIONAL, because one-element hooks (V52, V53, V54) have no second line
+   * by design. Declared required, it made every such cover a tsc error while
+   * rendering an EMPTY div that still contributed its 28px top margin — a
+   * phantom gap above the wordmark on exactly the covers whose thesis is that
+   * there is nothing else to read.
+   */
+  accent?: string;
   /**
    * The oversized watermark. A string as well as a number because the
    * announcement covers watermark "UPI" rather than a moolank — it is drawn,
@@ -155,20 +162,22 @@ const CoverBody: React.FC<Omit<ViralCoverProps, "palette">> = ({
           {title}
         </div>
 
-        <div
-          style={{
-            marginTop: 28,
-            fontFamily: displayFont,
-            fontSize: 132,
-            fontWeight: 900,
-            lineHeight: 1,
-            letterSpacing: -1,
-            color: accentColor,
-            textShadow: P.glowFor(0.3),
-          }}
-        >
-          {accent}
-        </div>
+        {accent ? (
+          <div
+            style={{
+              marginTop: 28,
+              fontFamily: displayFont,
+              fontSize: 132,
+              fontWeight: 900,
+              lineHeight: 1,
+              letterSpacing: -1,
+              color: accentColor,
+              textShadow: P.glowFor(0.3),
+            }}
+          >
+            {accent}
+          </div>
+        ) : null}
 
         {/* Rule + wordmark, small — a cover still shouldn't lead with brand */}
         <div

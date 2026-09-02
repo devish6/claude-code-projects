@@ -1596,6 +1596,85 @@ export const BELIEF_CORRECTION_SEVEN_ONE_IDEA: ViralVideoProps = {
   layout: "centered",
 };
 
+/**
+ * V54 — "YOU'RE NOT RESTLESS" · Moolank 5 · the SHORT cut.
+ *
+ * ⭐⭐⭐⭐ THE ONE-ELEMENT HOOK IS NOW MEASURED, NOT ARGUED. V53 shipped the
+ * first single-element hook this account has ever posted and its Instagram
+ * retention card holds **53.3% at 0:01 against V51's 41.1%** — the
+ * pre-registered bar, beaten by 12.2 points on the one instrument that is not
+ * view-dependent. Skip rate fell 0.846 → 0.780 and likes/view rose 3.74% →
+ * 5.36% over a 4.03% baseline. The hook rule is settled: ONE element, wound and
+ * relief in one line. This video keeps it verbatim in form.
+ *
+ * ⭐⭐⭐⭐ AND THE CONSTRAINT MOVED. Fixing second one exposed what was behind
+ * it. V53's curve falls 53.3% → ~28% between 0:01 and 0:02 and is at ~15% by
+ * 0:05 — a body-survival ratio of 15.1/52.9 ≈ **0.285**, in the band that has
+ * predicted a floor result 8-for-8. We no longer lose them at the door. We lose
+ * them in the room.
+ *
+ * 🔴🔴 THREE PLATFORMS INDEPENDENTLY NAME THE SAME LEVER: DURATION.
+ *  · YouTube, n=11 uploads — cuts of 15s or under average **83.3% viewed**;
+ *    cuts over 15s average **56.7%**. V53 (23.25s) came in at 52.0%, and the
+ *    two best-viewed uploads on the channel (88.2%, 83.7%) are both ~12s.
+ *  · TikTok, same week — the 12–15s cuts took 456 / 606 / 639 views; V53 took
+ *    245. The account's 7-day views are down 44%, so this is a within-week
+ *    comparison, not a trend claim.
+ *  · Instagram — V53's average watch is 3.37s of 23.25s (14.5% of its runtime);
+ *    V51's was 2.97s of 14.33s (20.7%). ~3.5% of viewers are still there at
+ *    0:23. Eighteen of V53's seconds were rendered for almost nobody.
+ *
+ * ⚖️ THIS OVERTURNS A RULE ON THE BOOKS, DELIBERATELY. "A shorter cut holds
+ * more" was retired in an earlier era on Instagram VIEW COUNTS — an instrument
+ * the account has since shown cannot separate creative from distribution
+ * (σ log₁₀ ≈ 0.6; a 2× effect needs 62 posts per arm). The evidence above is
+ * average-percentage-viewed and completion, conditioned on the views actually
+ * served, on three platforms at once. Re-derive a rule's PREMISE, not its
+ * wording: the premise that retired this one is gone.
+ *
+ * 📐 12.37s, and the shape is not a trim — it is FOUR value scenes instead of
+ * five, each landing on the 1.2s SCENE_CHANGE ceiling exactly. A shorter act
+ * must drop SCENES, not shave seconds, or the traits crowd.
+ *
+ * ⚖️ MOOLANK 5, NOT 6, though 6 is next in the descending series. Number 6 and
+ * its Venus label were on screen two days ago in V51, and a near-clone of a
+ * post the same audience just saw is precisely the confound that made V38
+ * uninterpretable. 5 keeps the series descending and keeps the read clean.
+ *
+ * 🪤 Every trait is derived from `moolank-cards.json` #5 — "Called restless"
+ * from `shadow[1]` corrected by `personality`, then `strengths[0]` and the
+ * negotiator clause of `personality` verbatim, then the closing sentence in the
+ * "Depth, not distance" form V53 used. Four traits for four scenes: a fifth
+ * scene with nothing in it is the 2.13s hole V33 shipped.
+ */
+export const BELIEF_CORRECTION_FIVE_SHORT: ViralVideoProps = {
+  ...BELIEF_CORRECTION_SEVEN_ONE_IDEA,
+  hookText: "YOU'RE NOT RESTLESS",
+  hookAccent: undefined,
+  hookSub: undefined,
+  number: 5,
+  numberLabel: "MERCURY · 5, 14, 23",
+  traits: [
+    // shadow[1] "Hard to settle" as the belief, corrected by `personality`'s
+    // "Quick-witted". Belief first, then the correction — leading with the
+    // correction leaves the viewer arguing with a claim nobody made.
+    "Called restless — it's speed",
+    // strengths[0], verbatim.
+    "Quick, logical intelligence",
+    // `personality`, the third clause, verbatim.
+    "A natural negotiator",
+    // The sentence the video exists to deliver, on the last scene before the
+    // montage. "Flightiness" is the belief being retired; "speed" is
+    // `personality`. Same shape as V53's "Depth, not distance".
+    "Speed, not flightiness",
+  ],
+  ctaText: "Send this to a 5",
+  // 12.367s. value 8.2s → montage 42f, number reveal 61f, and 143f of pair
+  // budget over FOUR scenes at 36/36/36/35 frames — 1.20s each, exactly the
+  // SCENE_CHANGE ceiling, one trait per scene, no stagger.
+  structure: { hook: 1.333, build: 0.433, value: 8.2, cta: 2.4 },
+};
+
 export const VIRAL_TEMPLATES = {
   "Viral-21-BestMatch-Two": BEST_MATCH_TWO,
   "Viral-20-LikedExceptTwo-Three": LIKED_EXCEPT_TWO_THREE,
@@ -1612,6 +1691,7 @@ export const VIRAL_TEMPLATES = {
   "Viral-11-BeliefCorrection-Two": BELIEF_CORRECTION_TWO,
   "Viral-12-BeliefCorrection-Seven": BELIEF_CORRECTION_SEVEN,
   "Viral-24-NotCold-Seven": BELIEF_CORRECTION_SEVEN_ONE_IDEA,
+  "Viral-25-NotRestless-Five": BELIEF_CORRECTION_FIVE_SHORT,
   "Viral-13-BeliefCorrection-One": BELIEF_CORRECTION_ONE,
   "Viral-14-OneWayMatch-Nine": ONE_WAY_MATCH_NINE,
   "Viral-15-OneWayMatch-Eight": ONE_WAY_MATCH_EIGHT,
@@ -1652,7 +1732,13 @@ export const HOOK_TEST_COMPOSITIONS = Object.fromEntries(
  */
 export const VIRAL_COVERS: Record<
   keyof typeof VIRAL_TEMPLATES,
-  { kicker: string; title: string; accent: string; number: number }
+  // 🪤 `accent` is OPTIONAL, and that is not a loosening — it is the type
+  // catching up with the data. Every one-element hook (V52, V53, V54) omits it
+  // on purpose: a cover for a hook whose whole claim is that there is nothing
+  // else to read cannot add a second line. Declared as `string`, all three
+  // shipped as tsc errors that `npm run lint` was failing on while the videos
+  // rendered correctly — a type wrong about reality teaches you to ignore it.
+  { kicker: string; title: string; accent?: string; number: number }
 > = {
   // 6 is Venus, so the kicker keeps the series' ruling-planet convention.
   // ⭐ 6 replaced 2 deliberately: V42 already published "Moolank 2 — It's 1 And
@@ -1732,6 +1818,16 @@ export const VIRAL_COVERS: Record<
     title: "YOU'RE NOT COLD",
     accent: undefined,
     number: 7,
+  },
+  // Mercury rules 5, so the kicker keeps the series' ruling-planet convention.
+  // Title is the hook verbatim and the accent is omitted, as V53 — a
+  // one-element hook whose whole claim is that there is nothing else to read
+  // cannot have a thumbnail that adds a second line.
+  "Viral-25-NotRestless-Five": {
+    kicker: "Mercury",
+    title: "YOU'RE NOT RESTLESS",
+    accent: undefined,
+    number: 5,
   },
   "Viral-13-BeliefCorrection-One": {
     kicker: "Sun",
