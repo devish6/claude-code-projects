@@ -53,6 +53,7 @@ import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
 import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-to-you";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
+import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -567,6 +568,18 @@ export const RemotionRoot: React.FC = () => {
           id="Internal-CaptionDemo"
           component={CaptionDemo}
           durationInFrames={CAPTION_DEMO_FRAMES}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        {/* ⚠️ PROOF, not a post. Captions passing BEHIND the subject — three
+            layers (footage → captions → RGBA cut-out), where only the matte is
+            not a Remotion problem. Matte built offline by
+            scripts/build-person-matte.py with MediaPipe, locally, no API. */}
+        <Composition
+          id="Internal-CaptionsBehindSubject"
+          component={CaptionsBehindSubject}
+          durationInFrames={BEHIND_SUBJECT_FRAMES}
           fps={30}
           width={1080}
           height={1920}
