@@ -49,6 +49,7 @@ import { V48_SCENES, V48_PAYOFF_INDEX } from "./viral/kinetic/v48-driver-conduct
 import { V49_SCENES, V49_PAYOFF_INDEX } from "./viral/kinetic/v49-days-per-number";
 import { QuietVideo, quietMetadata } from "./viral/quiet/QuietVideo";
 import { V50_SCENES, V50_PAYOFF_INDEX } from "./viral/quiet/v50-two-am";
+import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -503,6 +504,23 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           calculateMetadata={() => quietMetadata("Quiet-V50-Two-AM", V50_SCENES, V50_PAYOFF_INDEX)}
+        />
+        {/* ⭐⭐⭐⭐ V55 is the FORMAT REPLICATION, and it is the first time this
+            account has repeated its winner rather than its loser. V51/V53/V54
+            close the kinetic package: runtime moved 87% (23.25s → 12.42s) and
+            Instagram average watch did not move at all (3,289 ms → 3,069 ms).
+            V50 is the only cut that ever broke the ~3s ceiling and it is the
+            top upload of the last 7 days on TikTok AND the last 28 on YouTube.
+            ⛔ Do NOT shorten this one to "apply" the duration finding — the
+            finding is that duration is not a lever, and a shorter cut would
+            confound format with length. `v55.test.ts` asserts the band. */}
+        <Composition
+          id="Quiet-V55-Already-Know"
+          component={QuietVideo}
+          defaultProps={{ scenes: V55_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() => quietMetadata("Quiet-V55-Already-Know", V55_SCENES, V55_PAYOFF_INDEX)}
         />
       </Folder>
 
