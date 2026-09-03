@@ -54,6 +54,7 @@ import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-t
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
+import { CaptionsAroundSubject, AROUND_SUBJECT_FRAMES } from "./internal/CaptionsAroundSubject";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -580,6 +581,18 @@ export const RemotionRoot: React.FC = () => {
           id="Internal-CaptionsBehindSubject"
           component={CaptionsBehindSubject}
           durationInFrames={BEHIND_SUBJECT_FRAMES}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        {/* ⭐⭐⭐⭐ THE ONE THE OWNER MEANS BY "ANIMATED CAPTIONS" — the caption
+            sits in the NEGATIVE SPACE around the subject and moves with them,
+            so no word is ever covered. The version above (behind) is the one he
+            corrected; keep it for the technique, but this is the default. */}
+        <Composition
+          id="Internal-CaptionsAroundSubject"
+          component={CaptionsAroundSubject}
+          durationInFrames={AROUND_SUBJECT_FRAMES}
           fps={30}
           width={1080}
           height={1920}
