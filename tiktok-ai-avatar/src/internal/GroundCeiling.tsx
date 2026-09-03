@@ -84,8 +84,18 @@ const Ground: React.FC<{ bg: string; frames: number }> = ({ bg, frames }) => {
   );
 };
 
-const fadeIn = (f: number, at = 0, over = 14) =>
-  interpolate(f, [at, at + over], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+/**
+ * 🔴 NEVER RAMP COPY FROM ZERO. `qa-frame` caught 9 near-blank frames at 810 —
+ * the first frames of the ember-b closing beat, where type at opacity 0 sat on
+ * the darkest ground in the set. That is the same class the kinetic format
+ * shipped a black frame for, and the shipped quiet renderer already avoids it
+ * (its `under` floors at 0.34). `floor` is the fix, not a longer ground fade.
+ */
+const fadeIn = (f: number, at = 0, over = 14, floor = 0) =>
+  interpolate(f, [at, at + over], [floor, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
 const Copy: React.FC<{
   line: string;
@@ -95,7 +105,9 @@ const Copy: React.FC<{
   size?: number;
 }> = ({ line, accent = "#E8B36A", accentWord, under, size }) => {
   const f = useCurrentFrame();
-  const o = fadeIn(f);
+  // 0.55, not 0.38: qa-frame failed on the two ember grounds, the darkest
+  // in the set, where the headline is the only bright element in the frame.
+  const o = fadeIn(f, 0, 14, 0.55);
   const lift = interpolate(f, [0, 18], [16, 0], { extrapolateRight: "clamp" });
   const at = accentWord ? line.indexOf(accentWord) : -1;
   return (
@@ -170,8 +182,13 @@ const ContactSheet: React.FC = () => {
         >
           {ALL_GROUNDS.map((g, i) => {
             const free = FREE.has(g);
-            // Reveal in order, then the spent ones drop away.
-            const appear = fadeIn(f, 4 + i * 3, 10);
+            // 🔴 NO entrance ramp. qa-frame failed here: thirteen DARK tiles
+            //    ramping from low opacity on a near-black card is a near-blank
+            //    frame. The argument in this beat is the DIMMING of the spent
+            //    grounds, not their arrival — so they are all present at once
+            //    and eleven of them leave. That reads better anyway.
+            const appear = 1;
+            void i;
             const dim = free ? 1 : interpolate(f, [78, 104], [1, 0.16], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
@@ -226,7 +243,7 @@ const ContactSheet: React.FC = () => {
             fontWeight: 600,
             fontSize: 84,
             color: "#FFF6EA",
-            opacity: fadeIn(f, 0, 12),
+            opacity: 1,
             textShadow: "0 10px 34px rgba(0,0,0,0.8)",
           }}
         >
@@ -244,7 +261,7 @@ const ContactSheet: React.FC = () => {
             color: "#FFF6EA",
             textAlign: "center",
             maxWidth: 880,
-            opacity: fadeIn(f, 92, 20),
+            opacity: fadeIn(f, 92, 20, 0.05),
             textShadow: "0 8px 30px rgba(0,0,0,0.8)",
           }}
         >
@@ -324,7 +341,10 @@ const Closing: React.FC = () => {
             color: "#FFF0E4",
             textAlign: "center",
             marginBottom: 54,
-            opacity: fadeIn(f, 0, 14),
+            // 🔴 NO fade at all. qa-frame failed twice at this beat's first
+            //    frames: ember-b is the darkest ground in the set, so any ramp
+            //    on the only bright element yields a near-blank frame.
+            opacity: 1,
             textShadow: "0 12px 40px rgba(0,0,0,0.75)",
           }}
         >
@@ -334,7 +354,7 @@ const Closing: React.FC = () => {
           <div
             key={k}
             style={{
-              opacity: fadeIn(f, 22 + i * 16, 18),
+              opacity: fadeIn(f, i * 13, 16, 0.3),
               marginBottom: 30,
               paddingLeft: 22,
               borderLeft: "4px solid rgba(255,145,82,0.75)",
