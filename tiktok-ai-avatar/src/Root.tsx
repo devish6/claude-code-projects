@@ -52,6 +52,7 @@ import { V50_SCENES, V50_PAYOFF_INDEX } from "./viral/quiet/v50-two-am";
 import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
 import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-to-you";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
+import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -554,6 +555,18 @@ export const RemotionRoot: React.FC = () => {
           id="Internal-GroundCeiling"
           component={GroundCeiling}
           durationInFrames={GROUND_CEILING_FRAMES}
+          fps={30}
+          width={1080}
+          height={1920}
+        />
+        {/* ⚠️ PROOF, not a post. The reference video's caption animation, built
+            with @remotion/captions and NO ElevenLabs — the cadence is authored
+            because there is no audio. Shows the loud (reference) register and
+            this account's own register from identical code. */}
+        <Composition
+          id="Internal-CaptionDemo"
+          component={CaptionDemo}
+          durationInFrames={CAPTION_DEMO_FRAMES}
           fps={30}
           width={1080}
           height={1920}
