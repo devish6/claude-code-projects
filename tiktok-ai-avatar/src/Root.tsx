@@ -51,6 +51,7 @@ import { QuietVideo, quietMetadata } from "./viral/quiet/QuietVideo";
 import { V50_SCENES, V50_PAYOFF_INDEX } from "./viral/quiet/v50-two-am";
 import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
 import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-to-you";
+import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -542,6 +543,20 @@ export const RemotionRoot: React.FC = () => {
           calculateMetadata={() =>
             quietMetadata("Quiet-V56-Everyone-Comes-To-You", V56_SCENES, V56_PAYOFF_INDEX)
           }
+        />
+      </Folder>
+
+      {/* ⚠️ INTERNAL — a decision reel for the owner, NEVER a post. Its own
+          folder so it cannot be picked up by mistake, and it runs 36s, well
+          outside the 14-18s posting band, so a glance tells you it is not a cut. */}
+      <Folder name="Internal">
+        <Composition
+          id="Internal-GroundCeiling"
+          component={GroundCeiling}
+          durationInFrames={GROUND_CEILING_FRAMES}
+          fps={30}
+          width={1080}
+          height={1920}
         />
       </Folder>
 
