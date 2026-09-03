@@ -50,6 +50,7 @@ import { V49_SCENES, V49_PAYOFF_INDEX } from "./viral/kinetic/v49-days-per-numbe
 import { QuietVideo, quietMetadata } from "./viral/quiet/QuietVideo";
 import { V50_SCENES, V50_PAYOFF_INDEX } from "./viral/quiet/v50-two-am";
 import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
+import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-to-you";
 import { MOOLANK_NUMBERS } from "./viral/card-data";
 import { CardReel, REEL_FPS, reelDurationInFrames } from "./viral/CardReel";
 import { ThreeSixNine, T369_FPS, T369_DURATION_IN_FRAMES } from "./viral/ThreeSixNine";
@@ -521,6 +522,26 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           calculateMetadata={() => quietMetadata("Quiet-V55-Already-Know", V55_SCENES, V55_PAYOFF_INDEX)}
+        />
+        {/* ⭐⭐⭐⭐ V56 — the format REPLICATED and this is the third cut. V55
+            was pre-registered at 3,100 ms Instagram average watch and came in
+            at 7,745 ms with skip 0.500. Both quiet cuts now skip below 0.51
+            while all EIGHTEEN other posts from 08-14 to 09-02 skip above 0.68 —
+            two disjoint sets, no overlap.
+            ⚠️ On 19 and 38 reach respectively. The retention is a ratio and
+            reads; anything about audience SIZE does not.
+            ⛔ Do NOT shorten and do NOT restyle — the idea is the only variable
+            that moves here. `v56.test.ts` asserts the band, the beat count and
+            the payoff index against BOTH predecessors. */}
+        <Composition
+          id="Quiet-V56-Everyone-Comes-To-You"
+          component={QuietVideo}
+          defaultProps={{ scenes: V56_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            quietMetadata("Quiet-V56-Everyone-Comes-To-You", V56_SCENES, V56_PAYOFF_INDEX)
+          }
         />
       </Folder>
 
