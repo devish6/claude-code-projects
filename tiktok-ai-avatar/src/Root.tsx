@@ -51,6 +51,7 @@ import { QuietVideo, quietMetadata } from "./viral/quiet/QuietVideo";
 import { V50_SCENES, V50_PAYOFF_INDEX } from "./viral/quiet/v50-two-am";
 import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
 import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-to-you";
+import { V57_SCENES, V57_PAYOFF_INDEX } from "./viral/quiet/v57-seen-this-ending";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -545,6 +546,34 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             quietMetadata("Quiet-V56-Everyone-Comes-To-You", V56_SCENES, V56_PAYOFF_INDEX)
+          }
+        />
+        {/* ⭐⭐⭐⭐ V57 — THE FIRST QUIET CUT THAT CHANGES THE SURFACE RATHER
+            THAN ONLY THE IDEA, because V56 failed BOTH pre-registered bars:
+            Instagram average watch 6,324 ms against a 7,000 bar, and 113 TikTok
+            views at ~38h against a 400-at-48h bar (V55 settled at 653, V50 607).
+            ⭐⭐⭐⭐ All three predecessors open on `dawn-a` and close on
+            `ember-b`, and the skip rate — which measures abandonment inside the
+            first three seconds, i.e. the OPENING FRAME — climbs with proximity
+            to the previous cut: 0.474 (no predecessor) → 0.571 (4 days) → 0.706
+            (ONE day). Same shape as V43/V44, where two consecutive cuts on
+            99.5% identical opening pixels halved the second one's 1s hold.
+            ⭐⭐⭐ The control is YouTube: 6 subscribers, so effectively no
+            returning audience — and there V56 BEAT V55 (132 views vs 84). Worse
+            where the audience repeats, better where it does not.
+            🪤 The numbers above are SETTLED. V55 was recorded at five hours as
+            7,745 ms / skip 0.500 and is really 6,871 / 0.571 — a retention
+            number read inside the first day is not the number.
+            ⛔ Do NOT restore `dawn-a` to frame 0 to tidy the family up; that is
+            the variable under test. `v57.test.ts` asserts all of it. */}
+        <Composition
+          id="Quiet-V57-Seen-This-Ending"
+          component={QuietVideo}
+          defaultProps={{ scenes: V57_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            quietMetadata("Quiet-V57-Seen-This-Ending", V57_SCENES, V57_PAYOFF_INDEX)
           }
         />
       </Folder>
