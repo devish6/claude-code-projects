@@ -6,10 +6,17 @@ import { QUIET_DISPLAY, UI } from "../fonts";
 import { FPS, sec } from "../timing";
 import {
   DISSOLVE,
+  type Handoff,
+  SCRIM_CSS,
   type QuietScene,
   assertQuietRenderable,
   copyEntrance,
+  copyOpacity,
   groundOpacity,
+  handoffFlags,
+  textShadowFor,
+  underOpacity,
+  underShadowFor,
   sceneOffsets,
   totalFrames,
 } from "./scenes";
@@ -40,20 +47,13 @@ import {
 /** The push is slower than kinetic's 6% — the frame should breathe, not move. */
 const GROUND_DRIFT = 0.045;
 
-const SCRIMS = {
-  // Ground already dark (night-*, violet-*, ember-*) — hold the scrim back or
-  // the photograph is thrown away and we are typesetting on black.
-  light:
-    "linear-gradient(180deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.10) 38%, rgba(0,0,0,0.16) 62%, rgba(0,0,0,0.46) 100%)",
-  normal:
-    "linear-gradient(180deg, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.26) 36%, rgba(0,0,0,0.34) 62%, rgba(0,0,0,0.72) 100%)",
-  // 🪤 PALE GROUND (dawn-a, luma 115) NEEDS THE HEAVY ONE AND CREAM TYPE.
-  // Measured, not reasoned: every scrim darkens DOWNWARD, so dark ink on a pale
-  // ground fights it and contrast decays down the block — 2.7 / 2.4 / 1.9 / 1.4
-  // against a 3.0:1 floor, i.e. the last line is invisible. Cream + heavy = 17.2:1.
-  heavy:
-    "linear-gradient(180deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.56) 40%, rgba(0,0,0,0.62) 70%, rgba(0,0,0,0.78) 100%)",
-} as const;
+/**
+ * 🔴 THE GRADIENT IS BUILT FROM `SCRIM_STOPS`, NOT WRITTEN HERE. `checkTextContrast`
+ * models the scrim from those same stops to judge legibility; a second copy of
+ * the numbers in this file is a gate that passes against a scrim nobody renders.
+ * `scenes.test.ts` pins the built strings to the literals that shipped V50–V57.
+ */
+const SCRIMS = SCRIM_CSS;
 
 const Ground: React.FC<{
   scene: QuietScene;
@@ -125,9 +125,16 @@ const Scene: React.FC<{
   frames: number;
   isFirst: boolean;
   isLast: boolean;
-}> = ({ scene, frames, isFirst, isLast }) => {
+  handoff: Handoff;
+}> = ({ scene, frames, isFirst, isLast, handoff }) => {
   const f = useCurrentFrame();
   const { opacity, lift } = copyEntrance(f, isFirst);
+  // 🔴 THE ONE PLACE THE TYPE IS ALLOWED TO REACH ZERO. At an ink polarity
+  //    change the two overlapping copies are opposite colours, so they hand off
+  //    through a text-free beat instead of crossing. `copyOpacity` returns a
+  //    hard 1 everywhere else. See `checkInkPolarityHandoff` for why the gap is
+  //    safe: it only ever happens over a ground bright enough to carry it.
+  const handoffOpacity = copyOpacity(f, frames, handoff.fadeOut, handoff.fadeIn);
   // The under-line arrives after the main line has had time to be read. It is a
   // hold, so there is room for a real beat between them — this is the motion
   // that replaces kinetic's hard cut, and it is why a 2.6s scene is not static.
@@ -149,7 +156,7 @@ const Scene: React.FC<{
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          opacity,
+          opacity: opacity * handoffOpacity,
           transform: `translateY(${lift}px)`,
         }}
       >
@@ -166,7 +173,7 @@ const Scene: React.FC<{
             // after the "2", orphaning "A.M." on a line of its own - on the
             // recognition beat, the one line that has to land whole.
             textWrap: "balance",
-            textShadow: "0 14px 48px rgba(0,0,0,0.68)",
+            textShadow: textShadowFor(scene),
           }}
         >
           <Line text={scene.line} accentWord={scene.accentWord} accent={scene.accent} />
@@ -180,12 +187,14 @@ const Scene: React.FC<{
               fontWeight: 500,
               lineHeight: 1.4,
               color: scene.fg,
-              // ⛔ Never 0 — see `groundOpacity`. It arrives by settling, and
-              // 0.34 is still legible against the scrim on frame 0 of the beat.
-              opacity: 0.34 + 0.58 * underIn,
+              // ⛔ Never 0 — see `groundOpacity`. It arrives by settling, from
+              // a floor that depends on which way the ink points: dark ink at
+              // the cream floor of 0.34 is 34% of the way from the photograph
+              // to black, i.e. absent. See `underEntranceOpacity`.
+              opacity: underOpacity(underIn, scene),
               marginTop: 34,
               maxWidth: 800,
-              textShadow: "0 8px 30px rgba(0,0,0,0.7)",
+              textShadow: underShadowFor(scene),
             }}
           >
             {scene.under}
@@ -213,6 +222,7 @@ export const QUIET_MUSIC = MUSIC.kineticV18;
 export const QuietVideo: React.FC<{ scenes: QuietScene[] }> = ({ scenes }) => {
   const offsets = sceneOffsets(scenes);
   const total = totalFrames(scenes);
+  const handoffs = handoffFlags(scenes);
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       <BrandAudio src={QUIET_MUSIC} total={total} start={0} fadeIn={2} vol={0.42} fadeFloor={0.85} />
@@ -226,7 +236,7 @@ export const QuietVideo: React.FC<{ scenes: QuietScene[] }> = ({ scenes }) => {
         const dur = sec(s.seconds) + (isFirst ? 0 : DISSOLVE);
         return (
           <Sequence key={i} from={from} durationInFrames={dur}>
-            <Scene scene={s} frames={dur} isFirst={isFirst} isLast={isLast} />
+            <Scene scene={s} frames={dur} isFirst={isFirst} isLast={isLast} handoff={handoffs[i]} />
           </Sequence>
         );
       })}

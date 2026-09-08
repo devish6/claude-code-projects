@@ -1,4 +1,5 @@
 import { FPS, sec } from "../timing";
+import { GROUND_BANDS, bandCentreY } from "./ground-bands";
 
 /**
  * The QUIET scene model — the format for a cut that is meant to be FELT.
@@ -64,6 +65,79 @@ export const QUIET_SCENE_MIN = sec(2.0);
 
 /** How long one scene dissolves into the next. See `checkDissolveFits`. */
 export const DISSOLVE = sec(0.5);
+
+/**
+ * 🔴🔴 THE SCRIM, AS DATA — BECAUSE TWO PLACES NEED THE SAME GRADIENT AND ONLY
+ * ONE OF THEM IS ON SCREEN.
+ *
+ * `QuietVideo` darkens each ground with a CSS gradient so type stays legible.
+ * `checkTextContrast` decides whether the type IS legible by modelling that
+ * darkening as alpha stops. Written twice, the two drift, and the gate then
+ * passes against a scrim nobody renders — the exact failure class already paid
+ * for three times here (`checkTableShape` proving a highlight in range but not
+ * that it lit anything; `SCENE_CHANGE` measuring the layer that changed and
+ * never the one that didn't; an accent proven present but never visible).
+ *
+ * ⇒ The stops are the source. The CSS is BUILT from them. `scenes.test.ts`
+ * pins the built string to the literal that shipped V50–V57, so this
+ * refactoring cannot have changed a single rendered pixel of those cuts.
+ *
+ * ⭐⭐⭐ AND THE SHAPE IS THE POINT: EVERY SCRIM DARKENS DOWNWARD. That is why
+ * ink polarity, not scrim weight, is what makes a bright ground legible — see
+ * `checkTextContrast`. A scrim heavy enough to carry cream on a light plate has
+ * already thrown the plate away.
+ */
+export type ScrimStop = { at: number; alpha: number };
+
+export const SCRIM_STOPS: Record<"light" | "normal" | "heavy", ScrimStop[]> = {
+  // Ground already dark (night-*, violet-*, ember-*) — hold the scrim back or
+  // the photograph is thrown away and we are typesetting on black.
+  light: [
+    { at: 0, alpha: 0.3 },
+    { at: 0.38, alpha: 0.1 },
+    { at: 0.62, alpha: 0.16 },
+    { at: 1, alpha: 0.46 },
+  ],
+  normal: [
+    { at: 0, alpha: 0.52 },
+    { at: 0.36, alpha: 0.26 },
+    { at: 0.62, alpha: 0.34 },
+    { at: 1, alpha: 0.72 },
+  ],
+  heavy: [
+    { at: 0, alpha: 0.48 },
+    { at: 0.4, alpha: 0.56 },
+    { at: 0.7, alpha: 0.62 },
+    { at: 1, alpha: 0.78 },
+  ],
+};
+
+export const scrimCss = (stops: ScrimStop[]): string =>
+  `linear-gradient(180deg, ${stops
+    .map((s) => `rgba(0,0,0,${s.alpha.toFixed(2)}) ${Math.round(s.at * 100)}%`)
+    .join(", ")})`;
+
+export const SCRIM_CSS = {
+  light: scrimCss(SCRIM_STOPS.light),
+  normal: scrimCss(SCRIM_STOPS.normal),
+  heavy: scrimCss(SCRIM_STOPS.heavy),
+} as const;
+
+/**
+ * The scrim's alpha at a vertical position `y` in [0,1] of the frame. Linear
+ * between stops, exactly as the CSS gradient interpolates.
+ */
+export const scrimAlphaAt = (stops: ScrimStop[], y: number): number => {
+  if (y <= stops[0].at) return stops[0].alpha;
+  for (let i = 1; i < stops.length; i++) {
+    if (y <= stops[i].at) {
+      const span = stops[i].at - stops[i - 1].at;
+      const t = span === 0 ? 0 : (y - stops[i - 1].at) / span;
+      return stops[i - 1].alpha + t * (stops[i].alpha - stops[i - 1].alpha);
+    }
+  }
+  return stops[stops.length - 1].alpha;
+};
 
 export type QuietScene = {
   /** Seconds this scene owns the frame, dissolve included. */
@@ -217,6 +291,167 @@ export const checkAccentContrast = (scenes: QuietScene[]): Gate => {
 };
 
 /**
+ * ⭐⭐⭐⭐ THE INK, MEASURED AGAINST THE PHOTOGRAPH IT SITS ON — the check every
+ * gate above stops one step short of.
+ *
+ * `checkAccentContrast` proves the accent differs from the INK. `checkTextContrast`
+ * asks the question that actually decides whether a viewer can read the frame:
+ * how bright is the GROUND under the type, once the scrim has darkened it, and
+ * does the ink clear 3.0:1 against it — at every row of the block, not on
+ * average. The accent word is held to the same floor, because an accent nobody
+ * can read is the same silent nothing as an accent that matches the ink.
+ *
+ * 🔴🔴 THIS IS WHAT V58 SHIPPED WITHOUT, AND IT COST THE CUT ITS ARC. Legibility
+ * was solved one scene at a time by reaching for a heavier scrim on the bright
+ * plates — and a per-scene scrim applied to a luma ladder is a LADDER-FLATTENING
+ * OPERATION BY CONSTRUCTION: it darkens exactly the plates whose brightness was
+ * the point. Measured on the render: 39% of the bright plates survived and 90%
+ * of the dark ones, so scene 3 came out BRIGHTER than scene 2 and the descent
+ * inverted in the middle. ⇒ Solve legibility with INK POLARITY instead. Then the
+ * scrim can be constant, and a constant scrim cannot flatten anything.
+ *
+ * 🪤 AND IT IMMEDIATELY CAUGHT ONE NOBODY WAS LOOKING FOR. Under a uniform
+ * scrim, V58 scene 3's gold accent measures 2.28:1 against its own plate — a
+ * mid-tone ground leaves no room for an accent on either side of it, warm or
+ * dark. That plate now carries dark ink with a pale accent instead. No gate in
+ * this file could see it before, and the render report never measured it.
+ *
+ * 🔴 AN UNMEASURED GROUND IS A FAILURE, NOT A SKIP. A gate that quietly passes
+ * what it cannot see is the fourth instance of the same class in this repo.
+ * Add a plate, re-run `scripts/measure-grounds.mjs`.
+ */
+export const MIN_TEXT_CONTRAST = 3.0;
+
+const channel = (c: number): number => {
+  const v = c / 255;
+  return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+};
+
+/** WCAG relative luminance of an sRGB triple. */
+export const relLuminance = ([r, g, b]: [number, number, number]): number =>
+  0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+
+export const contrastRatio = (a: number, b: number): number =>
+  (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+
+/**
+ * The ground's relative luminance in each copy band, once the scrim has been
+ * composited over it. The scrim is black at `alpha`, so the ground simply loses
+ * that fraction of itself: `C' = C * (1 - alpha)`.
+ */
+export const groundLuminances = (bg: string, scrim: QuietScene["scrim"]): number[] | null => {
+  const bands = GROUND_BANDS[bg];
+  if (!bands) return null;
+  const stops = SCRIM_STOPS[scrim ?? "normal"];
+  return bands.map((band, i) => {
+    const a = scrimAlphaAt(stops, bandCentreY(i));
+    return relLuminance([band[0] * (1 - a), band[1] * (1 - a), band[2] * (1 - a)]);
+  });
+};
+
+export const checkTextContrast = (scenes: QuietScene[]): Gate => {
+  const bad: string[] = [];
+  scenes.forEach((s, i) => {
+    const grounds = groundLuminances(s.bg, s.scrim);
+    if (!grounds) {
+      bad.push(`scene ${i}: ground "${s.bg}" has never been measured — run scripts/measure-grounds.mjs`);
+      return;
+    }
+    const worst = (hex: string) =>
+      grounds.reduce((lo, g) => Math.min(lo, contrastRatio(relLuminance(rgb(hex)), g)), Infinity);
+    const ink = worst(s.fg);
+    if (ink < MIN_TEXT_CONTRAST) bad.push(`scene ${i}: ink ${s.fg} on ${s.bg} = ${ink.toFixed(2)}:1`);
+    if (s.accentWord && s.accent) {
+      const acc = worst(s.accent);
+      if (acc < MIN_TEXT_CONTRAST)
+        bad.push(`scene ${i}: accent ${s.accent} on ${s.bg} = ${acc.toFixed(2)}:1`);
+    }
+  });
+  return {
+    name: `every ink and accent reads at >= ${MIN_TEXT_CONTRAST}:1 against its own scrimmed ground`,
+    ok: bad.length === 0,
+    detail: bad.length ? bad.join(", ") : undefined,
+  };
+};
+
+/**
+ * ⭐⭐⭐⭐ INK POLARITY, AND WHY IT IS DERIVED RATHER THAN DECLARED.
+ *
+ * The renderer has to know, at a dissolve, whether the two copies about to
+ * overlap are the same colour or opposite ones. That could be a field on the
+ * scene. It is not, because a field is a thing an author can forget to set, and
+ * a forgotten field renders dark lettering stacked on cream lettering with every
+ * gate green — the failure shape this file already carries four monuments to.
+ * The ink IS the polarity, so it is read straight off `fg`.
+ *
+ * 🪤 The split is nowhere near any ink in use: every cream here sits above 0.8
+ * relative luminance and every dark ink below 0.02.
+ */
+export const DARK_INK_BELOW = 0.35;
+
+export const isDarkInk = (scene: QuietScene): boolean =>
+  relLuminance(rgb(scene.fg)) < DARK_INK_BELOW;
+
+/** Indices `i` whose dissolve into `i + 1` changes ink polarity. */
+export const polarityCrossings = (scenes: QuietScene[]): number[] =>
+  scenes
+    .map((_, i) => i)
+    .slice(0, -1)
+    .filter((i) => isDarkInk(scenes[i]) !== isDarkInk(scenes[i + 1]));
+
+/**
+ * 🔴🔴 THE GROUND MUST CARRY THE FRAME WHILE THE TYPE IS ABSENT.
+ *
+ * At a polarity crossing the outgoing copy fades out completely before the
+ * incoming copy fades in, so for a beat there is NO TYPE ON SCREEN. On a dark
+ * ground the copy is the only lit thing — that is the exact hole kinetic shipped
+ * at its payload beat (frame 56 of V48: 0.19% non-black, mean luma 7.05) and the
+ * reason this format cross-dissolves at all. Opening a text gap over `fold-e`
+ * would rebuild it by hand.
+ *
+ * ⭐ The floor is 5x `qa-frame`'s black-frame `MIN_MEAN` of 12, i.e. the ground
+ * alone must be unambiguously a photograph and not a near-black card. Measured
+ * over the copy strip: glass-a 168, linen-b 144, plaster-c 120, stone-d 87 pass;
+ * threshold-f 54 and fold-e 43 do not.
+ */
+export const MIN_GAP_GROUND_LUMA = 60;
+
+/** Mean 0–255 luma of a scrimmed ground across the copy strip. */
+export const groundLuma = (bg: string, scrim: QuietScene["scrim"]): number | null => {
+  const bands = GROUND_BANDS[bg];
+  if (!bands) return null;
+  const stops = SCRIM_STOPS[scrim ?? "normal"];
+  const per = bands.map((band, i) => {
+    const a = scrimAlphaAt(stops, bandCentreY(i));
+    return (0.299 * band[0] + 0.587 * band[1] + 0.114 * band[2]) * (1 - a);
+  });
+  return per.reduce((x, y) => x + y, 0) / per.length;
+};
+
+export const checkInkPolarityHandoff = (scenes: QuietScene[]): Gate => {
+  const crossings = polarityCrossings(scenes);
+  const bad: string[] = [];
+  // ⭐ ONE CROSSING PER CUT. Each one costs a beat with no type on screen; two
+  //   of them inside 16 seconds is a stutter, not a turn.
+  if (crossings.length > 1) bad.push(`ink flips ${crossings.length} times; at most one crossing`);
+  for (const i of crossings) {
+    for (const j of [i, i + 1]) {
+      const luma = groundLuma(scenes[j].bg, scenes[j].scrim);
+      if (luma === null) {
+        bad.push(`scene ${j}: ground "${scenes[j].bg}" has never been measured`);
+      } else if (luma < MIN_GAP_GROUND_LUMA) {
+        bad.push(`scene ${j}: ${scenes[j].bg} at ${luma.toFixed(0)} luma cannot carry a text-free beat`);
+      }
+    }
+  }
+  return {
+    name: "an ink polarity change happens once, over grounds that carry the frame alone",
+    ok: bad.length === 0,
+    detail: bad.length ? bad.join(", ") : undefined,
+  };
+};
+
+/**
  * ⭐⭐⭐ ONE THING TO READ PER BEAT — THE FORMAT'S CENTRAL CLAIM, AS A GATE.
  *
  * The whole argument for a second format is that a feeling beat carries one
@@ -321,12 +556,171 @@ export const copyEntrance = (f: number, isFirst: boolean): { opacity: number; li
   return { opacity: 1, lift: 22 - 22 * ramp };
 };
 
+/**
+ * ⭐⭐⭐⭐ THE TYPE'S OPACITY THROUGH A DISSOLVE — the one place this format
+ * deliberately breaks its own "copy never fades" rule, and the reasoning for the
+ * exception is the same reasoning that made the rule.
+ *
+ * The rule (`copyEntrance`, `groundOpacity`): copy NEVER ramps from zero,
+ * because on the dark grounds this format was built for THE COPY IS THE LIGHT,
+ * and kinetic shipped a mean-luma-7 frame at its payload beat by forgetting it.
+ *
+ * The exception: at an ink polarity change the two overlapping copies are
+ * OPPOSITE COLOURS. Holding both at full opacity for 15 frames puts dark
+ * lettering on top of cream lettering — the glitch Codex predicted for V58 the
+ * moment a light plate entered the library. So the outgoing copy goes to nothing
+ * over the first 40% of the dissolve, the frame carries no type for 20% of it,
+ * and the incoming copy arrives over the last 40%.
+ *
+ * ⇒ And the exception is safe for exactly the reason the rule exists: a polarity
+ * change only happens where the ground is bright enough to carry dark ink, so
+ * during the gap the PHOTOGRAPH is the light and nothing goes dark.
+ * `checkInkPolarityHandoff` refuses a crossing over any ground that cannot.
+ *
+ * ⛔ WITH BOTH FLAGS FALSE THIS IS A HARD 1 AT EVERY FRAME. V50–V57 must keep
+ * rendering byte-for-byte as published.
+ */
+export const HANDOFF_OUT = 0.4;
+export const HANDOFF_IN = 0.6;
+
+export const copyOpacity = (
+  f: number,
+  frames: number,
+  fadeOutAtEnd: boolean,
+  fadeInAtStart: boolean,
+): number => {
+  let o = 1;
+  if (fadeInAtStart) {
+    const start = DISSOLVE * HANDOFF_IN;
+    o = Math.min(o, f <= start ? 0 : Math.min(1, (f - start) / (DISSOLVE - start)));
+  }
+  if (fadeOutAtEnd) {
+    const start = frames - DISSOLVE;
+    const span = DISSOLVE * HANDOFF_OUT;
+    o = Math.min(o, f <= start ? 1 : Math.max(0, 1 - (f - start) / span));
+  }
+  return o;
+};
+
+/**
+ * ⭐⭐⭐ THE UNDER-LINE ARRIVES BY GETTING BRIGHTER — WHICH IS A DIFFERENT EVENT
+ * DEPENDING ON WHICH WAY THE INK POINTS.
+ *
+ * The under-line starts dim and settles, so the main line is read first. On the
+ * dark grounds this format was built for, "dim cream" is still the brightest
+ * thing in the frame at 0.34 opacity. Dark ink at 0.34 over a LIGHT ground is
+ * 34% of the way from the photograph towards black — measured at 1.56–1.73:1,
+ * which is not faint, it is absent for the 0.55s the ramp takes.
+ *
+ * ⇒ The floor is a function of polarity. Cream keeps the 0.34 every shipped cut
+ * used, so V50–V57 render byte-for-byte. Dark ink starts at 0.82, measured:
+ * glass-a 4.08:1, linen-b 3.85:1, plaster-c 2.90:1 at the moment it appears.
+ */
+export const CREAM_UNDER_FLOOR = 0.34;
+export const DARK_UNDER_FLOOR = 0.82;
+export const UNDER_RESTING = 0.92;
+
+export const underEntranceOpacity = (scene: QuietScene): number =>
+  isDarkInk(scene) ? DARK_UNDER_FLOOR : CREAM_UNDER_FLOOR;
+
+/** `t` runs 0 -> 1 as the under-line settles. */
+export const underOpacity = (t: number, scene: QuietScene): number => {
+  const floor = underEntranceOpacity(scene);
+  return floor + (UNDER_RESTING - floor) * t;
+};
+
+/**
+ * 🪤 THE FLOOR IS 2.2, NOT THE 3.0 READING FLOOR, AND THAT IS DELIBERATE.
+ *
+ * Every cut this account has shipped enters its under-line below 3.0 — stone-d
+ * at 2.26:1, fold-e and threshold-f at 2.73:1 — for the 0.55s before the ramp
+ * finishes. Gating at 3.0 would fail V50–V57, which must keep rendering
+ * byte-for-byte as published, and "fix" four cuts nobody asked me to touch.
+ * ⇒ Calibrated on what ships. This catches an under-line that is INVISIBLE
+ * (a dark one handed the cream floor reads 1.56), never one that is merely
+ * quiet. ⭐ Choose a floor by the failure it must catch, not by the ideal.
+ */
+export const MIN_UNDER_ENTRANCE_CONTRAST = 2.2;
+
+/** The bands the under-line actually occupies — measured off real V58 renders. */
+const UNDER_BANDS = [6, 7];
+
+export const checkUnderLineEntranceAt = (scenes: QuietScene[], forceFloor?: number): Gate => {
+  const bad: string[] = [];
+  scenes.forEach((s, i) => {
+    if (!s.under) return;
+    const grounds = groundLuminances(s.bg, s.scrim);
+    const bands = GROUND_BANDS[s.bg];
+    if (!grounds || !bands) {
+      bad.push(`scene ${i}: ground "${s.bg}" has never been measured`);
+      return;
+    }
+    const op = forceFloor ?? underEntranceOpacity(s);
+    const ink = rgb(s.fg);
+    const stops = SCRIM_STOPS[s.scrim ?? "normal"];
+    for (const b of UNDER_BANDS) {
+      const a = scrimAlphaAt(stops, bandCentreY(b));
+      const g: [number, number, number] = [
+        bands[b][0] * (1 - a),
+        bands[b][1] * (1 - a),
+        bands[b][2] * (1 - a),
+      ];
+      const eff: [number, number, number] = [
+        g[0] * (1 - op) + ink[0] * op,
+        g[1] * (1 - op) + ink[1] * op,
+        g[2] * (1 - op) + ink[2] * op,
+      ];
+      const c = contrastRatio(relLuminance(eff), relLuminance(g));
+      if (c < MIN_UNDER_ENTRANCE_CONTRAST) {
+        bad.push(`scene ${i}: under-line on ${s.bg} enters at ${c.toFixed(2)}:1`);
+        break;
+      }
+    }
+  });
+  return {
+    name: `every under-line is visible the moment it appears (>= ${MIN_UNDER_ENTRANCE_CONTRAST}:1)`,
+    ok: bad.length === 0,
+    detail: bad.length ? bad.join(", ") : undefined,
+  };
+};
+
+export const checkUnderLineEntrance = (scenes: QuietScene[]): Gate =>
+  checkUnderLineEntranceAt(scenes);
+
+/**
+ * Which scenes run the handoff. ⛔ Only the pair either side of the crossing;
+ * every other scene holds its copy at full opacity, which is what keeps V50–V57
+ * rendering byte-for-byte as published.
+ */
+export type Handoff = { fadeOut: boolean; fadeIn: boolean };
+
+export const handoffFlags = (scenes: QuietScene[]): Handoff[] => {
+  const crossings = new Set(polarityCrossings(scenes));
+  return scenes.map((_, i) => ({ fadeOut: crossings.has(i), fadeIn: crossings.has(i - 1) }));
+};
+
+/**
+ * 🪤 A DROP SHADOW IS A POLARITY DECISION TOO, AND IT IS EASY TO LEAVE BEHIND.
+ * The dark halo under cream type is what lifts it off a photograph. Under DARK
+ * type on a LIGHT ground it does nothing visible and slightly thickens the
+ * letterforms; what separates dark type there is a pale halo. Shipped cuts keep
+ * the exact string they rendered with.
+ */
+export const textShadowFor = (scene: QuietScene): string =>
+  isDarkInk(scene) ? "0 10px 40px rgba(255,251,244,0.55)" : "0 14px 48px rgba(0,0,0,0.68)";
+
+export const underShadowFor = (scene: QuietScene): string =>
+  isDarkInk(scene) ? "0 6px 24px rgba(255,251,244,0.6)" : "0 8px 30px rgba(0,0,0,0.7)";
+
 export const runQuietGates = (scenes: QuietScene[], payoffIndex: number): Gate[] => [
   checkGroundChanges(scenes),
   checkHoldDurations(scenes),
   checkDissolveFits(scenes),
   checkAccentWords(scenes),
   checkAccentContrast(scenes),
+  checkTextContrast(scenes),
+  checkInkPolarityHandoff(scenes),
+  checkUnderLineEntrance(scenes),
   checkLineLength(scenes),
   checkPayoffLate(scenes, payoffIndex),
 ];

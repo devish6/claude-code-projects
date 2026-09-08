@@ -34,24 +34,70 @@ import type { QuietScene } from "./scenes";
  * rain, so the six dissolves move attention within a single room rather than
  * cutting between unrelated places. Measured full-frame / centre-half luma:
  *
- *   glass-a      175 / 191   ← the opener. Brighter than dawn-a ever was.
- *   linen-b      156 / 155
- *   plaster-c    122 / 137
- *   stone-d       93 /  95
- *   fold-e        47 /  44   ← the refusal lands as the frame drops
- *   threshold-f   55 /  56   ← the small lift back for the ask
+ *                 plate, pre-scrim      DELIVERED by the render
+ *   plate       full-frame / copy strip   (copy strip, encoded file)
+ *   glass-a         175 / 191                  158.0   <- the opener
+ *   linen-b         156 / 164                  135.2
+ *   plaster-c       122 / 137                  122.7
+ *   stone-d          93 /  99                   95.1
+ *   fold-e           47 /  50                   57.4   <- the refusal
+ *   threshold-f      55 /  61                   64.3   <- the lift for the ask
  *
- * ⭐⭐⭐ THE LUMA LADDER IS DRAMATIC, NOT DECORATIVE. The one large step in it
- * (95 → 44) falls exactly where the WOUND hands off to the REFUSAL. The frame
- * going dark as the cut declines to comfort is the format doing its own work.
+ * 🪤 THE THREE COLUMNS ARE NOT LIKE FOR LIKE AND THE FIRST REPORT COMPARED THEM
+ * AS IF THEY WERE — Codex caught it. A pre-scrim plate mean and a post-scrim
+ * rendered strip answer different questions, so a "77-point designed span"
+ * against a rendered one proves nothing. What IS comparable is the rendered
+ * column against itself, which is why `measure-quiet-ladder.mjs` fixes one
+ * region and one method and uses them for every scene of every cut.
  *
- * 🪤🪤 CREAM INK, NEVER DARK INK, ON THE LIGHT OPENER. The instinct on a
- * 191-luma centre is charcoal type. It is wrong here and the repo already
- * measured why: every scrim darkens DOWNWARD, so dark ink on a pale ground
- * fights it and contrast decays down the block — 2.7 / 2.4 / 1.9 / 1.4 against
- * a 3.0:1 floor, i.e. the last line is invisible. Cream + `heavy` measures
- * 7.1:1 on `glass-a`. Every scene below was contrast-checked at the worst
- * point of its own text block; the tightest is scene 3 at 5.2:1.
+ * ⭐⭐⭐ THE LUMA LADDER IS DRAMATIC, NOT DECORATIVE, and the SECOND render is
+ * the one that delivers it. The first flattened it to a span of 35 and put
+ * scene 3 ABOVE scene 2 — the descent reversed in the middle and the cut read
+ * as one even dim video. Delivered now: 158 / 135 / 123 / 95 / 57 / 64, a span
+ * of 101, monotonic all the way down with the small lift back at the end.
+ * `scripts/measure-quiet-ladder.mjs` is what says so, on the encoded file.
+ *
+ * ⭐⭐⭐⭐ WHAT ACTUALLY FLATTENED IT, AND THE RULE THAT REPLACES IT.
+ *
+ * Not the plates. THE SCRIM — assigned per scene to keep type legible: `heavy`
+ * on the bright plates, `light` on the dark ones. A per-scene legibility fix
+ * applied to a luma ladder is a LADDER-FLATTENING OPERATION BY CONSTRUCTION,
+ * because it darkens exactly the plates whose brightness was the point. It kept
+ * 39% of the bright plates and 90% of the dark ones. Nothing was misjudged; the
+ * mechanism simply guarantees the outcome.
+ *
+ * ⇒ SO LEGIBILITY IS SOLVED WITH INK POLARITY AND THE SCRIM IS CONSTANT. All six
+ * scenes now carry `light`, and a constant scrim cannot flatten anything. The
+ * three light plates take DARK ink; the three dark ones keep cream.
+ *
+ * 🪤🪤 AND THE OLD RULE HERE SAID THE EXACT OPPOSITE — "CREAM INK, NEVER DARK
+ * INK, ON THE LIGHT OPENER" — citing a measurement that dark ink decays to
+ * 1.4:1 down the block. That measurement was taken on `dawn-a`, 115 luma, under
+ * the HEAVIEST scrim, which darkens a pale ground until it is no longer pale.
+ * True of that frame; false as a rule, and it cost this cut its arc. Measured on
+ * `glass-a` (175) under `light`, dark ink clears the floor at every row of the
+ * block — 5.35:1 at its worst — while cream on that same plate and scrim fails.
+ * ⭐ A measurement is evidence about the thing measured. Promoting one to a rule
+ * carries its conditions along with it, and those were never restated.
+ *
+ * ⭐⭐⭐ THE INK FLIPS ONCE, ON THE DISSOLVE INTO `stone-d`, AND THE TYPE HANDS
+ * OFF THROUGH NOTHING. Two copies are on screen together for all 15 frames of
+ * every dissolve in this format; with opposite inks that is dark lettering
+ * stacked on cream lettering. So at the crossing the outgoing copy goes to zero,
+ * the frame carries NO TYPE for three frames, and the incoming copy arrives.
+ * Verified in the render: frames 231–233 hold 0.00% lettering at mean luma
+ * 59–63 — a photograph, not the mean-luma-7 hole kinetic shipped at its payload
+ * beat. The gap is only safe because the ground there is bright enough to be the
+ * light; `checkInkPolarityHandoff` refuses a crossing anywhere it is not.
+ *
+ * 🪤 AND THE BOUNDARY IS ONE SCENE LATER THAN CODEX PROPOSED, because measuring
+ * it moved it. `plaster-c` at 120 luma is the mid-tone, and a mid-tone ground
+ * has no room for an accent on either side: gold reads 2.28:1 there, rust 2.34.
+ * Dark ink plus a pale ivory accent reads 3.47 and 3.08 — the only pairing that
+ * clears the floor on that plate.
+ * It keeps dark ink and a pale ivory accent instead, and the flip moves onto the
+ * 120 -> 87 step. `checkTextContrast` is the gate that found it; nothing in this
+ * repo could see an accent lost against its own photograph before.
  */
 export const V58_SCENES: QuietScene[] = [
   // ── RECOGNITION. A social encounter, not an interior state: the viewer is
@@ -59,9 +105,9 @@ export const V58_SCENES: QuietScene[] = [
   {
     seconds: 2.9,
     bg: "glass-a",
-    scrim: "heavy",
-    fg: "#FFF6EA",
-    accent: "#F4CE8E",
+    scrim: "light",
+    fg: "#241C14",
+    accent: "#67270C",
     line: "They still introduce you as who you used to be.",
     accentWord: "who you used to be",
     under: "and you let it go, again",
@@ -71,9 +117,9 @@ export const V58_SCENES: QuietScene[] = [
   {
     seconds: 2.6,
     bg: "linen-b",
-    scrim: "heavy",
-    fg: "#FFF6EA",
-    accent: "#F4CE8E",
+    scrim: "light",
+    fg: "#1C1712",
+    accent: "#67270C",
     line: "You stopped correcting it years ago.",
     accentWord: "years ago",
     under: "it stopped being worth the sentence",
@@ -85,9 +131,9 @@ export const V58_SCENES: QuietScene[] = [
   {
     seconds: 2.5,
     bg: "plaster-c",
-    scrim: "normal",
-    fg: "#F7F2EA",
-    accent: "#E4B978",
+    scrim: "light",
+    fg: "#1C1712",
+    accent: "#F2E0BC",
     line: "Now they think nothing changed.",
     accentWord: "nothing changed",
     under: "your quiet reads as proof",
@@ -99,9 +145,9 @@ export const V58_SCENES: QuietScene[] = [
   {
     seconds: 2.9,
     bg: "stone-d",
-    scrim: "normal",
+    scrim: "light",
     fg: "#F5F0E8",
-    accent: "#DFAE62",
+    accent: "#E4B978",
     line: "You did the work in private, and it stayed private.",
     accentWord: "stayed private",
     under: "nobody was there to notice the difference",
