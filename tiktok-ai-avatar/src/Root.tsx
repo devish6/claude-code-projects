@@ -52,6 +52,7 @@ import { V50_SCENES, V50_PAYOFF_INDEX } from "./viral/quiet/v50-two-am";
 import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
 import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-to-you";
 import { V57_SCENES, V57_PAYOFF_INDEX } from "./viral/quiet/v57-seen-this-ending";
+import { V58_SCENES, V58_PAYOFF_INDEX } from "./viral/quiet/v58-who-you-used-to-be";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -574,6 +575,31 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             quietMetadata("Quiet-V57-Seen-This-Ending", V57_SCENES, V57_PAYOFF_INDEX)
+          }
+        />
+
+        {/* V58 — the FIFTH quiet cut, and the first on grounds this account has
+            never owned. The 13-plate library shipped 2026-08-21 was fully spent
+            by V57, so a fifth cut could only have reused plates; six new ones
+            were art-directed as a single interior after rain instead.
+            ⭐⭐⭐ THE VARIABLE IS THE OPENING FRAME. V50/V55/V56 all opened on
+            `dawn-a` and skip degraded with proximity to the previous cut
+            (0.474 → 0.571 → 0.706). This opens on `glass-a`, which no post has
+            ever used, at a centre-half luma of 191 — brighter than `dawn-a`
+            (115) ever was.
+            🪤 `dawn-a` was ALSO the library's only light plate, so "same frame"
+            and "the light frame" were the same event in all three cuts. This
+            cut changes both at once and cannot separate them either.
+            ⛔ Do NOT swap `glass-a` out for a library plate to keep the family
+            tidy — that is the variable under test. `v58.test.ts` asserts it. */}
+        <Composition
+          id="Quiet-V58-Who-You-Used-To-Be"
+          component={QuietVideo}
+          defaultProps={{ scenes: V58_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            quietMetadata("Quiet-V58-Who-You-Used-To-Be", V58_SCENES, V58_PAYOFF_INDEX)
           }
         />
       </Folder>
