@@ -53,6 +53,7 @@ import { V55_SCENES, V55_PAYOFF_INDEX } from "./viral/quiet/v55-already-know";
 import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-to-you";
 import { V57_SCENES, V57_PAYOFF_INDEX } from "./viral/quiet/v57-seen-this-ending";
 import { V58_SCENES, V58_PAYOFF_INDEX } from "./viral/quiet/v58-who-you-used-to-be";
+import { V59_SCENES, V59_PAYOFF_INDEX } from "./viral/quiet/v59-made-your-peace";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -600,6 +601,30 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             quietMetadata("Quiet-V58-Who-You-Used-To-Be", V58_SCENES, V58_PAYOFF_INDEX)
+          }
+        />
+
+        {/* ⭐⭐⭐⭐ V59 REPLICATES V58 — it does not extend it. V58 returned the
+            lowest skip of all 65 posts (0.393) and the first quiet cut Instagram
+            actually distributed (213 views, inside the kinetic band, against
+            34-52 for the four before it). That is ONE POINT, and the first job
+            is confirming the effect exists rather than decomposing it.
+            So every ingredient is stacked again: light, flat, dark ink, never
+            seen. `chalk-g` measures 227.0 mean with a span of 13.1 — brighter
+            AND flatter than `glass-a` (191.1 / 37.7).
+            🪤 Scenes 3-6 reuse V58's plates ON PURPOSE. Skip measures the first
+            three seconds; scene 1 ends at 2.9s, so fresh plates past there
+            cannot move the number under test.
+            ⛔ Do NOT swap `chalk-g` for a plate any earlier cut used — that is
+            the variable under test. `v59.test.ts` asserts it. */}
+        <Composition
+          id="Quiet-V59-Made-Your-Peace"
+          component={QuietVideo}
+          defaultProps={{ scenes: V59_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            quietMetadata("Quiet-V59-Made-Your-Peace", V59_SCENES, V59_PAYOFF_INDEX)
           }
         />
       </Folder>
