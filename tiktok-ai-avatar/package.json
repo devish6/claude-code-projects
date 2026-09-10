@@ -52,7 +52,10 @@
     "publish:next-card": "node scripts/publish-next-card.mjs",
     "analyze:reach": "node scripts/analyze-reach.mjs",
     "qa:frame": "node scripts/qa-frame.mjs",
-    "funnel:queue": "node scripts/funnel-queue.mjs"
+    "funnel:queue": "node scripts/funnel-queue.mjs",
+    "draw:month": "node scripts/draw-month.mjs",
+    "draw:render": "node scripts/render-draw-cards.mjs",
+    "qa:still": "node scripts/qa-still.mjs"
   },
   "sideEffects": [
     "*.css"

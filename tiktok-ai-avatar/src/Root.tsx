@@ -36,6 +36,9 @@ import {
 import { DAILY_COVERS, DAILY_TEMPLATES } from "./viral/daily-templates";
 import { TalkingHead } from "./talking/TalkingHead";
 import { InfoCard, INFO_CARD_WIDTH, INFO_CARD_HEIGHT } from "./viral/InfoCard";
+import { DrawCard, DRAW_CARD_WIDTH, DRAW_CARD_HEIGHT } from "./viral/DrawCard";
+import { assertCardRenderable } from "./viral/draw/card";
+import { SEPTEMBER_2026 } from "./viral/draw/september-2026";
 import { SelfFriendlyPin, PIN_WIDTH, PIN_HEIGHT } from "./viral/SelfFriendlyPin";
 import { MutualPairsPin } from "./viral/MutualPairsPin";
 import { LiveBackdrop, LIVE_WIDTH, LIVE_HEIGHT } from "./viral/LiveBackdrop";
@@ -365,6 +368,32 @@ export const RemotionRoot: React.FC = () => {
             width={INFO_CARD_WIDTH}
             height={INFO_CARD_HEIGHT}
             defaultProps={{ number: n }}
+          />
+        ))}
+      </Folder>
+
+      {/* The monthly DRAW carousel — ten 4:5 stills, posted as one carousel.
+          ⭐ The gate runs in calculateMetadata, not in the component, so it
+          throws before frame one of ANY of the ten — CLI or Studio — and a unit
+          test can hand it the same slides the component renders. A gate that
+          cannot be handed its own inputs cannot block anything (see plan.ts).
+          🪤 It is asserted over the WHOLE SET on every slide on purpose: a
+          per-slide check cannot see a duplicated card or a missing number. */}
+      <Folder name="Draw-September-2026">
+        {SEPTEMBER_2026.map((slide) => (
+          <Composition
+            key={slide.moolank}
+            id={`Draw-Sep2026-${slide.moolank === 0 ? "Cover" : slide.moolank}`}
+            component={DrawCard}
+            durationInFrames={1}
+            fps={30}
+            width={DRAW_CARD_WIDTH}
+            height={DRAW_CARD_HEIGHT}
+            defaultProps={{ slide }}
+            calculateMetadata={({ props }) => {
+              assertCardRenderable(`Draw-Sep2026-${props.slide.moolank}`, SEPTEMBER_2026);
+              return {};
+            }}
           />
         ))}
       </Folder>
