@@ -1,0 +1,995 @@
+{
+  "_comment": "The 78-card Rider-Waite-Smith identity table, extracted verbatim from vedic-numerology/lib/tarot/cards.ts (the product's own source of truth) on 2026-09-10 via `npx tsx`. DUPLICATED rather than imported because vedic-numerology is a separate private repo -- the same reason content/moolank-cards.json duplicates birth-number.ts. Nothing here is hand-typed. Card ART provenance lives in public/tarot/SOURCE.md.",
+  "cards": [
+    {
+      "id": "the-fool",
+      "name": "The Fool",
+      "arcana": "major",
+      "number": 0,
+      "keywords": [
+        "Beginnings",
+        "Innocence",
+        "Blind faith"
+      ],
+      "image": "the-fool.webp"
+    },
+    {
+      "id": "the-magician",
+      "name": "The Magician",
+      "arcana": "major",
+      "number": 1,
+      "keywords": [
+        "Manifestation",
+        "Resourcefulness",
+        "Inspired action"
+      ],
+      "image": "the-magician.webp"
+    },
+    {
+      "id": "the-high-priestess",
+      "name": "The High Priestess",
+      "arcana": "major",
+      "number": 2,
+      "keywords": [
+        "Intuition",
+        "Sacred knowledge",
+        "The subconscious"
+      ],
+      "image": "the-high-priestess.webp"
+    },
+    {
+      "id": "the-empress",
+      "name": "The Empress",
+      "arcana": "major",
+      "number": 3,
+      "keywords": [
+        "Femininity",
+        "Nurturing",
+        "Abundance"
+      ],
+      "image": "the-empress.webp"
+    },
+    {
+      "id": "the-emperor",
+      "name": "The Emperor",
+      "arcana": "major",
+      "number": 4,
+      "keywords": [
+        "Authority",
+        "Structure",
+        "Stability"
+      ],
+      "image": "the-emperor.webp"
+    },
+    {
+      "id": "the-hierophant",
+      "name": "The Hierophant",
+      "arcana": "major",
+      "number": 5,
+      "keywords": [
+        "Spiritual wisdom",
+        "Tradition",
+        "Counselling"
+      ],
+      "image": "the-hierophant.webp"
+    },
+    {
+      "id": "the-lovers",
+      "name": "The Lovers",
+      "arcana": "major",
+      "number": 6,
+      "keywords": [
+        "Love",
+        "Harmony",
+        "Choices"
+      ],
+      "image": "the-lovers.webp"
+    },
+    {
+      "id": "the-chariot",
+      "name": "The Chariot",
+      "arcana": "major",
+      "number": 7,
+      "keywords": [
+        "Willpower",
+        "Determination",
+        "Victory"
+      ],
+      "image": "the-chariot.webp"
+    },
+    {
+      "id": "strength",
+      "name": "Strength",
+      "arcana": "major",
+      "number": 8,
+      "keywords": [
+        "Courage",
+        "Self-control",
+        "Compassion"
+      ],
+      "image": "strength.webp"
+    },
+    {
+      "id": "the-hermit",
+      "name": "The Hermit",
+      "arcana": "major",
+      "number": 9,
+      "keywords": [
+        "Soul-searching",
+        "Introspection",
+        "Inner guidance"
+      ],
+      "image": "the-hermit.webp"
+    },
+    {
+      "id": "wheel-of-fortune",
+      "name": "Wheel of Fortune",
+      "arcana": "major",
+      "number": 10,
+      "keywords": [
+        "Good luck",
+        "Life cycles",
+        "A turning point"
+      ],
+      "image": "wheel-of-fortune.webp"
+    },
+    {
+      "id": "justice",
+      "name": "Justice",
+      "arcana": "major",
+      "number": 11,
+      "keywords": [
+        "Fairness",
+        "Truth",
+        "Cause and effect"
+      ],
+      "image": "justice.webp"
+    },
+    {
+      "id": "the-hanged-man",
+      "name": "The Hanged Man",
+      "arcana": "major",
+      "number": 12,
+      "keywords": [
+        "Pause",
+        "Surrender",
+        "New perspectives"
+      ],
+      "image": "the-hanged-man.webp"
+    },
+    {
+      "id": "death",
+      "name": "Death",
+      "arcana": "major",
+      "number": 13,
+      "keywords": [
+        "Endings",
+        "Transformation",
+        "Transition"
+      ],
+      "image": "death.webp"
+    },
+    {
+      "id": "temperance",
+      "name": "Temperance",
+      "arcana": "major",
+      "number": 14,
+      "keywords": [
+        "Balance",
+        "Moderation",
+        "Patience"
+      ],
+      "image": "temperance.webp"
+    },
+    {
+      "id": "the-devil",
+      "name": "The Devil",
+      "arcana": "major",
+      "number": 15,
+      "keywords": [
+        "Shadow self",
+        "Attachment",
+        "Restriction"
+      ],
+      "image": "the-devil.webp"
+    },
+    {
+      "id": "the-tower",
+      "name": "The Tower",
+      "arcana": "major",
+      "number": 16,
+      "keywords": [
+        "Sudden change",
+        "Upheaval",
+        "Revelation"
+      ],
+      "image": "the-tower.webp"
+    },
+    {
+      "id": "the-star",
+      "name": "The Star",
+      "arcana": "major",
+      "number": 17,
+      "keywords": [
+        "Hope",
+        "Faith",
+        "Renewal"
+      ],
+      "image": "the-star.webp"
+    },
+    {
+      "id": "the-moon",
+      "name": "The Moon",
+      "arcana": "major",
+      "number": 18,
+      "keywords": [
+        "Illusion",
+        "Fear",
+        "The subconscious"
+      ],
+      "image": "the-moon.webp"
+    },
+    {
+      "id": "the-sun",
+      "name": "The Sun",
+      "arcana": "major",
+      "number": 19,
+      "keywords": [
+        "Positivity",
+        "Warmth",
+        "Vitality"
+      ],
+      "image": "the-sun.webp"
+    },
+    {
+      "id": "judgement",
+      "name": "Judgement",
+      "arcana": "major",
+      "number": 20,
+      "keywords": [
+        "Rebirth",
+        "Inner calling",
+        "A second chance"
+      ],
+      "image": "judgement.webp"
+    },
+    {
+      "id": "the-world",
+      "name": "The World",
+      "arcana": "major",
+      "number": 21,
+      "keywords": [
+        "Completion",
+        "Accomplishment",
+        "Integration"
+      ],
+      "image": "the-world.webp"
+    },
+    {
+      "id": "ace-of-cups",
+      "name": "Ace of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 1,
+      "keywords": [
+        "New relationships",
+        "Compassion",
+        "Creativity"
+      ],
+      "image": "ace-of-cups.webp"
+    },
+    {
+      "id": "two-of-cups",
+      "name": "Two of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 2,
+      "keywords": [
+        "Unified love",
+        "Partnership",
+        "Mutual attraction"
+      ],
+      "image": "two-of-cups.webp"
+    },
+    {
+      "id": "three-of-cups",
+      "name": "Three of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 3,
+      "keywords": [
+        "Celebration",
+        "Friendship",
+        "Collaboration"
+      ],
+      "image": "three-of-cups.webp"
+    },
+    {
+      "id": "four-of-cups",
+      "name": "Four of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 4,
+      "keywords": [
+        "Withdrawal",
+        "Contemplation",
+        "Re-evaluation"
+      ],
+      "image": "four-of-cups.webp"
+    },
+    {
+      "id": "five-of-cups",
+      "name": "Five of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 5,
+      "keywords": [
+        "Regret",
+        "Disappointment",
+        "Pessimism"
+      ],
+      "image": "five-of-cups.webp"
+    },
+    {
+      "id": "six-of-cups",
+      "name": "Six of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 6,
+      "keywords": [
+        "Revisiting the past",
+        "Childhood memories",
+        "Innocence"
+      ],
+      "image": "six-of-cups.webp"
+    },
+    {
+      "id": "seven-of-cups",
+      "name": "Seven of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 7,
+      "keywords": [
+        "Choices",
+        "Wishful thinking",
+        "Illusion"
+      ],
+      "image": "seven-of-cups.webp"
+    },
+    {
+      "id": "eight-of-cups",
+      "name": "Eight of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 8,
+      "keywords": [
+        "Disappointment",
+        "Withdrawal",
+        "Escapism"
+      ],
+      "image": "eight-of-cups.webp"
+    },
+    {
+      "id": "nine-of-cups",
+      "name": "Nine of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 9,
+      "keywords": [
+        "Contentment",
+        "Satisfaction",
+        "Gratitude"
+      ],
+      "image": "nine-of-cups.webp"
+    },
+    {
+      "id": "ten-of-cups",
+      "name": "Ten of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 10,
+      "keywords": [
+        "Divine love",
+        "Harmony",
+        "Alignment"
+      ],
+      "image": "ten-of-cups.webp"
+    },
+    {
+      "id": "page-of-cups",
+      "name": "Page of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 11,
+      "keywords": [
+        "Creative opportunities",
+        "Curiosity",
+        "Possibility"
+      ],
+      "image": "page-of-cups.webp"
+    },
+    {
+      "id": "knight-of-cups",
+      "name": "Knight of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 12,
+      "keywords": [
+        "Romance",
+        "Charm",
+        "Imagination"
+      ],
+      "image": "knight-of-cups.webp"
+    },
+    {
+      "id": "queen-of-cups",
+      "name": "Queen of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 13,
+      "keywords": [
+        "Compassion",
+        "Emotional steadiness",
+        "Intuition"
+      ],
+      "image": "queen-of-cups.webp"
+    },
+    {
+      "id": "king-of-cups",
+      "name": "King of Cups",
+      "arcana": "minor",
+      "suit": "cups",
+      "number": 14,
+      "keywords": [
+        "Emotional balance",
+        "Generosity",
+        "Stability"
+      ],
+      "image": "king-of-cups.webp"
+    },
+    {
+      "id": "ace-of-wands",
+      "name": "Ace of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 1,
+      "keywords": [
+        "Inspiration",
+        "New opportunities",
+        "Potential"
+      ],
+      "image": "ace-of-wands.webp"
+    },
+    {
+      "id": "two-of-wands",
+      "name": "Two of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 2,
+      "keywords": [
+        "Future planning",
+        "Decisions",
+        "Discovery"
+      ],
+      "image": "two-of-wands.webp"
+    },
+    {
+      "id": "three-of-wands",
+      "name": "Three of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 3,
+      "keywords": [
+        "Progress",
+        "Expansion",
+        "Foresight"
+      ],
+      "image": "three-of-wands.webp"
+    },
+    {
+      "id": "four-of-wands",
+      "name": "Four of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 4,
+      "keywords": [
+        "Celebration",
+        "Harmony",
+        "Homecoming"
+      ],
+      "image": "four-of-wands.webp"
+    },
+    {
+      "id": "five-of-wands",
+      "name": "Five of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 5,
+      "keywords": [
+        "Conflict",
+        "Competition",
+        "Tension"
+      ],
+      "image": "five-of-wands.webp"
+    },
+    {
+      "id": "six-of-wands",
+      "name": "Six of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 6,
+      "keywords": [
+        "Success",
+        "Public recognition",
+        "Self-confidence"
+      ],
+      "image": "six-of-wands.webp"
+    },
+    {
+      "id": "seven-of-wands",
+      "name": "Seven of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 7,
+      "keywords": [
+        "Challenge",
+        "Protection",
+        "Perseverance"
+      ],
+      "image": "seven-of-wands.webp"
+    },
+    {
+      "id": "eight-of-wands",
+      "name": "Eight of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 8,
+      "keywords": [
+        "Movement",
+        "Fast-paced change",
+        "Action"
+      ],
+      "image": "eight-of-wands.webp"
+    },
+    {
+      "id": "nine-of-wands",
+      "name": "Nine of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 9,
+      "keywords": [
+        "Resilience",
+        "Persistence",
+        "Boundaries"
+      ],
+      "image": "nine-of-wands.webp"
+    },
+    {
+      "id": "ten-of-wands",
+      "name": "Ten of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 10,
+      "keywords": [
+        "Burden",
+        "Extra responsibility",
+        "Hard work"
+      ],
+      "image": "ten-of-wands.webp"
+    },
+    {
+      "id": "page-of-wands",
+      "name": "Page of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 11,
+      "keywords": [
+        "Inspiration",
+        "Discovery",
+        "Free spirit"
+      ],
+      "image": "page-of-wands.webp"
+    },
+    {
+      "id": "knight-of-wands",
+      "name": "Knight of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 12,
+      "keywords": [
+        "Energy",
+        "Unnamed fear",
+        "Potential"
+      ],
+      "image": "knight-of-wands.webp"
+    },
+    {
+      "id": "queen-of-wands",
+      "name": "Queen of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 13,
+      "keywords": [
+        "Courage",
+        "Confidence",
+        "Independence"
+      ],
+      "image": "queen-of-wands.webp"
+    },
+    {
+      "id": "king-of-wands",
+      "name": "King of Wands",
+      "arcana": "minor",
+      "suit": "wands",
+      "number": 14,
+      "keywords": [
+        "Natural leadership",
+        "Vision",
+        "Honour"
+      ],
+      "image": "king-of-wands.webp"
+    },
+    {
+      "id": "ace-of-swords",
+      "name": "Ace of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 1,
+      "keywords": [
+        "Breakthroughs",
+        "New ideas",
+        "Mental clarity"
+      ],
+      "image": "ace-of-swords.webp"
+    },
+    {
+      "id": "two-of-swords",
+      "name": "Two of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 2,
+      "keywords": [
+        "Difficult decisions",
+        "Confusion",
+        "Indecision"
+      ],
+      "image": "two-of-swords.webp"
+    },
+    {
+      "id": "three-of-swords",
+      "name": "Three of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 3,
+      "keywords": [
+        "Heartbreak",
+        "Sorrow",
+        "Grief"
+      ],
+      "image": "three-of-swords.webp"
+    },
+    {
+      "id": "four-of-swords",
+      "name": "Four of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 4,
+      "keywords": [
+        "Rest",
+        "Contemplation",
+        "Letting go"
+      ],
+      "image": "four-of-swords.webp"
+    },
+    {
+      "id": "five-of-swords",
+      "name": "Five of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 5,
+      "keywords": [
+        "Conflict",
+        "Defeat",
+        "Winning at all costs"
+      ],
+      "image": "five-of-swords.webp"
+    },
+    {
+      "id": "six-of-swords",
+      "name": "Six of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 6,
+      "keywords": [
+        "Transition",
+        "Rite of passage",
+        "Releasing baggage"
+      ],
+      "image": "six-of-swords.webp"
+    },
+    {
+      "id": "seven-of-swords",
+      "name": "Seven of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 7,
+      "keywords": [
+        "Betrayal",
+        "Deception",
+        "Acting strategically"
+      ],
+      "image": "seven-of-swords.webp"
+    },
+    {
+      "id": "eight-of-swords",
+      "name": "Eight of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 8,
+      "keywords": [
+        "Negative thoughts",
+        "Self-imposed restriction"
+      ],
+      "image": "eight-of-swords.webp"
+    },
+    {
+      "id": "nine-of-swords",
+      "name": "Nine of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 9,
+      "keywords": [
+        "Anxiety",
+        "Worry",
+        "Fear"
+      ],
+      "image": "nine-of-swords.webp"
+    },
+    {
+      "id": "ten-of-swords",
+      "name": "Ten of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 10,
+      "keywords": [
+        "Betrayal",
+        "Frustration",
+        "A painful ending"
+      ],
+      "image": "ten-of-swords.webp"
+    },
+    {
+      "id": "page-of-swords",
+      "name": "Page of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 11,
+      "keywords": [
+        "New ideas",
+        "Curiosity",
+        "Restlessness"
+      ],
+      "image": "page-of-swords.webp"
+    },
+    {
+      "id": "knight-of-swords",
+      "name": "Knight of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 12,
+      "keywords": [
+        "Ambition",
+        "Action",
+        "Fast thinking"
+      ],
+      "image": "knight-of-swords.webp"
+    },
+    {
+      "id": "queen-of-swords",
+      "name": "Queen of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 13,
+      "keywords": [
+        "Independence",
+        "Unbiased judgement",
+        "Clear boundaries"
+      ],
+      "image": "queen-of-swords.webp"
+    },
+    {
+      "id": "king-of-swords",
+      "name": "King of Swords",
+      "arcana": "minor",
+      "suit": "swords",
+      "number": 14,
+      "keywords": [
+        "Mental clarity",
+        "Intellectual power",
+        "Truth"
+      ],
+      "image": "king-of-swords.webp"
+    },
+    {
+      "id": "ace-of-pentacles",
+      "name": "Ace of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 1,
+      "keywords": [
+        "A new opportunity",
+        "Manifestation",
+        "Abundance"
+      ],
+      "image": "ace-of-pentacles.webp"
+    },
+    {
+      "id": "two-of-pentacles",
+      "name": "Two of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 2,
+      "keywords": [
+        "Multiple priorities",
+        "Prioritisation",
+        "Adaptability"
+      ],
+      "image": "two-of-pentacles.webp"
+    },
+    {
+      "id": "three-of-pentacles",
+      "name": "Three of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 3,
+      "keywords": [
+        "Teamwork",
+        "Collaboration",
+        "Learning"
+      ],
+      "image": "three-of-pentacles.webp"
+    },
+    {
+      "id": "four-of-pentacles",
+      "name": "Four of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 4,
+      "keywords": [
+        "Conservatism",
+        "Scarcity",
+        "Control"
+      ],
+      "image": "four-of-pentacles.webp"
+    },
+    {
+      "id": "five-of-pentacles",
+      "name": "Five of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 5,
+      "keywords": [
+        "Financial loss",
+        "A lack mindset",
+        "Isolation"
+      ],
+      "image": "five-of-pentacles.webp"
+    },
+    {
+      "id": "six-of-pentacles",
+      "name": "Six of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 6,
+      "keywords": [
+        "Giving",
+        "Receiving",
+        "Generosity"
+      ],
+      "image": "six-of-pentacles.webp"
+    },
+    {
+      "id": "seven-of-pentacles",
+      "name": "Seven of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 7,
+      "keywords": [
+        "The long-term view",
+        "Perseverance",
+        "Investment"
+      ],
+      "image": "seven-of-pentacles.webp"
+    },
+    {
+      "id": "eight-of-pentacles",
+      "name": "Eight of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 8,
+      "keywords": [
+        "Mastery",
+        "Skill development"
+      ],
+      "image": "eight-of-pentacles.webp"
+    },
+    {
+      "id": "nine-of-pentacles",
+      "name": "Nine of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 9,
+      "keywords": [
+        "Abundance",
+        "Self-sufficiency",
+        "Financial independence"
+      ],
+      "image": "nine-of-pentacles.webp"
+    },
+    {
+      "id": "ten-of-pentacles",
+      "name": "Ten of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 10,
+      "keywords": [
+        "Wealth",
+        "Family",
+        "Long-term success"
+      ],
+      "image": "ten-of-pentacles.webp"
+    },
+    {
+      "id": "page-of-pentacles",
+      "name": "Page of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 11,
+      "keywords": [
+        "Financial opportunity",
+        "Skill development",
+        "Growing up"
+      ],
+      "image": "page-of-pentacles.webp"
+    },
+    {
+      "id": "knight-of-pentacles",
+      "name": "Knight of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 12,
+      "keywords": [
+        "Hard work",
+        "Productivity",
+        "Routine"
+      ],
+      "image": "knight-of-pentacles.webp"
+    },
+    {
+      "id": "queen-of-pentacles",
+      "name": "Queen of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 13,
+      "keywords": [
+        "Nurturing",
+        "Practicality",
+        "Providing"
+      ],
+      "image": "queen-of-pentacles.webp"
+    },
+    {
+      "id": "king-of-pentacles",
+      "name": "King of Pentacles",
+      "arcana": "minor",
+      "suit": "pentacles",
+      "number": 14,
+      "keywords": [
+        "Abundance",
+        "Prosperity",
+        "Security"
+      ],
+      "image": "king-of-pentacles.webp"
+    }
+  ]
+}

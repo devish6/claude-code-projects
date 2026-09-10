@@ -1,0 +1,108 @@
+{
+  "_comment": "Dealt by scripts/draw-month.mjs. The nine cards are RANDOM — no card belongs to any Moolank, and no such rule may be stated or implied in the copy. Re-deal the seed through scripts/lib/draw.mjs to verify these are the cards it produces.",
+  "month": "september-2026",
+  "seed": "af84afd5653347ba69c0fabf33007ee8",
+  "drawnAt": "2026-09-10T14:16:51.953Z",
+  "deckSize": 78,
+  "cards": [
+    {
+      "moolank": 1,
+      "cardId": "king-of-swords",
+      "name": "King of Swords",
+      "keywords": [
+        "Mental clarity",
+        "Intellectual power",
+        "Truth"
+      ],
+      "image": "king-of-swords.webp"
+    },
+    {
+      "moolank": 2,
+      "cardId": "ten-of-wands",
+      "name": "Ten of Wands",
+      "keywords": [
+        "Burden",
+        "Extra responsibility",
+        "Hard work"
+      ],
+      "image": "ten-of-wands.webp"
+    },
+    {
+      "moolank": 3,
+      "cardId": "five-of-pentacles",
+      "name": "Five of Pentacles",
+      "keywords": [
+        "Financial loss",
+        "A lack mindset",
+        "Isolation"
+      ],
+      "image": "five-of-pentacles.webp"
+    },
+    {
+      "moolank": 4,
+      "cardId": "ace-of-pentacles",
+      "name": "Ace of Pentacles",
+      "keywords": [
+        "A new opportunity",
+        "Manifestation",
+        "Abundance"
+      ],
+      "image": "ace-of-pentacles.webp"
+    },
+    {
+      "moolank": 5,
+      "cardId": "king-of-cups",
+      "name": "King of Cups",
+      "keywords": [
+        "Emotional balance",
+        "Generosity",
+        "Stability"
+      ],
+      "image": "king-of-cups.webp"
+    },
+    {
+      "moolank": 6,
+      "cardId": "page-of-swords",
+      "name": "Page of Swords",
+      "keywords": [
+        "New ideas",
+        "Curiosity",
+        "Restlessness"
+      ],
+      "image": "page-of-swords.webp"
+    },
+    {
+      "moolank": 7,
+      "cardId": "knight-of-wands",
+      "name": "Knight of Wands",
+      "keywords": [
+        "Energy",
+        "Unnamed fear",
+        "Potential"
+      ],
+      "image": "knight-of-wands.webp"
+    },
+    {
+      "moolank": 8,
+      "cardId": "page-of-pentacles",
+      "name": "Page of Pentacles",
+      "keywords": [
+        "Financial opportunity",
+        "Skill development",
+        "Growing up"
+      ],
+      "image": "page-of-pentacles.webp"
+    },
+    {
+      "moolank": 9,
+      "cardId": "three-of-pentacles",
+      "name": "Three of Pentacles",
+      "keywords": [
+        "Teamwork",
+        "Collaboration",
+        "Learning"
+      ],
+      "image": "three-of-pentacles.webp"
+    }
+  ]
+}
