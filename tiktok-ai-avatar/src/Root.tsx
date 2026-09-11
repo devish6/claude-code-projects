@@ -57,6 +57,7 @@ import { V56_SCENES, V56_PAYOFF_INDEX } from "./viral/quiet/v56-everyone-comes-t
 import { V57_SCENES, V57_PAYOFF_INDEX } from "./viral/quiet/v57-seen-this-ending";
 import { V58_SCENES, V58_PAYOFF_INDEX } from "./viral/quiet/v58-who-you-used-to-be";
 import { V59_SCENES, V59_PAYOFF_INDEX } from "./viral/quiet/v59-made-your-peace";
+import { V60_SCENES, V60_PAYOFF_INDEX } from "./viral/quiet/v60-weather-there";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -654,6 +655,24 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             quietMetadata("Quiet-V59-Made-Your-Peace", V59_SCENES, V59_PAYOFF_INDEX)
+          }
+        />
+
+        {/* V60 — the first cut built after V59 killed the opening-surface lever
+            (IG: V58 246 was an outlier; V59 72 landed back in the 35-72 band).
+            Posted TikTok-first, where the quiet format holds 607-653 on five of
+            six cuts. Plates chosen for meaning: rain on glass for a weather
+            line, a doorway for the ask. `glass-a` repeats V58's opener two
+            posts back, which the recognition rule allows; `v60.test.ts`
+            asserts frame 0 differs from V59's. */}
+        <Composition
+          id="Quiet-V60-Weather-There"
+          component={QuietVideo}
+          defaultProps={{ scenes: V60_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            quietMetadata("Quiet-V60-Weather-There", V60_SCENES, V60_PAYOFF_INDEX)
           }
         />
       </Folder>
