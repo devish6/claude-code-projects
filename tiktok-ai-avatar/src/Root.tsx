@@ -60,6 +60,7 @@ import { V59_SCENES, V59_PAYOFF_INDEX } from "./viral/quiet/v59-made-your-peace"
 import { V60_SCENES, V60_PAYOFF_INDEX } from "./viral/quiet/v60-weather-there";
 import { SpokenVideo, spokenMetadata } from "./viral/spoken/SpokenVideo";
 import { V61_SCENES, V61_PAYOFF_INDEX } from "./viral/spoken/v61-read-the-letters";
+import { V62_SCENES, V62_PAYOFF_INDEX } from "./viral/spoken/v62-four-seconds";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -702,6 +703,21 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             spokenMetadata("Spoken-V61-Read-The-Letters", V61_SCENES, V61_PAYOFF_INDEX)
+          }
+        />
+        {/* V62 — the first spoken cut to carry a moolank. The number lands at
+            the TURN (index 3), never at frame 0: V44 opened number-first and its
+            1s hold halved. ⛔ It must never name 7's friendship row — see the
+            refusal inherited from BELIEF_CORRECTION_SEVEN, asserted as a
+            negative in v62.test.ts. */}
+        <Composition
+          id="Spoken-V62-Four-Seconds"
+          component={SpokenVideo}
+          defaultProps={{ scenes: V62_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            spokenMetadata("Spoken-V62-Four-Seconds", V62_SCENES, V62_PAYOFF_INDEX)
           }
         />
       </Folder>
