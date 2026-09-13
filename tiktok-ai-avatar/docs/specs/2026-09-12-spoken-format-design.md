@@ -416,6 +416,50 @@ still processing two days out; two of V55's three bars were unreadable at 5h).
 
 ---
 
+## 13. What changed during implementation — corrections to this spec
+
+Recorded rather than silently amended, because the wrong version is the
+plausible one.
+
+**§7's "brightest plate 145" was wrong, and so was its reasoning.** The figure
+was derived by checking cream ink only. Two things turned out differently:
+
+1. **The accent binds, not the ink** — cream clears 3.0:1 up to ~142 post-scrim,
+   the gold accent only to ~103. And the constraint is applied **band by band**,
+   not to the strip mean: `lamp-i` at a mean of 101.9 was inside its target and
+   still failed at **2.72:1** because one band measured ~128. It ships at
+   **89.56**.
+2. ⚠️ **The claim that a paler accent "fails `checkAccentContrast`'s 60-channel
+   distance" is FALSE** — asserted, not computed. `#FFD9A0` vs `#FFF6EA` is
+   **74** and passes. A lighter accent was always available.
+
+**The delivered ladder is therefore 84.1 / 70.8 / 56.8 / 46.2 / 41.5 / 53.0,
+span 42.6** — much narrower than V58's 101, as a direct consequence of capping
+the top plate for accent legibility. Stated plainly because it is a real
+regression against the quiet cuts' visual range, not a rounding difference.
+
+**`createTikTokStyleCaptions` could not be used for paging.** It groups purely by
+time and produced **three one-word orphan pages** on this cut's prose (scenes 0,
+3 and 4) — the `loud` register arriving by accident. Widening the window moved
+the orphans rather than removing them, and tuning a constant until a gate passes
+is forbidden here. `spoken/scenes.ts` therefore does its own clause-based paging
+with `mergeShortPages`, and `SpokenVideo` renders those pages directly:
+`TikTokCaptions` places each page at an absolute frame from `page.startMs`, so
+wrapping it per page would have double-offset the whole timeline.
+
+**`npm run kit` is not used.** No quiet cut is in `daily-state.json` — the check
+in §11 assumed otherwise. V55-V60's `POST BY HAND` folders were assembled by
+hand and V61's is too, which avoids the V13/V14 trap where a ledger row makes the
+exporter derive composition ids that do not exist.
+
+**A limitation of the page gates, named by the `qa` skill.** Every page gate
+calls `scenePageCaptions`, the same function the renderer uses. That prevents
+divergence, but it means the gates *cannot* catch the paging rule itself being
+wrong — they would agree with a broken pager. Only `qa:frame` across every frame
+and a person watching have authority over that.
+
+---
+
 *Related: `docs/v58-art-direction.md` (the ground generation method),
 `content/v54-measured.md` (TikTok as the primary platform), `content/angles.json`
 (angle statuses and their evidence), `src/viral/quiet/scenes.ts` (the format

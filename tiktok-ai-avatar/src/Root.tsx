@@ -58,6 +58,8 @@ import { V57_SCENES, V57_PAYOFF_INDEX } from "./viral/quiet/v57-seen-this-ending
 import { V58_SCENES, V58_PAYOFF_INDEX } from "./viral/quiet/v58-who-you-used-to-be";
 import { V59_SCENES, V59_PAYOFF_INDEX } from "./viral/quiet/v59-made-your-peace";
 import { V60_SCENES, V60_PAYOFF_INDEX } from "./viral/quiet/v60-weather-there";
+import { SpokenVideo, spokenMetadata } from "./viral/spoken/SpokenVideo";
+import { V61_SCENES, V61_PAYOFF_INDEX } from "./viral/spoken/v61-read-the-letters";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -673,6 +675,33 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             quietMetadata("Quiet-V60-Weather-There", V60_SCENES, V60_PAYOFF_INDEX)
+          }
+        />
+      </Folder>
+
+      {/* ⭐⭐⭐⭐ SPOKEN IS A THIRD FORMAT, NOT A QUIET EPISODE. The owner ruled
+          to change format on 2026-09-12 after V60 read 168 TikTok views at ~33h
+          against the quiet band of 607-653.
+          ⚠️ 168 is ~1σ on this account (σ log₁₀ views ≈ 0.6), and V56 had already
+          done 154 inside the quiet format — so this format exists because of a
+          DECISION, not because the measurement forced it. Do not cite V60's 168
+          as proof quiet broke. Spec: docs/specs/2026-09-12-spoken-format-design.md.
+
+          Its own folder, and it imports from quiet/ only the scrim/luminance
+          model: V43-V60 must keep rendering byte-for-byte as the account's only
+          controls. Prose is word-LIT here rather than held, in Inter at 74px
+          against quiet's static Cormorant at 100-132px, so frame 0 is a
+          different object. Locked to the phrase register — `checkPageRegister`
+          bans single-word pages, which this repo ruled against in writing. */}
+      <Folder name="Spoken">
+        <Composition
+          id="Spoken-V61-Read-The-Letters"
+          component={SpokenVideo}
+          defaultProps={{ scenes: V61_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            spokenMetadata("Spoken-V61-Read-The-Letters", V61_SCENES, V61_PAYOFF_INDEX)
           }
         />
       </Folder>
