@@ -61,6 +61,7 @@ import { V60_SCENES, V60_PAYOFF_INDEX } from "./viral/quiet/v60-weather-there";
 import { SpokenVideo, spokenMetadata } from "./viral/spoken/SpokenVideo";
 import { V61_SCENES, V61_PAYOFF_INDEX } from "./viral/spoken/v61-read-the-letters";
 import { V62_SCENES, V62_PAYOFF_INDEX } from "./viral/spoken/v62-four-seconds";
+import { V63_SCENES, V63_PAYOFF_INDEX } from "./viral/spoken/v63-laughed-first";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -718,6 +719,22 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             spokenMetadata("Spoken-V62-Four-Seconds", V62_SCENES, V62_PAYOFF_INDEX)
+          }
+        />
+        {/* V63 — the no-number control on this format. Built off the 2026-09-14
+            board read: every cut in the 615-653 band puts the viewer in a
+            MOMENT WITH A WITNESS, and both failures (V56 154, V60 168) describe
+            a standing role with nobody else in the frame. ⛔ No moolank on
+            purpose — V62 is the moolank arm and is hours old, so a number here
+            would leave nothing to compare it against. */}
+        <Composition
+          id="Spoken-V63-Laughed-First"
+          component={SpokenVideo}
+          defaultProps={{ scenes: V63_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            spokenMetadata("Spoken-V63-Laughed-First", V63_SCENES, V63_PAYOFF_INDEX)
           }
         />
       </Folder>
