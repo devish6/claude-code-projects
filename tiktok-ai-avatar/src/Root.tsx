@@ -62,6 +62,7 @@ import { SpokenVideo, spokenMetadata } from "./viral/spoken/SpokenVideo";
 import { V61_SCENES, V61_PAYOFF_INDEX } from "./viral/spoken/v61-read-the-letters";
 import { V62_SCENES, V62_PAYOFF_INDEX } from "./viral/spoken/v62-four-seconds";
 import { V63_SCENES, V63_PAYOFF_INDEX } from "./viral/spoken/v63-laughed-first";
+import { V64_SCENES, V64_PAYOFF_INDEX } from "./viral/spoken/v64-thanked-the-wrong-person";
 import { GroundCeiling, GROUND_CEILING_FRAMES } from "./internal/GroundCeiling";
 import { CaptionDemo, CAPTION_DEMO_FRAMES } from "./internal/CaptionDemo";
 import { CaptionsBehindSubject, BEHIND_SUBJECT_FRAMES } from "./internal/CaptionsBehindSubject";
@@ -735,6 +736,23 @@ export const RemotionRoot: React.FC = () => {
           height={1920}
           calculateMetadata={() =>
             spokenMetadata("Spoken-V63-Laughed-First", V63_SCENES, V63_PAYOFF_INDEX)
+          }
+        />
+        {/* V64 — the scene-not-a-state reading after it PASSED a prediction:
+            V62 cleared 400 in under 24h (455) and V63 opened ahead of both at
+            the same age. What this cut adds is the direction of the moment —
+            the witness ACTS and the viewer absorbs it, which is the shape of
+            every cut in the 615-653 band and the shape of V58's 0.471 skip,
+            the lowest this account has recorded. ⛔ No moolank: V62 is the
+            number arm at n=1 and this keeps it clean. */}
+        <Composition
+          id="Spoken-V64-Thanked-The-Wrong-Person"
+          component={SpokenVideo}
+          defaultProps={{ scenes: V64_SCENES }}
+          width={1080}
+          height={1920}
+          calculateMetadata={() =>
+            spokenMetadata("Spoken-V64-Thanked-The-Wrong-Person", V64_SCENES, V64_PAYOFF_INDEX)
           }
         />
       </Folder>
