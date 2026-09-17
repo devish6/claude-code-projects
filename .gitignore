@@ -46,3 +46,9 @@ tiktok-ai-avatar/logs/
 # persons cloned voice is far more useful for misuse than the mixed, compressed
 # copy that ends up inside a published reel.
 tiktok-ai-avatar/public/reels/
+
+# /brag render output. The skill writes its plan, composition, share copy and a
+# rendered brag.mp4 into the project directory it runs in, and video is exactly
+# the kind of large binary that has no business in a repo GitHub Pages serves.
+# Timestamped runs (brag-output-2026-09-17-143022/) are matched too.
+brag-output*/
