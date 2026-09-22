@@ -52,3 +52,9 @@ tiktok-ai-avatar/public/reels/
 # the kind of large binary that has no business in a repo GitHub Pages serves.
 # Timestamped runs (brag-output-2026-09-17-143022/) are matched too.
 brag-output*/
+
+# V67 typefield render artifacts (mp4 + copied audio bed) — source HTML is tracked
+v67-typefield/V67.mp4
+v67-typefield/V67-poster.jpg
+v67-typefield/frames/
+v67-typefield/composition/assets/

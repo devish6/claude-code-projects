@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V67 — The searches you deleted</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V67 — the TYPEFIELD format.
+         A deliberate break from every format this account has shipped:
+           · kinetic  = big serif bursts over gradients
+           · spoken   = word-lit serif prose over photographic plates
+           · brag     = warm serif + gold accent over a radial ground
+         This is NONE of those. It is a SCREEN AT NIGHT. Cold blue-black,
+         monospace in the field, sans everywhere else, a cyan caret.
+         No serif, no gold, no photograph. The subject is a UI, not a sentence.
+         Why: the account's two best IG numbers point opposite ways —
+         low skip comes from a private un-sayable moment (Sep 9, skip 0.469),
+         reach comes from MOTION (the /brag cuts, 277-286). Typing IS motion
+         that is also private. This format is built to hold both at once.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --bg:     #06080b;
+        --panel:  #0d1218;
+        --edge:   #1b242f;
+        --ink:    #e9eef4;
+        --dim:    #6d7b8a;
+        --caret:  #57d6c6;   /* cold cyan — never the gold of the old cuts */
+        --ghost:  #3a4550;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+
+      /* A cold screen-glow, top-weighted — the light a phone throws at 2am. */
+      .bg {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(100% 55% at 50% 30%, #101821 0%, #090d12 58%, #05070a 100%);
+      }
+      /* Faint horizontal scan bands. Keeps "empty" frames above the QA
+         stddev floor and reads as a screen rather than a page. */
+      .scan {
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(
+          to bottom, rgba(255,255,255,0.020) 0 2px, rgba(0,0,0,0) 2px 7px);
+      }
+
+      .clip {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        padding: 0 96px;
+        text-align: center;
+      }
+
+      /* ── the search field ───────────────────────────────────────── */
+      .field {
+        width: 100%;
+        background: var(--panel);
+        border: 2px solid var(--edge);
+        border-radius: 28px;
+        padding: 46px 52px;
+        display: flex; align-items: center; gap: 28px;
+        text-align: left;
+        box-shadow: 0 0 90px rgba(87,214,198,0.06);
+      }
+      .mag {
+        flex: 0 0 auto; width: 46px; height: 46px;
+        border: 5px solid var(--dim); border-radius: 50%;
+        position: relative;
+      }
+      .mag::after {
+        content: ""; position: absolute;
+        right: -16px; bottom: -12px;
+        width: 22px; height: 5px; border-radius: 3px;
+        background: var(--dim); transform: rotate(45deg);
+      }
+      .q {
+        flex: 1 1 auto;
+        font-family: ui-monospace, "SF Mono", Menlo, monospace;
+        font-size: 56px; line-height: 1.3;
+        letter-spacing: -1px;
+        white-space: pre-wrap; word-break: break-word;
+        min-height: 74px;
+      }
+      .caret {
+        display: inline-block;
+        width: 4px; height: 58px;
+        background: var(--caret);
+        vertical-align: -12px;
+        margin-left: 6px;
+      }
+
+      /* ── the ink lines ──────────────────────────────────────────── */
+      .line {
+        margin: 0;
+        font-size: 76px; line-height: 1.26;
+        letter-spacing: -1.5px; font-weight: 500;
+      }
+      .line.second { margin-top: 30px; color: var(--dim); font-size: 66px; }
+      .below { margin-top: 78px; }
+      .above { margin-bottom: 78px; }
+      .hi { color: var(--caret); white-space: nowrap; }  /* 🪤 nowrap — V60/V66 both broke an accent word across lines */
+
+      .label {
+        margin: 0 0 44px 0;
+        font-size: 34px; letter-spacing: 6px;
+        text-transform: uppercase; color: var(--dim);
+      }
+
+      /* ── the chart strip, scene 6 only ──────────────────────────── */
+      .chart { display: flex; gap: 26px; margin-top: 64px; }
+      .cell {
+        background: var(--panel); border: 2px solid var(--edge);
+        border-radius: 20px; padding: 30px 40px;
+        display: flex; flex-direction: column; align-items: center; gap: 14px;
+        min-width: 210px;
+      }
+      .cell .k { font-size: 28px; letter-spacing: 4px; text-transform: uppercase; color: var(--dim); }
+      .cell .v { font-family: ui-monospace, Menlo, monospace; font-size: 72px; line-height: 1; white-space: nowrap; }
+      .cell.lit .v { color: var(--caret); }
+      .mark {
+        margin-top: 76px; font-size: 52px;
+        letter-spacing: 3px; color: var(--ink);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="typefield"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="22.8">
+      <div class="bg"></div>
+      <div class="scan"></div>
+
+      <!-- The account's own quiet bed (sweetMemories), same level as V66. -->
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="22.8" data-volume="0.4"></audio>
+
+      <!-- 1 · HOOK. Frame 0 is a fully-lit field holding a COMPLETE query,
+             plus a complete sentence underneath. Never a fragment, never empty. -->
+      <section id="s1" class="clip" data-start="0" data-duration="3.4">
+        <div class="field">
+          <div class="mag"></div>
+          <div class="q" id="q1">why do i feel like this<span class="caret" id="c1"></span></div>
+        </div>
+        <p class="line below" id="l1">You deleted it before you pressed enter.</p>
+      </section>
+
+      <!-- 2 · The format reveals itself: three more, typed and erased.
+             The field and the label are lit at the cut; only the TEXT moves. -->
+      <section id="s2" class="clip" data-start="3.4" data-duration="6.2">
+        <p class="label">Searched, then cleared</p>
+        <div class="field">
+          <div class="mag"></div>
+          <div class="q" id="q2">am i the problem<span class="caret" id="c2"></span></div>
+        </div>
+        <p class="line below" id="l2">Four of them, this week.</p>
+      </section>
+
+      <!-- 3 · The sting. A wound, not an accusation — it does not absolve
+             the viewer and it does not blame them. -->
+      <section id="s3" class="clip" data-start="9.6" data-duration="3.2">
+        <div class="field">
+          <div class="mag"></div>
+          <div class="q" id="q3" style="color:var(--dim)">
+            <span style="opacity:0.55">Search</span><span class="caret" id="c3"></span></div>
+        </div>
+        <p class="line below" id="l3">That empty box is the only place</p>
+        <p class="line second" id="l3b">you have said it plainly all week.</p>
+      </section>
+
+      <!-- 4 · THE TURN. The hinge of the whole cut. -->
+      <section id="s4" class="clip" data-start="12.8" data-duration="3.4">
+        <p class="line" id="l4">A search bar forgets what you deleted.</p>
+        <p class="line second" id="l4b">You haven't.</p>
+      </section>
+
+      <!-- 5 · THE REFUSAL. A NEW consolation, refused. Makes no claim,
+             promises no outcome, and reframes what the product is for. -->
+      <section id="s5" class="clip" data-start="16.2" data-duration="3.6">
+        <p class="line" id="l5">I won't tell you the answer is in your chart.</p>
+        <p class="line second" id="l5b">It isn't. The <span class="hi">question</span> is.</p>
+      </section>
+
+      <!-- 6 · The product. ONCE, LAST, at 19.8s of 22.8s — the ad-tax rule.
+             The field finally holds something it does not delete. -->
+      <section id="s6" class="clip" data-start="19.8" data-duration="3.0">
+        <div class="field">
+          <div class="mag"></div>
+          <div class="q" id="q6">14 · 03 · 1994<span class="caret" id="c6"></span></div>
+        </div>
+        <!-- 14 Mar 1994: day 1+4=5 Driver. Whole date 1+4+0+3+1+9+9+4=31 -> 4 Conductor.
+             Grid carries 1,3,4,5,9, so the absent numbers are 2, 6, 7 and 8 — the same
+             chart the 17 Sep post published for this date. 🪤 The first render said
+             Conductor 3 / missing "2 6 7" and every gate passed it: nothing in the
+             pipeline checks arithmetic. Looking at the frame caught it. -->
+        <div class="chart">
+          <div class="cell"><span class="k">Driver</span><span class="v">5</span></div>
+          <div class="cell" id="cell2"><span class="k">Conductor</span><span class="v">4</span></div>
+          <div class="cell lit" id="cell3"><span class="k">Missing</span><span class="v">2 6 7 8</span></div>
+        </div>
+        <p class="mark" id="mark">numevix.com</p>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // Deterministic caret blink: steps(1) yoyo, evaluated identically on any seek.
+      gsap.utils.toArray([".caret"]).forEach((el) => {
+        tl.to(el, { opacity: 0, duration: 0.45, repeat: -1, yoyo: true, ease: "steps(1)" }, 0);
+      });
+
+      // A typing/erasing tween driven off the timeline, so a seek to frame N
+      // always reproduces the same string. No wall-clock, no setInterval.
+      function typeTo(el, str, at, dur) {
+        const o = { n: 0 };
+        tl.to(o, {
+          n: str.length, duration: dur, ease: "none",
+          onUpdate() { el.firstChild.nodeValue = str.slice(0, Math.round(o.n)); }
+        }, at);
+      }
+      function eraseFrom(el, str, at, dur) {
+        const o = { n: str.length };
+        tl.to(o, {
+          n: 0, duration: dur, ease: "none",
+          onUpdate() { el.firstChild.nodeValue = str.slice(0, Math.round(o.n)); }
+        }, at);
+      }
+
+      const q2 = document.getElementById("q2");
+      const A = "am i the problem";
+      const B = "is it too late to start over";
+      const C = "why does it keep happening";
+
+      // Scene 2 — the field is LIT at the cut holding A in full (cut rule:
+      // the leading element is never mid-animation on its own first frame).
+      eraseFrom(q2, A, 4.3, 0.55);
+      typeTo(q2,  B, 5.0, 1.15);
+      eraseFrom(q2, B, 6.5, 0.6);
+      typeTo(q2,  C, 7.2, 1.1);
+      eraseFrom(q2, C, 8.6, 0.6);
+
+      // 🪤 #l2 USED TO LAND AT 7.9s AND THAT WAS THE SAME DEFECT AS SCENE 6:
+      //    while the field is mid-erase it is genuinely empty, so frames
+      //    142-158 held nothing but a label and an outline — 17 frames under
+      //    the stddev floor. The line is now LIT AT THE CUT and captions the
+      //    whole sequence rather than arriving after it.
+
+      // 3 — second line lands on top of the first.
+      tl.fromTo("#l3b", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 10.6);
+      // 4 — the turn's payoff half.
+      tl.fromTo("#l4b", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 13.9);
+      // 5 — the refusal's second half.
+      tl.fromTo("#l5b", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 17.4);
+
+      // 6 — THE CUT RULE. The first render typed the date AFTER the cut, so
+      //     frames 594-616 held an empty outline: 22 frames under the stddev
+      //     floor, caught by the all-frames scan, not by the first-frame gate.
+      //     The field is now LIT WITH THE WHOLE DATE at its own frame 0 — which
+      //     is also the better read: this is the one thing that does not get
+      //     deleted, so watching it be typed again would undercut the beat.
+      //     Only the cells after the first, and the mark, land on top.
+      tl.fromTo(["#cell2", "#cell3"], { y: 18, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.16, ease: "power2.out" }, 20.25);
+      tl.fromTo("#mark", { opacity: 0 }, { opacity: 1, duration: 0.45 }, 21.25);
+
+      window.__timelines["typefield"] = tl;
+    </script>
+  </body>
+</html>
