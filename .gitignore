@@ -53,8 +53,11 @@ tiktok-ai-avatar/public/reels/
 # Timestamped runs (brag-output-2026-09-17-143022/) are matched too.
 brag-output*/
 
-# V67 typefield render artifacts (mp4 + copied audio bed) — source HTML is tracked
-v67-typefield/V67.mp4
-v67-typefield/V67-poster.jpg
-v67-typefield/frames/
-v67-typefield/composition/assets/
+# V67 typefield render artifacts — the composition HTML is tracked, the render is not.
+# 🪤 These patterns must carry the FULL path from the repo root: a pattern containing a
+# slash is anchored to the .gitignore's own directory, so "v67-typefield/V67.mp4" silently
+# matched nothing and the mp4 went public.
+tiktok-ai-avatar/v67-typefield/V67.mp4
+tiktok-ai-avatar/v67-typefield/V67-poster.jpg
+tiktok-ai-avatar/v67-typefield/frames/
+tiktok-ai-avatar/v67-typefield/composition/assets/
