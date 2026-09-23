@@ -61,3 +61,10 @@ tiktok-ai-avatar/v67-typefield/V67.mp4
 tiktok-ai-avatar/v67-typefield/V67-poster.jpg
 tiktok-ai-avatar/v67-typefield/frames/
 tiktok-ai-avatar/v67-typefield/composition/assets/
+
+# V68 receipt — render output and the copied music bed. Same anchoring rule as
+# V67: paths are from the repo root, not the video directory.
+tiktok-ai-avatar/v68-receipt/V68.mp4
+tiktok-ai-avatar/v68-receipt/V68-poster.jpg
+tiktok-ai-avatar/v68-receipt/frames/
+tiktok-ai-avatar/v68-receipt/composition/assets/

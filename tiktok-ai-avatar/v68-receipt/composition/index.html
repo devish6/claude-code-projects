@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V68 — The receipt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- 🪤 THE FIRST RENDER HAD NO MONOSPACE AT ALL. `ui-monospace` is a
+         system keyword and the headless Chrome the renderer uses resolves it
+         to a sans — so the whole receipt identity silently became a poster.
+         Every gate passed it. LOOKING at frame 0 caught it. Pin a real face. -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V68 — the RECEIPT format. A FIFTH format, and the first one
+         that is not a dark plate.
+
+           · kinetic  = big serif bursts over gradients        (dark)
+           · spoken   = word-lit serif prose over photo plates (dark)
+           · brag     = warm serif + gold over a radial ground (dark)
+           · typefield= cold mono UI, cyan caret               (dark)
+           · RECEIPT  = a WHITE PAPER OBJECT on a dark counter
+
+         Why white, and why now. Windsor, last 30d on IG:
+           reach   — product demo 286, name-correction 278, 09-09 223,
+                     typefield 214. All four MOVE and all four show a
+                     MECHANISM the viewer can check against themselves.
+           shares  — the 09-10 grief cut took 11 shares against a base
+                     of 1-3. Highest interactions in the window (29) on
+                     only 71 reach. Sendability is a separate axis from
+                     reach, and it comes from the private/un-sayable.
+           skip    — best is 0.462 / 0.469, and BOTH sit at 39 and 223
+                     reach. Retention does not buy reach on IG.
+
+         So: the reach lever is a visible mechanism, the share lever is
+         a private sentence. This format runs arithmetic the viewer can
+         do on their own date (mechanism) and lands on a line about what
+         they were never handed (private). And every single post this
+         account has ever made is dark — a bright white object in a dark
+         feed is the cheapest first-second interrupt available to us.
+
+         🪤 QA: MIN_MEAN 12 / MIN_STDDEV 18. A full-bleed white page with
+         sparse text would sit at high mean and LOW stddev. Keeping the
+         paper as a 720px STRIP on a near-black counter puts a hard
+         luminance edge in every frame, so no frame can fall under the
+         floor no matter how little copy it holds.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --counter-a: #14120f;   /* near-black counter, warm not blue */
+        --counter-b: #080706;
+        --paper:     #f6f3ea;   /* thermal off-white */
+        --paper-b:   #e8e4d8;   /* the shaded edge of the roll */
+        --ink:       #17140f;   /* printer black, never pure #000 */
+        --ink-dim:   #6f6a5e;   /* the grey of a tired print head */
+        --stamp:     #b4261a;   /* the ONE accent. Not gold (old cuts),
+                                   not cyan (typefield). A red stamp. */
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--counter-a);
+        color: var(--ink);
+        font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+        -webkit-font-smoothing: antialiased;
+      }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+
+      /* The counter the receipt is lying on. A single soft pool of light
+         from above-left, so the paper has somewhere to be. */
+      .counter {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(75% 45% at 42% 30%, #221f1a 0%, #131110 55%, var(--counter-b) 100%);
+      }
+
+      /* ── the paper strip ────────────────────────────────────────── */
+      .strip {
+        position: absolute;
+        left: 50%; top: 0;
+        width: 720px; height: 1920px;
+        transform: translateX(-50%);
+        background:
+          linear-gradient(90deg,
+            var(--paper-b) 0px, var(--paper) 26px,
+            var(--paper) 694px, var(--paper-b) 720px);
+        box-shadow: 0 0 120px rgba(0,0,0,0.75), 0 0 0 1px rgba(0,0,0,0.35);
+      }
+      /* Thermal grain. Holds texture on the emptiest frames. */
+      .grain {
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(
+          to bottom, rgba(23,20,15,0.045) 0 1px, rgba(0,0,0,0) 1px 4px);
+        opacity: 0.85;
+      }
+      /* Torn perforation, top and bottom — the roll runs off frame. */
+      .perf { position: absolute; left: 0; right: 0; height: 22px; }
+      .perf.top { top: 0; }
+      .perf.bot { bottom: 0; }
+      .perf::before {
+        content: ""; position: absolute; inset: 0;
+        background:
+          repeating-linear-gradient(90deg,
+            var(--counter-b) 0 9px, rgba(0,0,0,0) 9px 22px);
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+                mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+      }
+      .perf.bot::before {
+        -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+                mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+      }
+
+      .clip {
+        position: absolute;
+        left: 50%; top: 250px;
+        width: 720px; height: 1180px;
+        transform: translateX(-50%);
+        padding: 0 58px;
+        display: flex; flex-direction: column; justify-content: center;
+      }
+
+      /* ── PERSISTENT PRINTED CHROME ───────────────────────────────
+         The first render left ~1100px of bare paper above and below the
+         copy, which read as a poster with a white background rather than
+         as a receipt. A masthead and a footer that never cut give the
+         live area edges to sit between — and they are the only two places
+         the brand is allowed to speak before the payoff. */
+      .fixed {
+        position: absolute; left: 50%; width: 720px;
+        transform: translateX(-50%);
+        padding: 0 58px; text-align: center;
+      }
+      .fixed.top { top: 96px; }
+      .fixed.bottom { bottom: 96px; }
+      .wordmark {
+        margin: 0; font-size: 46px; font-weight: 700;
+        letter-spacing: 20px; text-indent: 20px;
+      }
+      .sub {
+        margin: 14px 0 0 0; font-size: 24px; letter-spacing: 7px;
+        text-transform: uppercase; color: var(--ink-dim);
+      }
+      .foot {
+        margin: 0; font-size: 24px; letter-spacing: 6px;
+        text-transform: uppercase; color: var(--ink-dim); line-height: 1.7;
+      }
+
+      /* ── receipt typography ─────────────────────────────────────── */
+      .head {
+        text-align: center; font-size: 30px; letter-spacing: 10px;
+        text-transform: uppercase; color: var(--ink-dim);
+        margin: 0 0 12px 0;
+      }
+      .rule {
+        border: 0; border-top: 3px dashed rgba(23,20,15,0.38);
+        margin: 26px 0;
+      }
+      .rule.solid { border-top: 3px solid rgba(23,20,15,0.55); border-style: solid; }
+
+      .say {
+        margin: 0; font-size: 44px; line-height: 1.4;
+        letter-spacing: -1px; font-weight: 700;
+      }
+      .say.two { margin-top: 26px; color: var(--ink-dim); font-size: 39px; }
+      .stamp { color: var(--stamp); white-space: nowrap; }  /* 🪤 nowrap — V60 and V66 both broke an accent word across lines */
+
+      /* a printed line item: label · dot leader · value */
+      .item {
+        display: flex; align-items: baseline;
+        font-size: 44px; line-height: 1.78; font-weight: 700;
+      }
+      .item .k { flex: 0 0 auto; letter-spacing: 6px; }
+      .item .dots {
+        flex: 1 1 auto; margin: 0 16px;
+        border-bottom: 3px dotted rgba(23,20,15,0.3);
+        transform: translateY(-10px);
+      }
+      .item .v { flex: 0 0 auto; font-variant-numeric: tabular-nums; }
+      .item.zero .k, .item.zero .v { color: var(--ink-dim); }
+      .item.tot { font-size: 46px; }
+      .item.tot .v { color: var(--stamp); }
+      .item.miss .k, .item.miss .v { color: var(--stamp); }
+      .item.miss .v { letter-spacing: 12px; }
+
+      .cap {
+        margin: 30px 0 0 0; font-size: 34px; line-height: 1.5;
+        color: var(--ink-dim); letter-spacing: -0.5px;
+      }
+      .big {
+        margin: 0; text-align: center;
+        font-size: 100px; letter-spacing: 6px; font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      .big.red { color: var(--stamp); letter-spacing: 26px; }
+
+      /* the footer barcode — printed, never decorative */
+      .code {
+        display: flex; gap: 5px; justify-content: center;
+        height: 96px; margin: 34px 0 18px 0;
+      }
+      .code i { display: block; background: var(--ink); border-radius: 1px; }
+      .mark {
+        margin: 0; text-align: center;
+        font-size: 40px; letter-spacing: 3px; font-weight: 700;
+      }
+      .mark small {
+        display: block; margin-top: 14px;
+        font-size: 28px; letter-spacing: 4px; font-weight: 400;
+        color: var(--ink-dim); text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="receipt"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="24.0">
+      <div class="counter"></div>
+
+      <!-- 🆕 A BED THIS ACCOUNT HAS NEVER POSTED. Every cut since V61 has
+           run on sweetMemories (2.mp3) — warm, legato, a piano. That bed
+           is the sound of the spoken format and it would fight a machine
+           putting ink on paper. quartz-v20 is dry and ticking; it was
+           generated for the kinetic era on 1 Aug and never shipped. -->
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="24.0" data-volume="0.34"></audio>
+
+      <!-- The paper is PERSISTENT chrome: it never cuts, so every frame
+           carries the same hard luminance edge and the object stays real
+           across the scene boundaries. Only what is printed on it cuts. -->
+      <div class="strip" id="strip">
+        <div class="grain"></div>
+        <div class="perf top"></div>
+        <div class="perf bot"></div>
+      </div>
+
+      <div class="fixed top">
+        <p class="wordmark">NUMEVIX</p>
+        <p class="sub">Vedic numerology</p>
+        <hr class="rule" />
+      </div>
+      <div class="fixed bottom">
+        <hr class="rule" />
+        <p class="foot">Not a horoscope<br />A reading</p>
+      </div>
+
+      <!-- 1 · HOOK. A claim that is arithmetic, not opinion — the viewer
+             can disprove it in four seconds with their own date, and
+             cannot. Lit in full at frame 0 (poster frame). -->
+      <section id="s1" class="clip" data-start="0" data-duration="3.6">
+        <p class="head">Itemised chart</p>
+        <hr class="rule" />
+        <p class="say">No birth date on earth contains all nine numbers.</p>
+        <p class="say two" id="l1b">Not one. Yours included.</p>
+      </section>
+
+      <!-- 2 · THE MECHANISM. Eight digits print as line items with a
+             running subtotal. This is the reach lever: the viewer does
+             the arithmetic on their own date while it runs. -->
+      <section id="s2" class="clip" data-start="3.6" data-duration="6.4">
+        <p class="head">26 · 08 · 1993</p>
+        <hr class="rule" />
+        <div class="item"          ><span class="k">2</span><span class="dots"></span><span class="v" id="r1">2</span></div>
+        <div class="item"      id="i2"><span class="k">6</span><span class="dots"></span><span class="v" id="r2">8</span></div>
+        <div class="item zero" id="i3"><span class="k">0</span><span class="dots"></span><span class="v" id="r3">8</span></div>
+        <div class="item"      id="i4"><span class="k">8</span><span class="dots"></span><span class="v" id="r4">16</span></div>
+        <div class="item"      id="i5"><span class="k">1</span><span class="dots"></span><span class="v" id="r5">17</span></div>
+        <div class="item"      id="i6"><span class="k">9</span><span class="dots"></span><span class="v" id="r6">26</span></div>
+        <div class="item"      id="i7"><span class="k">9</span><span class="dots"></span><span class="v" id="r7">35</span></div>
+        <div class="item"      id="i8"><span class="k">3</span><span class="dots"></span><span class="v" id="r8">38</span></div>
+        <hr class="rule solid" />
+        <p class="cap" id="c2">Eight digits. That is the whole allowance.</p>
+      </section>
+
+      <!-- 3 · The totals. Driver 26 -> 8. Conductor 38 -> 11 -> 2.
+             Arithmetic checked by hand AND by the test beside this file:
+             🔴 NOTHING IN THE PIPELINE GATES ARITHMETIC. V67 shipped a
+             Conductor of 3 for a date that was 4 and every gate passed. -->
+      <section id="s3" class="clip" data-start="10.0" data-duration="3.4">
+        <p class="head">Totals</p>
+        <hr class="rule" />
+        <div class="item tot"><span class="k">DRIVER</span><span class="dots"></span><span class="v">8</span></div>
+        <div class="item tot" id="t2"><span class="k">CONDUCTOR</span><span class="dots"></span><span class="v">2</span></div>
+        <hr class="rule" />
+        <p class="cap" id="c3">The two numbers every free reading gives you.</p>
+      </section>
+
+      <!-- 4 · THE TURN. The receipt's real subject: the line that is not
+             on it. Present digits are 1 2 3 6 8 9 — so 4, 5 and 7 are
+             absent from this chart. -->
+      <section id="s4" class="clip" data-start="13.4" data-duration="3.8">
+        <hr class="rule" />
+        <p class="head" style="color:var(--stamp)">Not on this receipt</p>
+        <p class="big red" id="miss">4&nbsp;&nbsp;5&nbsp;&nbsp;7</p>
+        <hr class="rule" />
+        <p class="cap" id="c4">Rahu. Mercury. Ketu. Never issued.</p>
+      </section>
+
+      <!-- 5 · THE REFUSAL. The account's spine: refuse the consolation,
+             and refuse the verdict. ⛔ A missing number must NOT be read
+             back to the viewer as a deficiency — the refusal here is the
+             arithmetic itself, which is why it is honest and not comfort. -->
+      <section id="s5" class="clip" data-start="17.2" data-duration="4.0">
+        <p class="say">I won't tell you what's missing is what's wrong with you.</p>
+        <p class="say two" id="l5b">Eight digits cannot hold nine numbers. <span class="stamp">Every</span> receipt is short.</p>
+      </section>
+
+      <!-- 6 · The product. ONCE, LAST, at 21.2s of 24.0s — the ad-tax rule
+             (V65 confirmed it at n=2: product LAST and ONCE). -->
+      <section id="s6" class="clip" data-start="21.2" data-duration="2.8">
+        <hr class="rule" />
+        <div class="code" id="code"></div>
+        <p class="mark">numevix.com<small>Your own receipt · free</small></p>
+        <hr class="rule" />
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      /* ── Print-head jitter ──────────────────────────────────────────
+         Real thermal paper walks a pixel as it feeds. Driven off the
+         timeline via a proxy object, NOT wall-clock or Math.random, so a
+         seek to frame N always reproduces the same offset. */
+      const jit = { t: 0 };
+      const strip = document.getElementById("strip");
+      tl.to(jit, {
+        t: 24, duration: 24, ease: "none",
+        onUpdate() {
+          const x = Math.sin(jit.t * 37.0) * 1.1;
+          const y = Math.sin(jit.t * 23.0) * 0.9;
+          strip.style.transform =
+            "translateX(-50%) translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px)";
+        }
+      }, 0);
+
+      /* A printed element STAMPS — it does not fade. 0.11s, scale 1.03 -> 1,
+         no blur, no drift. Softness would read as a slideshow; the whole
+         point of this format is that a machine is putting ink down. */
+      function stamp(sel, at, stagger) {
+        tl.fromTo(sel,
+          { opacity: 0, scale: 1.03 },
+          { opacity: 1, scale: 1, duration: 0.11, ease: "power1.out",
+            stagger: stagger || 0, transformOrigin: "left center" },
+          at);
+      }
+
+      /* ── Scene 1 ────────────────────────────────────────────────────
+         ⭐ CUT RULE (V66): every scene is LIT ON ITS FIRST FRAME. The
+         claim is fully printed at frame 0 — which is also the poster
+         frame — and only the second line lands on top of it. */
+      stamp("#l1b", 2.1);
+
+      /* ── Scene 2 · the itemisation ──────────────────────────────────
+         Row 1 is lit at the cut. Rows 2-8 print on a steady 0.52s beat,
+         so the running subtotal ticks at a machine's pace rather than a
+         designer's. Last row lands at 3.6 + 0.30 + 6*0.52 = 7.02s,
+         leaving 2.9s to read the total before the cut. */
+      for (let i = 2; i <= 8; i++) {
+        stamp("#i" + i, 3.6 + 0.30 + (i - 2) * 0.52);
+      }
+      stamp("#c2", 7.6);
+
+      /* ── Scene 3 ──────────────────────────────────────────────────── */
+      stamp("#t2", 10.55);
+      stamp("#c3", 11.5);
+
+      /* ── Scene 4 · THE TURN ─────────────────────────────────────────
+         The missing numbers are the hinge, so they arrive on the cut,
+         not after it. Only the gloss underneath lands late. */
+      stamp("#c4", 14.9);
+
+      /* ── Scene 5 · the refusal ──────────────────────────────────────
+         🪤 V61: paging a line on its own left it stranded on screen. The
+         first half stays lit while the second half lands under it. */
+      stamp("#l5b", 18.5);
+
+      /* ── Scene 6 · barcode ──────────────────────────────────────────
+         Deterministic bar widths — a fixed pattern, not a random one, so
+         two renders of this composition are byte-comparable. */
+      const bars = [6,3,10,4,3,8,5,12,3,6,4,9,3,5,11,4,7,3,6,10,4,3,8,5,9,3,6,4,11,5];
+      const code = document.getElementById("code");
+      bars.forEach((w) => {
+        const b = document.createElement("i");
+        b.style.width = w + "px";
+        code.appendChild(b);
+      });
+      /* The bars are lit at the cut (scene 6 frame 0 must not be bare);
+         only the wordmark lands on top. */
+      stamp(".mark", 21.95);
+
+      window.__timelines["receipt"] = tl;
+    </script>
+  </body>
+</html>
