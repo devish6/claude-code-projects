@@ -72,8 +72,58 @@
       .counter {
         position: absolute; inset: 0;
         background:
-          radial-gradient(75% 45% at 42% 30%, #221f1a 0%, #131110 55%, var(--counter-b) 100%);
+          radial-gradient(75% 45% at 42% 30%, #241f19 0%, #131009 55%, var(--counter-b) 100%);
       }
+      /* 🪤 THE SIDES RENDERED AS DEAD BLACK. 180px of pure void either side of
+         the paper is not a counter, it is a letterbox — and on a phone it reads
+         as a badly exported video rather than as a room. The surface now has
+         a brushed grain and the paper casts into it. */
+      .counter-grain {
+        position: absolute; inset: 0;
+        background:
+          repeating-linear-gradient(
+            96deg,
+            rgba(255,246,228,0.016) 0 2px,
+            rgba(0,0,0,0) 2px 9px),
+          repeating-linear-gradient(
+            4deg,
+            rgba(0,0,0,0.30) 0 1px,
+            rgba(0,0,0,0) 1px 26px);
+      }
+      .vignette {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(62% 46% at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 72%, rgba(0,0,0,0.88) 100%);
+      }
+      /* The pool of light the paper is lying in, thrown past its edges. */
+      .spill {
+        position: absolute; left: 50%; top: 0;
+        width: 1180px; height: 1920px;
+        transform: translateX(-50%);
+        background:
+          radial-gradient(46% 38% at 50% 34%, rgba(255,240,214,0.10) 0%, rgba(255,240,214,0) 72%);
+      }
+
+      /* ── THE ROOM: other people's receipts ───────────────────────────────
+         Not decoration. The whole claim of the cut is that EVERY date is
+         short of something, so the counter is covered in other charts —
+         cropped by the frame, out of the light, none of them readable.
+         🪤 No text nodes inside a stub: a dimmed stub would fail the AA
+         contrast check on copy nobody is meant to read anyway. Dotted rules
+         and ink blocks carry the "printed" read without any text. */
+      .stub {
+        position: absolute;
+        background: linear-gradient(90deg, #cfcabb 0, #e6e1d3 18px, #e6e1d3 calc(100% - 18px), #cfcabb 100%);
+        box-shadow: 0 18px 46px rgba(0,0,0,0.66);
+        padding: 30px 26px;
+        display: flex; flex-direction: column; gap: 22px;
+        filter: brightness(0.13) saturate(0.55) blur(3.5px);
+      }
+      .stub .r { height: 0; border-top: 3px dashed rgba(23,20,15,0.55); }
+      .stub .b { height: 15px; background: rgba(23,20,15,0.58); border-radius: 2px; }
+      .stub .b.s { width: 42%; }
+      .stub .b.m { width: 68%; }
+      .stub .b.l { width: 88%; }
 
       /* ── the paper strip ────────────────────────────────────────── */
       .strip {
@@ -217,6 +267,21 @@
          data-start="0" data-width="1080" data-height="1920"
          data-duration="24.0">
       <div class="counter"></div>
+      <div class="counter-grain"></div>
+
+      <!-- Other charts on the same counter. Every one of them is short of
+           something too — that is the point of the cut, said in the set
+           dressing rather than in a line of copy. Static: the receipt being
+           printed is the only thing in the room that moves. -->
+      <div class="stub" style="left:-166px;  top:118px;  width:420px; height:560px; transform:rotate(-7deg);"><div class="b l"></div><div class="r"></div><div class="b m"></div><div class="b s"></div><div class="r"></div><div class="b l"></div><div class="b m"></div></div>
+      <div class="stub" style="left:-208px;  top:812px;  width:448px; height:640px; transform:rotate(5deg);"><div class="b m"></div><div class="r"></div><div class="b l"></div><div class="b s"></div><div class="r"></div><div class="b m"></div><div class="b l"></div><div class="b s"></div></div>
+      <div class="stub" style="left:-150px;  top:1522px; width:404px; height:520px; transform:rotate(-3deg);"><div class="b s"></div><div class="r"></div><div class="b l"></div><div class="b m"></div></div>
+      <div class="stub" style="right:-178px; top:-46px;  width:432px; height:604px; transform:rotate(6deg);"><div class="b m"></div><div class="r"></div><div class="b l"></div><div class="b s"></div><div class="r"></div><div class="b m"></div><div class="b l"></div></div>
+      <div class="stub" style="right:-214px; top:690px;  width:456px; height:672px; transform:rotate(-5deg);"><div class="b l"></div><div class="b s"></div><div class="r"></div><div class="b m"></div><div class="b l"></div><div class="r"></div><div class="b s"></div><div class="b m"></div></div>
+      <div class="stub" style="right:-158px; top:1440px; width:420px; height:560px; transform:rotate(4deg);"><div class="b m"></div><div class="r"></div><div class="b s"></div><div class="b l"></div><div class="r"></div><div class="b m"></div></div>
+
+      <div class="vignette"></div>
+      <div class="spill"></div>
 
       <!-- 🆕 A BED THIS ACCOUNT HAS NEVER POSTED. Every cut since V61 has
            run on sweetMemories (2.mp3) — warm, legato, a piano. That bed
