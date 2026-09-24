@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V69 — Departures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter+Tight:wght@500;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V69 — the DEPARTURES format. A SIXTH format.
+
+         An airport split-flap board on a daylit concrete terminal wall,
+         under a black-on-yellow wayfinding sign. No serif, no gold, no
+         receipt paper, no caret, no photo plate.
+
+         Why, off 2026-09-24 data:
+           TikTok  — the two cuts that showed SOMEONE ELSE'S chart (V68
+                     receipt 198, product demo 407) took ONE like each.
+                     The cuts that made the viewer do something to their
+                     OWN thing took 17-20 (typefield 18, LIVE50 20, name
+                     correction 17).
+           IG      — reach still follows visible motion + a check you can
+                     run on yourself (product 287, name 279, typefield 229).
+         So: no example chart. Nine rows, one of them is the viewer's,
+         and they find it with their own date in their head. The board
+         moves on frame 0 (reach) and the ask is "which row?" (comments).
+
+         Personal Year = birth day + birth month + current year, added
+         to one digit. Statuses are the traditional reading of each
+         year's ruling planet, phrased as a gate, never as a verdict.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --wall-a: #e4dfd5;
+        --wall-b: #b9b2a4;
+        --sign:   #f5c400;   /* wayfinding yellow — the ONE accent */
+        --ink:    #121212;
+        --board:  #1a1b1d;
+        --flap:   #26282b;
+        --flap-b: #1c1d20;
+        --char:   #f1efe8;
+        --dim:    #8a8a86;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--wall-a);
+        color: var(--ink);
+        font-family: "Inter Tight", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+
+      /* Daylit concrete: a skylight falling from top-right, formwork seams. */
+      .wall {
+        position: absolute; inset: 0;
+        background:
+          repeating-linear-gradient(0deg, transparent 0 318px, rgba(0,0,0,0.06) 318px 320px),
+          repeating-linear-gradient(90deg, transparent 0 358px, rgba(0,0,0,0.05) 358px 360px),
+          radial-gradient(90% 60% at 80% 8%, #f3efe7 0%, var(--wall-a) 45%, var(--wall-b) 100%);
+      }
+
+      .sign {
+        position: absolute; left: 0; right: 0; top: 96px; height: 120px;
+        background: var(--sign);
+        display: flex; align-items: center; gap: 28px; padding: 0 56px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      }
+      .sign .glyph {
+        width: 80px; height: 80px; background: var(--ink); border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .sign .word { font-weight: 800; font-size: 64px; letter-spacing: 1px; }
+      .sign .yr { margin-left: auto; font-weight: 700; font-size: 56px; }
+
+      .head {
+        position: absolute; left: 56px; right: 56px; top: 246px;
+        font-weight: 800; font-size: 92px; line-height: 1; letter-spacing: -2px;
+      }
+
+      .board {
+        position: absolute; left: 22px; right: 22px; top: 372px; height: 1110px;
+        background: var(--board); border-radius: 14px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.35), inset 0 0 0 3px #0c0c0d;
+        padding: 18px 20px;
+      }
+      .cols {
+        display: flex; gap: 30px; height: 40px; align-items: center;
+        font-family: "Barlow Condensed", sans-serif; font-weight: 600;
+        font-size: 26px; letter-spacing: 3px; color: var(--dim);
+      }
+      .row {
+        display: flex; gap: 30px; height: 112px; align-items: center;
+        border-top: 2px solid #0e0e10; position: relative;
+      }
+      .row.on::before {
+        content: ""; position: absolute; inset: 4px -12px; border-radius: 8px;
+        border: 5px solid var(--sign);
+        box-shadow: 0 0 34px rgba(245,196,0,0.45);
+      }
+      .grp { display: flex; gap: 3px; }
+      .cell {
+        width: 40px; height: 84px; position: relative;
+        background: linear-gradient(180deg, var(--flap) 0 49%, #0b0b0c 49% 51%, var(--flap-b) 51% 100%);
+        border-radius: 4px;
+        font-family: "Barlow Condensed", sans-serif; font-weight: 600;
+        font-size: 64px; line-height: 84px; text-align: center; color: var(--char);
+      }
+      .grp.num .cell { width: 72px; font-size: 76px; font-weight: 700; }
+      .row.on .grp.num .cell { background: var(--sign); color: var(--ink); }
+      .row.on .grp.st .cell { color: var(--sign); }
+
+      .cap {
+        position: absolute; left: 56px; right: 56px; top: 1530px;
+        font-weight: 700; font-size: 58px; line-height: 1.12; letter-spacing: -0.5px;
+      }
+      .cap .sub { display: block; font-weight: 500; font-size: 40px; margin-top: 18px; color: #3a3833; }
+      .cap .math { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 64px; letter-spacing: 0; white-space: nowrap; }
+      .foot {
+        position: absolute; left: 56px; right: 56px; bottom: 70px;
+        font-weight: 700; font-size: 36px; color: #2a2824;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="departures"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="24.0">
+
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="24.0" data-volume="0.36"></audio>
+
+      <div class="wall"></div>
+
+      <div class="sign">
+        <div class="glyph">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="#f5c400"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
+        </div>
+        <div class="word">Departures</div>
+        <div class="yr">2026</div>
+      </div>
+
+      <div class="head" id="head">Find your row.</div>
+
+      <div class="board" id="board">
+        <div class="cols"><span style="width:72px">YEAR</span><span style="width:298px">RULED BY</span><span>STATUS</span></div>
+      </div>
+
+      <div class="cap" id="cap"></div>
+      <div class="foot" id="foot"></div>
+    </div>
+
+    <script>
+      const ROWS = [
+        ["1", "SUN",     "NOW BOARDING"],
+        ["2", "MOON",    "CONNECTING"],
+        ["3", "JUPITER", "GATE OPEN"],
+        ["4", "RAHU",    "REROUTED"],
+        ["5", "MERCURY", "GATE CHANGE"],
+        ["6", "VENUS",   "ARRIVING HOME"],
+        ["7", "KETU",    "LAYOVER"],
+        ["8", "SATURN",  "DELAYED"],
+        ["9", "MARS",    "FINAL CALL"],
+      ];
+      const GLOSS = [
+        ["A start.", "Something new wants your name on it."],
+        ["Patience, and people.", "Not everything moves on your clock."],
+        ["Growth.", "Someone is teaching you something."],
+        ["The plan changed", "without asking you."],
+        ["Movement.", "A fast decision, a move, a trip."],
+        ["Home, family, love", "taking up more of the room."],
+        ["A pause to look inward.", "Quiet is not empty."],
+        ["Slow, heavy, earned.", "Every step costs more than it did."],
+        ["An ending.", "Something closes so the next can start."],
+      ];
+      const W = [1, 7, 13];
+      const FLAPS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+      /* Build the cells once; render(t) only ever sets their text. */
+      const board = document.getElementById("board");
+      const cells = ROWS.map((r, ri) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        const groups = W.map((n, gi) => {
+          const g = document.createElement("div");
+          g.className = "grp " + ["num", "pl", "st"][gi];
+          const cs = [];
+          for (let i = 0; i < n; i++) {
+            const c = document.createElement("div");
+            c.className = "cell";
+            g.appendChild(c); cs.push(c);
+          }
+          row.appendChild(g);
+          return cs;
+        });
+        board.appendChild(row);
+        return { row, groups };
+      });
+
+      function hash(a, b, c) {
+        let h = (a * 73856093) ^ (b * 19349663) ^ (c * 83492791);
+        h = (h ^ (h >>> 13)) * 1274126177;
+        return (h ^ (h >>> 16)) >>> 0;
+      }
+      function pad(s, n) { return (s + " ".repeat(n)).slice(0, n); }
+
+      /* A flip: from `from` to `to`, starting at t0. Each cell settles on
+         its own schedule and shows a random flap until it does. */
+      function flapText(ri, gi, ci, from, to, t0, t) {
+        const settle = t0 + ri * 0.07 + ci * 0.045 + gi * 0.12;
+        if (t >= settle) return to[ci];
+        if (t < t0) return from[ci];
+        if (to[ci] === " " && from[ci] === " ") return " ";
+        return FLAPS[hash(ri * 31 + gi, ci, Math.floor(t * 24)) % FLAPS.length];
+      }
+
+      /* Row 8 re-flips at the turn: DELAYED becomes NOT CANCELLED. */
+      const TURN = 16.3;
+      function statusFor(ri, t) {
+        if (ri === 7 && t >= TURN) return { from: pad("DELAYED", 13), to: pad("NOT CANCELLED", 13), t0: TURN };
+        return { from: pad("", 13), to: pad(ROWS[ri][2], 13), t0: -0.6 };
+      }
+
+      /* Timed copy. Hard cuts only — nothing fades out at a boundary. */
+      const SCENES = [
+        { at: 0.0,  head: "Find your row.", cap: 'Your 2026 had a status.<span class="sub">You felt it before you read it.</span>' },
+        { at: 3.2,  head: "Work it out.",   cap: 'Birth day + birth month + 2026.<span class="sub">Add it down to one digit.</span>' },
+        { at: 5.6,  head: "Work it out.",   cap: '<span class="math">14·03 → 1+4+0+3+2+0+2+6 = 18 → 9</span><span class="sub">Birthday not here yet this year? Use 2025.</span>', on: 8 },
+      ];
+      for (let i = 0; i < 9; i++) {
+        SCENES.push({ at: 8.4 + i * 0.8, head: "Now read across.", cap: GLOSS[i][0] + '<span class="sub">' + GLOSS[i][1] + "</span>", on: i });
+      }
+      SCENES.push({ at: 15.6, head: "Not a verdict.", cap: 'A status tells you which gate<span class="sub">you are standing at — not where you end up.</span>', on: 7 });
+      SCENES.push({ at: 19.8, head: "Which row?", cap: 'Comment your row number.<span class="sub">I will tell you what it is asking of you.</span>', foot: "Your year, dated to the day · numevix.com" });
+
+      const head = document.getElementById("head");
+      const cap = document.getElementById("cap");
+      const foot = document.getElementById("foot");
+      let lastScene = -1;
+
+      function render(t) {
+        let si = 0;
+        for (let i = 0; i < SCENES.length; i++) if (t >= SCENES[i].at) si = i;
+        const s = SCENES[si];
+        if (si !== lastScene) {
+          head.textContent = s.head;
+          cap.innerHTML = s.cap;
+          foot.textContent = s.foot || "";
+          lastScene = si;
+        }
+        /* A short rise on each new caption; it is lit on its first frame. */
+        const k = Math.max(0, 1 - (t - s.at) / 0.22);
+        cap.style.transform = "translateY(" + (k * 26).toFixed(1) + "px)";
+
+        cells.forEach((r, ri) => {
+          r.row.classList.toggle("on", s.on === ri);
+          const blank = [pad("", 1), pad("", 7)];
+          const tgt = [ROWS[ri][0], pad(ROWS[ri][1], 7)];
+          for (let gi = 0; gi < 2; gi++) {
+            r.groups[gi].forEach((c, ci) => {
+              c.textContent = flapText(ri, gi, ci, blank[gi], tgt[gi], -0.6, t);
+            });
+          }
+          const st = statusFor(ri, t);
+          r.groups[2].forEach((c, ci) => {
+            c.textContent = flapText(ri, 2, ci, st.from, st.to, st.t0, t);
+          });
+        });
+      }
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: 24, duration: 24, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      window.__timelines["departures"] = tl;
+    </script>
+  </body>
+</html>
