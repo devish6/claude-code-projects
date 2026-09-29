@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V72 — Tabs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V72 — the TABS format. A NINTH format.
+
+         A browser window at 2am. One tab is a real life (Inbox, the Q3
+         report). The rest are a different one: a flat in Lisbon, a one-way
+         fare, a pottery course. A new tab opens about every second and the
+         strip squeezes, so the tab for the other life gets visibly SMALLER
+         while the copy says so. On the Moolank turn it becomes the active
+         tab. The copy is the page itself.
+
+         Why, off 2026-09-29 TikTok Studio:
+           V70 steam 992/20 · V67 typefield 861/28 — a private thing you DO
+             alone and never admit (rehearsing, deleting). These win.
+           V71 candles 403/11 @1d — private but tender; views held, likes
+             did not. V69 330/7, V68 201/1 — arithmetic / other people's
+             charts lose.
+         So: a private ACT, faintly embarrassing, universally owned (the
+         tab you never close), with constant motion (tabs opening) for reach.
+
+         Moolank 4 = born on the 4th, 13th, 22nd or 31st (4, 1+3, 2+2, 3+1).
+         Ruled by Rahu — the unconventional, the foreign, the sudden break.
+         Wound, not accusation: "you're not unhappy, you just kept the tab."
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --night1: #1c1733;
+        --night2: #3a2a52;
+        --chrome: #dcdfe5;
+        --tab:    #e9ebef;
+        --page:   #fbf9f4;
+        --ink:    #17161c;
+        --rahu:   #4b32c3;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--night1); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+              background: radial-gradient(1400px 1100px at 70% 20%, #50386e 0%, var(--night2) 35%, var(--night1) 75%); }
+
+      /* Desk lamp light spill + a faint screen glow on the wall around the window. */
+      #spill { position: absolute; inset: 0;
+               background: radial-gradient(900px 700px at 50% 960px, rgba(255,250,235,.16), rgba(0,0,0,0) 70%); }
+
+      #win { position: absolute; left: 40px; top: 250px; width: 1000px; height: 1460px; border-radius: 26px;
+             overflow: hidden; background: var(--page);
+             box-shadow: 0 50px 120px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08); }
+
+      #strip { position: absolute; left: 0; right: 0; top: 0; height: 104px; background: var(--chrome); }
+      .dot { position: absolute; top: 40px; width: 24px; height: 24px; border-radius: 50%; }
+      #tabs { position: absolute; left: 150px; top: 20px; height: 84px; width: 790px; }
+      .tabx { position: absolute; top: 0; height: 84px; overflow: hidden; border-radius: 18px 18px 0 0;
+              font-family: "Inter", sans-serif; font-size: 31px; color: #3c3f45; white-space: nowrap; }
+      .tabx .bg { position: absolute; inset: 0; border-radius: inherit; }
+      .tabx .sep { position: absolute; right: 0; top: 24px; width: 2px; height: 36px; background: #b4b8c0; }
+      .tabx .fav { position: absolute; left: 18px; top: 26px; width: 32px; height: 32px; border-radius: 8px;
+                   color: #fff; font-size: 19px; font-weight: 500; text-align: center; line-height: 32px; }
+      .tabx .ttl { position: absolute; left: 64px; top: 27px;
+                   -webkit-mask-image: linear-gradient(90deg, #000 70%, transparent); mask-image: linear-gradient(90deg, #000 70%, transparent); }
+      #plus { position: absolute; top: 34px; font-family: "Inter", sans-serif; font-size: 40px; color: #5c6068; line-height: 36px; }
+
+      #bar { position: absolute; left: 0; right: 0; top: 104px; height: 96px; background: #fff;
+             border-bottom: 2px solid #e3e5ea; }
+      #url { position: absolute; left: 150px; right: 40px; top: 16px; height: 64px; border-radius: 32px; background: #eef0f3;
+             font-family: "Inter", sans-serif; font-size: 28px; color: #4a4d55; line-height: 64px; padding-left: 64px; }
+      #url::before { content: ""; position: absolute; left: 26px; top: 22px; width: 18px; height: 20px; border-radius: 4px; border: 3px solid #8a8e96; }
+      .nav { position: absolute; top: 28px; font-family: "Inter", sans-serif; font-size: 36px; color: #9ca0a8; }
+
+      #page { position: absolute; left: 0; right: 0; top: 200px; bottom: 0; }
+      .line { position: absolute; left: 70px; right: 70px; text-align: left; color: var(--ink);
+              font-family: "Fraunces", serif; font-weight: 600; line-height: 1.02; letter-spacing: -0.02em; }
+      .line .w { display: inline-block; white-space: pre; }
+      .line.i { font-style: italic; font-weight: 400; color: var(--rahu); }
+      .line.small { font-family: "Inter", sans-serif; font-weight: 400; font-size: 36px; color: #8a8790; letter-spacing: .02em; }
+
+      /* Quiet page furniture so the page reads as a page, well below the copy. */
+      .ghost { position: absolute; left: 70px; height: 22px; border-radius: 11px; background: #ecebe6; }
+
+      #clock { position: absolute; top: 150px; right: 60px; font-family: "Inter", sans-serif; font-size: 34px;
+               color: rgba(255,255,255,.72); letter-spacing: .03em; }
+      .grain { position: absolute; inset: 0; opacity: .06; mix-blend-mode: overlay; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="tabs"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="24.0">
+
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="24.0" data-volume="0.4"></audio>
+
+      <div id="spill"></div>
+      <div id="clock">2:14 AM</div>
+
+      <div id="win">
+        <div id="strip">
+          <div class="dot" style="left:34px;background:#ff5f57"></div>
+          <div class="dot" style="left:70px;background:#febc2e"></div>
+          <div class="dot" style="left:106px;background:#28c840"></div>
+          <div id="tabs"></div>
+          <div id="plus">+</div>
+        </div>
+        <div id="bar">
+          <div class="nav" style="left:34px">‹</div>
+          <div class="nav" style="left:84px">›</div>
+          <div id="url">inbox</div>
+        </div>
+        <div id="page">
+          <div class="ghost" style="top:1110px;width:620px"></div>
+          <div class="ghost" style="top:1154px;width:740px"></div>
+          <div class="ghost" style="top:1198px;width:480px"></div>
+          <div id="stage"></div>
+        </div>
+      </div>
+
+      <svg class="grain" width="1080" height="1920">
+        <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/></filter>
+        <rect width="1080" height="1920" filter="url(#n)"/>
+      </svg>
+    </div>
+
+    <script>
+      /* Tabs: [title, favicon letter, colour, opensAt, url]. The first three
+         are open on frame 0 so the hook frame already shows the idea. */
+      const KEPT = 2;                 // the tab for the other life
+      const TABS = [
+        ["Inbox (3)",                 "M", "#d0463b", -1, "inbox"],
+        ["Q3 report — FINAL_v7",      "D", "#2f6fd6", -1, "docs / q3-report-final-v7"],
+        ["1BHK for rent · Lisbon",    "L", "#e08a1e", -1, "rentals / lisbon / 1bhk-alfama"],
+        ["one way · DEL → LIS",       "F", "#1f9d74", 0.9, ""],
+        ["how to resign politely",    "S", "#6b6f78", 1.8, ""],
+        ["pottery · weekend course",  "P", "#b85c8e", 2.7, ""],
+        ["cost of living Berlin",     "S", "#6b6f78", 3.6, ""],
+        ["remote jobs · no calls",    "J", "#3a8fb7", 4.5, ""],
+        ["is 34 too late to start",   "S", "#6b6f78", 5.3, ""],
+        ["van conversion cost",       "V", "#7a9a2f", 6.1, ""],
+        ["Masters abroad 2027",       "U", "#8a4fd0", 6.9, ""],
+        ["learn Portuguese fast",     "D", "#58a52f", 7.7, ""],
+        ["cheap flights anywhere",    "F", "#1f9d74", 8.4, ""],
+        ["savings calculator",        "C", "#c9a227", 9.1, ""],
+        ["notice period meaning",     "S", "#6b6f78", 9.8, ""],
+        ["studio flat · Goa",         "L", "#e08a1e", 10.5, ""],
+        ["sabbatical how to ask",     "S", "#6b6f78", 11.2, ""],
+        ["Lisbon weather Nov",        "W", "#3a8fb7", 11.9, ""],
+        ["start over at 30",          "S", "#6b6f78", 12.6, ""],
+        ["one way · BOM → MEL",       "F", "#1f9d74", 13.3, ""],
+        ["freelance rates",           "S", "#6b6f78", 14.0, ""],
+        ["quiet towns to live",       "S", "#6b6f78", 14.7, ""],
+        ["1BHK Porto",                "L", "#e08a1e", 15.4, ""],
+        ["how to tell parents",       "S", "#6b6f78", 16.1, ""],
+      ];
+      const TURN = 13.4;               // the kept tab becomes the active one on the Moolank turn
+
+      /* Scenes: [start, end, lines]. A line is [text, y (page-relative), size, class].
+         First word of every scene lit on its first frame; scene 0 fully lit
+         on frame 0 (cut rule: nothing empty at a boundary). */
+      const SCENES = [
+        [0.0, 3.2, [
+          ["You have",            260, 150, ""],
+          ["a tab open",          420, 150, ""],
+          ["for a different",     580, 132, "i"],
+          ["life.",               730, 150, "i"],
+        ]],
+        [3.2, 6.4, [
+          ["A flat in",           280, 128, ""],
+          ["another city.",       420, 128, ""],
+          ["A one-way fare.",     600, 118, "i"],
+          ["A course you’d",      760, 104, ""],
+          ["start Monday.",       880, 104, ""],
+        ]],
+        [6.4, 9.8, [
+          ["You don’t",           300, 150, ""],
+          ["close it.",           460, 150, ""],
+          ["You don’t open",      670, 120, "i"],
+          ["it either.",          810, 120, "i"],
+        ]],
+        [9.8, 13.4, [
+          ["It just",             290, 150, ""],
+          ["gets smaller",        450, 150, ""],
+          ["every time you",      640, 112, "i"],
+          ["open another.",       770, 112, "i"],
+        ]],
+        [13.4, 17.6, [
+          ["Born on the 4th,",    270, 96, ""],
+          ["13th, 22nd or 31st?", 380, 96, ""],
+          ["Rahu.",               540, 210, "i"],
+          ["The planet of",       810, 84, ""],
+          ["the other life.",     910, 84, ""],
+        ]],
+        [17.6, 20.8, [
+          ["You’re not",          300, 150, ""],
+          ["unhappy.",            460, 150, ""],
+          ["You just kept",       670, 124, "i"],
+          ["the tab.",            810, 150, "i"],
+        ]],
+        [20.8, 24.0, [
+          ["Send this to",        280, 128, ""],
+          ["whoever never",       430, 128, ""],
+          ["closes theirs.",      580, 140, "i"],
+          ["your numbers · numevix.com", 830, 36, "small"],
+        ]],
+      ];
+      const DUR = 24.0;
+
+      const stage = document.getElementById("stage");
+      const words = [];
+      SCENES.forEach(([s, e, lines], si) => {
+        const all = lines.flatMap(([text]) => text.split(" "));
+        const span = (e - s) * 0.55;
+        let k = 0;
+        lines.forEach(([text, y, size, cls]) => {
+          const d = document.createElement("div");
+          d.className = "line " + cls;
+          d.style.top = y + "px";
+          if (!cls.includes("small")) d.style.fontSize = size + "px";
+          text.split(" ").forEach((w, wi, arr) => {
+            const sp = document.createElement("span");
+            sp.className = "w";
+            sp.textContent = w + (wi < arr.length - 1 ? " " : "");
+            d.appendChild(sp);
+            const at = cls.includes("small") ? s + (e - s) * 0.5 : s + (k / Math.max(1, all.length - 1)) * span;
+            words.push({ el: sp, si, at: (k === 0 || si === 0) ? s - 0.32 : at });
+            k++;
+          });
+          stage.appendChild(d);
+        });
+      });
+
+      /* Build the tab elements. */
+      const tabsEl = document.getElementById("tabs");
+      const tabEls = TABS.map(([title, letter, colour]) => {
+        const el = document.createElement("div");
+        el.className = "tabx";
+        el.innerHTML = `<div class="bg"></div><div class="sep"></div><div class="fav" style="background:${colour}">${letter}</div><div class="ttl">${title}</div>`;
+        tabsEl.appendChild(el);
+        return { el, bg: el.querySelector(".bg"), sep: el.querySelector(".sep"), fav: el.querySelector(".fav"), ttl: el.querySelector(".ttl") };
+      });
+      const plus = document.getElementById("plus");
+      const url = document.getElementById("url");
+      const STRIP_W = 790, MAX_W = 300;
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+      const ease = (p) => 1 - Math.pow(1 - p, 3);
+
+      function render(t) {
+        // Tabs: each opens by growing from zero width; the strip squeezes to fit.
+        const wts = TABS.map(([, , , o]) => (o < 0 ? 1 : ease(clamp((t - o) / 0.3, 0, 1))));
+        const sum = wts.reduce((a, b) => a + b, 0);
+        const active = t >= TURN ? KEPT : 0;
+        // On the turn the kept tab is clicked and opens up wide enough to read.
+        const grow = ease(clamp((t - TURN) / 0.4, 0, 1));
+        const KEPT_W = 420;
+        let unit = Math.min(MAX_W, STRIP_W / sum);
+        if (grow > 0) unit = Math.min(MAX_W, (STRIP_W - KEPT_W * grow) / (sum - wts[KEPT] * grow));
+        let x = 0;
+        tabEls.forEach(({ el, bg, sep, fav, ttl }, i) => {
+          const w = i === KEPT && grow > 0 ? unit * (1 - grow) + KEPT_W * grow : unit * wts[i];
+          el.style.left = x + "px";
+          el.style.width = w + "px";
+          el.style.opacity = wts[i] > 0 ? 1 : 0;
+          const isA = i === active;
+          bg.style.background = isA ? "#ffffff" : "transparent";
+          sep.style.opacity = isA || i === active - 1 ? 0 : 1;
+          // Narrow tabs lose their title, then centre the favicon (as a real browser does).
+          ttl.style.opacity = clamp((w - 110) / 60, 0, 1);
+          fav.style.left = w < 90 ? Math.max(2, (w - 32) / 2) + "px" : "18px";
+          fav.style.opacity = w < 20 ? w / 20 : 1;
+          x += w;
+        });
+        plus.style.left = 150 + x + 18 + "px";
+        url.textContent = TABS[active][4];
+        // The kept tab flashes once as it is clicked.
+        const flash = clamp(1 - Math.abs(t - TURN) / 0.25, 0, 1);
+        tabEls[KEPT].bg.style.boxShadow = flash > 0 ? `inset 0 0 0 ${4 * flash}px var(--rahu)` : "none";
+
+        // Copy: only the current scene is on screen; words land and settle.
+        const cur = SCENES.findIndex(([s, e]) => t >= s && t < e);
+        const si = cur < 0 ? SCENES.length - 1 : cur;
+        words.forEach(({ el, si: ws, at }) => {
+          if (ws !== si) { el.style.opacity = 0; return; }
+          const p = clamp((t - at) / 0.3, 0, 1);
+          const e = ease(p);
+          el.style.opacity = t >= at ? 0.15 + 0.85 * e : 0;
+          el.style.transform = `translateY(${(1 - e) * 22}px)`;
+          el.style.filter = `blur(${(1 - e) * 5}px)`;
+        });
+      }
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      window.__timelines["tabs"] = tl;
+    </script>
+  </body>
+</html>
