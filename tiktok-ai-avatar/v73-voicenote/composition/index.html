@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V73 — Voice Note</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V73 — the VOICE NOTE format. A TENTH format.
+
+         A voice note, recording on frame 0. Swiped to cancel. Take two,
+         1:12, cancelled. Take three, 0:09, cancelled. Then a typed 👍,
+         sent. The cancelled takes stay on screen as struck rows and add
+         up on the turn: 2:02 recorded, 0:00 sent.
+
+         Why, off 2026-09-30 TikTok Studio + Windsor IG:
+           V70 steam 994/20 · V67 typefield 861/28 — words you HAD and never
+             gave to a person. The two best of the fortnight.
+           V71 candles 441/13 — unsaid, but to no one. Middle.
+           V72 tabs 265/1 — a longing for elsewhere, no words, no person. Miss.
+         So: the unsaid-words wound again, aimed at a PERSON, with the
+         cheapest possible substitute (👍) as the sting. Constant motion:
+         a live waveform in the pill and across the whole back wall.
+
+         Moolank 5 = born on the 5th, 14th or 23rd (5, 1+4, 2+3).
+         Ruled by Mercury (Budh) — speech. Mercury's colour is green.
+         Wound, not accusation: "You had two minutes of it. They got 👍."
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --bg1:  #07120d;
+        --bg2:  #0f2a1e;
+        --ink:  #eef4ec;
+        --dim:  #7d9488;
+        --merc: #5fe0a0;
+        --rec:  #ff4f4f;
+        --pill: #16261f;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg1); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+              background: radial-gradient(1300px 1200px at 50% 38%, #164231 0%, var(--bg2) 40%, var(--bg1) 85%); }
+
+      /* The back wall: a huge faint waveform across the whole frame. */
+      #wall { position: absolute; left: 0; right: 0; top: 0; height: 1920px; }
+      #wall .b { position: absolute; width: 22px; border-radius: 11px; background: var(--merc); }
+
+      .line { position: absolute; left: 80px; right: 80px; color: var(--ink);
+              font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; line-height: 0.98; letter-spacing: -0.035em; }
+      .line .w { display: inline-block; white-space: pre; }
+      .line.g { color: var(--merc); }
+      .line.lt { font-weight: 400; color: #c8d6cd; }
+      .line.small { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 34px; color: var(--dim); letter-spacing: .02em; }
+      .emo { font-family: "Apple Color Emoji", "Noto Color Emoji", sans-serif; font-weight: 400; }
+
+      /* The composer pill. */
+      #pill { position: absolute; left: 70px; width: 800px; top: 1080px; height: 150px; border-radius: 75px;
+              background: var(--pill); box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 0 0 2px rgba(255,255,255,.06); overflow: hidden; }
+      #recrow { position: absolute; inset: 0; }
+      #dot { position: absolute; left: 50px; top: 55px; width: 40px; height: 40px; border-radius: 50%; background: var(--rec); }
+      #timer { position: absolute; left: 112px; top: 40px; font-family: "JetBrains Mono", monospace; font-weight: 700;
+               font-size: 60px; color: var(--ink); }
+      #wave { position: absolute; left: 300px; top: 0; width: 340px; height: 150px; overflow: hidden;
+              -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%); mask-image: linear-gradient(90deg, transparent, #000 18%); }
+      #wave .b { position: absolute; width: 8px; border-radius: 4px; background: var(--ink); }
+      #hint { position: absolute; left: 300px; top: 52px; font-family: "Bricolage Grotesque", sans-serif; font-size: 38px; color: var(--dim); }
+      #typed { position: absolute; left: 60px; top: 38px; font-family: "Bricolage Grotesque", sans-serif; font-size: 56px; color: var(--dim); }
+      #mic { position: absolute; right: 18px; top: 15px; width: 120px; height: 120px; border-radius: 50%; background: var(--merc); }
+      #mic::before { content: ""; position: absolute; left: 47px; top: 26px; width: 26px; height: 44px; border-radius: 13px; background: #07120d; }
+      #mic::after { content: ""; position: absolute; left: 38px; top: 52px; width: 44px; height: 30px; border-radius: 0 0 22px 22px;
+                    border: 5px solid #07120d; border-top: none; }
+      #send { position: absolute; right: 18px; top: 15px; width: 120px; height: 120px; border-radius: 50%; background: var(--merc); opacity: 0; }
+      #send::before { content: ""; position: absolute; left: 44px; top: 34px; border-left: 44px solid #07120d;
+                      border-top: 26px solid transparent; border-bottom: 26px solid transparent; }
+
+      /* The sent bubble. */
+      #bubble { position: absolute; right: 190px; top: 900px; height: 150px; padding: 0 44px; border-radius: 48px 48px 12px 48px;
+                background: #1f5a3e; display: flex; align-items: center; gap: 22px; opacity: 0; }
+      #bubble .emo { font-size: 84px; }
+      #bubble .meta { font-family: "JetBrains Mono", monospace; font-size: 26px; color: #a8d9bf; margin-top: 50px; }
+
+      /* Cancelled takes. */
+      #takes { position: absolute; left: 110px; top: 1270px; width: 760px; }
+      .take { position: absolute; left: 0; font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 40px; color: var(--dim); white-space: nowrap; }
+      .take .x { color: var(--rec); margin-right: 22px; }
+      .take .d { position: relative; }
+      .take .d::after { content: ""; position: absolute; left: -4px; right: -4px; top: 52%; height: 3px; background: var(--rec); transform-origin: left;
+                        transform: scaleX(var(--s, 0)); }
+      #sum { position: absolute; left: 110px; top: 1480px; font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 46px; color: var(--ink); white-space: nowrap; opacity: 0; }
+      #sum b { color: var(--rec); }
+
+      .grain { position: absolute; inset: 0; opacity: .07; mix-blend-mode: overlay; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="voicenote"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="24.0">
+
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="24.0" data-volume="0.4"></audio>
+
+      <div id="wall"></div>
+      <div id="stage"></div>
+
+      <div id="bubble"><span class="emo">👍</span><span class="meta">2:14 ✓✓</span></div>
+
+      <div id="pill">
+        <div id="recrow">
+          <div id="dot"></div>
+          <div id="timer">0:38</div>
+          <div id="wave"></div>
+          <div id="hint">‹ slide to cancel</div>
+        </div>
+        <div id="typed">Message</div>
+        <div id="mic"></div>
+        <div id="send"></div>
+      </div>
+
+      <div id="takes"></div>
+      <div id="sum">2:02 recorded · <b>0:00 sent</b></div>
+
+      <svg class="grain" width="1080" height="1920">
+        <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="5"/></filter>
+        <rect width="1080" height="1920" filter="url(#n)"/>
+      </svg>
+    </div>
+
+    <script>
+      /* Takes: [recStart, recEnd, timerFrom (s), timerTo (s)]. Take one is
+         already recording on frame 0 so the hook frame shows the idea. */
+      const TAKES = [
+        [0.0, 2.5, 38, 41],
+        [3.4, 5.6, 0, 72],
+        [6.2, 7.0, 0, 9],
+      ];
+      const CANCEL = 0.45;
+      const TYPE_AT = 7.6, SEND_AT = 8.6;
+      const SUM_AT = 16.2;
+
+      /* Scenes: [start, end, lines]. A line is [html, y, size, class].
+         First word of every scene lit on its first frame; scene 0 fully lit. */
+      const SCENES = [
+        [0.0, 3.4, [
+          ["You recorded it.",     230, 124, ""],
+          ["Then you slid",        400, 124, "lt"],
+          ["to cancel.",           530, 124, "lt"],
+        ]],
+        [3.4, 7.6, [
+          ["Take two.",            230, 124, ""],
+          ["Take three.",          370, 124, ""],
+          ["Every one",            560, 112, "g"],
+          ["of them true.",        680, 112, "g"],
+        ]],
+        [7.6, 11.6, [
+          ["Then you",             230, 124, ""],
+          ["typed <span class='emo'>👍</span>",  370, 124, ""],
+          ["and sent that.",       540, 124, "lt"],
+        ]],
+        [11.6, 16.2, [
+          ["Born on the 5th,",     220, 96, ""],
+          ["14th or 23rd?",        326, 96, ""],
+          ["Mercury.",             480, 176, "g"],
+          ["The planet of speech.", 690, 70, "lt"],
+        ]],
+        [16.2, 20.4, [
+          ["You had",              230, 124, ""],
+          ["two minutes",          370, 124, ""],
+          ["of it.",               510, 124, ""],
+          ["They got <span class='emo'>👍</span>", 670, 112, "g"],
+        ]],
+        [20.4, 24.0, [
+          ["Send this to",         230, 116, ""],
+          ["whoever got",          370, 116, ""],
+          ["your <span class='emo'>👍</span>", 510, 150, "g"],
+          ["your numbers · numevix.com", 740, 34, "small"],
+        ]],
+      ];
+      const DUR = 24.0;
+
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+      const ease = (p) => 1 - Math.pow(1 - p, 3);
+      const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+      const amp = (i) => 0.18 + 0.82 * Math.pow(hash(i), 1.6) * (0.55 + 0.45 * Math.abs(Math.sin(i * 0.37)));
+
+      // Copy.
+      const stage = document.getElementById("stage");
+      const words = [];
+      SCENES.forEach(([s, e, lines], si) => {
+        const all = lines.flatMap(([text]) => text.split(/ (?![^<]*>)/));
+        const span = (e - s) * 0.38;
+        let k = 0;
+        lines.forEach(([text, y, size, cls]) => {
+          const d = document.createElement("div");
+          d.className = "line " + cls;
+          d.style.top = y + "px";
+          if (!cls.includes("small")) d.style.fontSize = size + "px";
+          const toks = text.split(/ (?![^<]*>)/);
+          toks.forEach((w, wi) => {
+            const sp = document.createElement("span");
+            sp.className = "w";
+            sp.innerHTML = w + (wi < toks.length - 1 ? " " : "");
+            d.appendChild(sp);
+            const at = cls.includes("small") ? s + (e - s) * 0.45 : s + (k / Math.max(1, all.length - 1)) * span;
+            words.push({ el: sp, si, at: (k === 0 || si === 0) ? s - 0.32 : at });
+            k++;
+          });
+          stage.appendChild(d);
+        });
+      });
+
+      // Back wall: 40 tall bars across the frame, behind everything.
+      const wall = document.getElementById("wall");
+      const WALL_N = 40, WALL_STEP = 27;
+      const wallBars = Array.from({ length: WALL_N }, (_, i) => {
+        const b = document.createElement("div"); b.className = "b";
+        b.style.left = (i * WALL_STEP) + "px"; wall.appendChild(b); return b;
+      });
+
+      // Pill waveform: bars scroll in from the right while recording.
+      const wave = document.getElementById("wave");
+      const WN = 25, WSTEP = 14, BARS_PER_S = 9;
+      const waveBars = Array.from({ length: WN }, () => {
+        const b = document.createElement("div"); b.className = "b"; wave.appendChild(b); return b;
+      });
+
+      // Takes list.
+      const takesEl = document.getElementById("takes");
+      const takeRows = TAKES.map(([, , , to], i) => {
+        const r = document.createElement("div"); r.className = "take";
+        r.style.top = (i * 66) + "px";
+        const mm = Math.floor(to / 60), ss = String(to % 60).padStart(2, "0");
+        r.innerHTML = `<span class="x">✕</span>take ${i + 1} · <span class="d">${mm}:${ss}</span>`;
+        takesEl.appendChild(r); return { r, d: r.querySelector(".d") };
+      });
+
+      const $ = (id) => document.getElementById(id);
+      const recrow = $("recrow"), timer = $("timer"), dot = $("dot"), hint = $("hint"),
+            typed = $("typed"), mic = $("mic"), send = $("send"), bubble = $("bubble"), sum = $("sum");
+
+      function render(t) {
+        // Which take is live (recording or cancelling)?
+        let live = -1;
+        TAKES.forEach(([s, e], i) => { if (t >= s - 0.001 && t < e + CANCEL) live = i; });
+        const recording = live >= 0 && t < TAKES[live][1];
+        const loud = recording ? 1 : 0.25;
+
+        // Back wall breathes with the voice: loud while recording, quiet otherwise.
+        const wallEnv = live >= 0 ? (recording ? 1 : 1 - ease(clamp((t - TAKES[live][1]) / CANCEL, 0, 1)) * 0.75) : 0.25;
+        wallBars.forEach((b, i) => {
+          const a = amp(i + Math.floor(t * 12)) * 0.6 + 0.4 * Math.abs(Math.sin(t * 2.1 + i * 0.5));
+          const h = 80 + a * 1100 * wallEnv;
+          b.style.height = h + "px";
+          b.style.top = (960 - h / 2) + "px";
+          b.style.opacity = 0.05 + 0.05 * wallEnv;
+        });
+
+        // Pill: recording row vs message row.
+        if (live >= 0) {
+          const [s, e, from, to] = TAKES[live];
+          const p = clamp((t - s) / (e - s), 0, 1);
+          const secs = Math.floor(from + (to - from) * p);
+          timer.textContent = Math.floor(secs / 60) + ":" + String(secs % 60).padStart(2, "0");
+          const c = ease(clamp((t - e) / CANCEL, 0, 1));   // cancel swipe
+          recrow.style.transform = `translateX(${-c * 700}px)`;
+          recrow.style.opacity = 1 - c;
+          dot.style.opacity = 0.35 + 0.65 * (0.5 + 0.5 * Math.cos(t * 7));
+          const n = Math.floor((Math.min(t, e) - s) * BARS_PER_S) + (live === 0 ? 40 : 0);
+          waveBars.forEach((b, j) => {
+            const idx = n - (WN - 1 - j);
+            const h = idx < 0 ? 0 : 10 + amp(idx + live * 500) * 100;
+            b.style.left = (j * WSTEP) + "px";
+            b.style.height = h + "px";
+            b.style.top = (75 - h / 2) + "px";
+            b.style.opacity = idx < 0 ? 0 : 1;
+          });
+          hint.style.opacity = 0;
+          typed.style.opacity = 0;
+        } else {
+          recrow.style.opacity = 0;
+          typed.style.opacity = 1;
+        }
+        // Between takes and after: an empty composer. From TYPE_AT a 👍 is typed, then sent.
+        const typing = t >= TYPE_AT && t < SEND_AT;
+        typed.innerHTML = typing ? "<span class='emo' style='font-size:72px'>👍</span>" : "Message";
+        typed.style.top = typing ? "30px" : "38px";
+        send.style.opacity = typing ? 1 : 0;
+        mic.style.opacity = typing ? 0 : 1;
+
+        const bp = ease(clamp((t - SEND_AT) / 0.35, 0, 1));
+        bubble.style.opacity = bp;
+        bubble.style.transform = `translateY(${(1 - bp) * 60}px) scale(${0.85 + 0.15 * bp})`;
+        bubble.style.transformOrigin = "right bottom";
+
+        // Takes: each row lands as its take is cancelled, then gets struck.
+        takeRows.forEach(({ r, d }, i) => {
+          const e = TAKES[i][1];
+          const a = ease(clamp((t - e) / 0.35, 0, 1));
+          r.style.opacity = a;
+          r.style.transform = `translateX(${(1 - a) * -40}px)`;
+          d.style.setProperty("--s", ease(clamp((t - e - 0.3) / 0.3, 0, 1)));
+        });
+        const sp = ease(clamp((t - SUM_AT) / 0.4, 0, 1));
+        sum.style.opacity = sp;
+        sum.style.transform = `translateY(${(1 - sp) * 24}px)`;
+
+        // Copy: only the current scene is on screen; words land and settle.
+        const cur = SCENES.findIndex(([s, e]) => t >= s && t < e);
+        const si = cur < 0 ? SCENES.length - 1 : cur;
+        words.forEach(({ el, si: ws, at }) => {
+          if (ws !== si) { el.style.opacity = 0; return; }
+          const e = ease(clamp((t - at) / 0.3, 0, 1));
+          el.style.opacity = t >= at ? 0.15 + 0.85 * e : 0;
+          el.style.transform = `translateY(${(1 - e) * 22}px)`;
+          el.style.filter = `blur(${(1 - e) * 5}px)`;
+        });
+      }
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      window.__timelines["voicenote"] = tl;
+    </script>
+  </body>
+</html>
