@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V74 — Chai List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V74 — the CHAI LIST format. An ELEVENTH format.
+
+         Full-bleed lined notepad, top-down, written in blue ballpoint.
+         Somebody's chai order for the house, and a pen writing it:
+         Papa, less sugar. Mummy, no sugar. Didi, extra ginger. Rohan,
+         coffee actually. Nani, half cup, very hot. Then "Me —" and the
+         pen stops. It hovers. Then, small: "whatever's left in the pan."
+         Five ticks land on the turn. The sixth line gets none.
+
+         Why, off 2026-10-01 TikTok Studio + Windsor IG:
+           V70 steam 994/20 · V67 typefield 861/28 — both a private act,
+             done ALONE, for or about other people, that nobody sees.
+           V72 tabs 278/2 · V68 receipt 202/1 — longing or mechanism. Miss.
+           V73 voice note 473/6 at ~1 day — words again, flattening.
+         So: still a private, unseen act, but CARE instead of words.
+         First format that is warm, light, and handwritten.
+
+         Moolank 6 = born on the 6th, 15th or 24th (6, 1+5, 2+4).
+         Ruled by Venus (Shukra) — love, home, the care you give.
+         Six cups, for the six. Wound, not accusation:
+         "Nobody has ever asked how you take yours."
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --paper:  #f4ecd8;
+        --paper2: #e9dec3;
+        --rule:   #9fb6d6;
+        --margin: #d97a7a;
+        --ink:    #1d2440;
+        --pen:    #1f3fa6;
+        --venus:  #c2386b;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--paper); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--paper); }
+
+      /* The page drifts very slowly toward the lens the whole cut. */
+      #page { position: absolute; inset: 0; transform-origin: 40% 60%;
+              background: radial-gradient(1400px 1500px at 45% 40%, #fbf5e6 0%, var(--paper) 45%, var(--paper2) 100%); }
+      #rules { position: absolute; inset: 0; }
+      #rules .r { position: absolute; left: 0; right: 0; height: 2px; background: var(--rule); opacity: .55; }
+      #margin { position: absolute; top: 0; bottom: 0; left: 132px; width: 3px; background: var(--margin); opacity: .6; }
+      /* Spiral binding along the top edge. */
+      #spiral { position: absolute; left: 0; right: 0; top: 0; height: 70px; }
+      #spiral .h { position: absolute; top: 26px; width: 26px; height: 26px; border-radius: 50%; background: #cdbf9f;
+                   box-shadow: inset 0 3px 4px rgba(0,0,0,.35); }
+      #spiral .c { position: absolute; top: -18px; width: 12px; height: 56px; border-radius: 6px;
+                   background: linear-gradient(90deg, #6d6d72, #d9d9de 45%, #8a8a90); }
+
+      .line { position: absolute; left: 170px; right: 70px; color: var(--ink);
+              font-family: "Kalam", cursive; font-weight: 700; line-height: 1.0; letter-spacing: -0.01em; }
+      .line .w { display: inline-block; white-space: pre; }
+      .line.v { color: var(--venus); }
+      .line.lt { font-weight: 400; }
+      .line.small { font-weight: 400; font-size: 40px; color: #5b6380; }
+
+      /* The list. */
+      #pad { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .row { position: absolute; left: 170px; font-family: "Kalam", cursive; font-weight: 400; color: var(--pen);
+             white-space: nowrap; }
+      .row .t { display: inline-block; }
+      #title { font-weight: 700; }
+      #title::after { content: ""; position: absolute; left: 0; bottom: -4px; height: 4px; width: var(--u, 100%);
+                      background: var(--pen); border-radius: 2px; }
+      .tick { position: absolute; font-family: "Kalam", cursive; font-weight: 700; color: var(--venus); font-size: 72px; }
+
+      /* Ballpoint. Its tip is the element's origin; the body runs up-right. */
+      #pen { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+      #pen .body { position: absolute; left: 0; top: 0; width: 640px; height: 34px; transform-origin: 0 50%;
+                   transform: translate(0, -17px) rotate(-38deg); }
+      #pen .tipc { position: absolute; left: 0; top: 7px; width: 0; height: 0; border-right: 46px solid #c9c9cf;
+                   border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+      #pen .grip { position: absolute; left: 44px; top: 0; width: 130px; height: 34px; border-radius: 6px; background: #2a2f45; }
+      #pen .barrel { position: absolute; left: 172px; top: 1px; width: 470px; height: 32px; border-radius: 4px 14px 14px 4px;
+                     background: linear-gradient(180deg, #f8f8fb, #d6d8e2 60%, #b7bac8); }
+      #pen .clip { position: absolute; left: 470px; top: -10px; width: 150px; height: 10px; border-radius: 4px; background: #1f3fa6; }
+      #penshadow { position: absolute; left: 0; top: 0; width: 600px; height: 30px; border-radius: 15px; background: rgba(40,30,10,.18);
+                   filter: blur(14px); transform-origin: 0 50%; }
+
+      .grain { position: absolute; inset: 0; opacity: .16; mix-blend-mode: multiply; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="chai"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="24.0">
+
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="24.0" data-volume="0.4"></audio>
+
+      <div id="page">
+        <div id="rules"></div>
+        <div id="margin"></div>
+        <div id="spiral"></div>
+        <div id="stage"></div>
+        <div id="pad"></div>
+        <div id="penshadow"></div>
+        <div id="pen"><div class="body"><div class="tipc"></div><div class="grip"></div><div class="barrel"></div><div class="clip"></div></div></div>
+      </div>
+
+      <svg class="grain" width="1080" height="1920">
+        <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="3" seed="11"/>
+          <feColorMatrix values="0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .25  0 0 0 .9 0"/></filter>
+        <rect width="1080" height="1920" filter="url(#n)"/>
+      </svg>
+    </div>
+
+    <script>
+      const RULE0 = 940, RULE = 100;           // ruled lines: the list sits ON them
+      const ROW = (i) => RULE0 + RULE * (i + 1) - 6;   // baseline-ish top for row i (title is row -1 → RULE0)
+
+      /* List rows: [text, writeStart, writeEnd, size]. Row 0 and the title
+         are already written on frame 0 so the hook frame shows a list. */
+      const ROWS = [
+        ["Papa — less sugar",          -1,   -0.5, 66],
+        ["Mummy — no sugar",           0.0,  1.7,  66],
+        ["Didi — extra ginger",        2.0,  3.7,  66],
+        ["Rohan — coffee, actually",   4.5,  6.3,  66],
+        ["Nani — half cup, very hot",  6.5,  8.3,  66],
+        ["Me —",                       8.7,  9.2,  66],
+      ];
+      const REST = ["whatever's left in the pan", 11.4, 13.2, 56];   // after "Me —", after the hover
+      const TITLE = ["chai · 6 cups", -1, -0.5, 60];
+      const TICK_AT = 16.9, TICK_STEP = 0.32;
+
+      /* Scenes: [start, end, lines]. A line is [html, y, size, class]. */
+      const SCENES = [
+        [0.0, 4.4, [
+          ["You know how",          170, 112, ""],
+          ["everyone in the",       300, 112, ""],
+          ["house takes",           430, 112, ""],
+          ["their chai.",           560, 112, "v"],
+        ]],
+        [4.4, 8.6, [
+          ["Nobody has",            170, 116, ""],
+          ["ever asked",            300, 116, ""],
+          ["how you",               430, 116, "v"],
+          ["take yours.",           560, 116, "v"],
+        ]],
+        [8.6, 12.6, [
+          ["Yours is the",          190, 112, ""],
+          ["only line",             320, 112, ""],
+          ["you have to",           450, 112, "lt"],
+          ["think about.",          580, 112, "v"],
+        ]],
+        [12.6, 16.8, [
+          ["Born on the 6th,",      170, 92, ""],
+          ["15th or 24th?",         275, 92, ""],
+          ["Venus.",                410, 168, "v"],
+          ["The planet of the care you give.", 640, 54, "lt"],
+        ]],
+        [16.8, 20.6, [
+          ["Six cups.",             190, 124, ""],
+          ["Five of them",          330, 124, ""],
+          ["exactly right.",        470, 124, "v"],
+        ]],
+        [20.6, 24.0, [
+          ["Send this to",          190, 116, ""],
+          ["whoever makes",         320, 116, ""],
+          ["the chai.",             450, 150, "v"],
+          ["your numbers · numevix.com", 680, 40, "small"],
+        ]],
+      ];
+      const DUR = 24.0;
+
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+      const ease = (p) => 1 - Math.pow(1 - p, 3);
+      const inout = (p) => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+
+      // Ruled lines + spiral.
+      const rules = document.getElementById("rules");
+      for (let y = RULE0 - 8 * RULE; y < 1920; y += RULE) {
+        if (y < 120) continue;
+        const r = document.createElement("div"); r.className = "r"; r.style.top = y + "px"; rules.appendChild(r);
+      }
+      const spiral = document.getElementById("spiral");
+      for (let x = 46; x < 1060; x += 62) {
+        const h = document.createElement("div"); h.className = "h"; h.style.left = (x - 13) + "px"; spiral.appendChild(h);
+        const c = document.createElement("div"); c.className = "c"; c.style.left = (x - 6) + "px"; spiral.appendChild(c);
+      }
+
+      // Copy (same word-landing engine as V73; first word of every scene lit on its first frame).
+      const stage = document.getElementById("stage");
+      const words = [];
+      SCENES.forEach(([s, e, lines], si) => {
+        const all = lines.flatMap(([text]) => text.split(" "));
+        const span = (e - s) * 0.38;
+        let k = 0;
+        lines.forEach(([text, y, size, cls]) => {
+          const d = document.createElement("div");
+          d.className = "line " + cls;
+          d.style.top = y + "px";
+          if (!cls.includes("small")) d.style.fontSize = size + "px";
+          const toks = text.split(" ");
+          toks.forEach((w, wi) => {
+            const sp = document.createElement("span");
+            sp.className = "w";
+            sp.textContent = w + (wi < toks.length - 1 ? " " : "");
+            d.appendChild(sp);
+            const at = cls.includes("small") ? s + (e - s) * 0.45 : s + (k / Math.max(1, all.length - 1)) * span;
+            words.push({ el: sp, si, at: (k === 0 || si === 0) ? s - 0.32 : at });
+            k++;
+          });
+          stage.appendChild(d);
+        });
+      });
+
+      // The list.
+      const pad = document.getElementById("pad");
+      function mkRow(text, top, size, left, id) {
+        const r = document.createElement("div"); r.className = "row"; if (id) r.id = id;
+        r.style.top = top + "px"; r.style.left = left + "px"; r.style.fontSize = size + "px";
+        r.innerHTML = `<span class="t">${text}</span>`;
+        pad.appendChild(r); return r;
+      }
+      const title = mkRow(TITLE[0], RULE0 - TITLE[3] - 4, TITLE[3], 170, "title");
+      const rowEls = ROWS.map(([text, , , size], i) => mkRow(text, ROW(i) - size - 2, size, 170));
+      const meRow = rowEls[5];
+      const restEl = mkRow(REST[0], ROW(5) - REST[3] - 6, REST[3], 362);
+      restEl.style.transform = "rotate(-2.5deg)"; restEl.style.transformOrigin = "0 100%";
+      restEl.style.color = "#4a63b8";
+      const ticks = ROWS.slice(0, 5).map((_, i) => {
+        const t = document.createElement("div"); t.className = "tick"; t.textContent = "✓";
+        t.style.left = "82px"; t.style.top = (ROW(i) - 92) + "px"; pad.appendChild(t); return t;
+      });
+
+      const pen = document.getElementById("pen"), penshadow = document.getElementById("penshadow");
+      const page = document.getElementById("page");
+
+      // Writing reveal: clip from the right; returns the head x (page coords).
+      function write(el, s, e, t) {
+        const w = el.offsetWidth, left = el.offsetLeft;
+        const p = s < 0 ? 1 : clamp((t - s) / (e - s), 0, 1);
+        el.style.clipPath = `inset(-30px ${(1 - p) * 100}% -30px -10px)`;
+        el.style.visibility = p > 0 ? "visible" : "hidden";
+        return { x: left + w * p, p };
+      }
+
+      function render(t) {
+        page.style.transform = `scale(${1 + 0.035 * (t / DUR)})`;
+
+        write(title, TITLE[1], TITLE[2], t);
+        const heads = ROWS.map(([, s, e], i) => ({ ...write(rowEls[i], s, e, t), s, e, i }));
+        const rest = write(restEl, REST[1], REST[2], t);
+
+        // Pen target: the head of whatever is being written; between rows it glides.
+        let px, py, lift = 0;
+        const yOf = (i) => ROW(i) - 18;
+        const active = heads.find((h) => t >= h.s && t < h.e);
+        if (active) {
+          px = active.x; py = yOf(active.i) + Math.sin(t * 38) * 5;
+        } else if (t >= REST[1] && t < REST[2]) {
+          px = rest.x; py = yOf(5) - 6 - (rest.x - 362) * 0.044 + Math.sin(t * 38) * 4;
+        } else if (t >= ROWS[5][2] && t < REST[1]) {
+          // The hover: pen hangs just above "Me —", unable to start.
+          const me = heads[5];
+          px = me.x + 40 + Math.sin(t * 2.4) * 10; py = yOf(5) - 26 + Math.sin(t * 3.1) * 8; lift = 1;
+        } else {
+          // Gliding between rows: from the end of the last row to the start of the next.
+          const prev = [...heads].reverse().find((h) => h.e <= t);
+          const next = heads.find((h) => h.s > t);
+          if (t < REST[2] + 0.01 && prev && next) {
+            const g = inout(clamp((t - prev.e) / (next.s - prev.e), 0, 1));
+            const ax = rowEls[prev.i].offsetLeft + rowEls[prev.i].offsetWidth, ay = yOf(prev.i);
+            const bx = rowEls[next.i].offsetLeft, by = yOf(next.i);
+            px = ax + (bx - ax) * g; py = ay + (by - ay) * g - Math.sin(g * Math.PI) * 50; lift = Math.sin(g * Math.PI);
+          } else if (t < REST[1]) {
+            px = heads[5].x; py = yOf(5);
+          } else {
+            // After the list: the pen lifts and drifts off right, out of the way of the ticks.
+            const g = inout(clamp((t - REST[2]) / 1.4, 0, 1));
+            px = rest.x + g * 520; py = yOf(5) - 10 - g * 120; lift = g;
+          }
+        }
+        pen.style.transform = `translate(${px}px, ${py - lift * 14}px)`;
+        penshadow.style.transform = `translate(${px + 30 + lift * 30}px, ${py + 10 + lift * 26}px) rotate(-30deg)`;
+        penshadow.style.opacity = 0.9 - lift * 0.4;
+
+        // Ticks: five land, the sixth line gets none.
+        ticks.forEach((el, i) => {
+          const a = ease(clamp((t - TICK_AT - i * TICK_STEP) / 0.22, 0, 1));
+          el.style.opacity = a;
+          el.style.transform = `scale(${0.6 + 0.4 * a}) rotate(${(1 - a) * -20}deg)`;
+          el.style.clipPath = `inset(0 ${(1 - a) * 100}% 0 0)`;
+        });
+
+        // Copy: only the current scene is on screen; words land and settle.
+        const cur = SCENES.findIndex(([s, e]) => t >= s && t < e);
+        const si = cur < 0 ? SCENES.length - 1 : cur;
+        words.forEach(({ el, si: ws, at }) => {
+          if (ws !== si) { el.style.opacity = 0; return; }
+          const e = ease(clamp((t - at) / 0.3, 0, 1));
+          el.style.opacity = t >= at ? 0.15 + 0.85 * e : 0;
+          el.style.transform = `translateY(${(1 - e) * 22}px)`;
+          el.style.filter = `blur(${(1 - e) * 5}px)`;
+        });
+      }
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      if (document.fonts) document.fonts.ready.then(() => render(clock.t));
+      window.__timelines["chai"] = tl;
+    </script>
+  </body>
+</html>
