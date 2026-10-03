@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V75 — Exit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800;900&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V75 — the EXIT format. A TWELFTH format.
+
+         A dark hallway at a house party. One green EXIT sign, buzzing.
+         To the left, the party: a door ajar, warm light pulsing through
+         the gap in time with music you hear through the wall (the bed is
+         low-passed so it sounds like the next room).
+
+         No paper, no UI, no plate: an environment lit by signage.
+
+         Moolank 7 = born on the 7th, 16th or 25th (7, 1+6, 2+5).
+         Ruled by Ketu — detachment, the inward turn, the half-open door.
+         Wound, not accusation: "you need to know you could" leave.
+         ⛔ Never a verdict about being alone (V62 rule on the 7).
+         CTA (standing from 10-02): free number at numevix.com.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --wall:  #0b0d10;
+        --exit:  #2bff88;
+        --exit2: #0f7a43;
+        --party: #ff5a36;
+        --party2:#ff2f8e;
+        --ink:   #eef6f0;
+        --ketu:  #b9a6ff;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--wall); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--wall); }
+
+      #hall { position: absolute; inset: 0; transform-origin: 50% 30%; }
+      /* Corridor: ceiling, floor and two receding walls, all from gradients. */
+      #ceil  { position: absolute; left: 0; right: 0; top: 0; height: 640px;
+               background: linear-gradient(180deg, #050607 0%, #0e1412 100%);
+               clip-path: polygon(0 0, 100% 0, 66% 100%, 34% 100%); }
+      #floor { position: absolute; left: 0; right: 0; bottom: 0; height: 900px;
+               background: linear-gradient(0deg, #040505 0%, #121614 100%);
+               clip-path: polygon(34% 0, 66% 0, 100% 100%, 0 100%); }
+      #lwall { position: absolute; left: 0; top: 0; bottom: 0; width: 368px;
+               background: linear-gradient(90deg, #0a0b0d, #15191a);
+               clip-path: polygon(0 0, 100% 33.3%, 100% 53.1%, 0 100%); }
+      #rwall { position: absolute; right: 0; top: 0; bottom: 0; width: 368px;
+               background: linear-gradient(270deg, #0a0b0d, #15191a);
+               clip-path: polygon(0 33.3%, 100% 0, 100% 100%, 0 53.1%); }
+      #end   { position: absolute; left: 368px; top: 640px; width: 344px; height: 380px; background: #070808; }
+      /* Green spill from the sign over everything. */
+      #spill { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+               background: radial-gradient(700px 520px at 50% 300px, rgba(43,255,136,.20), rgba(43,255,136,0) 70%); }
+
+      /* The party door, on the left wall: a dark slab with a hot gap. */
+      #door { position: absolute; left: 60px; top: 560px; width: 250px; height: 900px;
+              background: #0d0f10; clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%); }
+      #gap  { position: absolute; left: 300px; top: 690px; width: 16px; height: 640px; border-radius: 6px;
+              background: linear-gradient(180deg, var(--party2), var(--party) 50%, var(--party2)); }
+      #glow { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+              background: radial-gradient(420px 900px at 300px 1010px, rgba(255,90,54,.55), rgba(255,47,142,0) 70%); }
+      #floorglow { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+              background: radial-gradient(520px 160px at 360px 1560px, rgba(255,90,54,.35), rgba(0,0,0,0) 70%); }
+
+      /* The sign. */
+      #sign { position: absolute; left: 290px; top: 170px; width: 500px; height: 210px; border-radius: 14px;
+              background: linear-gradient(180deg, #e9f5ee, #c9d8cf); border: 6px solid #1c2320;
+              box-shadow: 0 0 0 4px #0a0c0b, 0 30px 60px rgba(0,0,0,.6); }
+      #face { position: absolute; inset: 14px; border-radius: 6px; background: var(--exit);
+              display: flex; align-items: center; justify-content: space-between; padding: 0 30px 0 22px; }
+      #face .txt { font-family: "Big Shoulders Display", sans-serif; font-weight: 900; font-size: 132px; line-height: 1;
+                   color: #f4fff8; letter-spacing: .04em; margin-top: 6px; }
+      #face svg { width: 120px; height: 140px; }
+      #halo { position: absolute; left: 140px; top: 40px; width: 800px; height: 480px; pointer-events: none;
+              background: radial-gradient(closest-side, rgba(43,255,136,.45), rgba(43,255,136,0)); mix-blend-mode: screen; }
+
+      /* Copy. */
+      #stage { position: absolute; inset: 0; }
+      .line { position: absolute; left: 90px; right: 90px; text-align: center; color: var(--ink);
+              font-family: "Big Shoulders Display", sans-serif; font-weight: 800; line-height: 1.0;
+              text-transform: uppercase; letter-spacing: .01em; white-space: nowrap;
+              text-shadow: 0 4px 30px rgba(0,0,0,.9), 0 0 2px rgba(0,0,0,.9); }
+      .line .w { display: inline-block; white-space: pre; }
+      .line.g { color: var(--exit); }
+      .line.k { color: var(--ketu); }
+      .line.lt { font-weight: 500; text-transform: none; }
+      .line.url { font-weight: 900; color: #0b0d10; }
+      #pill { position: absolute; left: 160px; width: 760px; height: 150px; top: 1352px; border-radius: 80px;
+              background: var(--exit); box-shadow: 0 0 60px rgba(43,255,136,.55); opacity: 0; }
+      #vignette { position: absolute; inset: 0; pointer-events: none;
+                  background: radial-gradient(900px 1500px at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.75) 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="exit"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="24.0">
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="24.0" data-volume="0.55"></audio>
+      <div id="hall">
+        <div id="ceil"></div><div id="floor"></div><div id="lwall"></div><div id="rwall"></div><div id="end"></div>
+        <div id="door"></div><div id="gap"></div><div id="glow"></div><div id="floorglow"></div>
+        <div id="halo"></div>
+        <div id="sign"><div id="face">
+          <svg viewBox="0 0 60 70" fill="#f4fff8">
+            <circle cx="36" cy="9" r="7"/>
+            <path d="M30 18 L18 26 L10 38 L16 41 L22 31 L27 29 L22 46 L10 62 L16 66 L30 50 L36 56 L40 68 L47 65 L42 50 L36 42 L40 30 L46 38 L56 40 L57 34 L49 31 L41 20 Z"/>
+          </svg>
+          <div class="txt">EXIT</div>
+        </div></div>
+        <div id="spill"></div>
+      </div>
+      <div id="pill"></div>
+      <div id="stage"></div>
+      <div id="vignette"></div>
+    </div>
+
+    <script>
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const ease = (x) => 1 - Math.pow(1 - x, 3);
+      // [start, end, [[text, y, size, cls]]]
+      const SCENES = [
+        [0.0, 3.8,  [["You always know", 1180, 128, ""], ["where the exit is.", 1320, 128, "g"]]],
+        [3.8, 7.6,  [["First thing you clocked", 1180, 104, ""], ["when you walked in.", 1300, 104, ""],
+                     ["Before the host. Before the snacks.", 1450, 58, "lt"]]],
+        [7.6, 11.4, [["Not because", 1200, 140, ""], ["you want to leave.", 1350, 140, ""]]],
+        [11.4, 15.4,[["Because you need", 1200, 140, ""], ["to know you could.", 1350, 140, "g"]]],
+        [15.4, 19.8,[["Born on the 7th, 16th or 25th?", 1130, 72, "lt"], ["Moolank 7. Ketu.", 1240, 124, "k"],
+                     ["The planet of the door", 1390, 84, ""], ["you keep half open.", 1484, 84, ""]]],
+        [19.8, 24.01,[["Your number is free.", 1170, 104, ""], ["numevix.com", 1372, 110, "url"],
+                     ["Send this to whoever's always by the door.", 1560, 52, "lt"]]],
+      ];
+      const DUR = 24.0;
+      const stage = document.getElementById("stage");
+      const words = [];
+      SCENES.forEach(([s, e, lines], si) => {
+        const all = lines.flatMap(([text]) => text.split(" "));
+        const span = (e - s) * 0.4;
+        let k = 0;
+        lines.forEach(([text, y, size, cls]) => {
+          const d = document.createElement("div");
+          d.className = "line " + cls;
+          d.style.top = y + "px"; d.style.fontSize = size + "px";
+          const toks = text.split(" ");
+          toks.forEach((w, wi) => {
+            const sp = document.createElement("span");
+            sp.className = "w";
+            sp.textContent = w + (wi < toks.length - 1 ? " " : "");
+            d.appendChild(sp);
+            const at = s + (k / Math.max(1, all.length - 1)) * span;
+            // First word of every scene, and all of scene 0, are lit on the scene's first frame.
+            words.push({ el: sp, si, at: (k === 0 || si === 0) ? s - 0.32 : at });
+            k++;
+          });
+          stage.appendChild(d);
+          // Fit: a line never wraps; shrink it until it sits inside the 900px safe width.
+          let fs = size; while (d.scrollWidth > 900 && fs > 30) { fs -= 2; d.style.fontSize = fs + "px"; }
+        });
+      });
+      const $ = (id) => document.getElementById(id);
+      const hall = $("hall"), face = $("face"), halo = $("halo"), spill = $("spill");
+      const gap = $("gap"), glow = $("glow"), floorglow = $("floorglow"), pill = $("pill");
+      const BPM = 122;
+      function render(t) {
+        // Slow push down the hall.
+        hall.style.transform = `scale(${1 + 0.06 * (t / DUR)})`;
+        // Sign: lit from frame 0; a short tube buzz at 2.2s and again on the turn.
+        const buzz = (t > 2.2 && t < 2.42) || (t > 15.4 && t < 15.62);
+        const flick = buzz ? (Math.sin(t * 160) > 0 ? 0.35 : 1) : 1;
+        face.style.opacity = flick; halo.style.opacity = flick; spill.style.opacity = flick;
+        // Party: the gap pulses on the beat; the door eases open a little on the Ketu turn.
+        const beat = Math.pow(Math.max(0, Math.cos(((t * BPM) / 60) * Math.PI)), 6);
+        const open = ease(clamp((t - 15.4) / 1.6, 0, 1));
+        gap.style.width = (16 + open * 34) + "px";
+        const hot = 0.55 + 0.45 * beat;
+        gap.style.opacity = hot;
+        glow.style.opacity = (0.45 + 0.4 * beat) * (1 + open * 0.5);
+        floorglow.style.opacity = (0.4 + 0.5 * beat) * (1 + open * 0.6);
+        // CTA pill under the URL.
+        const p = ease(clamp((t - 19.6) / 0.35, 0, 1));
+        pill.style.opacity = p;
+        pill.style.transform = `scale(${0.92 + 0.08 * p})`;
+        // Copy: only the current scene is on screen; words land and settle.
+        const cur = SCENES.findIndex(([s, e]) => t >= s && t < e);
+        const si = cur < 0 ? SCENES.length - 1 : cur;
+        words.forEach(({ el, si: ws, at }) => {
+          if (ws !== si) { el.style.opacity = 0; return; }
+          const e = ease(clamp((t - at) / 0.3, 0, 1));
+          el.style.opacity = t >= at ? 0.15 + 0.85 * e : 0;
+          el.style.transform = `translateY(${(1 - e) * 22}px)`;
+          el.style.filter = `blur(${(1 - e) * 5}px)`;
+        });
+      }
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      if (document.fonts) document.fonts.ready.then(() => {
+        document.querySelectorAll(".line").forEach((d) => { let fs = parseFloat(d.style.fontSize);
+          while (d.scrollWidth > 900 && fs > 30) { fs -= 2; d.style.fontSize = fs + "px"; } });
+        render(clock.t); });
+      window.__timelines["exit"] = tl;
+    </script>
+  </body>
+</html>
