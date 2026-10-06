@@ -106,3 +106,8 @@ tiktok-ai-avatar/v75-exit/composition/assets/
 tiktok-ai-avatar/v76-pause/*.mp4
 tiktok-ai-avatar/v76-pause/*.jpg
 tiktok-ai-avatar/v76-pause/frames/
+
+# ElevenLabs asset library (licensed media, kept local)
+tiktok-ai-avatar/public/elevenlabs-library/music/
+tiktok-ai-avatar/public/elevenlabs-library/images/
+tiktok-ai-avatar/public/elevenlabs-library/sfx/
