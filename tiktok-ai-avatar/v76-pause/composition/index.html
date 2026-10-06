@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V76 — Pause</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Instrument+Sans:wght@500;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V76 — the PAUSE format. A THIRTEENTH format, and the first
+         that asks the viewer to DO something with the player.
+
+         A tear-off desk calendar on a sunlit desk. All 31 days flip past
+         in SHUFFLED order, ~0.45s a page: too fast to read, so you pause,
+         scrub back, or rewatch. You cannot skip to your day.
+
+         Every line is the Moolank of that day (1→1 … 29→2+9=11→2).
+         Wound, not accusation; no verdicts (⛔ 7 is never "alone").
+         CTA (standing from 10-02): product LAST and ONCE.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --desk:  #c98f52;
+        --desk2: #8a5a2e;
+        --paper: #f6eedd;
+        --paper2:#e9dcc2;
+        --red:   #c8211b;
+        --ink:   #1d1712;
+        --muted: #6d5d4b;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--desk); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+              background: radial-gradient(1400px 1100px at 30% 20%, #e3a868 0%, var(--desk) 45%, var(--desk2) 100%); }
+      /* Wood grain, from stripes. */
+      #grain { position: absolute; inset: 0; opacity: .18; mix-blend-mode: multiply;
+               background: repeating-linear-gradient(97deg, rgba(60,30,10,.5) 0 2px, transparent 2px 23px),
+                           repeating-linear-gradient(93deg, rgba(60,30,10,.35) 0 1px, transparent 1px 61px); }
+      /* Window light falling across the desk. */
+      #sun { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light;
+             background: linear-gradient(118deg, rgba(255,240,200,0) 20%, rgba(255,240,200,.7) 34%, rgba(255,240,200,0) 48%,
+                                         rgba(255,240,200,0) 56%, rgba(255,240,200,.6) 68%, rgba(255,240,200,0) 80%); }
+
+      #cal { position: absolute; left: 110px; top: 330px; width: 860px; height: 1180px; perspective: 2600px; }
+      /* The stack beneath: page edges. */
+      #stack { position: absolute; left: 6px; right: -6px; top: 22px; bottom: -26px; border-radius: 10px;
+               background: repeating-linear-gradient(180deg, var(--paper) 0 3px, var(--paper2) 3px 5px);
+               box-shadow: 0 50px 80px rgba(40,20,5,.45), 0 10px 20px rgba(40,20,5,.3); }
+      #binder { position: absolute; left: -10px; right: -10px; top: -46px; height: 92px; border-radius: 14px; z-index: 50;
+                background: linear-gradient(180deg, #3a2b20, #1f1712); box-shadow: 0 12px 20px rgba(0,0,0,.35); }
+      #binder i { position: absolute; top: 22px; width: 34px; height: 48px; border-radius: 17px;
+                  background: linear-gradient(90deg, #888, #eee 45%, #777); }
+      .page { position: absolute; inset: 0; border-radius: 10px; background: var(--paper);
+              transform-origin: 50% 0%; backface-visibility: hidden; overflow: hidden;
+              box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+      .page .hd { position: absolute; left: 0; right: 0; top: 46px; height: 120px; background: var(--red);
+                  color: #fff4e6; font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 44px;
+                  letter-spacing: .32em; display: flex; align-items: center; justify-content: center; }
+      .page .num { position: absolute; left: 0; right: 0; top: 150px; text-align: center; color: var(--red);
+                   font-family: "Rozha One", serif; font-size: 470px; line-height: 1; }
+      .page .ln { position: absolute; left: 70px; right: 70px; top: 700px; text-align: center; color: var(--ink);
+                  font-family: "Rozha One", serif; font-size: 74px; line-height: 1.08; }
+      .page .ml { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; color: var(--muted);
+                  font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 36px; letter-spacing: .14em;
+                  text-transform: uppercase; }
+      .page .ml b { color: var(--red); }
+      .page.title .num { font-size: 210px; top: 250px; line-height: .95; }
+      .page.title .ln { top: 760px; font-size: 64px; }
+      .page.end .num { font-size: 150px; top: 250px; line-height: 1.0; }
+      .page.end .ln { top: 740px; font-size: 62px; }
+
+      /* Overlay copy above the calendar. */
+      #top { position: absolute; left: 60px; right: 60px; top: 120px; text-align: center; color: #fff8ec;
+             font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 62px; line-height: 1.1;
+             text-shadow: 0 4px 22px rgba(60,25,0,.55); white-space: nowrap; }
+      #bot { position: absolute; left: 60px; right: 60px; top: 1600px; text-align: center; color: #fff8ec;
+             font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 54px; line-height: 1.15;
+             text-shadow: 0 4px 22px rgba(60,25,0,.55); }
+      #pill { display: inline-block; margin-top: 18px; padding: 18px 46px; border-radius: 80px; background: var(--red);
+              color: #fff4e6; font-size: 64px; box-shadow: 0 16px 40px rgba(120,10,0,.4); }
+      #counter { position: absolute; right: 70px; top: 1530px; color: #fff8ec; opacity: .85;
+                 font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 34px; letter-spacing: .12em; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="pause"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="23.0">
+      <audio id="bed" src="assets/bed.mp3"
+             data-start="0" data-duration="23.0" data-volume="0.6"></audio>
+      <div id="grain"></div>
+      <div id="cal">
+        <div id="stack"></div>
+        <div id="pages"></div>
+        <div id="binder"></div>
+      </div>
+      <div id="sun"></div>
+      <div id="top"></div>
+      <div id="counter"></div>
+      <div id="bot"></div>
+    </div>
+
+    <script>
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const ease = (x) => 1 - Math.pow(1 - x, 3);
+      const PLANET = ["", "Sun", "Moon", "Jupiter", "Rahu", "Mercury", "Venus", "Ketu", "Saturn", "Mars"];
+      const moolank = (d) => { while (d > 9) d = String(d).split("").reduce((a, c) => a + +c, 0); return d; };
+      const LINE = {
+        1: "You lead because nobody else would.",
+        2: "You feel the room before you walk in.",
+        3: "Everyone's advice-giver. Nobody asks you.",
+        4: "You were never on the expected path.",
+        5: "Nine tabs open in your head. Always.",
+        6: "You remember everyone's order but yours.",
+        7: "You see through people. Kindly.",
+        8: "Everything you have, you earned twice.",
+        9: "You fight for others faster than yourself.",
+        10: "You start what others only talk about.",
+        11: "You heard what they didn't say.",
+        12: "You make it look easier than it was.",
+        13: "The plan changed. You adapted. Again.",
+        14: "You need the next thing before this one ends.",
+        15: "You hold the family together. Quietly.",
+        16: "You've rebuilt yourself more than once.",
+        17: "Slow start. Nobody saw the work.",
+        18: "You forgive. You just don't forget.",
+        19: "You learned to stand on your own early.",
+        20: "You say “it's fine” when it isn't.",
+        21: "The life of the room. Quiet at home.",
+        22: "You build what others call impossible.",
+        23: "You can talk your way out of anything. Except your head.",
+        24: "You love loudly. You get loved quietly.",
+        25: "Your gut is rarely wrong. You still double-check.",
+        26: "You carry more than you show.",
+        27: "Your anger is always about someone else's hurt.",
+        28: "You'd rather do it yourself. So you do.",
+        29: "You cry at films. Never in front of anyone.",
+        30: "You were funny first. Then you got wise.",
+        31: "The odd one out. On purpose.",
+      };
+      // Shuffled once, deterministically (seeded LCG), so you cannot skip to your day.
+      let seed = 76;
+      const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+      const DAYS = Array.from({ length: 31 }, (_, i) => i + 1);
+      for (let i = DAYS.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [DAYS[i], DAYS[j]] = [DAYS[j], DAYS[i]]; }
+
+      const T_FLIP0 = 2.6, PER = 0.45, FLIP = 0.09;
+      const T_END = T_FLIP0 + DAYS.length * PER;     // 16.55
+      const DUR = 23.0;
+
+      // Page list, top-most first: title, 31 days, end card (bottom of the stack).
+      const pagesEl = document.getElementById("pages");
+      const PAGES = [];
+      const mk = (cls, hd, num, ln, ml) => {
+        const p = document.createElement("div");
+        p.className = "page " + cls;
+        p.innerHTML = `<div class="hd">${hd}</div><div class="num">${num}</div><div class="ln">${ln}</div><div class="ml">${ml}</div>`;
+        return p;
+      };
+      PAGES.push({ el: mk("title", "YOUR BIRTHDAY", "PAUSE<br>ON IT.", "31 days. Shuffled.<br>One of them is you.", "Ready?"), off: T_FLIP0 });
+      DAYS.forEach((d, i) => {
+        const m = moolank(d);
+        PAGES.push({ el: mk("", "BORN ON THE", d, LINE[d], `Moolank <b>${m}</b> · ${PLANET[m]}`), off: T_FLIP0 + (i + 1) * PER });
+      });
+      PAGES.push({ el: mk("end", "GOT YOURS?", "That's<br>one number.", "Your Moolank is the day.<br>Your full date says the rest.", "Missed it? It comes round again."), off: 1e9 });
+      // Top page must sit highest in the stack.
+      PAGES.forEach((p, i) => { p.el.style.zIndex = 100 - i; pagesEl.appendChild(p.el); });
+
+      const topEl = document.getElementById("top"), bot = document.getElementById("bot"), counter = document.getElementById("counter");
+      // Fit page lines inside the page.
+      const fit = () => document.querySelectorAll(".page .ln").forEach((d) => {
+        let fs = parseFloat(getComputedStyle(d).fontSize);
+        while (d.scrollHeight > 330 && fs > 40) { fs -= 2; d.style.fontSize = fs + "px"; } });
+      fit();
+
+      function render(t) {
+        // Pages: each one tears up and away when its time comes.
+        PAGES.forEach(({ el, off }) => {
+          const k = clamp((t - off) / FLIP, 0, 1);
+          if (k >= 1) { el.style.visibility = "hidden"; return; }
+          el.style.visibility = "visible";
+          const e = k * k;
+          el.style.transform = `rotateX(${e * 110}deg) translateY(${-e * 120}px) rotateZ(${e * -4}deg)`;
+          el.style.opacity = clamp(1 - k * 2.2, 0, 1);
+        });
+        // The calendar breathes in once the flipping ends.
+        const cal = document.getElementById("cal");
+        const z = ease(clamp((t - T_END) / 0.6, 0, 1));
+        cal.style.transform = `scale(${1 - 0.06 * z}) translateY(${-30 * z}px)`;
+
+        // Overlay copy.
+        if (t < T_END) {
+          topEl.textContent = t < T_FLIP0 ? "Pause on your birthday." : "Pause on your birthday.";
+          topEl.style.opacity = 1;
+          const idx = Math.floor((t - T_FLIP0) / PER);
+          counter.textContent = t >= T_FLIP0 ? `${clamp(idx + 1, 1, 31)} / 31` : "";
+          bot.innerHTML = t < T_FLIP0 ? "" : "";
+        } else {
+          counter.textContent = "";
+          topEl.textContent = "";
+          const c = ease(clamp((t - (T_END + 2.4)) / 0.4, 0, 1));
+          bot.style.opacity = c;
+          bot.style.transform = `translateY(${(1 - c) * 24}px)`;
+          bot.innerHTML = `Your whole chart is free.<br><span id="pill">numevix.com</span>`;
+        }
+      }
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      if (document.fonts) document.fonts.ready.then(() => { fit(); render(clock.t); });
+      window.__timelines["pause"] = tl;
+    </script>
+  </body>
+</html>

@@ -101,3 +101,8 @@ tiktok-ai-avatar/v75-exit/*.mp4
 tiktok-ai-avatar/v75-exit/*.jpg
 tiktok-ai-avatar/v75-exit/frames/
 tiktok-ai-avatar/v75-exit/composition/assets/
+
+# V76 render outputs stay off the public repo
+tiktok-ai-avatar/v76-pause/*.mp4
+tiktok-ai-avatar/v76-pause/*.jpg
+tiktok-ai-avatar/v76-pause/frames/
