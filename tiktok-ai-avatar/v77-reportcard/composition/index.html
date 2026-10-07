@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V77 — Report Card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Courier+Prime:wght@400;700&family=Instrument+Sans:wght@500;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V77 — the REPORT CARD format. A FOURTEENTH format.
+
+         A school progress report on a sunlit desk. The teacher's remark
+         is written in red pen, Class 3 → 12: "Results will come."
+         Then an office appraisal slides over it and types the same
+         thing in grown-up words: "Next cycle."
+         A red stamp lands at the turn: Moolank 8 · Saturn (computed).
+
+         Wound, not accusation; no consolation (never "it will come").
+         CTA (standing from 10-02): product LAST and ONCE.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --card:  #f3ecd9;
+        --card2: #e6dcc1;
+        --navy:  #1f3354;
+        --rule:  #9fb3cf;
+        --red:   #c42a1e;
+        --ink:   #1c1a17;
+        --blue:  #1d3f8f;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #6b3e1c; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #6b3e1c; }
+      #desk { position: absolute; inset: -20px; background: url(assets/desk.jpg) center / cover no-repeat; }
+      /* Constant scrim (never per-scene): darker at top + bottom for the overlay copy. */
+      #scrim { position: absolute; inset: 0; pointer-events: none;
+               background: linear-gradient(180deg, rgba(25,12,4,.62) 0%, rgba(25,12,4,0) 17%,
+                                                    rgba(25,12,4,0) 80%, rgba(25,12,4,.72) 92%, rgba(25,12,4,.8) 100%); }
+
+      #card { position: absolute; left: 80px; top: 300px; width: 920px; height: 1020px; border-radius: 8px;
+              background: linear-gradient(180deg, var(--card), var(--card2));
+              box-shadow: 0 40px 70px rgba(30,12,2,.5), 0 8px 18px rgba(30,12,2,.3);
+              transform: rotate(-1.4deg); }
+      #card .hd { position: absolute; left: 0; right: 0; top: 0; height: 150px; background: var(--navy); border-radius: 8px 8px 0 0;
+                  color: #f3ecd9; text-align: center; font-family: "Libre Baskerville", serif; }
+      #card .hd b { display: block; padding-top: 30px; font-size: 52px; letter-spacing: .08em; }
+      #card .hd i { display: block; font-style: normal; font-family: "Instrument Sans", sans-serif; font-weight: 700;
+                    font-size: 24px; letter-spacing: .3em; opacity: .75; margin-top: 8px; }
+      #card .nm { position: absolute; left: 50px; right: 50px; top: 180px; font-family: "Instrument Sans", sans-serif;
+                  font-weight: 700; font-size: 30px; color: var(--navy); letter-spacing: .12em; }
+      #card .nm span { display: inline-block; width: 560px; border-bottom: 3px dotted var(--navy); margin-left: 14px; }
+      #card table { position: absolute; left: 40px; right: 40px; top: 260px; border-collapse: collapse; width: 840px; }
+      #card th { font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 26px; letter-spacing: .2em;
+                 color: var(--navy); text-align: left; padding: 12px 18px; border-bottom: 4px solid var(--navy); }
+      #card td { height: 172px; border-bottom: 2px solid var(--rule); padding: 0 18px; vertical-align: middle; }
+      #card td.c { width: 190px; font-family: "Libre Baskerville", serif; font-size: 40px; color: var(--navy);
+                   border-right: 2px solid var(--rule); }
+      .pen { font-family: "Kalam", cursive; font-weight: 700; color: var(--red); font-size: 58px; line-height: 1.02;
+             white-space: nowrap; display: inline-block; transform: rotate(-1.5deg); }
+
+      #slip { position: absolute; left: 120px; top: 1000px; width: 860px; height: 610px; background: #fbfaf6;
+              box-shadow: 0 30px 60px rgba(20,8,0,.55), 0 6px 14px rgba(20,8,0,.3); transform: rotate(2.2deg); }
+      #slip .sh { position: absolute; left: 50px; right: 50px; top: 40px; font-family: "Instrument Sans", sans-serif;
+                  font-weight: 700; color: #555; font-size: 28px; letter-spacing: .3em; border-bottom: 3px solid #333; padding-bottom: 16px; }
+      #slip .sh em { float: right; font-style: normal; letter-spacing: .1em; color: #888; }
+      #slip .row { position: absolute; left: 50px; right: 50px; height: 140px; border-bottom: 1px solid #ccc;
+                   display: flex; align-items: center; font-family: "Courier Prime", monospace; color: var(--ink); }
+      #slip .row .y { width: 140px; font-weight: 700; font-size: 40px; color: #444; }
+      #slip .row .tx { font-size: 42px; white-space: nowrap; }
+      #slip .row .tx b { color: var(--blue); }
+
+      #stamp { position: absolute; left: 540px; top: 118px; padding: 8px 22px; border: 7px solid var(--red); border-radius: 14px;
+               color: var(--red); font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 40px; letter-spacing: .08em;
+               text-align: center; line-height: 1.05; transform: rotate(-6deg); mix-blend-mode: multiply; opacity: 0; background: rgba(255,255,255,.04); }
+      #stamp small { display: block; font-size: 22px; letter-spacing: .3em; }
+
+      #hook { position: absolute; left: 50px; right: 50px; top: 120px; text-align: center; color: #fff8ec;
+              font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 66px; line-height: 1.1;
+              text-shadow: 0 4px 22px rgba(30,10,0,.7); white-space: nowrap; }
+      #say { position: absolute; left: 60px; right: 60px; top: 1650px; text-align: center; color: #fff8ec;
+             font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 54px; line-height: 1.15;
+             text-shadow: 0 4px 22px rgba(30,10,0,.7); }
+      #say .pill { display: inline-block; margin-top: 14px; padding: 14px 44px; border-radius: 80px; background: var(--red);
+                   color: #fff4e6; font-size: 60px; box-shadow: 0 16px 40px rgba(120,10,0,.45); text-shadow: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="reportcard"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="22.0">
+      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="22.0" data-volume="0.55"></audio>
+      <audio id="sfx-paper" src="assets/paper.mp3" data-start="6.15" data-duration="1.0" data-volume="0.9"></audio>
+      <audio id="sfx-type1" src="assets/typing.mp3" data-start="7.0" data-duration="1.4" data-volume="0.45"></audio>
+      <audio id="sfx-type2" src="assets/typing.mp3" data-start="8.5" data-duration="1.4" data-volume="0.45"></audio>
+      <audio id="sfx-type3" src="assets/typing.mp3" data-start="10.0" data-duration="0.9" data-volume="0.45"></audio>
+      <audio id="sfx-thud" src="assets/thud.mp3" data-start="11.62" data-duration="1.0" data-volume="0.5"></audio>
+      <div id="desk"></div>
+      <div id="card">
+        <div class="hd"><b>PROGRESS REPORT</b><i>CUMULATIVE RECORD</i></div>
+        <div class="nm">NAME<span></span></div>
+        <table>
+          <tr><th>CLASS</th><th>TEACHER'S REMARKS</th></tr>
+          <tr><td class="c">III</td><td><span class="pen" data-w="0"></span></td></tr>
+          <tr><td class="c">VI</td><td><span class="pen" data-w="1"></span></td></tr>
+          <tr><td class="c">IX</td><td><span class="pen" data-w="2"></span></td></tr>
+          <tr><td class="c">XII</td><td><span class="pen" data-w="3"></span></td></tr>
+        </table>
+        <div id="stamp"></div>
+      </div>
+      <div id="slip">
+        <div class="sh">ANNUAL REVIEW <em>MANAGER'S COMMENTS</em></div>
+      </div>
+      <div id="scrim"></div>
+      <div id="hook"></div>
+      <div id="say"></div>
+    </div>
+
+    <script>
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const ease = (x) => 1 - Math.pow(1 - x, 3);
+      const PLANET = ["", "Sun", "Moon", "Jupiter", "Rahu", "Mercury", "Venus", "Ketu", "Saturn", "Mars"];
+      const moolank = (d) => { while (d > 9) d = String(d).split("").reduce((a, c) => a + +c, 0); return d; };
+      // Every day of the month whose Moolank is 8 — computed, never typed.
+      const M = 8;
+      const BORN = Array.from({ length: 31 }, (_, i) => i + 1).filter((d) => moolank(d) === M);
+      const ord = (d) => d + (d % 10 === 1 && d !== 11 ? "st" : d % 10 === 2 && d !== 12 ? "nd" : d % 10 === 3 && d !== 13 ? "rd" : "th");
+      const bornList = BORN.map(ord).slice(0, -1).join(", ").replace(/, ([^,]*)$/, ", $1") + " or " + ord(BORN[BORN.length - 1]);
+      if (BORN.join() !== "8,17,26") throw new Error("Moolank 8 days wrong: " + BORN);
+
+      // Teacher's red pen, Class III → XII. Row 0 is already written at frame 0.
+      const PEN = [
+        { s: "Hardworking. Results will come.", t: -1 },
+        { s: "Sincere. Results will come.",     t: 1.5 },
+        { s: "Works very hard. Be patient.",    t: 3.0 },
+        { s: "Deserved better marks.",           t: 4.5 },
+      ];
+      const WRITE = 0.9;
+      const penEls = [...document.querySelectorAll(".pen")];
+      penEls.forEach((el, i) => (el.textContent = PEN[i].s));
+
+      // The appraisal: typed, not written. Same remark in office words.
+      const slip = document.getElementById("slip");
+      const TYPED = [
+        { y: "2021", s: "Meets expectations. <b>Next cycle.</b>", t: 7.0 },
+        { y: "2023", s: "Strong year. <b>Next cycle.</b>",        t: 8.5 },
+        { y: "2025", s: "<b>Next cycle.</b>",                     t: 10.0 },
+      ];
+      const TYPE = 0.9;
+      const typedEls = TYPED.map((r, i) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.style.top = 120 + i * 150 + "px";
+        row.innerHTML = `<div class="y">${r.y}</div><div class="tx"></div>`;
+        slip.appendChild(row);
+        return row.querySelector(".tx");
+      });
+      // Plain-text length of each typed line, for char-by-char reveal that keeps the <b>.
+      const typedHtml = (html, n) => {
+        let out = "", seen = 0, inTag = false;
+        for (const ch of html) {
+          if (ch === "<") inTag = true;
+          if (inTag) { out += ch; if (ch === ">") inTag = false; continue; }
+          if (seen >= n) continue;
+          out += ch; seen++;
+        }
+        return out;
+      };
+      const plainLen = (html) => html.replace(/<[^>]+>/g, "").length;
+
+      const stamp = document.getElementById("stamp");
+      stamp.innerHTML = `MOOLANK ${M}<small>${PLANET[M].toUpperCase()}</small>`;
+
+      const T_SLIP = 6.2, T_STAMP = 11.6, DUR = 22.0;
+      const SAY = [
+        { t: T_STAMP, h: `Moolank ${M}. ${PLANET[M]},<br>the planet of the long wait.` },
+        { t: 14.0, h: `You've heard “it will come”<br>since you were eight.` },
+        { t: 16.6, h: `You stopped hearing it<br>as a promise.` },
+        { t: 18.8, h: `Which cycle you're in is free.<br><span class="pill">numevix.com</span>` },
+      ];
+      const HOOK = [
+        { t: 0, h: "Every report card said it." },
+        { t: T_SLIP, h: "Then work started saying it." },
+        { t: T_STAMP, h: `Born on the ${bornList}?` },
+      ];
+
+      const hookEl = document.getElementById("hook"), sayEl = document.getElementById("say");
+      // Fit-loop: every pen line inside its cell, every typed line inside the slip, hook on one line.
+      const fit = () => {
+        penEls.forEach((d) => { d.style.fontSize = ""; let fs = parseFloat(getComputedStyle(d).fontSize);
+          while (d.scrollWidth > 590 && fs > 34) { fs -= 2; d.style.fontSize = fs + "px"; } });
+        typedEls.forEach((d, i) => { d.innerHTML = TYPED[i].s; d.style.fontSize = ""; let fs = parseFloat(getComputedStyle(d).fontSize);
+          while (d.scrollWidth > 610 && fs > 28) { fs -= 2; d.style.fontSize = fs + "px"; } });
+        HOOK.forEach((hk) => { hookEl.innerHTML = hk.h; hookEl.style.fontSize = ""; let fs = parseFloat(getComputedStyle(hookEl).fontSize);
+          while (hookEl.scrollWidth > 980 && fs > 36) { fs -= 2; hookEl.style.fontSize = fs + "px"; } hk.fs = fs; });
+        hookEl.style.fontSize = "";
+      };
+      fit();
+
+      const pick = (list, t) => { let cur = list[0]; for (const x of list) if (t >= x.t) cur = x; return cur; };
+
+      function render(t) {
+        // Red pen writes left → right (clip), row 0 already there.
+        penEls.forEach((el, i) => {
+          const k = PEN[i].t < 0 ? 1 : clamp((t - PEN[i].t) / WRITE, 0, 1);
+          el.style.clipPath = `inset(-20px ${100 - k * 100}% -20px -20px)`;
+        });
+        // Slip slides up from below the frame.
+        const s = ease(clamp((t - T_SLIP) / 0.45, 0, 1));
+        slip.style.transform = `translateY(${(1 - s) * 1000}px) rotate(${2.2 + (1 - s) * 6}deg)`;
+        typedEls.forEach((el, i) => {
+          const n = Math.round(clamp((t - TYPED[i].t) / TYPE, 0, 1) * plainLen(TYPED[i].s));
+          el.innerHTML = typedHtml(TYPED[i].s, n);
+        });
+        // Stamp slams down.
+        const st = clamp((t - T_STAMP) / 0.2, 0, 1);
+        stamp.style.opacity = st > 0 ? 0.92 : 0;
+        stamp.style.transform = `rotate(-6deg) scale(${1.7 - 0.7 * st * st})`;
+        const card = document.getElementById("card");
+        const jolt = t >= T_STAMP + 0.2 && t < T_STAMP + 0.32 ? 6 : 0;
+        card.style.transform = `rotate(-1.4deg) translateY(${jolt}px)`;
+
+        // Overlay copy: hard swaps (nothing fades to empty), small rise-in.
+        const hk = pick(HOOK, t);
+        hookEl.innerHTML = hk.h;
+        hookEl.style.fontSize = hk.fs ? hk.fs + "px" : "";
+        if (t < T_STAMP) { sayEl.innerHTML = ""; }
+        else {
+          const sy = pick(SAY, t);
+          sayEl.innerHTML = sy.h;
+          const r = ease(clamp((t - sy.t) / 0.3, 0, 1));
+          sayEl.style.transform = `translateY(${(1 - r) * 20}px)`;
+        }
+      }
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      if (document.fonts) document.fonts.ready.then(() => { fit(); render(clock.t); });
+      window.__timelines["reportcard"] = tl;
+    </script>
+  </body>
+</html>

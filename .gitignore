@@ -107,6 +107,11 @@ tiktok-ai-avatar/v76-pause/*.mp4
 tiktok-ai-avatar/v76-pause/*.jpg
 tiktok-ai-avatar/v76-pause/frames/
 
+# V77 render outputs stay off the public repo
+tiktok-ai-avatar/v77-reportcard/*.mp4
+tiktok-ai-avatar/v77-reportcard/*.jpg
+tiktok-ai-avatar/v77-reportcard/frames/
+
 # ElevenLabs asset library (licensed media, kept local)
 tiktok-ai-avatar/public/elevenlabs-library/music/
 tiktok-ai-avatar/public/elevenlabs-library/images/
