@@ -10,6 +10,6 @@ I won't tell you to stop checking. What I'll tell you is which cycle you're stan
 
 Send this to whoever's always by the door.
 
-Your number is free: the calculator is the first link in my bio.
+Your number is free at numevix.com/try, link in bio.
 
 #numerology #vedicnumerology #moolank #moolank7 #ketu #numerologyindia #birthnumber #introvert #houseparty #knowyournumbers #numevix
