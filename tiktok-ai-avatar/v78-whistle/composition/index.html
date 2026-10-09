@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V78 — Whistle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Instrument+Sans:wght@500;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V78 — the WHISTLE format. A FIFTEENTH format.
+
+         A pressure cooker on a daylight kitchen counter, white tiles.
+         It whistles eight times. Each whistle is one thing swallowed,
+         tallied in marker on the tile. Nobody counts those.
+         The ninth whistle is the loud one — the one they bring up.
+         Turn: Moolank 9 · Mars (days + planet computed).
+
+         Wound, not accusation; no consolation. CTA product LAST and ONCE.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --tile:  #f4f1ea;
+        --grout: #d9d3c6;
+        --ink:   #1d1b18;
+        --red:   #c8261b;
+        --granite: #2a2622;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--tile); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--tile); }
+      #wall { position: absolute; inset: 0 0 380px 0;
+              background:
+                linear-gradient(90deg, rgba(255,250,235,.0) 0%, rgba(255,246,220,.35) 55%, rgba(255,250,235,0) 100%),
+                repeating-linear-gradient(0deg, var(--grout) 0 4px, transparent 4px 120px),
+                repeating-linear-gradient(90deg, var(--grout) 0 4px, transparent 4px 180px),
+                linear-gradient(180deg, #faf8f2, #ebe6da); }
+      /* window light falling across the tiles */
+      #sun { position: absolute; left: -200px; top: -100px; width: 900px; height: 1500px; transform: rotate(18deg);
+             background: linear-gradient(90deg, rgba(255,228,170,0), rgba(255,228,170,.28) 40%, rgba(255,228,170,0)); }
+      #counter { position: absolute; left: 0; right: 0; bottom: 0; height: 400px;
+                 background:
+                   radial-gradient(circle at 20% 30%, rgba(255,255,255,.07) 0 2px, transparent 3px) 0 0 / 23px 19px,
+                   radial-gradient(circle at 60% 70%, rgba(0,0,0,.25) 0 2px, transparent 3px) 0 0 / 17px 29px,
+                   linear-gradient(180deg, #3a342e, var(--granite) 30%, #1c1916); }
+      #counter::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 22px;
+                         background: linear-gradient(180deg, #5a5148, #2f2a25); }
+
+      #cooker { position: absolute; left: 108px; top: 824px; width: 945px; height: 756px; }
+      #steam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+      .puff { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(250,251,252,.97) 0%, rgba(196,202,210,.75) 42%, rgba(170,177,186,0) 70%);
+              filter: blur(6px); opacity: 0; }
+
+      #tally { position: absolute; left: 0; right: 0; top: 360px; height: 210px; }
+      #tally svg { position: absolute; left: 50%; transform: translateX(-50%); }
+
+      #hook { position: absolute; left: 50px; right: 50px; top: 100px; text-align: center; color: var(--ink);
+              font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 86px; line-height: 1.08; white-space: nowrap; }
+      #count { position: absolute; left: 0; right: 0; top: 600px; text-align: center; font-family: "Permanent Marker", cursive;
+               color: var(--ink); font-size: 46px; letter-spacing: .06em; }
+      #count b { font-weight: 400; color: var(--red); font-size: 64px; }
+      #line { position: absolute; left: 50px; right: 50px; top: 700px; text-align: center; font-family: "Instrument Sans", sans-serif;
+              font-weight: 700; color: var(--ink); font-size: 66px; white-space: nowrap; }
+      #say { position: absolute; left: 60px; right: 60px; top: 1610px; text-align: center; color: #fbf4e8;
+             font-family: "Instrument Sans", sans-serif; font-weight: 700; font-size: 56px; line-height: 1.15; }
+      #say .pill { display: inline-block; margin-top: 14px; padding: 14px 44px; border-radius: 80px; background: var(--red);
+                   color: #fff4e6; font-size: 60px; box-shadow: 0 16px 40px rgba(120,10,0,.45); }
+      #stage { position: absolute; inset: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="whistle"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="22.0">
+      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="22.0" data-volume="0.4"></audio>
+      <audio id="w1" src="assets/whistle.mp3" data-start="1.6"  data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w2" src="assets/whistle.mp3" data-start="2.65" data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w3" src="assets/whistle.mp3" data-start="3.7"  data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w4" src="assets/whistle.mp3" data-start="4.75" data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w5" src="assets/whistle.mp3" data-start="5.8"  data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w6" src="assets/whistle.mp3" data-start="6.85" data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w7" src="assets/whistle.mp3" data-start="7.9"  data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w8" src="assets/whistle.mp3" data-start="8.95" data-duration="0.75" data-volume="0.55"></audio>
+      <audio id="w9" src="assets/whistle9.mp3" data-start="10.2" data-duration="1.8" data-volume="0.8"></audio>
+      <audio id="boom" src="assets/boom.mp3" data-start="10.2" data-duration="1.5" data-volume="0.45"></audio>
+      <div id="stage">
+        <div id="wall"></div>
+        <div id="sun"></div>
+        <div id="counter"></div>
+        <svg id="cooker" viewBox="0 0 700 560">
+          <defs>
+            <linearGradient id="steel" x1="0" x2="1">
+              <stop offset="0" stop-color="#8d9196"/><stop offset=".18" stop-color="#e9ecef"/>
+              <stop offset=".35" stop-color="#b9bec4"/><stop offset=".62" stop-color="#f6f7f8"/>
+              <stop offset=".85" stop-color="#9ea3a9"/><stop offset="1" stop-color="#6f747a"/>
+            </linearGradient>
+            <linearGradient id="lid" x1="0" x2="1">
+              <stop offset="0" stop-color="#a3a8ae"/><stop offset=".4" stop-color="#f3f5f6"/><stop offset="1" stop-color="#868b91"/>
+            </linearGradient>
+            <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0" stop-color="#2a5bff"/><stop offset=".7" stop-color="#5fb4ff"/><stop offset="1" stop-color="#bfe4ff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- burner + grate -->
+          <rect x="120" y="500" width="460" height="34" rx="8" fill="#141210"/>
+          <g id="flames" fill="url(#flame)">
+            <path d="M190 500 q10 -34 20 0z"/><path d="M240 500 q10 -40 20 0z"/><path d="M290 500 q10 -36 20 0z"/>
+            <path d="M340 500 q10 -42 20 0z"/><path d="M390 500 q10 -36 20 0z"/><path d="M440 500 q10 -40 20 0z"/><path d="M490 500 q10 -34 20 0z"/>
+          </g>
+          <rect x="100" y="486" width="500" height="14" rx="4" fill="#1a1816"/>
+          <!-- body -->
+          <path d="M130 240 L130 450 Q130 486 170 486 L470 486 Q510 486 510 450 L510 240 Z" fill="url(#steel)"/>
+          <ellipse cx="320" cy="486" rx="190" ry="6" fill="rgba(0,0,0,.25)"/>
+          <!-- lid -->
+          <ellipse cx="320" cy="240" rx="196" ry="34" fill="url(#lid)"/>
+          <ellipse cx="320" cy="232" rx="176" ry="26" fill="#d9dde1"/>
+          <!-- handles -->
+          <rect x="500" y="214" width="190" height="28" rx="14" fill="#151311"/>
+          <rect x="470" y="252" width="200" height="28" rx="14" fill="#151311"/>
+          <rect x="40" y="250" width="100" height="26" rx="13" fill="#151311"/>
+          <!-- vent pipe + whistle weight -->
+          <rect x="306" y="186" width="28" height="42" fill="#8f949a"/>
+          <g id="weight">
+            <rect x="290" y="150" width="60" height="44" rx="10" fill="#33302c"/>
+            <rect x="300" y="128" width="40" height="28" rx="8" fill="#46423d"/>
+          </g>
+        </svg>
+        <div id="steam"></div>
+        <div id="tally"></div>
+        <div id="hook"></div>
+        <div id="count"></div>
+        <div id="line"></div>
+        <div id="say"></div>
+      </div>
+    </div>
+
+    <script>
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const ease = (x) => 1 - Math.pow(1 - x, 3);
+      const PLANET = ["", "Sun", "Moon", "Jupiter", "Rahu", "Mercury", "Venus", "Ketu", "Saturn", "Mars"];
+      const moolank = (d) => { while (d > 9) d = String(d).split("").reduce((a, c) => a + +c, 0); return d; };
+      // Every day of the month whose Moolank is 9 — computed, never typed.
+      const M = 9;
+      const BORN = Array.from({ length: 31 }, (_, i) => i + 1).filter((d) => moolank(d) === M);
+      const ord = (d) => d + (d % 10 === 1 && d !== 11 ? "st" : d % 10 === 2 && d !== 12 ? "nd" : d % 10 === 3 && d !== 13 ? "rd" : "th");
+      const bornList = BORN.slice(0, -1).map(ord).join(", ") + " or " + ord(BORN[BORN.length - 1]);
+      if (BORN.join() !== "9,18,27" || PLANET[M] !== "Mars") throw new Error("Moolank 9 wrong: " + BORN + " " + PLANET[M]);
+
+      // Eight swallowed, one heard. The ninth whistle is the count of the Moolank.
+      const W = [
+        { t: 1.6,  s: "Cut off mid-sentence." },
+        { t: 2.65, s: "“Just adjust.”" },
+        { t: 3.7,  s: "Your idea. His slide." },
+        { t: 4.75, s: "“Why so sensitive?”" },
+        { t: 5.8,  s: "Forty minutes late. “No problem.”" },
+        { t: 6.85, s: "Did the dishes. Again." },
+        { t: 7.9,  s: "“Don't overreact.”" },
+        { t: 8.95, s: "Smiled through it." },
+        { t: 10.2, s: "The one they still bring up." },
+      ];
+      if (W.length !== M) throw new Error("whistle count must equal the Moolank");
+      const NUM = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE"];
+      const T9 = W[8].t, DUR = 22.0;
+
+      // Tally in marker on the tile: IIII/ then IIII, the ninth stroke in red.
+      const tallyEl = document.getElementById("tally");
+      const strokes = [];
+      const svgNS = "http://www.w3.org/2000/svg";
+      const tsv = document.createElementNS(svgNS, "svg");
+      tsv.setAttribute("width", "620"); tsv.setAttribute("height", "210"); tsv.setAttribute("viewBox", "0 0 620 210");
+      const mk = (x1, y1, x2, y2, red) => {
+        const p = document.createElementNS(svgNS, "line");
+        p.setAttribute("x1", x1); p.setAttribute("y1", y1); p.setAttribute("x2", x2); p.setAttribute("y2", y2);
+        p.setAttribute("stroke", red ? "#c8261b" : "#1d1b18"); p.setAttribute("stroke-width", red ? "17" : "13");
+        p.setAttribute("stroke-linecap", "round");
+        const len = Math.hypot(x2 - x1, y2 - y1);
+        p.setAttribute("stroke-dasharray", len); p.setAttribute("stroke-dashoffset", len);
+        p.dataset.len = len;
+        tsv.appendChild(p); strokes.push(p);
+      };
+      // group 1: four uprights + a slash (strokes 1-5)
+      [40, 95, 150, 205].forEach((x, i) => mk(x, 30 + (i % 2) * 6, x + 6, 180));
+      mk(10, 150, 245, 50);
+      // group 2: four uprights (strokes 6-9), the ninth red
+      [345, 400, 455, 510].forEach((x, i) => mk(x, 30 + (i % 2) * 6, x + 6, 180, i === 3));
+      tallyEl.appendChild(tsv);
+
+      // Steam: a few puffs per whistle, rising from the weight.
+      const steam = document.getElementById("steam");
+      const VX = 108 + 320 * 1.35, VY = 824 + 128 * 1.35; // weight top, in frame px
+      const puffs = [];
+      W.forEach((w, i) => {
+        const big = i === 8, n = big ? 16 : 3;
+        for (let k = 0; k < n; k++) {
+          const d = document.createElement("div");
+          d.className = "puff";
+          steam.appendChild(d);
+          // deterministic spread
+          const sx = ((k * 37 + i * 13) % 11 - 5) * (big ? 34 : 12);
+          puffs.push({ el: d, t: w.t + k * (big ? 0.06 : 0.12), life: big ? 2.2 : 1.0, sx, big, r: big ? 380 + (k % 4) * 90 : 150 + k * 30 });
+        }
+      });
+
+      const hookEl = document.getElementById("hook"), countEl = document.getElementById("count"),
+            lineEl = document.getElementById("line"), sayEl = document.getElementById("say"),
+            weight = document.getElementById("weight"), stage = document.getElementById("stage");
+
+      const HOOK = [
+        { t: 0,      h: "Everyone heard<br>the ninth whistle." },
+        { t: 12.6,   h: `Born on the<br>${bornList}?` },
+      ];
+      const SAY = [
+        { t: 0,    h: "Nobody counted the eight before it." },
+        { t: 12.6, h: `Moolank ${M}. ${PLANET[M]},<br>the planet of fire.` },
+        { t: 15.2, h: "You weren't angry at nine.<br>You were patient for eight." },
+        { t: 18.4, h: `Which cycle you're in is free.<br><span class="pill">numevix.com</span>` },
+      ];
+
+      // Fit-loop: hook and every swallowed line on one line inside the frame.
+      const fitOne = (el, html, max, min) => {
+        el.innerHTML = html; el.style.fontSize = ""; let fs = parseFloat(getComputedStyle(el).fontSize);
+        while (el.scrollWidth > max && fs > min) { fs -= 2; el.style.fontSize = fs + "px"; }
+        return fs;
+      };
+      const fit = () => {
+        HOOK.forEach((x) => (x.fs = fitOne(hookEl, x.h, 980, 36)));
+        W.forEach((x) => (x.fs = fitOne(lineEl, x.s, 980, 36)));
+        hookEl.style.fontSize = lineEl.style.fontSize = "";
+      };
+      fit();
+      const pick = (list, t) => { let cur = list[0]; for (const x of list) if (t >= x.t) cur = x; return cur; };
+
+      function render(t) {
+        // Tally: stroke i draws at whistle i.
+        strokes.forEach((p, i) => {
+          const k = ease(clamp((t - W[i].t) / 0.22, 0, 1));
+          p.setAttribute("stroke-dashoffset", (1 - k) * +p.dataset.len);
+        });
+        // Whistle weight lifts + rattles on each whistle.
+        let lift = 0;
+        W.forEach((w, i) => {
+          const dur = i === 8 ? 1.6 : 0.6, dt = t - w.t;
+          if (dt >= 0 && dt < dur) lift = Math.max(lift, (i === 8 ? 22 : 12) * Math.sin(Math.PI * dt / dur)) + Math.sin(dt * 90) * 3;
+        });
+        weight.setAttribute("transform", `translate(0 ${-lift})`);
+        // Steam (decoration only; copy never fades to empty).
+        puffs.forEach((p) => {
+          const k = (t - p.t) / p.life;
+          if (k < 0 || k > 1) { p.el.style.opacity = 0; return; }
+          const r = p.r * (0.4 + k);
+          p.el.style.width = p.el.style.height = r + "px";
+          p.el.style.left = VX + p.sx * (0.3 + k) - r / 2 + "px";
+          p.el.style.top = VY - (p.big ? 560 : 300) * ease(k) - r / 2 + "px";
+          p.el.style.opacity = (p.big ? 1 : 0.8) * Math.sin(Math.PI * Math.min(1, k * 1.4));
+        });
+        // Shake on the ninth.
+        const sh = t >= T9 && t < T9 + 0.5 ? Math.sin((t - T9) * 70) * 10 * (1 - (t - T9) / 0.5) : 0;
+        stage.style.transform = `translate(${sh}px, ${sh * 0.4}px)`;
+
+        // Copy: hard swaps.
+        const hk = pick(HOOK, t); hookEl.innerHTML = hk.h; hookEl.style.fontSize = hk.fs + "px";
+        if (t < W[0].t) { countEl.innerHTML = ""; lineEl.innerHTML = ""; }
+        else {
+          const i = W.indexOf(pick(W, t));
+          countEl.innerHTML = i === 8 ? `WHISTLE <b>${NUM[i]}</b>` : `WHISTLE ${NUM[i]}`;
+          lineEl.innerHTML = W[i].s; lineEl.style.fontSize = W[i].fs + "px";
+          lineEl.style.color = i === 8 ? "var(--red)" : "var(--ink)";
+          const r = ease(clamp((t - W[i].t) / 0.18, 0, 1));
+          lineEl.style.transform = `translateY(${(1 - r) * 16}px) scale(${i === 8 ? 1 + 0.12 * (1 - r) : 1})`;
+        }
+        const sy = pick(SAY, t); sayEl.innerHTML = sy.h;
+        const r2 = ease(clamp((t - sy.t) / 0.3, 0, 1));
+        sayEl.style.transform = `translateY(${sy.t === 0 ? 0 : (1 - r2) * 20}px)`;
+      }
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      if (document.fonts) document.fonts.ready.then(() => { fit(); render(clock.t); });
+      window.__timelines["whistle"] = tl;
+    </script>
+  </body>
+</html>
