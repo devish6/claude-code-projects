@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V79 — Forms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Caveat:wght@600;700&family=Libre+Franklin:wght@500;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V79 — the FORMS format. A SIXTEENTH format, and a new AXIS.
+
+         Every post V70-V78 named ONE Moolank at the turn, so 8 in 9
+         viewers were told "not you". This one is for all nine.
+         The same eight DATE OF BIRTH boxes, filled in on form after
+         form — admit card, bank, passport, job, biodata, hospital,
+         SIM, visa. Every office kept a copy. Nobody read it back.
+         Then the boxes get ADDED, in red pen, in the office-use box:
+         first two = Moolank, all eight = Bhagyank (both computed).
+         CTA: put YOUR first-two-box number after numevix.com/.
+         ───────────────────────────────────────────────────────────── */
+      :root {
+        --desk: #e4d6bb;
+        --ink: #1e1c19;
+        --blue: #1d3a9e;
+        --red: #c8261b;
+        --paper: #fbfaf4;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--desk); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--desk); }
+      #desk { position: absolute; inset: 0;
+              background:
+                linear-gradient(115deg, rgba(255,240,205,0) 20%, rgba(255,240,205,.45) 45%, rgba(255,240,205,0) 70%),
+                repeating-linear-gradient(92deg, rgba(120,90,50,.05) 0 3px, transparent 3px 41px),
+                repeating-linear-gradient(88deg, rgba(120,90,50,.04) 0 2px, transparent 2px 67px),
+                linear-gradient(180deg, #ecdfc6, #d9c8a8); }
+      #stack { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .paper { position: absolute; left: 90px; top: 400px; width: 900px; height: 900px; background: var(--paper);
+               box-shadow: 0 2px 0 rgba(0,0,0,.04), 0 22px 50px rgba(70,45,10,.28); border-radius: 4px;
+               font-family: "Libre Franklin", sans-serif; color: #2b2925; transform-origin: 50% 60%; }
+      .paper .hd { position: absolute; left: 44px; right: 44px; top: 38px; font-weight: 800; font-size: 46px; letter-spacing: .04em;
+                   text-transform: uppercase; white-space: nowrap; }
+      .paper .no { position: absolute; right: 44px; top: 50px; font-size: 22px; font-weight: 500; opacity: .6; }
+      .paper .rule { position: absolute; left: 44px; right: 44px; top: 112px; height: 3px; background: #2b2925; }
+      .paper .bl { position: absolute; left: 44px; top: 128px; font-size: 22px; font-weight: 500; opacity: .65; letter-spacing: .03em; }
+      .paper .lab { position: absolute; left: 44px; font-size: 24px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; opacity: .8; }
+      .paper .ln { position: absolute; left: 44px; right: 44px; height: 2px; background: rgba(43,41,37,.45); }
+      .paper .boxes { position: absolute; left: 47px; top: 420px; width: 806px; height: 100px; }
+      .paper .bx { position: absolute; top: 0; width: 86px; height: 100px; border: 3px solid #2b2925; background: #fff; }
+      .paper .dg { position: absolute; top: -16px; width: 86px; text-align: center; font-family: "Caveat", cursive; font-weight: 700;
+                   font-size: 104px; color: var(--blue); line-height: 1.2; }
+      .paper .office { position: absolute; left: 44px; right: 44px; top: 580px; height: 280px; border: 3px dashed rgba(43,41,37,.5); }
+      .paper .office .lab { left: 18px; top: 14px; font-size: 22px; opacity: .6; }
+
+      #mark { position: absolute; left: 90px; top: 400px; width: 900px; height: 900px; pointer-events: none; }
+      .sum { position: absolute; left: 76px; right: 60px; font-family: "Caveat", cursive; font-weight: 700; color: var(--red);
+             white-space: pre; line-height: 1.12; }
+
+      #hook { position: absolute; left: 50px; right: 50px; top: 96px; text-align: center; color: var(--ink);
+              font-family: "Archivo", sans-serif; font-weight: 800; font-size: 84px; line-height: 1.06; white-space: nowrap; }
+      #line { position: absolute; left: 40px; right: 40px; top: 1360px; text-align: center; color: var(--ink);
+              font-family: "Archivo", sans-serif; font-weight: 800; font-size: 70px; white-space: nowrap; }
+      #say { position: absolute; left: 50px; right: 50px; top: 1530px; text-align: center; color: var(--ink);
+             font-family: "Archivo", sans-serif; font-weight: 600; font-size: 60px; line-height: 1.14; }
+      #say .red { color: var(--red); font-weight: 800; }
+      #url { position: absolute; left: 0; right: 0; top: 1335px; text-align: center; font-family: "Archivo", sans-serif;
+             font-weight: 800; font-size: 84px; color: var(--ink); white-space: nowrap; display: none; }
+      #url .ub { display: inline-block; width: 96px; height: 112px; border: 6px solid var(--red); background: #fff; vertical-align: -24px;
+                 margin-left: 8px; font-family: "Caveat", cursive; color: rgba(200,38,27,.55); font-size: 100px; line-height: 100px; }
+      #stage { position: absolute; inset: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="forms"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="22.0">
+      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="22.0" data-volume="0.38"></audio>
+      <audio id="s1" src="assets/sheet.mp3" data-start="1.8"  data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="s2" src="assets/sheet.mp3" data-start="2.85" data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="s3" src="assets/sheet.mp3" data-start="3.9"  data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="s4" src="assets/sheet.mp3" data-start="4.95" data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="s5" src="assets/sheet.mp3" data-start="6.0"  data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="s6" src="assets/sheet.mp3" data-start="7.05" data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="s7" src="assets/sheet.mp3" data-start="8.1"  data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="b1" src="assets/bell.mp3" data-start="11.3" data-duration="1.0" data-volume="0.5"></audio>
+      <audio id="b2" src="assets/bell.mp3" data-start="13.9" data-duration="1.0" data-volume="0.5"></audio>
+      <audio id="wh" src="assets/whoosh.mp3" data-start="18.3" data-duration="2.0" data-volume="0.4"></audio>
+      <div id="stage">
+        <div id="desk"></div>
+        <div id="stack"></div>
+        <svg id="mark" viewBox="0 0 900 900"></svg>
+        <div id="hook"></div>
+        <div id="line"></div>
+        <div id="url">numevix.com/<span class="ub">?</span></div>
+        <div id="say"></div>
+      </div>
+    </div>
+
+    <script>
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const ease = (x) => 1 - Math.pow(1 - x, 3);
+      const PLANET = ["", "Sun", "Moon", "Jupiter", "Rahu", "Mercury", "Venus", "Ketu", "Saturn", "Mars"];
+      const THE = (p) => (p === "Sun" || p === "Moon" ? "The " + p : p);
+      const digitSum = (n) => String(n).split("").reduce((a, c) => a + +c, 0);
+      // Reduction chain, e.g. 29 → [29, 11, 2]. Computed, never typed (V67 shipped a wrong Conductor).
+      const chain = (n) => { const c = [n]; while (n > 9) { n = digitSum(n); c.push(n); } return c; };
+
+      // The date written into every form. DD MM YYYY = eight boxes.
+      const DD = "29", MM = "08", YYYY = "1996";
+      const DIG = (DD + MM + YYYY).split("").map(Number);
+      if (DIG.length !== 8) throw new Error("a date is eight boxes");
+      const mChain = chain(+DD);                                  // Moolank: the day
+      const bTotal = DIG.reduce((a, b) => a + b, 0);
+      const bChain = chain(bTotal);                               // Bhagyank: the whole date
+      const MOOL = mChain[mChain.length - 1], BHAG = bChain[bChain.length - 1];
+      if (MOOL !== 2 || PLANET[MOOL] !== "Moon" || BHAG !== 8 || PLANET[BHAG] !== "Saturn")
+        throw new Error(`arithmetic drift: Moolank ${MOOL} ${PLANET[MOOL]}, Bhagyank ${BHAG} ${PLANET[BHAG]}`);
+      // Red-pen working, built from the numbers above.
+      const steps = (c, firstExpr) => {
+        let s = firstExpr + " = " + c[1];
+        for (let i = 1; i < c.length - 1; i++) s += (s.length > 16 ? "\n→  " : "  →  ") + String(c[i]).split("").join(" + ") + " = " + c[i + 1];
+        return s;
+      };
+      const SUM1 = steps(mChain, DD.split("").join(" + "));     // 2 + 9 = 11  →  1 + 1 = 2
+      const SUM2 = steps([null, ...bChain], DIG.join("+"));       // 2+9+0+8+1+9+9+6 = 44  →  4 + 4 = 8 (the 44 is a step, not the start)
+      if (!new RegExp("= " + bTotal + "\\s").test(SUM2) || !SUM1.includes("= " + +DD.split("").reduce((a, c) => a + +c, 0))) throw new Error("working skips a step: " + SUM1 + " | " + SUM2);
+
+      // Eight forms. Frame 0 is the first, already filled — the hook is lit on it.
+      const FORMS = [
+        { t: 0,    hd: "Admit Card",              no: "Roll No. ______", tint: "#fbfaf4", rot: -1.2, s: "" },
+        { t: 1.8,  hd: "Account Opening Form",    no: "Form A-1",        tint: "#eef6ee", rot: 1.6,  s: "Sign here. And here. And here." },
+        { t: 2.85, hd: "Passport Application",    no: "Page 1 of 4",     tint: "#eef2fa", rot: -2.0, s: "Third visit. Wrong photo size." },
+        { t: 3.9,  hd: "Job Application",         no: "Ref. ______",     tint: "#fbfaf4", rot: 1.1,  s: "Expected salary: left blank." },
+        { t: 4.95, hd: "Biodata",                 no: "",                tint: "#fcf1ef", rot: -1.5, s: "Mummy filled this one in." },
+        { t: 6.0,  hd: "Patient Registration",    no: "OPD No. ______",  tint: "#fbfaf4", rot: 2.1,  s: "Filled in a waiting room." },
+        { t: 7.05, hd: "SIM Card KYC",            no: "Copy 2",          tint: "#f6f4ea", rot: -0.9, s: "Photocopy of a photocopy." },
+        { t: 8.1,  hd: "Visa Application",        no: "Page 2 of 6",     tint: "#f0f4f4", rot: 0.6,  s: "Rejected once. Filled again." },
+      ];
+      if (FORMS.length !== DIG.length) throw new Error("eight forms for eight boxes");
+      const T_WOUND = 9.3, T_M = 10.7, T_B = 13.3, T_ROAD = 15.9, T_CTA = 18.3, DUR = 22.0;
+
+      // Box x-positions inside .boxes: DD | MM | YYYY with wider gaps between groups.
+      const BX = []; { let x = 0; for (let i = 0; i < 8; i++) { BX.push(x); x += 86 + (i === 1 || i === 3 ? 34 : 10); } }
+
+      const stack = document.getElementById("stack");
+      const papers = FORMS.map((f, i) => {
+        const p = document.createElement("div");
+        p.className = "paper";
+        p.style.background = f.tint;
+        p.innerHTML =
+          `<div class="hd"><span>${f.hd}</span></div><div class="no">${f.no}</div><div class="rule"></div>` +
+          `<div class="bl">Please write in BLOCK LETTERS</div>` +
+          `<div class="lab" style="top:186px">Full name</div><div class="ln" style="top:252px"></div>` +
+          `<div class="lab" style="top:278px">Father's / Mother's name</div><div class="ln" style="top:344px"></div>` +
+          `<div class="lab" style="top:378px">Date of birth &nbsp;(D D &nbsp;/&nbsp; M M &nbsp;/&nbsp; Y Y Y Y)</div>` +
+          `<div class="boxes">${BX.map((x) => `<div class="bx" style="left:${x}px"></div>`).join("")}` +
+          `${BX.map((x, k) => `<div class="dg" style="left:${x}px">${DIG[k]}</div>`).join("")}</div>` +
+          `<div class="office"><div class="lab">For office use only</div></div>`;
+        stack.appendChild(p);
+        return { el: p, dg: [...p.querySelectorAll(".dg")], f, i };
+      });
+      // Hand-written jitter so the eight copies are not identical.
+      papers.forEach((p) => p.dg.forEach((d, k) => { const j = ((k * 7 + p.i * 5) % 5) - 2; d.style.transform = `rotate(${j * 2}deg) translateY(${j}px)`; }));
+
+      // Red pen on the TOP form: circle the first two boxes, underline all eight, working in the office box.
+      const svgNS = "http://www.w3.org/2000/svg", mark = document.getElementById("mark");
+      const path = (d, w) => {
+        const p = document.createElementNS(svgNS, "path");
+        p.setAttribute("d", d); p.setAttribute("fill", "none"); p.setAttribute("stroke", "#c8261b");
+        p.setAttribute("stroke-width", w); p.setAttribute("stroke-linecap", "round");
+        mark.appendChild(p); const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p.dataset.len = L;
+        return p;
+      };
+      const bx0 = 47; // .boxes left inside paper
+      const circ = path(`M ${bx0 + 200} 412 C ${bx0 + 210} 380, ${bx0 - 30} 384, ${bx0 - 22} 470 C ${bx0 - 16} 552, ${bx0 + 214} 548, ${bx0 + 206} 466 C ${bx0 + 202} 430, ${bx0 + 170} 400, ${bx0 + 120} 402`, 7);
+      const under = path(`M ${bx0 - 8} 546 C 300 538, 560 552, ${bx0 + 816} 540`, 7);
+      const mkSum = (txt, top) => { const d = document.createElement("div"); d.className = "sum"; d.style.top = top + "px"; d.textContent = txt; return d; };
+      const topForm = papers[papers.length - 1].el;
+      const sum1 = mkSum(SUM1, 624), sum2 = mkSum(SUM2, 700);
+      topForm.appendChild(sum1); topForm.appendChild(sum2);
+
+      const hookEl = document.getElementById("hook"), lineEl = document.getElementById("line"),
+            sayEl = document.getElementById("say"), urlEl = document.getElementById("url");
+
+      const HOOK = [
+        { t: 0,       h: "You've filled in these<br>eight boxes all your life." },
+        { t: T_WOUND, h: "Every office<br>kept a copy." },
+        { t: T_M,     h: "Add your<br>first two boxes." },
+        { t: T_B,     h: "Now add<br>all eight." },
+        { t: T_ROAD,  h: "One is who you are." },
+        { t: T_CTA,   h: "Your first two boxes,<br>added. Put it here:" },
+      ];
+      const SAY = [
+        { t: 0,       h: "Nobody ever added them up." },
+        { t: T_WOUND, h: "Nobody read it back to you." },
+        { t: T_M,     h: `<span class="red">Moolank ${MOOL}.</span> ${THE(PLANET[MOOL])}.` },
+        { t: T_B,     h: `<span class="red">Bhagyank ${BHAG}.</span> ${THE(PLANET[BHAG])}.` },
+        { t: T_ROAD,  h: "One is the road you're on.<br>Both were in the boxes." },
+        { t: T_CTA,   h: "Your number opens on the site.<br>Free." },
+      ];
+
+      const fitOne = (el, html, max, min) => {
+        el.innerHTML = html; el.style.fontSize = ""; let fs = parseFloat(getComputedStyle(el).fontSize);
+        while (el.scrollWidth > max && fs > min) { fs -= 2; el.style.fontSize = fs + "px"; }
+        return fs;
+      };
+      const fitSum = (el, max) => { const was = topForm.style.display; topForm.style.display = "block"; el.style.right = "auto";
+        el.style.fontSize = "68px"; let fs = 68; while (el.offsetWidth > max && fs > 30) { fs -= 2; el.style.fontSize = fs + "px"; }
+        topForm.style.display = was; };
+      const fit = () => {
+        HOOK.forEach((x) => (x.fs = fitOne(hookEl, x.h, 980, 40)));
+        FORMS.forEach((x) => (x.fs = fitOne(lineEl, x.s, 1000, 40)));
+        papers.forEach((p) => { const hd = p.el.querySelector(".hd"), sp = hd.firstChild; const was = p.el.style.display; p.el.style.display = "block";
+          let fs = 46; hd.style.fontSize = fs + "px";
+          const room = p.f.no ? 560 : 812; while (sp.offsetWidth > room && fs > 26) { fs -= 2; hd.style.fontSize = fs + "px"; }
+          p.el.style.display = was; });
+        fitSum(sum1, 760); fitSum(sum2, 760);
+        hookEl.style.fontSize = lineEl.style.fontSize = "";
+      };
+      fit();
+      const pick = (list, t) => { let cur = list[0]; for (const x of list) if (t >= x.t) cur = x; return cur; };
+      const reveal = (el, t0, dur, t) => {           // red pen writes left → right
+        const k = clamp((t - t0) / dur, 0, 1);
+        el.style.clipPath = `inset(-20px ${(1 - k) * 100}% -20px -20px)`;
+      };
+
+      function render(t) {
+        papers.forEach((p) => {
+          const { f } = p, dt = t - f.t;
+          if (dt < 0) { p.el.style.display = "none"; return; }
+          p.el.style.display = "block";
+          const k = f.t === 0 ? 1 : ease(clamp(dt / 0.28, 0, 1));
+          p.el.style.transform = `translate(${(1 - k) * 1150}px, ${(1 - k) * -60}px) rotate(${f.rot + (1 - k) * 9}deg)`;
+          // Digits written in, box by box (the frame-0 form is already filled).
+          p.dg.forEach((d, j) => {
+            const w = f.t === 0 ? 1 : clamp((dt - 0.18 - j * 0.07) / 0.08, 0, 1);
+            d.style.opacity = w;
+          });
+        });
+        // Red pen.
+        const dk = (p, t0, dur) => { p.style.strokeDashoffset = (1 - ease(clamp((t - t0) / dur, 0, 1))) * +p.dataset.len; };
+        dk(circ, T_M, 0.45); reveal(sum1, T_M + 0.35, 0.9, t);
+        dk(under, T_B, 0.45); reveal(sum2, T_B + 0.35, 1.2, t);
+        // Copy: hard swaps.
+        const hk = pick(HOOK, t); hookEl.innerHTML = hk.h; hookEl.style.fontSize = hk.fs + "px";
+        const cur = t < T_WOUND ? pick(FORMS, t) : null;
+        if (cur && cur.s) {
+          lineEl.style.display = "block"; lineEl.innerHTML = cur.s; lineEl.style.fontSize = cur.fs + "px";
+          const r = ease(clamp((t - cur.t - 0.12) / 0.2, 0, 1));
+          lineEl.style.transform = `translateY(${(1 - r) * 14}px)`;
+        } else lineEl.style.display = "none";
+        urlEl.style.display = t >= T_CTA ? "block" : "none";
+        const ru = ease(clamp((t - T_CTA) / 0.3, 0, 1));
+        urlEl.style.transform = `scale(${0.9 + 0.1 * ru})`;
+        const sy = pick(SAY, t); sayEl.innerHTML = sy.h;
+        const r2 = ease(clamp((t - sy.t) / 0.3, 0, 1));
+        sayEl.style.transform = `translateY(${sy.t === 0 ? 0 : (1 - r2) * 18}px)`;
+      }
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      render(0);
+      if (document.fonts) document.fonts.ready.then(() => { fit(); render(clock.t); });
+      window.__timelines["forms"] = tl;
+    </script>
+  </body>
+</html>
