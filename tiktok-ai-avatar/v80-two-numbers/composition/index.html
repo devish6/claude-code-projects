@@ -62,17 +62,18 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="v80" data-start="0" data-width="1080" data-height="1920" data-duration="27">
-      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="27" data-volume="1"></audio>
-      <audio id="f0" src="assets/flip.mp3" data-start="2.6" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f1" src="assets/flip.mp3" data-start="5.6" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f2" src="assets/flip.mp3" data-start="10" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f3" src="assets/flip.mp3" data-start="15" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f4" src="assets/flip.mp3" data-start="18.4" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f5" src="assets/flip.mp3" data-start="22" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="b0" src="assets/bell.mp3" data-start="6.90" data-duration="2.5" data-volume="0.32"></audio>
-      <audio id="b1" src="assets/bell.mp3" data-start="11.60" data-duration="2.5" data-volume="0.32"></audio>
-      <audio id="wh" src="assets/whoosh.mp3" data-start="22" data-duration="2.0" data-volume="0.3"></audio>
+    <div id="root" data-composition-id="v80" data-start="0" data-width="1080" data-height="1920" data-duration="27.2">
+      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="27.2" data-volume="1"></audio>
+      <audio id="f0" src="assets/flip.mp3" data-start="2.74" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f1" src="assets/flip.mp3" data-start="5.74" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f2" src="assets/flip.mp3" data-start="10.14" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f3" src="assets/flip.mp3" data-start="15.14" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f4" src="assets/flip.mp3" data-start="18.54" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f5" src="assets/flip.mp3" data-start="22.14" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="b0" src="assets/bell.mp3" data-start="7.04" data-duration="2.5" data-volume="0.32"></audio>
+      <audio id="b1" src="assets/bell.mp3" data-start="11.74" data-duration="2.5" data-volume="0.32"></audio>
+      <audio id="vo" src="assets/vo.mp3" data-start="0.15" data-duration="2.34" data-volume="1"></audio>
+      <audio id="wh" src="assets/whoosh.mp3" data-start="22.14" data-duration="2.0" data-volume="0.3"></audio>
       <div id="bg"></div>
       <svg id="shelves" viewBox="0 0 1080 1920" preserveAspectRatio="none"></svg>
       <div id="motes"></div>
@@ -82,8 +83,8 @@
       <svg id="grain" viewBox="0 0 1080 1920"><filter id="gf"><feTurbulence id="turb" type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gf)"/></svg>
     </div>
     <script>
-      const SCENES = [{"t":0,"items":[{"k":"kick","s":"Vedic numerology"},{"k":"ln","s":"You have <b>TWO</b> numbers.","at":0,"cls":"xl"},{"k":"ln","s":"Not one.","at":0,"cls":"xl gold"}]},{"t":2.6,"items":[{"k":"ln","s":"Most sites give you one.","at":0},{"k":"ln","s":"Vedic numerology","at":0.9},{"k":"ln","s":"has always used two.","at":1.2,"cls":"gold"}]},{"t":5.6,"bell":1.3,"items":[{"k":"kick","s":"1 · Moolank · from your birth day"},{"k":"work","s":"Born on the 23rd","at":0},{"k":"work","s":"2 + 3 = 5","at":0.6},{"k":"big","n":5,"lbl":"Mercury · how you drive","at":1.3}]},{"t":10,"bell":1.6,"items":[{"k":"kick","s":"2 · Bhagyank · from your full date"},{"k":"work","s":"23 · 08 · 1993","at":0},{"k":"work","s":"2+3+0+8+1+9+9+3 = 35","at":0.6},{"k":"work","s":"3 + 5 = 8","at":1},{"k":"big","n":8,"lbl":"Saturn · where the road goes","at":1.6}]},{"t":15,"items":[{"k":"ln","s":"One is how you drive.","at":0},{"k":"ln","s":"The other is","at":1},{"k":"ln","s":"where the road goes.","at":1.3,"cls":"gold"}]},{"t":18.4,"items":[{"k":"ln","s":"When they pull apart,","at":0},{"k":"ln","s":"that's the tension","at":1},{"k":"ln","s":"you've felt all your life","at":1.4},{"k":"ln","s":"and never had a word for.","at":2,"cls":"gold"}]},{"t":22,"cta":true,"items":[{"k":"kick","s":"Your turn"},{"k":"ln","s":"Comment your birth date.","at":0},{"k":"work","s":"DD MM YYYY","at":0.3},{"k":"ln","s":"I'll reply with","at":0.6},{"k":"ln","s":"your <b>TWO</b> numbers.","at":0.8,"cls":"gold"},{"k":"url","at":0.9}]}];
-      const DUR = 27, MOOLANK = null;
+      const SCENES = [{"t":0,"items":[{"k":"kick","s":"Vedic numerology"},{"k":"ln","s":"You have <b>TWO</b> numbers.","at":0,"cls":"xl"},{"k":"ln","s":"Not one.","at":0,"cls":"xl gold"}]},{"t":2.74,"items":[{"k":"ln","s":"Most sites give you one.","at":0},{"k":"ln","s":"Vedic numerology","at":0.9},{"k":"ln","s":"has always used two.","at":1.2,"cls":"gold"}]},{"t":5.74,"bell":1.3,"items":[{"k":"kick","s":"1 · Moolank · from your birth day"},{"k":"work","s":"Born on the 23rd","at":0},{"k":"work","s":"2 + 3 = 5","at":0.6},{"k":"big","n":5,"lbl":"Mercury · how you drive","at":1.3}]},{"t":10.14,"bell":1.6,"items":[{"k":"kick","s":"2 · Bhagyank · from your full date"},{"k":"work","s":"23 · 08 · 1993","at":0},{"k":"work","s":"2+3+0+8+1+9+9+3 = 35","at":0.6},{"k":"work","s":"3 + 5 = 8","at":1},{"k":"big","n":8,"lbl":"Saturn · where the road goes","at":1.6}]},{"t":15.14,"items":[{"k":"ln","s":"One is how you drive.","at":0},{"k":"ln","s":"The other is","at":1},{"k":"ln","s":"where the road goes.","at":1.3,"cls":"gold"}]},{"t":18.54,"items":[{"k":"ln","s":"When they pull apart,","at":0},{"k":"ln","s":"that's the tension","at":1},{"k":"ln","s":"you've felt all your life","at":1.4},{"k":"ln","s":"and never had a word for.","at":2,"cls":"gold"}]},{"t":22.14,"cta":true,"items":[{"k":"kick","s":"Your turn"},{"k":"ln","s":"Comment your birth date.","at":0},{"k":"work","s":"DD MM YYYY","at":0.3},{"k":"ln","s":"I'll reply with","at":0.6},{"k":"ln","s":"your <b>TWO</b> numbers.","at":0.8,"cls":"gold"},{"k":"url","at":0.9}]}];
+      const DUR = 27.2, MOOLANK = null;
       const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
       const ease = (x) => 1 - Math.pow(1 - x, 3);
       // Deterministic PRNG, so every render draws the same shelves and motes.

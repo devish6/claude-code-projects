@@ -7,7 +7,7 @@
 // composition per cut into ../v8N-<slug>/composition/.
 //
 //   node muse-series/build.mjs        then render each with hyperframes@0.8.46
-import { mkdirSync, writeFileSync, copyFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, copyFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -156,6 +156,19 @@ const CUTS = [
 // The V84 label names the engine's title for Personal Year 4 ("A year for careful groundwork").
 assert(py.at(-1) === 4, "V84 label is the PY4 title");
 
+// ── the spoken hook (ElevenLabs, Midhun "Deep Indian Spiritual Narrator", eleven v4; silence-trimmed into vo/) ──
+// Scene 2 waits until the voice has finished, so the spoken words always sit under their own text.
+const VO_START = 0.15;
+for (const cut of CUTS) {
+  const f = join(HERE, "vo", `vo${cut.v}.mp3`);
+  if (!existsSync(f)) continue;
+  cut.voDur = +execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f]).toString().trim();
+  const need = VO_START + cut.voDur + 0.25, delta = Math.max(0, need - cut.scenes[1].t);
+  const d = Math.round(delta * 100) / 100;
+  for (const sc of cut.scenes.slice(1)) sc.t = Math.round((sc.t + d) * 100) / 100;
+  cut.dur = Math.ceil((cut.dur + d) * 10) / 10;
+}
+
 // ── the template ────────────────────────────────────────────────────────────────────────────
 const html = (cut) => {
   const id = `v${cut.v}`;
@@ -230,6 +243,7 @@ const html = (cut) => {
       <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="${cut.dur}" data-volume="${cut.bedVol ?? 0.42}"></audio>
       ${flips.join("\n      ")}
       ${bells.join("\n      ")}
+      ${cut.voDur ? `<audio id="vo" src="assets/vo.mp3" data-start="${VO_START}" data-duration="${cut.voDur.toFixed(2)}" data-volume="1"></audio>` : ""}
       <audio id="wh" src="assets/whoosh.mp3" data-start="${cta.t}" data-duration="2.0" data-volume="0.3"></audio>
       <div id="bg"></div>
       <svg id="shelves" viewBox="0 0 1080 1920" preserveAspectRatio="none"></svg>
@@ -337,11 +351,15 @@ for (const cut of CUTS) {
   const dir = join(ROOT, `v${cut.v}-${cut.slug}`, "composition");
   mkdirSync(join(dir, "assets"), { recursive: true });
   writeFileSync(join(dir, "index.html"), html(cut));
-  if (cut.bedGainDb) execFileSync("ffmpeg", ["-v", "error", "-y", "-i", join(LIB, "music", cut.bed), "-af", `volume=${cut.bedGainDb}dB,alimiter=limit=0.9`, join(dir, "assets/bed.mp3")]);
-  else copyFileSync(join(LIB, "music", cut.bed), join(dir, "assets/bed.mp3"));
+  // Bed: looped if the cut outruns it, dipped under the voice hook, faded out at the end.
+  const voEnd = cut.voDur ? VO_START + cut.voDur : 0;
+  const af = [cut.bedGainDb ? `volume=${cut.bedGainDb}dB` : null, voEnd ? `volume='if(lt(t,${(voEnd + 0.2).toFixed(2)}),0.45,1)':eval=frame` : null,
+    `afade=t=out:st=${(cut.dur - 1.5).toFixed(2)}:d=1.5`, "alimiter=limit=0.9"].filter(Boolean).join(",");
+  execFileSync("ffmpeg", ["-v", "error", "-y", "-stream_loop", "-1", "-i", join(LIB, "music", cut.bed), "-t", String(cut.dur), "-af", af, join(dir, "assets/bed.mp3")]);
+  if (cut.voDur) copyFileSync(join(HERE, "vo", `vo${cut.v}.mp3`), join(dir, "assets/vo.mp3"));
   copyFileSync(join(LIB, "sfx", "Fast_flipping_throug_take2.mp3"), join(dir, "assets/flip.mp3"));
   copyFileSync(join(LIB, "sfx", "Large_temple_bell_st_take2.mp3"), join(dir, "assets/bell.mp3"));
   copyFileSync(join(LIB, "sfx", "Cinematic_whoosh_tra_take1.mp3"), join(dir, "assets/whoosh.mp3"));
-  console.log(`V${cut.v} → v${cut.v}-${cut.slug}  ${cut.dur}s  ${cut.scenes.length} scenes  bed ${cut.bed}`);
+  console.log(`V${cut.v} → v${cut.v}-${cut.slug}  ${cut.dur}s  ${cut.scenes.length} scenes  bed ${cut.bed}  vo ${cut.voDur?.toFixed(2) ?? "none"}s  scene2 @${cut.scenes[1].t}`);
 }
-writeFileSync(join(HERE, "cuts.json"), JSON.stringify(CUTS.map(({ v, slug, file, title, dur, bed }) => ({ v, slug, file, title, dur, bed })), null, 2));
+writeFileSync(join(HERE, "cuts.json"), JSON.stringify(CUTS.map(({ v, slug, file, title, dur, bed, voDur }) => ({ v, slug, file, title, dur, bed, voDur })), null, 2));

@@ -5,11 +5,11 @@ number shown on screen. Each file was checked with ffprobe: H.264, 1080×1920, 3
 
 | File | V | Length | Hook on frame 0 |
 |---|---|---|---|
-| v1_two_numbers.mp4 | V80 | 27s | You have TWO numbers. Not one. |
-| v2_western_wrong.mp4 | V81 | 27s | Your life path number is missing a planet. |
-| v3_moolank8.mp4 | V82 | 23s | Born on the 8th, 17th or 26th? |
-| v4_name_number.mp4 | V83 | 28s | Your name has a number. It might be fighting your birth chart. |
-| v5_2026_forecast.mp4 | V84 | 29s | November & December 2026, by your numbers. |
+| v1_two_numbers.mp4 | V80 | 27.2s | You have TWO numbers. Not one. |
+| v2_western_wrong.mp4 | V81 | 27.3s | Your life path number is missing a planet. |
+| v3_moolank8.mp4 | V82 | 24.3s | Born on the 8th, 17th or 26th? |
+| v4_name_number.mp4 | V83 | 29.2s | Your name has a number. It might be fighting your birth chart. |
+| v5_2026_forecast.mp4 | V84 | 30.9s | November & December 2026, by your numbers. |
 
 ## Where I departed from the brief, and why
 
@@ -31,9 +31,11 @@ number shown on screen. Each file was checked with ffprobe: H.264, 1080×1920, 3
    slowly than do it twice." I didn't build the V3b/V3c series extensions (Moolank 3, 5); they're optional in the brief.
    Note: this one-number "Born on the X?" opener is the skeleton V79's diagnosis said tells 8 of 9 viewers
    "not you". It's in the series because the brief asked for it.
-4. **Not spoken.** The brief asks for spoken hooks, but there's no voice. The ElevenLabs subscription is active but out of credits, and the account's
-   reels have been text over a music bed. Every hook is on screen from frame 0. If you record a voiceover on
-   your phone, the timing leaves room for it.
+4. **Spoken hook, ElevenLabs.** Voice: Midhun, "Deep Indian Spiritual Narrator", model Eleven v4, from the owner's new free
+   account (the old account and its "Numevix Narrator" clone are out of credits). Only the hook is spoken, as the brief says. Silence is trimmed
+   and the voice starts at 0.15s. Scene 2 waits for the voice to finish, which made each cut 0.2–1.9s longer, and the music dips under it.
+   Spoken lengths: 2.3 / 2.6 / 3.4 / 3.7 / 4.3s. Whisper transcribed all five word for word. Dates are typed as words
+   ("eighth", "twenty twenty-six") so the voice reads them cleanly.
 5. **Built in Hyperframes, not raw ffmpeg drawtext.** This is the same pipeline as every V-series cut, and it gives real
    Google fonts, per-line reveals and a fit loop. ffmpeg was used for checks, posters and the bed gain.
 6. **The comment CTA is followed exactly, and the site link is kept.** Each end card asks for the comment, then shows
@@ -52,5 +54,4 @@ Murmurs, Resonant Stillness), a page-flip at each scene, a temple bell when a nu
 ## With real footage I'd change
 - Put a hand writing the arithmetic on paper under candlelight behind V80/V81/V84. The working is the
   demo, and demo posts are what reach on IG.
-- Record the hook in your voice (first 2s) and keep the text.
 - Make V83 use the commenter's own name, live: reply videos to the best comments.

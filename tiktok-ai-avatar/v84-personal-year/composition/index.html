@@ -62,16 +62,17 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="v84" data-start="0" data-width="1080" data-height="1920" data-duration="29">
-      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="29" data-volume="0.42"></audio>
-      <audio id="f0" src="assets/flip.mp3" data-start="2.8" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f1" src="assets/flip.mp3" data-start="6.4" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f2" src="assets/flip.mp3" data-start="13.4" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f3" src="assets/flip.mp3" data-start="16.8" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f4" src="assets/flip.mp3" data-start="21.6" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="f5" src="assets/flip.mp3" data-start="24.6" data-duration="1.2" data-volume="0.22"></audio>
-      <audio id="b0" src="assets/bell.mp3" data-start="10.80" data-duration="2.5" data-volume="0.32"></audio>
-      <audio id="wh" src="assets/whoosh.mp3" data-start="24.6" data-duration="2.0" data-volume="0.3"></audio>
+    <div id="root" data-composition-id="v84" data-start="0" data-width="1080" data-height="1920" data-duration="30.9">
+      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="30.9" data-volume="0.42"></audio>
+      <audio id="f0" src="assets/flip.mp3" data-start="4.7" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f1" src="assets/flip.mp3" data-start="8.3" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f2" src="assets/flip.mp3" data-start="15.3" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f3" src="assets/flip.mp3" data-start="18.7" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f4" src="assets/flip.mp3" data-start="23.5" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="f5" src="assets/flip.mp3" data-start="26.5" data-duration="1.2" data-volume="0.22"></audio>
+      <audio id="b0" src="assets/bell.mp3" data-start="12.70" data-duration="2.5" data-volume="0.32"></audio>
+      <audio id="vo" src="assets/vo.mp3" data-start="0.15" data-duration="4.30" data-volume="1"></audio>
+      <audio id="wh" src="assets/whoosh.mp3" data-start="26.5" data-duration="2.0" data-volume="0.3"></audio>
       <div id="bg"></div>
       <svg id="shelves" viewBox="0 0 1080 1920" preserveAspectRatio="none"></svg>
       <div id="motes"></div>
@@ -81,8 +82,8 @@
       <svg id="grain" viewBox="0 0 1080 1920"><filter id="gf"><feTurbulence id="turb" type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#gf)"/></svg>
     </div>
     <script>
-      const SCENES = [{"t":0,"items":[{"k":"kick","s":"Personal Year · 2026"},{"k":"ln","s":"November & December 2026,","at":0,"cls":"xl"},{"k":"ln","s":"by your numbers.","at":0,"cls":"xl gold"}]},{"t":2.8,"items":[{"k":"ln","s":"Your year doesn't start","at":0},{"k":"ln","s":"on January 1st.","at":0.3},{"k":"ln","s":"It starts on your birthday.","at":1.3,"cls":"gold"}]},{"t":6.4,"bell":4.4,"items":[{"k":"kick","s":"Born 23 August"},{"k":"row","a":"The year · 2026","b":"26","at":0},{"k":"row","a":"Moolank · the 23rd","b":"5","at":0.7},{"k":"row","a":"Month · August","b":"8","at":1.4},{"k":"row","a":"Birthday fell on a Sunday · Sun","b":"1","at":2.1},{"k":"work","s":"26 + 5 + 8 + 1 = 40   →   4 + 0 = 4","at":3.2},{"k":"big","n":4,"lbl":"Personal Year · careful groundwork","at":4.4,"cls":"mid"}]},{"t":13.4,"items":[{"k":"ln","s":"Birthday still to come","at":0},{"k":"ln","s":"this year?","at":0.2},{"k":"ln","s":"You're still in","at":1.2,"cls":"gold"},{"k":"ln","s":"last year's number.","at":1.4,"cls":"gold"}]},{"t":16.8,"items":[{"k":"kick","s":"Three of the nine"},{"k":"pair","a":"1","b":"Beginnings. Start it.","at":0},{"k":"pair","a":"4","b":"Groundwork. Build the base.","at":1.2},{"k":"pair","a":"9","b":"Decisive action. Move.","at":2.4}]},{"t":21.6,"items":[{"k":"ln","s":"The Annual Forecast reads","at":0},{"k":"ln","s":"all 12 months","at":0.2},{"k":"ln","s":"through your Mahadasha.","at":0.4},{"k":"ln","s":"This was the trailer.","at":1.3,"cls":"gold"}]},{"t":24.6,"cta":true,"items":[{"k":"kick","s":"Your turn"},{"k":"ln","s":"Comment your birth date.","at":0},{"k":"work","s":"DD MM YYYY","at":0.3},{"k":"ln","s":"I'll reply with your","at":0.6},{"k":"ln","s":"Personal Year for 2026.","at":0.7,"cls":"gold"},{"k":"url","at":0.9}]}];
-      const DUR = 29, MOOLANK = null;
+      const SCENES = [{"t":0,"items":[{"k":"kick","s":"Personal Year · 2026"},{"k":"ln","s":"November & December 2026,","at":0,"cls":"xl"},{"k":"ln","s":"by your numbers.","at":0,"cls":"xl gold"}]},{"t":4.7,"items":[{"k":"ln","s":"Your year doesn't start","at":0},{"k":"ln","s":"on January 1st.","at":0.3},{"k":"ln","s":"It starts on your birthday.","at":1.3,"cls":"gold"}]},{"t":8.3,"bell":4.4,"items":[{"k":"kick","s":"Born 23 August"},{"k":"row","a":"The year · 2026","b":"26","at":0},{"k":"row","a":"Moolank · the 23rd","b":"5","at":0.7},{"k":"row","a":"Month · August","b":"8","at":1.4},{"k":"row","a":"Birthday fell on a Sunday · Sun","b":"1","at":2.1},{"k":"work","s":"26 + 5 + 8 + 1 = 40   →   4 + 0 = 4","at":3.2},{"k":"big","n":4,"lbl":"Personal Year · careful groundwork","at":4.4,"cls":"mid"}]},{"t":15.3,"items":[{"k":"ln","s":"Birthday still to come","at":0},{"k":"ln","s":"this year?","at":0.2},{"k":"ln","s":"You're still in","at":1.2,"cls":"gold"},{"k":"ln","s":"last year's number.","at":1.4,"cls":"gold"}]},{"t":18.7,"items":[{"k":"kick","s":"Three of the nine"},{"k":"pair","a":"1","b":"Beginnings. Start it.","at":0},{"k":"pair","a":"4","b":"Groundwork. Build the base.","at":1.2},{"k":"pair","a":"9","b":"Decisive action. Move.","at":2.4}]},{"t":23.5,"items":[{"k":"ln","s":"The Annual Forecast reads","at":0},{"k":"ln","s":"all 12 months","at":0.2},{"k":"ln","s":"through your Mahadasha.","at":0.4},{"k":"ln","s":"This was the trailer.","at":1.3,"cls":"gold"}]},{"t":26.5,"cta":true,"items":[{"k":"kick","s":"Your turn"},{"k":"ln","s":"Comment your birth date.","at":0},{"k":"work","s":"DD MM YYYY","at":0.3},{"k":"ln","s":"I'll reply with your","at":0.6},{"k":"ln","s":"Personal Year for 2026.","at":0.7,"cls":"gold"},{"k":"url","at":0.9}]}];
+      const DUR = 30.9, MOOLANK = null;
       const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
       const ease = (x) => 1 - Math.pow(1 - x, 3);
       // Deterministic PRNG, so every render draws the same shelves and motes.
