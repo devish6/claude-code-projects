@@ -122,3 +122,9 @@ tiktok-ai-avatar/v78-whistle/frames/
 tiktok-ai-avatar/v79-forms/*.mp4
 tiktok-ai-avatar/v79-forms/*.jpg
 tiktok-ai-avatar/v79-forms/frames/
+# V80–V84 (Muse brief, midnight library): media stays local, captions + compositions are committed
+tiktok-ai-avatar/v8[0-4]-*/*.mp4
+tiktok-ai-avatar/v8[0-4]-*/*.jpg
+tiktok-ai-avatar/v8[0-4]-*/frames/
+tiktok-ai-avatar/numevix_reels/*.mp4
+tiktok-ai-avatar/muse-series/*.png

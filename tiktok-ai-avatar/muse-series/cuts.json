@@ -1,0 +1,42 @@
+[
+  {
+    "v": 80,
+    "slug": "two-numbers",
+    "file": "v1_two_numbers",
+    "title": "You Have Two Numbers",
+    "dur": 27,
+    "bed": "Midnight_Reverie.mp3"
+  },
+  {
+    "v": 81,
+    "slug": "western-planet",
+    "file": "v2_western_wrong",
+    "title": "Your Life Path Number Is Missing A Planet",
+    "dur": 27,
+    "bed": "Two_AM_Stillness.mp3"
+  },
+  {
+    "v": 82,
+    "slug": "moolank8",
+    "file": "v3_moolank8",
+    "title": "Born On The 8th 17th Or 26th",
+    "dur": 23,
+    "bed": "Late_Night_Whisper.mp3"
+  },
+  {
+    "v": 83,
+    "slug": "name-number",
+    "file": "v4_name_number",
+    "title": "Your Name Has A Number",
+    "dur": 28,
+    "bed": "Midnight_Murmurs.mp3"
+  },
+  {
+    "v": 84,
+    "slug": "personal-year",
+    "file": "v5_2026_forecast",
+    "title": "November And December 2026 By Your Numbers",
+    "dur": 29,
+    "bed": "Resonant_Stillness.mp3"
+  }
+]
