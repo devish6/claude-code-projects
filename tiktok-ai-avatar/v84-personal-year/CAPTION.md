@@ -9,4 +9,5 @@ Birthday still to come this year? You're still in last year's number.
 Comment your birth date (DD MM YYYY) and I'll reply with your Personal Year for the rest of 2026.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #personalyear #2026forecast #annualforecast #numevix

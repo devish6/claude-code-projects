@@ -8,4 +8,5 @@ Your name adds up to one number. Your birth date gives you two. When they clash,
 Comment your first name + birth date (DD MM YYYY) and I'll tell you whether your name number helps or fights your chart.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #namenumerology #chaldean #namecorrection #numevix

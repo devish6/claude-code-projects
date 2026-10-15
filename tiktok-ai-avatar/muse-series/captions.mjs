@@ -72,9 +72,9 @@ Comment your birth date (DD MM YYYY) and I'll reply with your Personal Year for 
 
 const OUT = join(ROOT, "numevix_reels");
 mkdirSync(OUT, { recursive: true });
-let index = "# Numevix reels V80–V84: captions\n\nPaste the block under each video as-is. Line 1 is the site link; the last two lines are the sign-off and hashtags.\n";
+let index = "# Numevix reels V80–V84: captions\n\nPaste the block under each video as-is. Line 1 is the site link; the last three lines are the sign-off, the voice credit (ElevenLabs free plan requires it) and hashtags.\n";
 for (const c of CAPS) {
-  const text = `${c.body}\n\n${SIGN}\n${BASE} ${c.tags} #numevix\n`;
+  const text = `${c.body}\n\n${SIGN}\nVoice: ElevenLabs\n${BASE} ${c.tags} #numevix\n`;
   const dir = join(ROOT, `v${c.v}-${c.slug}`);
   writeFileSync(join(dir, "CAPTION.md"), text);
   writeFileSync(join(dir, "CAPTION-TIKTOK.md"), text);

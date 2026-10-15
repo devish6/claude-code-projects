@@ -1,6 +1,6 @@
 # Numevix reels V80–V84: captions
 
-Paste the block under each video as-is. Line 1 is the site link; the last two lines are the sign-off and hashtags.
+Paste the block under each video as-is. Line 1 is the site link; the last three lines are the sign-off, the voice credit (ElevenLabs free plan requires it) and hashtags.
 
 ## V80 · v1_two_numbers.mp4 · "You have TWO numbers. Not one."
 
@@ -17,6 +17,7 @@ One is how you drive. The other is where the road goes.
 Comment your birth date (DD MM YYYY) and I'll reply with your TWO numbers.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #bhagyank #drivernumber #conductornumber #numevix
 ```
 
@@ -36,6 +37,7 @@ The West gave you a number. India gave you two planets.
 Comment your birth date (DD MM YYYY). I'll send your Vedic numbers next to the Western one, so you can compare.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #vedicvswestern #lifepathnumber #bhagyank #numevix
 ```
 
@@ -53,6 +55,7 @@ Everyone told you to hurry. Saturn doesn't hurry. Saturn compounds.
 If this is you, comment 8. And send it to the 8 in your life.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #moolank8 #saturn #shani #numevix
 ```
 
@@ -69,6 +72,7 @@ Your name adds up to one number. Your birth date gives you two. When they clash,
 Comment your first name + birth date (DD MM YYYY) and I'll tell you whether your name number helps or fights your chart.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #namenumerology #chaldean #namecorrection #numevix
 ```
 
@@ -86,5 +90,6 @@ Birthday still to come this year? You're still in last year's number.
 Comment your birth date (DD MM YYYY) and I'll reply with your Personal Year for the rest of 2026.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #personalyear #2026forecast #annualforecast #numevix
 ```

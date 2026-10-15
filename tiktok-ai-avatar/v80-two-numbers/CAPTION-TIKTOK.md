@@ -10,4 +10,5 @@ One is how you drive. The other is where the road goes.
 Comment your birth date (DD MM YYYY) and I'll reply with your TWO numbers.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #bhagyank #drivernumber #conductornumber #numevix

@@ -11,4 +11,5 @@ The West gave you a number. India gave you two planets.
 Comment your birth date (DD MM YYYY). I'll send your Vedic numbers next to the Western one, so you can compare.
 
 Your full chart is free at numevix.com — link in bio.
+Voice: ElevenLabs
 #numerology #vedicnumerology #moolank #vedicvswestern #lifepathnumber #bhagyank #numevix
