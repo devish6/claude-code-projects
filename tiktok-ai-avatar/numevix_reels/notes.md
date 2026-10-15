@@ -31,7 +31,7 @@ number shown on screen. Each file was checked with ffprobe: H.264, 1080×1920, 3
    slowly than do it twice." I didn't build the V3b/V3c series extensions (Moolank 3, 5); they're optional in the brief.
    Note: this one-number "Born on the X?" opener is the skeleton V79's diagnosis said tells 8 of 9 viewers
    "not you". It's in the series because the brief asked for it.
-4. **Not spoken.** The brief asks for spoken hooks, but there's no voice. The ElevenLabs subscription is cancelled and the account's
+4. **Not spoken.** The brief asks for spoken hooks, but there's no voice. The ElevenLabs subscription is active but out of credits, and the account's
    reels have been text over a music bed. Every hook is on screen from frame 0. If you record a voiceover on
    your phone, the timing leaves room for it.
 5. **Built in Hyperframes, not raw ffmpeg drawtext.** This is the same pipeline as every V-series cut, and it gives real
