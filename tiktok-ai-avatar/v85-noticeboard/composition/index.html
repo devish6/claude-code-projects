@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>V85 — Notice Board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Caveat:wght@700&family=Kalam:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V85 — the NOTICE BOARD format. A SEVENTEENTH format.
+
+         Built on the Muse run (V80-V84): a NUMBER on frame 0 doubled
+         IG reach (55-89 → 149-207) and a "comment N" ask brought the
+         first comments (V82 836/20/2). All five shared one dark,
+         midnight-library look, so this keeps the number and the ask
+         and changes the look (daylight cork) and the mechanic: chits
+         pinned up one by one, names struck off each, and the same one
+         left at the bottom every time — "you". Moolank 1, the Sun.
+         ───────────────────────────────────────────────────────────── */
+      :root { --wall: #efe7d8; --ink: #1f1b16; --red: #c62a1c; --cork: #b98a55; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--wall); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--wall); }
+      #wall { position: absolute; inset: 0;
+              background:
+                radial-gradient(1200px 700px at 78% 8%, rgba(255,247,226,.9), rgba(255,247,226,0) 70%),
+                linear-gradient(180deg, #f3ecdf, #e6dac4); }
+      #board { position: absolute; left: 48px; top: 372px; width: 984px; height: 1088px; border-radius: 10px;
+               border: 22px solid #8a6238;
+               box-shadow: inset 0 0 0 3px rgba(0,0,0,.18), inset 0 10px 30px rgba(60,30,0,.35), 0 26px 50px rgba(80,50,20,.28);
+               background:
+                 radial-gradient(circle at 20% 30%, rgba(90,50,10,.22) 0 2px, transparent 3px) 0 0/23px 19px,
+                 radial-gradient(circle at 70% 60%, rgba(255,230,190,.25) 0 1.5px, transparent 2.5px) 0 0/17px 21px,
+                 radial-gradient(circle at 40% 80%, rgba(70,40,10,.18) 0 1px, transparent 2px) 0 0/11px 13px,
+                 linear-gradient(160deg, #c4935c, #a97a46); }
+      #dim { position: absolute; left: 48px; top: 372px; width: 984px; height: 1088px; border-radius: 10px;
+             background: rgba(239,231,216,.78); opacity: 0; }
+      .chit { position: absolute; width: 430px; height: 316px; padding: 44px 24px 0 30px;
+              box-shadow: 0 3px 0 rgba(0,0,0,.05), 0 16px 26px rgba(60,30,0,.32);
+              font-family: "Kalam", cursive; color: #1e2a55; transform-origin: 50% 8%; }
+      .chit .q { font-weight: 700; font-size: 52px; line-height: 1.12; white-space: nowrap; }
+      .chit .names { position: absolute; left: 34px; top: 166px; right: 26px; height: 60px; }
+      .chit .nm { position: absolute; font-size: 46px; font-weight: 400; white-space: nowrap; }
+      .chit .nm i { position: absolute; left: -6px; right: -6px; top: 54%; height: 4px; background: #1e2a55;
+                    transform-origin: 0 50%; border-radius: 2px; }
+      .chit .you { position: absolute; left: 44px; bottom: 2px; font-family: "Caveat", cursive; font-size: 84px; color: var(--red);
+                   line-height: 1; }
+      .chit .you b { position: absolute; left: -18px; top: -6px; right: -18px; bottom: -4px; border: 5px solid var(--red);
+                     border-radius: 50%; transform: rotate(-6deg); }
+      .pin { position: absolute; left: 50%; top: 10px; width: 38px; height: 38px; margin-left: -19px; border-radius: 50%;
+             background: radial-gradient(circle at 35% 32%, #ff8a7a, #d32b1d 55%, #8f150c);
+             box-shadow: 4px 7px 6px rgba(40,10,0,.4); }
+
+      #card { position: absolute; left: 70px; top: 560px; width: 940px; height: 720px; background: #fffdf6;
+              box-shadow: 0 4px 0 rgba(0,0,0,.05), 0 30px 50px rgba(60,30,0,.35); transform-origin: 50% 4%;
+              background-image: repeating-linear-gradient(180deg, transparent 0 107px, rgba(60,110,200,.28) 107px 110px);
+              background-position: 0 60px; display: none; }
+      #card::before { content: ""; position: absolute; left: 92px; top: 0; bottom: 0; width: 3px; background: rgba(200,40,30,.35); }
+      #card .pin { top: 14px; }
+      #card .row { position: absolute; left: 116px; right: 30px; font-family: "Caveat", cursive; font-weight: 700; color: var(--red);
+                   white-space: pre; line-height: 1; }
+
+      #hook { position: absolute; left: 40px; right: 40px; top: 70px; text-align: center; color: var(--ink);
+              font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 84px; line-height: 1.04; white-space: nowrap; }
+      #hook .big { color: var(--red); font-size: 170px; letter-spacing: -.01em; display: block; line-height: 1; margin-bottom: 18px;
+                   font-variant-numeric: lining-nums; }
+      #say { position: absolute; left: 40px; right: 40px; top: 1530px; text-align: center; color: var(--ink);
+             font-family: "Bricolage Grotesque", sans-serif; font-weight: 600; font-size: 64px; line-height: 1.14; white-space: nowrap; }
+      #say .red { color: var(--red); font-weight: 800; }
+      #url { position: absolute; left: 0; right: 0; top: 1720px; text-align: center; font-family: "Bricolage Grotesque", sans-serif;
+             font-weight: 800; font-size: 96px; color: var(--red); white-space: nowrap; display: none; }
+      #stage { position: absolute; inset: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="noticeboard"
+         data-start="0" data-width="1080" data-height="1920"
+         data-duration="23.0">
+      <audio id="bed" src="assets/bed.mp3" data-start="0" data-duration="23.0" data-volume="0.5"></audio>
+      <audio id="p1" src="assets/pin.mp3" data-start="2.65" data-duration="0.3" data-volume="0.9"></audio>
+      <audio id="p2" src="assets/pin.mp3" data-start="3.85" data-duration="0.3" data-volume="0.9"></audio>
+      <audio id="p3" src="assets/pin.mp3" data-start="5.05" data-duration="0.3" data-volume="0.9"></audio>
+      <audio id="p4" src="assets/pin.mp3" data-start="6.25" data-duration="0.3" data-volume="0.9"></audio>
+      <audio id="p5" src="assets/pin.mp3" data-start="7.45" data-duration="0.3" data-volume="0.9"></audio>
+      <audio id="sh" src="assets/sheet.mp3" data-start="10.8" data-duration="1.0" data-volume="0.7"></audio>
+      <audio id="p6" src="assets/pin.mp3" data-start="11.05" data-duration="0.3" data-volume="0.9"></audio>
+      <audio id="b1" src="assets/bell.mp3" data-start="13.6" data-duration="1.0" data-volume="0.55"></audio>
+      <audio id="wh" src="assets/whoosh.mp3" data-start="18.2" data-duration="2.0" data-volume="0.4"></audio>
+      <div id="stage">
+        <div id="wall"></div>
+        <div id="board"></div>
+        <div id="chits"></div>
+        <div id="dim"></div>
+        <div id="card"><div class="pin"></div></div>
+        <div id="hook"></div>
+        <div id="say"></div>
+        <div id="url">numevix.com/1</div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      (() => {
+        // Everything lives inside this IIFE: a global `top`/`name`/`status` collides with window.* and blanks the render (V76, V79).
+        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+        const ease = (x) => 1 - Math.pow(1 - x, 3);
+        const PLANET = ["", "Sun", "Moon", "Jupiter", "Rahu", "Mercury", "Venus", "Ketu", "Saturn", "Mars"];
+        const digits = (n) => String(n).split("").map(Number);
+        const digitSum = (n) => digits(n).reduce((a, b) => a + b, 0);
+        const chain = (n) => { const c = [n]; while (n > 9) { n = digitSum(n); c.push(n); } return c; };
+        const ord = (d) => d + (d % 10 === 1 && d !== 11 ? "st" : d % 10 === 2 && d !== 12 ? "nd" : d % 10 === 3 && d !== 13 ? "rd" : "th");
+
+        // Moolank 1 = every birth day in 1..31 that reduces to 1. Computed, never typed (V67 shipped a wrong Conductor).
+        const N = 1;
+        const DAYS = Array.from({ length: 31 }, (_, i) => i + 1).filter((d) => chain(d).at(-1) === N);
+        if (DAYS.join() !== "1,10,19,28" || PLANET[N] !== "Sun") throw new Error("arithmetic drift: " + DAYS.join() + " " + PLANET[N]);
+        // The red-pen working, e.g. 28 → 2 + 8 = 10 → 1 + 0 = 1
+        const working = (d) => { const c = chain(d); let s = String(c[0]);
+          for (let i = 0; i < c.length - 1; i++) s += "  →  " + digits(c[i]).join(" + ") + " = " + c[i + 1];
+          return s; };
+        const ROWS = DAYS.map(working);
+        if (ROWS[3] !== "28  →  2 + 8 = 10  →  1 + 0 = 1") throw new Error("working skips a step: " + ROWS[3]);
+
+        // Six chits. Frame 0's is already up, names struck, "you" circled — the hook is lit on it.
+        const CHITS = [
+          { t: 0,   q: "Who's booking<br>the Goa trip?",   n: ["Rohit", "Neha"],   bg: "#fff3a6", x: 92,  y: 418,  r: -3.0, s: "Six people in the group.<br>One booking." },
+          { t: 2.4, q: "Who'll tell<br>the landlord?",     n: ["Aman", "Priya"],   bg: "#ffffff", x: 560, y: 410,  r: 2.6,  s: "Everyone agreed.<br>One person said it." },
+          { t: 3.6, q: "Who'll talk<br>to Papa?",          n: ["Didi", "Bhaiya"],  bg: "#ffd9d2", x: 84,  y: 764,  r: 2.0,  s: "Everyone had an opinion.<br>One person had the talk." },
+          { t: 4.8, q: "Who presents<br>first?",           n: ["Karan", "Meera"],  bg: "#d9ecff", x: 566, y: 752,  r: -2.4, s: "Nobody volunteered.<br>Then everyone looked at you." },
+          { t: 6.0, q: "Who calls first<br>after the fight?", n: ["them"],         bg: "#ffffff", x: 96,  y: 1104, r: -1.6, s: "You were both wrong.<br>You called." },
+          { t: 7.2, q: "Family group:<br>who'll sort it?", n: ["Chachu", "Bua"],   bg: "#e3f5d6", x: 556, y: 1096, r: 3.2,  s: "Forty messages.<br>One phone call." },
+        ];
+        const T_WOUND = 8.7, T_NUM = 10.8, T_SUN = 14.6, T_CTA = 18.2, DUR = 23.0;
+
+        const host = document.getElementById("chits");
+        const chits = CHITS.map((c, i) => {
+          const el = document.createElement("div");
+          el.className = "chit"; el.style.background = c.bg; el.style.left = c.x + "px"; el.style.top = c.y + "px";
+          el.innerHTML = `<div class="pin"></div><div class="q"><span>${c.q}</span></div>` +
+            `<div class="names">${c.n.map((n, k) => `<span class="nm" style="left:${k * 170}px;top:0">${n}<i></i></span>`).join("")}</div>` +
+            `<div class="you">you<b></b></div>`;
+          host.appendChild(el);
+          return { el, c, i, strikes: [...el.querySelectorAll(".nm i")], you: el.querySelector(".you"), ring: el.querySelector(".you b") };
+        });
+
+        const card = document.getElementById("card");
+        const rowEls = ROWS.map((r, k) => { const d = document.createElement("div"); d.className = "row"; d.textContent = r;
+          d.style.top = 100 + k * 110 + "px"; d.style.fontSize = "80px"; card.appendChild(d); return d; });
+        const resultEl = document.createElement("div"); resultEl.className = "row";
+        resultEl.style.top = 100 + 4 * 110 + 20 + "px"; resultEl.style.fontSize = "92px";
+        resultEl.textContent = `All ${N}.  Moolank ${N}.`; card.appendChild(resultEl);
+
+        const hookEl = document.getElementById("hook"), sayEl = document.getElementById("say"),
+              urlEl = document.getElementById("url"), dimEl = document.getElementById("dim");
+        const NUMS = DAYS.join(" · ");
+        const HOOK = [
+          { t: 0,       h: `<span class="big">${NUMS}</span>Born on one of these?` },
+          { t: 2.4,     h: `<span class="big">${NUMS}</span>Look whose name is left.` },
+          { t: T_WOUND, h: "Every board in your life<br>had a “you” on it." },
+          { t: T_NUM,   h: `Born on the ${DAYS.slice(0, 3).map(ord).join(", ")}<br>or ${ord(DAYS[3])}?` },
+          { t: T_SUN,   h: "The Sun doesn't<br>get asked either." },
+          { t: T_CTA,   h: `If you're a ${N},<br>comment ${N}.` },
+        ];
+        const SAY = [
+          { t: 0,       h: CHITS[0].s },
+          ...CHITS.slice(1).map((c) => ({ t: c.t, h: c.s })),
+          { t: T_WOUND, h: "Nobody asked if you<br>wanted to go first." },
+          { t: T_NUM,   h: "Add the day down<br>to one digit." },
+          { t: T_NUM + 2.8, h: `<span class="red">Moolank ${N}. The ${PLANET[N]}.</span>` },
+          { t: T_SUN,   h: "It just goes first.<br>Every morning." },
+          { t: T_CTA,   h: `Tag the ${N} who always goes first.<br>Your chart, free:` },
+        ];
+
+        const fitOne = (el, html, max, min) => {
+          el.innerHTML = html; el.style.fontSize = ""; let fs = parseFloat(getComputedStyle(el).fontSize);
+          while (el.scrollWidth > max && fs > min) { fs -= 2; el.style.fontSize = fs + "px"; }
+          return fs;
+        };
+        const fit = () => {
+          HOOK.forEach((x) => (x.fs = fitOne(hookEl, x.h, 1000, 40)));
+          SAY.forEach((x) => (x.fs = fitOne(sayEl, x.h, 1000, 36)));
+          // Chit questions: measure the inline span, with the chit shown (V79: display:none measures 0).
+          chits.forEach((p) => { const was = p.el.style.display; p.el.style.display = "block";
+            const q = p.el.querySelector(".q"), sp = q.firstChild; let fs = 52; q.style.fontSize = fs + "px";
+            while (sp.offsetWidth > 380 && fs > 26) { fs -= 1; q.style.fontSize = fs + "px"; }
+            p.el.style.display = was; });
+          const was = card.style.display; card.style.display = "block";
+          [...rowEls, resultEl].forEach((r) => { r.style.right = "auto"; let fs = parseFloat(r.style.fontSize);
+            while (r.offsetWidth > 800 && fs > 30) { fs -= 2; r.style.fontSize = fs + "px"; } r.style.right = ""; });
+          card.style.display = was;
+          hookEl.style.fontSize = sayEl.style.fontSize = "";
+        };
+        fit();
+        const pick = (list, t) => { let cur = list[0]; for (const x of list) if (t >= x.t) cur = x; return cur; };
+        const reveal = (el, t0, dur, t) => { const k = clamp((t - t0) / dur, 0, 1); el.style.clipPath = `inset(-30px ${(1 - k) * 100}% -30px -30px)`; };
+
+        function render(t) {
+          chits.forEach((p) => {
+            const { c } = p, dt = t - c.t;
+            if (dt < 0) { p.el.style.display = "none"; return; }
+            p.el.style.display = "block";
+            const k = c.t === 0 ? 1 : ease(clamp(dt / 0.25, 0, 1));
+            // Dropped in from above, pressed onto the cork.
+            p.el.style.transform = `translateY(${(1 - k) * -160}px) scale(${1 + (1 - k) * 0.12}) rotate(${c.r + (1 - k) * 6}deg)`;
+            p.el.style.opacity = c.t === 0 ? 1 : clamp(dt / 0.12, 0, 1);
+            p.strikes.forEach((s, j) => { const w = c.t === 0 ? 1 : ease(clamp((dt - 0.4 - j * 0.2) / 0.16, 0, 1)); s.style.transform = `scaleX(${w})`; });
+            const y = c.t === 0 ? 1 : clamp((dt - 0.4 - p.strikes.length * 0.2) / 0.12, 0, 1);
+            p.you.style.opacity = y; p.ring.style.clipPath = `inset(0 ${(1 - (c.t === 0 ? 1 : ease(clamp((dt - 0.6 - p.strikes.length * 0.2) / 0.2, 0, 1)))) * 100}% 0 0)`;
+          });
+          // The working card, pinned over the board.
+          dimEl.style.opacity = 0.0 + 1 * ease(clamp((t - T_NUM) / 0.3, 0, 1));
+          if (t >= T_NUM) {
+            card.style.display = "block";
+            const k = ease(clamp((t - T_NUM) / 0.25, 0, 1));
+            card.style.transform = `translateY(${(1 - k) * -200}px) scale(${1 + (1 - k) * 0.08}) rotate(${-1.2 + (1 - k) * 5}deg)`;
+            rowEls.forEach((r, j) => reveal(r, T_NUM + 0.35 + j * 0.55, 0.45, t));
+            reveal(resultEl, T_NUM + 2.6, 0.5, t);
+          } else card.style.display = "none";
+          // Copy: hard swaps.
+          const hk = pick(HOOK, t); hookEl.innerHTML = hk.h; hookEl.style.fontSize = hk.fs + "px";
+          const sy = pick(SAY, t); sayEl.innerHTML = sy.h; sayEl.style.fontSize = sy.fs + "px";
+          const r2 = ease(clamp((t - sy.t) / 0.3, 0, 1));
+          sayEl.style.transform = `translateY(${sy.t === 0 ? 0 : (1 - r2) * 16}px)`;
+          urlEl.style.display = t >= T_CTA ? "block" : "none";
+          urlEl.style.transform = `scale(${0.9 + 0.1 * ease(clamp((t - T_CTA) / 0.3, 0, 1))})`;
+        }
+        const tl = gsap.timeline({ paused: true });
+        const clock = { t: 0 };
+        tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+        render(0);
+        if (document.fonts) document.fonts.ready.then(() => { fit(); render(clock.t); });
+        window.__timelines["noticeboard"] = tl;
+      })();
+    </script>
+  </body>
+</html>
