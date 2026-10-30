@@ -1,0 +1,222 @@
+[
+ {
+  "ch": "Two numbers, one date",
+  "id": "c1a",
+  "text": "Your birth date holds two numbers, and most people calculate at least one of them wrong."
+ },
+ {
+  "ch": "Two numbers, one date",
+  "id": "c1b",
+  "text": "Maybe you looked yours up once and got an eleven. Then another site gave you a two, and you stopped trusting any of it."
+ },
+ {
+  "ch": "Two numbers, one date",
+  "id": "c1c",
+  "text": "In the next few minutes you'll learn both numbers, the nine planets behind them, and the grid hidden inside your date. Then you'll work out your own in thirty seconds."
+ },
+ {
+  "ch": "Moolank: the day you were born",
+  "id": "c2a",
+  "text": "In Vedic numerology, the first number is your Moolank. Moolank means root number. It comes only from the day of the month you were born. Nothing else."
+ },
+ {
+  "ch": "Moolank: the day you were born",
+  "id": "c2b",
+  "text": "Take one example. Someone born on the fourteenth of August, nineteen ninety-six. The day is fourteen. Add its digits. One plus four is five. Moolank five."
+ },
+ {
+  "ch": "Moolank: the day you were born",
+  "id": "c2c",
+  "text": "If you were born on a single-digit day, like the seventh, that digit is already your Moolank. If you were born on the twenty-ninth, two plus nine is eleven. Eleven still has two digits, so keep going. One plus one is two. Moolank two."
+ },
+ {
+  "ch": "Moolank: the day you were born",
+  "id": "c2d",
+  "text": "Your Moolank is how you move through an ordinary day. It's the version of you that people meet first."
+ },
+ {
+  "ch": "Bhagyank: the whole date",
+  "id": "c3a",
+  "text": "The second number is your Bhagyank. Bhagyank means the number of fortune. This one uses the whole date. Day, month and year. Every single digit."
+ },
+ {
+  "ch": "Bhagyank: the whole date",
+  "id": "c3b",
+  "text": "For the fourteenth of August, nineteen ninety-six, that's one, four, zero, eight, one, nine, nine, six. Add them together and you get thirty-eight. Three plus eight is eleven. One plus one is two. Bhagyank two."
+ },
+ {
+  "ch": "Bhagyank: the whole date",
+  "id": "c3c",
+  "text": "So your Moolank is how you act. Your Bhagyank is the direction your life keeps pulling you, whether you planned it or not."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4a",
+  "text": "Every number from one to nine belongs to a planet. Here they are, one line each."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4b",
+  "text": "One is the Sun. Leading, and standing on your own."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4c",
+  "text": "Two is the Moon. Feeling, partnership, and quiet care."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4d",
+  "text": "Three is Jupiter. Wisdom, teaching, and clear values."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4e",
+  "text": "Four is Rahu. A sharp, restless mind that does things its own way."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4f",
+  "text": "Five is Mercury. Quick thinking, talking, and trading."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4g",
+  "text": "Six is Venus. Love, beauty, and looking after the people around you."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4h",
+  "text": "Seven is Ketu. Depth, intuition, and looking under the surface."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4i",
+  "text": "Eight is Saturn. Hard work, patience, and results that come late but stay."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4j",
+  "text": "Nine is Mars. Courage, energy, and standing up for what's right."
+ },
+ {
+  "ch": "The nine planets",
+  "id": "c4k",
+  "text": "So our example has Moolank five, Mercury, and Bhagyank two, the Moon."
+ },
+ {
+  "ch": "When your two numbers differ",
+  "id": "c5a",
+  "text": "Most people have two different numbers, and you can feel the gap between them."
+ },
+ {
+  "ch": "When your two numbers differ",
+  "id": "c5b",
+  "text": "Our example moves like Mercury. Fast, talking, always working something out. But life keeps steering them toward the Moon. Toward people, toward feelings, toward being the one everyone leans on."
+ },
+ {
+  "ch": "When your two numbers differ",
+  "id": "c5c",
+  "text": "It can feel like being two people. The one who gets through a busy Tuesday, and the one your life keeps asking you to be. Neither one is a mistake. The work is knowing which one is in charge right now."
+ },
+ {
+  "ch": "When your two numbers differ",
+  "id": "c5d",
+  "text": "If your two numbers are the same, there's no gap. That one planet just shows up twice as strong, in the easy parts and in the hard ones."
+ },
+ {
+  "ch": "The Vedic grid",
+  "id": "c6a",
+  "text": "Now the part most people never see. The Vedic grid. It's a three by three box, and each of the nine numbers has its own seat."
+ },
+ {
+  "ch": "The Vedic grid",
+  "id": "c6b",
+  "text": "Top row: three, one, nine. Middle row: six, seven, five. Bottom row: two, eight, four."
+ },
+ {
+  "ch": "The Vedic grid",
+  "id": "c6c",
+  "text": "To fill it, take the digits of your birth date, but use only the last two digits of the year, and skip every zero. Then add your Bhagyank. And if you were born on a two-digit day, like the fourteenth, add your Moolank too. The tenth, twentieth and thirtieth don't count."
+ },
+ {
+  "ch": "The Vedic grid",
+  "id": "c6d",
+  "text": "For our example, that's one, four, eight, nine and six. Then Moolank five, and Bhagyank two. Each digit takes its seat."
+ },
+ {
+  "ch": "The Vedic grid",
+  "id": "c6e",
+  "text": "Now look at what's empty. Three, and seven. Those are the missing numbers. A missing number is a planet with no place in your grid. Here, Jupiter and Ketu."
+ },
+ {
+  "ch": "The Vedic grid",
+  "id": "c6f",
+  "text": "It doesn't mean something is wrong with you. It means that quality isn't handed to you. You build it on purpose, usually later, and often the hard way."
+ },
+ {
+  "ch": "The Vedic grid",
+  "id": "c6g",
+  "text": "And a number that shows up twice gets louder. Someone born on the twenty-ninth of March, nineteen ninety, has two twos and two nines in their grid, and five empty seats."
+ },
+ {
+  "ch": "Three common mistakes",
+  "id": "c7a",
+  "text": "So why do so many people get this wrong? Three mistakes."
+ },
+ {
+  "ch": "Three common mistakes",
+  "id": "c7b",
+  "text": "Mistake one. Keeping master numbers. Western numerology stops at eleven, twenty-two or thirty-three, and calls them master numbers. Vedic numerology always goes down to one digit, because there are nine planets, not thirty-three."
+ },
+ {
+  "ch": "Three common mistakes",
+  "id": "c7c",
+  "text": "Our example's thirty-eight becomes eleven, and a Western site stops there. Here, eleven becomes two, the Moon. The twenty-ninth of March, nineteen ninety, adds up to thirty-three. Western says master thirty-three. Vedic says six, Venus."
+ },
+ {
+  "ch": "Three common mistakes",
+  "id": "c7d",
+  "text": "Mistake two. The wrong grid. Many apps use a different layout, with four, nine, two along the top. Same nine numbers, different seats, so every pattern you read from it shifts. The Vedic grid starts three, one, nine."
+ },
+ {
+  "ch": "Three common mistakes",
+  "id": "c7e",
+  "text": "Mistake three. Putting the whole year in the grid. The nineteen or the twenty belongs in your Bhagyank, not in your grid. Put it in the grid and you get a one, a nine or a two that isn't really yours."
+ },
+ {
+  "ch": "Do yours in 30 seconds",
+  "id": "c8a",
+  "text": "Here's yours, in thirty seconds. Pause if you need to."
+ },
+ {
+  "ch": "Do yours in 30 seconds",
+  "id": "c8b",
+  "text": "One. Take your birth day and add its digits until one digit is left. That's your Moolank."
+ },
+ {
+  "ch": "Do yours in 30 seconds",
+  "id": "c8c",
+  "text": "Two. Add every digit of your full date, and keep going until one digit is left. Don't stop at eleven, twenty-two or thirty-three. That's your Bhagyank."
+ },
+ {
+  "ch": "Do yours in 30 seconds",
+  "id": "c8d",
+  "text": "Three. Find both planets on the list. Four. Draw the grid, and see which seats stay empty."
+ },
+ {
+  "ch": "Do yours in 30 seconds",
+  "id": "c8e",
+  "text": "Or skip the arithmetic. Go to numevix dot com slash try. Type your date, and the free calculator does all of it, grid included."
+ },
+ {
+  "ch": "Do yours in 30 seconds",
+  "id": "c8f",
+  "text": "Then comment your birth date below. Day, month, year. And the two numbers you got. Let's see how many of you were handed an eleven."
+ },
+ {
+  "ch": "Do yours in 30 seconds",
+  "id": "c8g",
+  "text": "And if you want your whole year ahead, read through your numbers, the Annual Forecast is on the site."
+ }
+]

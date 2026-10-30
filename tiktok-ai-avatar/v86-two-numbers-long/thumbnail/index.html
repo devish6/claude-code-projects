@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>V86 thumbnail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Manrope:wght@800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* V86 YouTube thumbnail, 1280x720: the master-number trap (11 → 2) in three glyphs and four words. Numbers from script/numbers.json (14 08 1996: 38 → 11 → 2). */
+      body { margin: 0; background: #10142a; }
+      #root { position: relative; width: 1280px; height: 720px; overflow: hidden; background: #10142a; font-variant-numeric: lining-nums; }
+      #bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .75; }
+      #shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,12,28,.92) 0%, rgba(10,12,28,.55) 60%, rgba(10,12,28,.85) 100%); }
+      #nums { position: absolute; left: 60px; top: 70px; display: flex; align-items: center; gap: 30px; font-family: "Fraunces", serif; font-weight: 700; line-height: 1; }
+      .eleven { position: relative; font-size: 300px; color: #f4ecdc; opacity: .9; }
+      .eleven::after { content: ""; position: absolute; left: -4%; right: -4%; top: 50%; height: 26px; background: #e0644a; transform: rotate(-12deg); border-radius: 8px; }
+      .arrow { font-size: 150px; color: #f4ecdc; opacity: .7; }
+      .two { font-size: 380px; color: #e2b350; text-shadow: 0 12px 60px rgba(226,179,80,.35); }
+      #words { position: absolute; left: 66px; bottom: 64px; font-family: "Manrope", sans-serif; font-weight: 800; font-size: 86px; line-height: 1; color: #f4ecdc; letter-spacing: -.01em; white-space: nowrap; }
+      #words b { color: #e2b350; }
+      #tag { position: absolute; right: 50px; top: 46px; font-family: "Manrope", sans-serif; font-weight: 800; font-size: 30px; letter-spacing: .14em; color: rgba(244,236,220,.8); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="v86thumb" data-start="0" data-width="1280" data-height="720" data-duration="1">
+      <img id="bg" src="assets/milky_way_over_rajasthan_desert_dunes_1.jpg" />
+      <div id="shade"></div>
+      <div id="nums"><span class="eleven">11</span><span class="arrow">→</span><span class="two">2</span></div>
+      <div id="words">Most get this <b>wrong</b></div>
+      <div id="tag">VEDIC NUMEROLOGY</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["v86thumb"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

@@ -133,3 +133,16 @@ tiktok-ai-avatar/v85-noticeboard/*.mp4
 tiktok-ai-avatar/v85-noticeboard/*.jpg
 tiktok-ai-avatar/v85-noticeboard/frames/
 tiktok-ai-avatar/v85-noticeboard/composition/assets/
+
+# V86 (YouTube long form): media, voice, FilmCraft/EffectCraft projects and frames stay local. Only the script,
+# captions, YOUTUBE.md and the composition/thumbnail HTML are public.
+tiktok-ai-avatar/v86-two-numbers-long/*
+!tiktok-ai-avatar/v86-two-numbers-long/script/
+!tiktok-ai-avatar/v86-two-numbers-long/composition/
+tiktok-ai-avatar/v86-two-numbers-long/composition/assets/
+!tiktok-ai-avatar/v86-two-numbers-long/thumbnail/
+tiktok-ai-avatar/v86-two-numbers-long/thumbnail/assets/
+tiktok-ai-avatar/v86-two-numbers-long/thumbnail/snap/
+!tiktok-ai-avatar/v86-two-numbers-long/YOUTUBE.md
+!tiktok-ai-avatar/v86-two-numbers-long/V86.srt
+tiktok-ai-avatar/v86-two-numbers-long/script/sfx_cues.json

@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>V86 — Two Numbers (YouTube long)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V86 — the first LONG-FORM Numevix video (YouTube, 16:9, ~6:49).
+         "Your birth date holds two numbers, and most people calculate
+         at least one of them wrong." Moolank, Bhagyank, the nine
+         planets, the Vedic grid, three mistakes, yours in 30 seconds.
+
+         This file is the V1 picture layer only. Voice, bed, SFX and the
+         EffectCraft chapter cards are cut on top of it in FilmCraft.
+         Every scene is timed from the measured voice-over
+         (script/timeline.json) and every number is re-derived here and
+         asserted against the engine's output (script/numbers.json).
+         ───────────────────────────────────────────────────────────── */
+      :root { --ink: #10142a; --gold: #e2b350; --cream: #f4ecdc; --red: #e0644a; --dim: rgba(244,236,220,.55); }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--ink); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink);
+              font-family: "Manrope", sans-serif; color: var(--cream); font-variant-numeric: lining-nums; }
+      /* #plates is its own stacking context: plate z-index is per-window order and must never climb over the scrim (first snapshot did). */
+      #plates { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+      #scrim, #stage, #chap, #brand, #bar { z-index: 1; }
+      .plate { position: absolute; left: -96px; top: -54px; width: 2112px; height: 1188px; object-fit: cover; opacity: 0; transform-origin: 50% 50%; }
+      #scrim { position: absolute; inset: 0;
+               background: radial-gradient(1400px 900px at 50% 50%, rgba(10,12,28,.42), rgba(10,12,28,.8) 75%),
+                           linear-gradient(180deg, rgba(10,12,28,.35), rgba(10,12,28,.6)); }
+      #stage { position: absolute; inset: 0; }
+      .scene { position: absolute; inset: 0; display: none; }
+      .it { opacity: 0; }
+      .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 26px; padding: 0 140px; }
+      .kicker { font-weight: 800; font-size: 34px; letter-spacing: .22em; color: var(--gold); text-transform: uppercase; }
+      .h0 { font-family: "Fraunces", serif; font-weight: 700; font-size: 190px; line-height: .95; }
+      .h1 { font-family: "Fraunces", serif; font-weight: 700; font-size: 112px; line-height: 1.02; }
+      .h2 { font-family: "Fraunces", serif; font-weight: 500; font-size: 76px; line-height: 1.1; }
+      .h3 { font-weight: 700; font-size: 54px; line-height: 1.2; }
+      .p  { font-weight: 500; font-size: 46px; line-height: 1.3; color: var(--dim); }
+      .gold { color: var(--gold); } .red { color: var(--red); } .dim { color: var(--dim); }
+      .date { font-family: "Fraunces", serif; font-weight: 700; font-size: 128px; letter-spacing: .04em; white-space: nowrap; }
+      .date .x { color: rgba(244,236,220,.28); }
+      .chip { display: inline-flex; align-items: baseline; gap: 22px; padding: 22px 44px; border-radius: 22px;
+              background: rgba(226,179,80,.12); border: 3px solid rgba(226,179,80,.75); font-weight: 800; font-size: 56px; white-space: nowrap; }
+      .chip b { font-family: "Fraunces", serif; font-size: 92px; color: var(--gold); line-height: .9; }
+      .row { display: flex; gap: 60px; align-items: center; justify-content: center; }
+      .card { width: 620px; padding: 40px 46px; border-radius: 26px; background: rgba(16,20,42,.78); border: 2px solid rgba(244,236,220,.18); text-align: left; }
+      .card .lab { font-weight: 800; font-size: 32px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+      .card .big { font-family: "Fraunces", serif; font-weight: 700; font-size: 170px; line-height: 1; }
+      .card .txt { font-weight: 700; font-size: 46px; line-height: 1.25; }
+      .chain { font-family: "Fraunces", serif; font-weight: 700; font-size: 112px; white-space: nowrap; display: flex; gap: 34px; align-items: baseline; }
+      .chain .op { color: var(--dim); font-size: 84px; }
+      .list { display: flex; flex-direction: column; gap: 26px; align-items: flex-start; text-align: left; }
+      .list .li { font-weight: 700; font-size: 60px; display: flex; gap: 28px; align-items: center; white-space: nowrap; }
+      .list .n { width: 84px; height: 84px; border-radius: 50%; border: 3px solid var(--gold); color: var(--gold); display: flex; align-items: center; justify-content: center;
+                 font-family: "Fraunces", serif; font-size: 50px; flex: none; }
+      .list .li.off { color: rgba(244,236,220,.35); } .list .li.off .n { border-color: rgba(226,179,80,.35); color: rgba(226,179,80,.45); }
+      /* Vedic grid */
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .cell { position: relative; border-radius: 18px; background: rgba(16,20,42,.82); border: 3px solid rgba(244,236,220,.22); display: flex; align-items: center; justify-content: center; }
+      .cell .seat { position: absolute; left: 14px; top: 8px; font-weight: 800; font-size: 26px; color: rgba(226,179,80,.75); }
+      .cell .v { font-family: "Fraunces", serif; font-weight: 700; color: var(--cream); letter-spacing: .04em; }
+      .cell > .it { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .xwrap { position: absolute; inset: 0; }
+      .cell .pl { margin-top: 40px; text-align: center; font-weight: 800; font-size: 24px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+      .cell.miss { border-color: var(--red); background: rgba(224,100,74,.14); }
+      .cell.seatbig .v { color: var(--gold); }
+      .x-mark { position: absolute; inset: -10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--red); font-size: 560px; line-height: 1; }
+      .planetL { position: absolute; left: 150px; top: 0; bottom: 0; display: flex; align-items: center; }
+      .planetL .num { font-family: "Fraunces", serif; font-weight: 700; font-size: 520px; color: var(--gold); line-height: 1; text-shadow: 0 10px 60px rgba(0,0,0,.5); }
+      .planetR { position: absolute; left: 640px; right: 140px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+      .planetR .name { font-family: "Fraunces", serif; font-weight: 700; font-size: 150px; line-height: 1; }
+      .planetR .line { font-weight: 700; font-size: 58px; line-height: 1.22; }
+      .planetR .days { font-weight: 700; font-size: 38px; color: var(--dim); letter-spacing: .04em; }
+      .strike { position: relative; } .strike::after { content: ""; position: absolute; left: -6%; right: -6%; top: 52%; height: 8px; background: var(--red); border-radius: 4px; }
+      table.cmp { border-collapse: separate; border-spacing: 0 18px; font-weight: 700; font-size: 50px; }
+      table.cmp th { font-weight: 800; font-size: 32px; letter-spacing: .2em; text-transform: uppercase; padding: 0 40px; text-align: left; }
+      table.cmp td { padding: 22px 40px; background: rgba(16,20,42,.78); white-space: nowrap; text-align: left; }
+      table.cmp td:first-child { border-radius: 18px 0 0 18px; color: var(--dim); } table.cmp td:last-child { border-radius: 0 18px 18px 0; }
+      #chap { position: absolute; left: 70px; top: 52px; font-weight: 800; font-size: 26px; letter-spacing: .2em; text-transform: uppercase; color: rgba(244,236,220,.7); white-space: nowrap; }
+      #chap b { color: var(--gold); margin-right: 18px; }
+      #brand { position: absolute; right: 70px; top: 50px; font-weight: 800; font-size: 28px; letter-spacing: .06em; color: rgba(244,236,220,.7); }
+      #bar { position: absolute; left: 0; bottom: 0; height: 6px; width: 0; background: var(--gold); opacity: .85; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="v86long"
+         data-start="0" data-width="1920" data-height="1080"
+         data-duration="__TOTAL__">
+      <div id="plates"></div>
+      <div id="scrim"></div>
+      <div id="stage"></div>
+      <div id="chap"></div>
+      <div id="brand">numevix.com</div>
+      <div id="bar"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      (() => {
+        // Everything lives inside this IIFE: a global `top`/`name`/`status` collides with window.* and blanks the render (V76, V79).
+        const DATA = __DATA__;
+        const DUR = DATA.total;
+        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+        const ease = (x) => 1 - Math.pow(1 - x, 3);
+        const digits = (n) => String(n).split("").map(Number);
+        const digitSum = (n) => digits(n).reduce((a, b) => a + b, 0);
+        const chain = (n) => { const c = [n]; while (n > 9) { n = digitSum(n); c.push(n); } return c; };
+        const assert = (c, m) => { if (!c) throw new Error("ASSERT " + m); };
+        const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+        // ── numbers: re-derived here, asserted against the engine (numbers.json). V67 shipped a wrong Conductor.
+        const N = DATA.N, PLANET = ["", ...[1,2,3,4,5,6,7,8,9].map((k) => N.planets[k])];
+        assert(same(PLANET.slice(1), ["Sun","Moon","Jupiter","Rahu","Mercury","Venus","Ketu","Saturn","Mars"]), "planets");
+        const LAYOUT = N.layout; assert(same(LAYOUT, [[3,1,9],[6,7,5],[2,8,4]]), "layout");
+        const ex = (dd, mm, yyyy) => {
+          const mool = chain(dd).at(-1), comp = [dd, mm, yyyy].flatMap(digits).reduce((a, b) => a + b, 0), bh = chain(comp).at(-1);
+          let g = [dd, mm, yyyy % 100].flatMap(digits).filter((d) => d !== 0);
+          if (![1,2,3,4,5,6,7,8,9,10,20,30].includes(dd)) g.push(mool);
+          g.push(bh);
+          const counts = {}; for (let k = 1; k <= 9; k++) counts[k] = g.filter((d) => d === k).length;
+          return { mool, comp, bh, g, counts, missing: [1,2,3,4,5,6,7,8,9].filter((k) => !counts[k]) };
+        };
+        const A = ex(14, 8, 1996), B = ex(29, 3, 1990);
+        assert(A.mool === N.A.moolank && same(chain(14), N.A.moolankChain) && A.comp === N.A.compound && same(chain(A.comp), N.A.bhagyankChain), "A chains");
+        assert(same(A.g, N.A.gridDigits) && same(A.missing, N.A.missing), "A grid");
+        assert(same(chain(29), N.B.moolankChain) && B.comp === N.B.compound && same(chain(B.comp), N.B.bhagyankChain), "B chains");
+        assert(same(B.g, N.B.gridDigits) && same(B.missing, N.B.missing), "B grid");
+        const DAYS = (m) => N.days[m];
+        const ord = (d) => d + (d % 10 === 1 && d !== 11 ? "st" : d % 10 === 2 && d !== 12 ? "nd" : d % 10 === 3 && d !== 13 ? "rd" : "th");
+        const ords = (a) => a.slice(0, -1).map(ord).join(", ") + " or " + ord(a.at(-1));
+        assert(same(DAYS(5), [5,14,23]) && same(DAYS(2), [2,11,20,29]), "days");
+        const LINE = { 1: "Leading, and standing on your own.", 2: "Feeling, partnership, and quiet care.", 3: "Wisdom, teaching, and clear values.",
+          4: "A sharp, restless mind that does things its own way.", 5: "Quick thinking, talking, and trading.", 6: "Love, beauty, and looking after the people around you.",
+          7: "Depth, intuition, and looking under the surface.", 8: "Hard work, patience, and results that come late but stay.", 9: "Courage, energy, and standing up for what's right." };
+
+        // ── plates per window (crossfaded 0.8s). Planet scenes use their planet's plate.
+        const seg = Object.fromEntries(DATA.segs.map((s) => [s.id, s]));
+        const PL = { sun: "suns_corona_and_solar_flares_1", moon: "moon_close_up_detailed_craters_1", jup: "planet_jupiter_with_its_storm_1",
+          rahu: "swirling_purple_and_gold_nebula_in_1", merc: "geometric_stone_sundial_observatory_at_sunrise_1", ven: "planet_venus_glowing_pale_gold_1",
+          ketu: "swirling_purple_and_gold_nebula_in_2", sat: "planet_saturn_with_its_rings_1", mars: "planet_mars_realistic_red_surface_1" };
+        const plateAt = [ // [from segment id, plate]
+          ["c1a", "milky_way_over_rajasthan_desert_dunes_1"], ["c2a", "rows_of_lit_clay_diyas_on_1"], ["c3a", "antique_brass_astrolabe_and_old_star_1"],
+          ["c4a", "milky_way_over_rajasthan_desert_dunes_2"], ["c4b", PL.sun], ["c4c", PL.moon], ["c4d", PL.jup], ["c4e", PL.rahu], ["c4f", PL.merc],
+          ["c4g", PL.ven], ["c4h", PL.ketu], ["c4i", PL.sat], ["c4j", PL.mars], ["c4k", "milky_way_over_rajasthan_desert_dunes_2"],
+          ["c5a", "rainstreaked_window_at_night_blurred_city_1"], ["c6a", "ancient_stone_temple_corridor_with_carved_1"],
+          ["c7a", "chessboard_midgame_under_a_single_dramatic_1"], ["c8a", "varanasi_ghats_at_sunrise_wooden_boats_1"]];
+        const segStart = (id) => (id === "c1a" ? 0 : seg[id].start - 0.2);
+        const windows = plateAt.map(([id, p], i) => ({ p, a: segStart(id), b: i + 1 < plateAt.length ? segStart(plateAt[i + 1][0]) : DUR }));
+        const plates = document.getElementById("plates");
+        const imgs = {};
+        for (const w of windows) if (!imgs[w.p]) { const im = document.createElement("img"); im.className = "plate"; im.src = `assets/${w.p}.jpg`; plates.appendChild(im); imgs[w.p] = im; }
+
+        // ── scene builders
+        const it = (d, html, cls = "") => `<div class="it ${cls}" data-f="${d}">${html}</div>`;
+        const itd = (d, html, cls = "") => `<div class="it ${cls}" data-d="${d}">${html}</div>`;
+        const chip = (lab, n, pl) => `<span class="chip">${lab} <b>${n}</b> ${pl}</span>`;
+        const grid = (size, cell) => {
+          let h = `<div class="grid" style="grid-template-columns:repeat(3,${size}px);grid-auto-rows:${size}px">`;
+          LAYOUT.forEach((r, ri) => r.forEach((n, ci) => { h += cell(n, ri, ci); }));
+          return h + "</div>";
+        };
+        const fill = (E, size, f0, step, opts = {}) => grid(size, (n, ri, ci) => {
+          const miss = opts.miss && !E.counts[n];
+          const v = E.counts[n] ? String(n).repeat(E.counts[n]) : "";
+          return `<div class="cell${miss ? " miss" : ""}" style="font-size:${size * .42}px"><span class="seat">${n}</span>` +
+            (v ? (opts.f !== undefined ? it(opts.f(n), `<span class="v">${v}</span>`) : `<span class="v">${v}</span>`) : "") +
+            (miss && opts.planet ? it(opts.planetF ?? 0, `<span class="pl">${PLANET[n]}</span>`) : "") + `</div>`;
+        });
+        const seats = (size, rowF) => grid(size, (n, ri) => `<div class="cell seatbig" style="font-size:${size * .46}px">${rowF ? it(rowF[ri], `<span class="v">${n}</span>`) : `<span class="v">${n}</span>`}</div>`);
+        const dateHTML = (dd, mm, yy, hi) => `<span class="${hi.includes("d") ? "gold" : "x"}">${dd}</span> <span class="x">·</span> <span class="${hi.includes("m") ? "gold" : "x"}">${mm}</span> <span class="x">·</span> <span class="${hi.includes("y") ? "gold" : "x"}">${yy}</span>`;
+        const planetScene = (k) => `<div class="planetL">${it(0, `<div class="num">${k}</div>`)}</div>
+          <div class="planetR">${it(.04, `<div class="name">${PLANET[k]}</div>`)}${it(.2, `<div class="line">${LINE[k]}</div>`)}${it(.45, `<div class="days">Moolank ${k} · born on the ${ords(DAYS(k))}</div>`)}</div>`;
+        const steps = (active, extraF) => `<div class="center"><div class="list">` + [
+          "Birth day → one digit = <span class=\"gold\">Moolank</span>", "Every digit of the date → one digit = <span class=\"gold\">Bhagyank</span>",
+          "Find both planets", "Draw the grid. Spot the empty seats."].map((s, i) => {
+            const on = i + 1 <= active || (extraF !== undefined && i === 3);
+            const inner = `<span class="n">${i + 1}</span><span>${s}</span>`;
+            if (extraF !== undefined && i === 3) return it(extraF, inner, "li");
+            return `<div class="li ${on ? "" : "off"}">${inner}</div>`;
+          }).join("") + `</div>${it(.05, `<div class="p">Don't stop at 11, 22 or 33.</div>`, active === 2 ? "" : "hide")}</div>`;
+        const [a1, a2, a3] = chain(A.comp); // 38, 11, 2
+        const [b1, b2] = chain(B.comp);     // 33, 6
+
+        const S = {
+          c1a: `<div class="center">${itd(-1, `<div class="kicker">Your birth date holds</div>`)}${itd(-1, `<div class="h0"><span class="gold">2</span> numbers.</div>`)}
+                 ${itd(-1, `<div class="h2">Most people get at least one of them <span class="red">wrong</span>.</div>`)}${itd(1.0, `<div class="date">${dateHTML("14", "08", "1996", "")}</div>`)}</div>`,
+          c1b: `<div class="center"><div class="row">${it(.05, `<div class="card"><div class="lab">One site</div><div class="big">11</div><div class="txt dim">"a master number"</div></div>`)}
+                 ${it(.42, `<div class="card"><div class="lab">Another site</div><div class="big">2</div><div class="txt dim">"the Moon"</div></div>`)}</div>
+                 ${it(.72, `<div class="h2">So which one is <span class="gold">yours</span>?</div>`)}</div>`,
+          c1c: `<div class="center"><div class="list">${["Both numbers", "The nine planets", "The grid inside your date", "Yours, in 30 seconds"].map((s, i) => it([.04, .2, .38, .68][i], `<span class="n">${i + 1}</span><span>${s}</span>`, "li")).join("")}</div></div>`,
+          c2a: `<div class="center">${it(0, `<div class="kicker">Moolank = root number</div>`)}${it(.25, `<div class="date">${dateHTML("14", "08", "1996", "d")}</div>`)}${it(.62, `<div class="h2">Only the <span class="gold">day</span> you were born.</div>`)}</div>`,
+          c2b: `<div class="center">${it(0, `<div class="kicker">Born on the 14th</div>`)}<div class="chain">${it(.25, "14")}${it(.4, `<span class="op">→</span>`)}${it(.45, "1 + 4")}${it(.6, `<span class="op">=</span>`)}${it(.62, `<span class="gold">${A.mool}</span>`)}</div>
+                 ${it(.8, chip("Moolank", A.mool, PLANET[A.mool]))}</div>`,
+          c2c: `<div class="center"><div class="chain">${it(.02, `7th`)}${it(.08, `<span class="op">→</span>`)}${it(.12, `<span class="gold">7</span>`)}</div>
+                 <div class="chain">${it(.34, "29th")}${it(.4, `<span class="op">→</span>`)}${it(.42, "2 + 9 = 11")}${it(.62, `<span class="op">→</span>`)}${it(.66, `1 + 1 = <span class="gold">${chain(29).at(-1)}</span>`)}</div>
+                 ${it(.86, chip("Moolank", chain(29).at(-1), PLANET[chain(29).at(-1)]))}</div>`,
+          c2d: `<div class="center">${it(0, `<div class="kicker">Your Moolank</div>`)}${it(.08, `<div class="h1">How you move through<br-x>an ordinary day.</div>`)}${it(.55, `<div class="h2 dim">The you that people meet first.</div>`)}</div>`,
+          c3a: `<div class="center">${it(0, `<div class="kicker">Bhagyank = number of fortune</div>`)}${it(.3, `<div class="date">${dateHTML("14", "08", "1996", "dmy")}</div>`)}${it(.6, `<div class="h2">Day + month + year. <span class="gold">Every digit.</span></div>`)}</div>`,
+          c3b: `<div class="center"><div class="chain">${[1,4,0,8,1,9,9,6].map((d, i) => it(.06 + i * .035, `${d}`)).join("")}</div>
+                 <div class="chain">${it(.5, `= ${a1}`)}${it(.62, `<span class="op">→</span>`)}${it(.64, `3 + 8 = ${a2}`)}${it(.76, `<span class="op">→</span>`)}${it(.78, `1 + 1 = <span class="gold">${a3}</span>`)}</div>
+                 ${it(.9, chip("Bhagyank", A.bh, PLANET[A.bh]))}</div>`,
+          c3c: `<div class="center"><div class="row">${it(.03, `<div class="card"><div class="lab">Moolank</div><div class="txt">How you act.</div></div>`)}${it(.3, `<div class="card"><div class="lab">Bhagyank</div><div class="txt">Where your life keeps pulling you.</div></div>`)}</div></div>`,
+          c4a: `<div class="center">${it(0, `<div class="kicker">Nine numbers · nine planets</div>`)}<div class="row" style="flex-wrap:wrap;max-width:1600px;gap:22px 30px">${[1,2,3,4,5,6,7,8,9].map((k, i) => it(.12 + i * .07, `<span class="chip" style="font-size:44px;padding:14px 30px"><b style="font-size:66px">${k}</b>${PLANET[k]}</span>`)).join("")}</div></div>`,
+          c4b: planetScene(1), c4c: planetScene(2), c4d: planetScene(3), c4e: planetScene(4), c4f: planetScene(5), c4g: planetScene(6), c4h: planetScene(7), c4i: planetScene(8), c4j: planetScene(9),
+          c4k: `<div class="center">${it(0, `<div class="kicker">Our example · 14 08 1996</div>`)}<div class="row">${it(.2, chip("Moolank", A.mool, PLANET[A.mool]))}${it(.55, chip("Bhagyank", A.bh, PLANET[A.bh]))}</div></div>`,
+          c5a: `<div class="center"><div class="row" style="gap:120px">${it(.05, `<div class="h0 gold">${A.mool}</div>`)}${it(.3, `<div class="p" style="letter-spacing:.3em">— the gap —</div>`)}${it(.05, `<div class="h0 gold">${A.bh}</div>`)}</div>${it(.5, `<div class="h2">Most people have two different numbers.</div>`)}</div>`,
+          c5b: `<div class="center"><div class="row">${it(.02, `<div class="card"><div class="lab">${A.mool} · ${PLANET[A.mool]} · how they move</div><div class="txt">Fast. Talking. Always working something out.</div></div>`)}
+                 ${it(.42, `<div class="card"><div class="lab">${A.bh} · ${PLANET[A.bh]} · where life steers</div><div class="txt">People. Feelings. The one everyone leans on.</div></div>`)}</div></div>`,
+          c5c: `<div class="center"><div class="row">${it(.05, `<div class="card"><div class="txt">The one who gets through a busy Tuesday.</div></div>`)}${it(.25, `<div class="card"><div class="txt">The one your life keeps asking you to be.</div></div>`)}</div>
+                 ${it(.55, `<div class="h2">Neither one is a mistake.</div>`)}${it(.78, `<div class="h3 gold">Who's in charge right now?</div>`)}</div>`,
+          c5d: `<div class="center">${it(0, `<div class="kicker">Same two numbers?</div>`)}${it(.2, `<div class="h1">No gap.</div>`)}${it(.42, `<div class="h2">One planet, showing up twice as strong.</div>`)}${it(.68, `<div class="p">In the easy parts, and in the hard ones.</div>`)}</div>`,
+          c6a: `<div class="center">${it(0, `<div class="kicker">The Vedic grid</div>`)}${it(.3, grid(200, () => `<div class="cell"></div>`))}${it(.6, `<div class="p">Nine numbers. Each has its own seat.</div>`)}</div>`,
+          c6b: `<div class="center">${seats(230, [.08, .35, .62])}</div>`,
+          c6c: `<div class="center"><div class="row" style="gap:90px">${seats(150)}<div class="list">${["Every digit of your date", "Year: last two digits only", "Skip every 0", "+ your Bhagyank", "+ your Moolank*"].map((s, i) => it([.02, .14, .3, .42, .58][i], `<span class="n">${i + 1}</span><span>${s}</span>`, "li")).join("")}
+                 ${it(.8, `<div class="p" style="font-size:36px">*only for two-digit days — not the 10th, 20th or 30th</div>`)}</div></div></div>`,
+          c6d: `<div class="center">${it(0, `<div class="date" style="font-size:86px">14 · 08 · <span class="x">19</span>96 <span class="dim">+</span> <span class="gold">${A.mool}</span> <span class="dim">+</span> <span class="gold">${A.bh}</span></div>`)}
+                 ${fill(A, 200, 0, 0, { f: (n) => ({ 1: .1, 4: .17, 8: .24, 9: .31, 6: .38, 5: .55, 2: .72 })[n] })}</div>`,
+          c6e: `<div class="center">${it(0, `<div class="h3">Empty seats: <span class="red">${A.missing.join(" and ")}</span></div>`)}${fill(A, 210, 0, 0, { miss: true, planet: true, planetF: .7 })}</div>`,
+          c6f: `<div class="center">${it(.05, `<div class="h2 dim">Nothing is wrong with you.</div>`)}${it(.3, `<div class="h1">It isn't handed to you.</div>`)}${it(.55, `<div class="h1 gold">You build it on purpose.</div>`)}</div>`,
+          c6g: `<div class="center">${it(0, `<div class="date" style="font-size:80px">29 · 03 · <span class="x">19</span>90 <span class="dim">+</span> <span class="gold">${B.mool}</span> <span class="dim">+</span> <span class="gold">${B.bh}</span></div>`)}${it(.15, fill(B, 180, 0, 0, { miss: true }))}
+                 ${it(.62, `<div class="h3">Two 2s · two 9s · <span class="red">${B.missing.length} empty seats</span></div>`)}</div>`,
+          c7a: `<div class="center">${it(0, `<div class="h0"><span class="gold">3</span> mistakes</div>`)}</div>`,
+          c7b: `<div class="center">${it(0, `<div class="kicker">Mistake 1 · keeping master numbers</div>`)}<div class="row" style="gap:80px">${["11", "22", "33"].map((m, i) => it(.15 + i * .06, `<div class="h0 strike">${m}</div>`)).join("")}</div>${it(.68, `<div class="h2">9 planets → always <span class="gold">one digit</span>.</div>`)}</div>`,
+          c7c: `<div class="center"><table class="cmp"><tr><th></th><th class="dim">Western</th><th class="gold">Vedic</th></tr>
+                 <tr class="it" data-f=".04"><td>14 08 1996</td><td>${a1} → ${a2} <span class="dim">(stops)</span></td><td>${a1} → ${a2} → <span class="gold">${a3} · ${PLANET[a3]}</span></td></tr>
+                 <tr class="it" data-f=".5"><td>29 03 1990</td><td>${b1} <span class="dim">(master)</span></td><td>${b1} → <span class="gold">${b2} · ${PLANET[b2]}</span></td></tr></table></div>`,
+          c7d: `<div class="center">${it(0, `<div class="kicker">Mistake 2 · the wrong grid</div>`)}<div class="row" style="gap:140px">
+                 ${it(.1, `<div style="position:relative">${(() => { const L2 = [[4,9,2],[3,5,7],[8,1,6]]; let h = `<div class="grid" style="grid-template-columns:repeat(3,150px);grid-auto-rows:150px">`; L2.flat().forEach((n) => { h += `<div class="cell" style="font-size:64px"><span class="v dim">${n}</span></div>`; }); return h + "</div>"; })()}
+                   <div class="p" style="margin-top:20px;font-size:36px">Another layout</div>${it(.42, `<div class="x-mark">×</div>`, "xwrap")}</div>`)}
+                 ${it(.72, `<div>${seats(150)}<div class="p gold" style="margin-top:20px;font-size:36px">The Vedic grid</div></div>`)}</div></div>`,
+          c7e: `<div class="center">${it(0, `<div class="kicker">Mistake 3 · the whole year in the grid</div>`)}${it(.12, `<div class="date"><span class="red">19</span><span class="gold">96</span></div>`)}
+                 <div class="row">${it(.35, `<div class="card"><div class="lab">19 → Bhagyank only</div><div class="txt">Counted in the sum.</div></div>`)}${it(.5, `<div class="card"><div class="lab">96 → the grid</div><div class="txt">Only the last two digits.</div></div>`)}</div>
+                 ${it(.75, `<div class="p">Otherwise you get a 1, a 9 or a 2 that isn't yours.</div>`)}</div>`,
+          c8a: `<div class="center">${it(0, `<div class="h1">Yours, in <span class="gold">30 seconds</span>.</div>`)}${it(.45, `<div class="p">Pause if you need to.</div>`)}</div>`,
+          c8b: steps(1), c8c: steps(2), c8d: steps(3, .5),
+          c8e: `<div class="center">${it(0, `<div class="kicker">Or skip the arithmetic</div>`)}${it(.15, `<div class="h0 gold" style="font-size:150px">numevix.com/try</div>`)}${it(.5, `<div class="h2">Free calculator. Grid included.</div>`)}</div>`,
+          c8f: `<div class="center">${it(0, `<div class="kicker">Comment below</div>`)}${it(.12, `<div class="date">DD · MM · YYYY</div>`)}${it(.4, `<div class="h2">+ the two numbers you got.</div>`)}${it(.7, `<div class="p">How many of you were handed an 11?</div>`)}</div>`,
+          c8g: `<div class="center">${it(0, `<div class="h0 gold" style="font-size:150px">numevix.com/try</div>`)}${it(.15, `<div class="h2">Comment your date: DD MM YYYY</div>`)}${it(.55, `<div class="p">Your whole year ahead: the Annual Forecast, on the site.</div>`)}</div>`,
+        };
+
+        // ── scene windows: each segment owns the screen from just before it starts until the next one begins (cards cover the gaps).
+        const stage = document.getElementById("stage");
+        const order = DATA.segs.map((s) => s.id);
+        const scenes = order.map((id, i) => {
+          assert(S[id], "scene " + id);
+          const el = document.createElement("div"); el.className = "scene"; el.innerHTML = S[id].replace(/<br-x>/g, " ");
+          stage.appendChild(el);
+          const a = segStart(id), b = i + 1 < order.length ? segStart(order[i + 1]) : DUR + 1;
+          const items = [...el.querySelectorAll(".it")].map((n) => ({ n, d: n.dataset.d !== undefined ? +n.dataset.d : +n.dataset.f * seg[id].dur }));
+          el.querySelectorAll(".hide").forEach((n) => n.remove());
+          return { id, el, a, b, items: items.filter((x) => x.n.isConnected) };
+        });
+        const chapAt = (t) => { let c = DATA.chapters[0], k = 0; DATA.chapters.forEach((x, i) => { if (t >= x.start) { c = x; k = i; } }); return [c, k]; };
+        const chapEl = document.getElementById("chap"), bar = document.getElementById("bar");
+
+        function render(t) {
+          for (const w of windows) {
+            const im = imgs[w.p];
+            if (t >= w.a - 0.8 && t < w.b + 0.8) {
+              const fadeIn = w.a <= 0 ? 1 : clamp((t - w.a + 0.8) / 0.8, 0, 1);
+              const p = clamp((t - w.a) / Math.max(1, w.b - w.a), 0, 1);
+              im.style.opacity = String(fadeIn);
+              im.style.zIndex = String(Math.round(w.a));
+              im.style.transform = `scale(${1.0 + 0.07 * p}) translate(${(p - 0.5) * 30}px, ${(0.5 - p) * 16}px)`;
+            } else if (!windows.some((x) => x.p === w.p && t >= x.a - 0.8 && t < x.b + 0.8)) im.style.opacity = "0";
+          }
+          for (const s of scenes) {
+            const on = t >= s.a && t < s.b;
+            s.el.style.display = on ? "block" : "none";
+            if (!on) continue;
+            const local = t - s.a - (s.id === "c1a" ? 0 : 0.2);
+            const drift = 1 + 0.012 * clamp((t - s.a) / 10, 0, 1);
+            s.el.style.transform = `scale(${drift})`;
+            for (const x of s.items) {
+              const k = x.d < 0 ? 1 : ease(clamp((local - x.d) / 0.45, 0, 1));
+              x.n.style.opacity = String(k);
+              x.n.style.transform = `translateY(${(1 - k) * 26}px)`;
+            }
+          }
+          const [c, k] = chapAt(t);
+          chapEl.innerHTML = k === 0 ? "" : `<b>${String(k + 1).padStart(2, "0")}</b>${c.title}`;
+          bar.style.width = `${(t / DUR) * 100}%`;
+        }
+
+        const clock = { t: 0 };
+        const tl = gsap.timeline({ paused: true });
+        tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+        render(0);
+        if (document.fonts) document.fonts.ready.then(() => render(clock.t));
+        window.__timelines["v86long"] = tl;
+      })();
+    </script>
+  </body>
+</html>

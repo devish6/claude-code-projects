@@ -1,0 +1,222 @@
+{
+ "c1a": {
+  "ok": true,
+  "heard": "Your birth date holds two numbers, and most people calculate at least one of them wrong.",
+  "dur": 5.16
+ },
+ "c1b": {
+  "ok": false,
+  "heard": "Maybe you looked yours up once and got an 11. Then another site gave you a 2 and you stopped trusting any of it.",
+  "dur": 6.88
+ },
+ "c1c": {
+  "ok": false,
+  "heard": "In the next few minutes you'll learn both numbers, the nine planets behind them and the grid hidden inside your date. Then you'll work out your own in 30 seconds.",
+  "dur": 9.16
+ },
+ "c2a": {
+  "ok": true,
+  "heard": "In Vedic numerology the first number is your Moolank. Moolank means root number. It comes only from the day of the month you were born. Nothing else.",
+  "dur": 9.8
+ },
+ "c2b": {
+  "ok": false,
+  "heard": "Take one example. Someone born on the 14th of August, 1996. The day is 14. Add its digits. One plus four is five. Moo-lank five.",
+  "dur": 10.52
+ },
+ "c2c": {
+  "ok": false,
+  "heard": "11 still has two digits, so keep going. 1+1 is 2. MooLank 2.",
+  "dur": 15.04
+ },
+ "c2d": {
+  "ok": false,
+  "heard": "Your moo-lank is how you move through an ordinary day. It's the version of you that people meet first.",
+  "dur": 5.88
+ },
+ "c3a": {
+  "ok": false,
+  "heard": "Bhagyan means the number of fortune. This one uses the whole date. Day, month, and year. Every single digit.",
+  "dur": 10.08
+ },
+ "c3b": {
+  "ok": false,
+  "heard": "For the 14th of August, 1996, that's 1-4-0-8-1-9-9-6. Add them together and you get 38. 3 plus 8 is 11. 1 plus 1 is 2. Bhagyank 2.",
+  "dur": 14.88
+ },
+ "c3c": {
+  "ok": true,
+  "heard": "So your moolank is how you act. Your Bhagyank is the direction your life keeps pulling you, whether you planned it or not.",
+  "dur": 7.68
+ },
+ "c4a": {
+  "ok": false,
+  "heard": "Every number from 1 to 9 belongs to a planet. Here they are, one line each.",
+  "dur": 5.72
+ },
+ "c4b": {
+  "ok": true,
+  "heard": "One is the sun, leading and standing on your own.",
+  "dur": 3.84
+ },
+ "c4c": {
+  "ok": true,
+  "heard": "Two is the moon. Feeling, partnership, and quiet care.",
+  "dur": 4.48
+ },
+ "c4d": {
+  "ok": false,
+  "heard": "3 is Jupiter. Wisdom, teaching, and clear values.",
+  "dur": 4.72
+ },
+ "c4e": {
+  "ok": false,
+  "heard": "4 is Rahu, a sharp restless mind that does things its own way.",
+  "dur": 4.92
+ },
+ "c4f": {
+  "ok": false,
+  "heard": "5 is Mercury. Quick thinking, talking, and trading.",
+  "dur": 4.96
+ },
+ "c4g": {
+  "ok": false,
+  "heard": "6 is Venus. Love, beauty, and looking after the people around you.",
+  "dur": 4.96
+ },
+ "c4h": {
+  "ok": false,
+  "heard": "7. Ketu - depth, intuition and looking under the surface",
+  "dur": 5.32
+ },
+ "c4i": {
+  "ok": false,
+  "heard": "A is Saturn, hard work, patience, and results that come late but stay.",
+  "dur": 5.04
+ },
+ "c4j": {
+  "ok": false,
+  "heard": "9 is Mars. Courage, energy, and standing up for what's right.",
+  "dur": 4.96
+ },
+ "c4k": {
+  "ok": false,
+  "heard": "So, our example has Moolank 5, Mercury, and Bhagyank 2, the Moon.",
+  "dur": 6.04
+ },
+ "c5a": {
+  "ok": true,
+  "heard": "Most people have two different numbers, and you can feel the gap between them.",
+  "dur": 4.44
+ },
+ "c5b": {
+  "ok": true,
+  "heard": "Our example moves like mercury. Fast, talking, always working something out. But life keeps steering them toward the moon, toward people, toward feelings, toward being the one everyone leans on.",
+  "dur": 12.08
+ },
+ "c5c": {
+  "ok": false,
+  "heard": "It can feel like being two people, the one you were on a busy Tuesday and the one your life keeps asking you to be. Neither one is a mistake. The work is knowing which one is in charge right now.",
+  "dur": 10.24
+ },
+ "c5d": {
+  "ok": true,
+  "heard": "If your two numbers are the same, there's no gap. That one planet just shows up twice as strong, in the easy parts and in the hard ones.",
+  "dur": 8.16
+ },
+ "c6a": {
+  "ok": false,
+  "heard": "Now the part most people never see, the Vedic grid. It's a 3x3 box and each of the nine numbers has its own seat.",
+  "dur": 8.28
+ },
+ "c6b": {
+  "ok": true,
+  "heard": "Top row, three, one, nine. Middle row, six, seven, five. Bottom row, two, eight, four.",
+  "dur": 9.4
+ },
+ "c6c": {
+  "ok": false,
+  "heard": "To fill it, take the digits of your birthdate, but use only the last two digits of the year, and skip every zero. Then add your Bhagyank. And if you were born on a two-digit day, like the 14th, add your Mulank too. The 10th, 20th, and 30th don't count.",
+  "dur": 16.92
+ },
+ "c6d": {
+  "ok": false,
+  "heard": "For our example, that's 1, 4, 8, 9, and 6. Then MooLank 5, and Bhagyank 2. Each digit takes its seat.",
+  "dur": 9.88
+ },
+ "c6e": {
+  "ok": false,
+  "heard": "Now look at what's empty. Three and seven. Those are the missing numbers. A missing number is a planet with no sea in your grid. Here, Jupiter and Ketu.",
+  "dur": 11.04
+ },
+ "c6f": {
+  "ok": false,
+  "heard": "It doesn't mean something is wrong with you. It means that quality is inhanded to you. You build it on purpose, usually later, and often the hard way.",
+  "dur": 10.24
+ },
+ "c6g": {
+  "ok": false,
+  "heard": "and a number that shows up twice gets louder. Someone born on the 29th of March 1990 has two 2s and two 9s in their grid and five empty seats.",
+  "dur": 10.04
+ },
+ "c7a": {
+  "ok": true,
+  "heard": "So why do so many people get this wrong? Three mistakes.",
+  "dur": 4.0
+ },
+ "c7b": {
+  "ok": false,
+  "heard": "Mistake 1. Keeping master numbers. Western numerology stops at 11, 22, or 33 and calls them master numbers. Vedic numerology always goes down to one digit because there are nine planets, not 33.",
+  "dur": 14.4
+ },
+ "c7c": {
+  "ok": false,
+  "heard": "our examples 38 becomes 11 and a western site stops there here 11 becomes 2 the moon the 29th of March 1990 adds up to 33 western says master 33 Vedic says 6 Venus",
+  "dur": 16.0
+ },
+ "c7d": {
+  "ok": false,
+  "heard": "Mistake 2, the wrong grid. Many apps use a different layout, with 4, 9, 2 along the top. Same 9 numbers, different seats, so every pattern you read from it shifts. The Vedic grid starts 3, 1, 9.",
+  "dur": 16.16
+ },
+ "c7e": {
+  "ok": false,
+  "heard": "Mistake 3. Putting the whole year in the grid. The 19 or the 20 belongs in your Bhagyank, not in your grid. Put it in the grid and you get a 1, a 9, or a 2 that isn't really yours.",
+  "dur": 11.4
+ },
+ "c8a": {
+  "ok": false,
+  "heard": "Here's yours in 30 seconds. Pause if you need to.",
+  "dur": 3.84
+ },
+ "c8b": {
+  "ok": false,
+  "heard": "1. Take your birthday and add its digits until one digit is left. That's your MooLank.",
+  "dur": 6.12
+ },
+ "c8c": {
+  "ok": false,
+  "heard": "2. Add every digit of your full date and keep going until one digit is left. Don't stop at 11, 22, or 33. That's your Bhagyank.",
+  "dur": 10.28
+ },
+ "c8d": {
+  "ok": false,
+  "heard": "3. Find both planets on the list. 4. Draw the grid and see which seats stay empty.",
+  "dur": 6.72
+ },
+ "c8e": {
+  "ok": true,
+  "heard": "or skip the arithmetic. Go to numevix.com/try. Type your date and the free calculator does all of it, grid included.",
+  "dur": 9.24
+ },
+ "c8f": {
+  "ok": false,
+  "heard": "Then comment your birthdate below, day, month, year, and the two numbers you got. Let's see how many of you were handed an 11.",
+  "dur": 8.2
+ },
+ "c8g": {
+  "ok": true,
+  "heard": "and if you want your whole year ahead, read through your numbers. The annual forecast is on the site.",
+  "dur": 5.64
+ }
+}
