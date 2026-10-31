@@ -1,5 +1,5 @@
 {
- "total": 344.328,
+ "total": 312.633,
  "segments": [
   {
    "id": "c1a",
@@ -212,95 +212,67 @@
    "text": "Nine, Mars. A year for decisive action. Taking a stand, and pushing a project through to the end."
   },
   {
-   "id": "c6a",
-   "ch": "Inside the year",
-   "start": 234.209,
-   "dur": 4.479,
-   "text": "There's one more layer. Each personal year splits into nine smaller periods."
-  },
-  {
-   "id": "c6b",
-   "ch": "Inside the year",
-   "start": 238.968,
-   "dur": 7.254,
-   "text": "The first one carries your year's own number. Each period lasts eight days for every point of its number, and then the next number takes over."
-  },
-  {
-   "id": "c6c",
-   "ch": "Inside the year",
-   "start": 246.502,
-   "dur": 12.255,
-   "text": "For our first example, from the fourteenth of August 2027, that's twenty-four days of three, then thirty-two days of four, then forty days of five, all the way round to two. Nine periods. Three hundred and sixty days."
-  },
-  {
-   "id": "c6d",
-   "ch": "Inside the year",
-   "start": 259.037,
-   "dur": 3.507,
-   "text": "So even inside a three year, there are weeks that ask for something different."
-  },
-  {
    "id": "c7a",
    "ch": "Three common mistakes",
-   "start": 265.325,
+   "start": 234.209,
    "dur": 3.548,
    "text": "So why do people get their personal year wrong? Three reasons."
   },
   {
    "id": "c7b",
    "ch": "Three common mistakes",
-   "start": 269.152,
+   "start": 238.037,
    "dur": 8.371,
    "text": "Mistake one. Starting it on the first of January. Your year turns on your birthday. If your birthday is in August, most of the calendar year still belongs to your last personal year."
   },
   {
    "id": "c7c",
    "ch": "Three common mistakes",
-   "start": 277.803,
+   "start": 246.688,
    "dur": 11.507,
    "text": "Mistake two. Adding the day, the month and the new year. For the fourteenth of August that gives twenty-four, which is six. In this method it's a three. A different number, and a different kind of year."
   },
   {
    "id": "c7d",
    "ch": "Three common mistakes",
-   "start": 289.59,
+   "start": 258.475,
    "dur": 10.304,
    "text": "Mistake three. Forgetting the weekday. It's why two people with the same Moolank and the same birth month can still be in different years. Your birthday moves through the week, and your year moves with it."
   },
   {
    "id": "c8a",
    "ch": "Find yours for 2027",
-   "start": 302.674,
+   "start": 271.559,
    "dur": 3.225,
    "text": "Here's yours, step by step. Pause if you need to."
   },
   {
    "id": "c8b",
    "ch": "Find yours for 2027",
-   "start": 306.179,
+   "start": 275.063,
    "dur": 12.139,
    "text": "Find your Moolank. Bring your birth month down to one digit. Look up the weekday of your 2027 birthday, and its planet number. Add twenty-seven, and keep adding the digits until one is left."
   },
   {
    "id": "c8c",
    "ch": "Find yours for 2027",
-   "start": 318.597,
-   "dur": 5.796,
+   "start": 287.482,
+   "dur": 5.358,
    "text": "Or let the free calculator do it. Go to numevix dot com slash try, and type your date."
   },
   {
    "id": "c8d",
    "ch": "Find yours for 2027",
-   "start": 324.674,
+   "start": 293.12,
    "dur": 5.896,
    "text": "Then comment your birth date below. Day, month, year. And tell me which year you landed on."
   },
   {
    "id": "c8e",
    "ch": "Find yours for 2027",
-   "start": 330.85,
-   "dur": 8.479,
-   "text": "And if you want your whole year mapped out, all nine periods with their dates, the Annual Forecast does that. Use the code LIVE50 for fifty percent off."
+   "start": 299.296,
+   "dur": 8.336,
+   "text": "And if you want your whole year mapped out, month by month from your birthday, the Annual Forecast does that. Use the code LIVE50 for fifty percent off."
   }
  ],
  "chapters": [
@@ -342,7 +314,7 @@
    ]
   },
   {
-   "title": "Inside the year",
+   "title": "Three common mistakes",
    "start": 231.909,
    "card": [
     231.909,
@@ -350,19 +322,11 @@
    ]
   },
   {
-   "title": "Three common mistakes",
-   "start": 263.025,
-   "card": [
-    263.025,
-    265.225
-   ]
-  },
-  {
    "title": "Find yours for 2027",
-   "start": 300.374,
+   "start": 269.259,
    "card": [
-    300.374,
-    302.574
+    269.259,
+    271.459
    ]
   }
  ]

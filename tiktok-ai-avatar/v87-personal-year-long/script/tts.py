@@ -5,7 +5,7 @@ segs = json.load(open(here / "segments.json"))
 SAY = {"Bhagyank": "Bhaagyaank",  # Chatterbox says "banyan" otherwise
        "Moolank": "Moolahnk", "Vedic": "Vaydhick",
        "2027": "twenty twenty-seven", "2026": "twenty twenty-six",
-       "LIVE50": "Live fifty"}  # owner picked "Live fifty" (10-31)  # owner picked sample C (10-30): not "mool-enk" / "ve-dick"
+       "LIVE50": "Live fifty", "numevix": "Numvix"}  # owner picked "Live fifty" (10-31)  # owner picked sample C (10-30): not "mool-enk" / "ve-dick"
 want = set(sys.argv[1:])
 for s in segs:
     if want and s["id"] not in want: continue

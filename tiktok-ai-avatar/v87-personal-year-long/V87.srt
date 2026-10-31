@@ -107,16 +107,16 @@
  numbers added together.
 
 28
-00:00:51,920 --> 00:00:55,050
- One. The last two digits of the year. For
+00:00:51,920 --> 00:00:55,020
+ One, the last two digits of the year. For
 
 29
-00:00:55,050 --> 00:00:59,280
- 2027, that's 27. Two. Your Moolank.
+00:00:55,020 --> 00:00:59,280
+ 2027, that's 27. Two, your Moolank.
 
 30
 00:00:59,280 --> 00:01:01,210
- Three. Your birth month, brought down to
+ Three, your birth month, brought down to
 
 31
 00:01:01,210 --> 00:01:04,420
@@ -128,7 +128,7 @@
 
 33
 00:01:04,880 --> 00:01:06,810
- Four. The planet of the weekday your
+ Four, the planet of the weekday your
 
 34
 00:01:06,810 --> 00:01:09,520
@@ -139,11 +139,11 @@
  one almost
 
 36
-00:01:10,240 --> 00:01:13,140
+00:01:10,240 --> 00:01:13,220
  everyone misses. Sunday is the sun. One.
 
 37
-00:01:13,140 --> 00:01:16,720
+00:01:13,220 --> 00:01:16,720
  Monday, the moon. Two. Tuesday, Mars.
 
 38
@@ -415,214 +415,154 @@
  a stand and
 
 105
-00:03:49,360 --> 00:03:52,490
- pushing a project through to the end.
+00:03:49,360 --> 00:03:52,630
+ pushing a project through to the end. So
 
 106
-00:03:52,490 --> 00:03:55,720
- There's one more layer. Each personal
+00:03:52,630 --> 00:03:55,490
+ why do people get their personal year
 
 107
-00:03:55,720 --> 00:03:57,520
- year splits into nine
+00:03:55,490 --> 00:03:56,800
+ wrong? Three
 
 108
-00:03:57,520 --> 00:03:59,650
- smaller periods. The first one carries
+00:03:56,800 --> 00:03:59,050
+ reasons. Mistake one. Starting it on the
 
 109
-00:03:59,650 --> 00:04:01,840
- your year's own number. Each period lasts
+00:03:59,050 --> 00:04:01,110
+ first of January, your year turns on your
 
 110
-00:04:01,840 --> 00:04:02,960
- eight days for every
+00:04:01,110 --> 00:04:01,840
+ birthday.
 
 111
-00:04:02,960 --> 00:04:04,890
- point of its number, and then the next
+00:04:02,400 --> 00:04:03,900
+ If your birthday is in August, most of
 
 112
-00:04:04,890 --> 00:04:07,160
- number takes over. For our first example,
+00:04:03,900 --> 00:04:05,440
+ the calendar year still belongs to your
 
 113
-00:04:07,160 --> 00:04:08,160
- from the 14th of
+00:04:05,440 --> 00:04:06,640
+ last personal year.
 
 114
-00:04:08,160 --> 00:04:11,280
- August, 2027, that's 24 days of three,
+00:04:06,640 --> 00:04:09,020
+ Mistake two. Adding the day, the month,
 
 115
-00:04:11,280 --> 00:04:13,820
- then 32 days of four, then 40 days of
+00:04:09,020 --> 00:04:11,940
+ and the new year. For the 14th of August,
 
 116
-00:04:13,820 --> 00:04:14,880
- five, all the way
+00:04:11,940 --> 00:04:12,880
+ that gives 24,
 
 117
-00:04:14,880 --> 00:04:18,450
- around to two. Nine periods. 360 days. So
+00:04:12,880 --> 00:04:15,470
+ which is 6. In this method, it's a 3. A
 
 118
-00:04:18,450 --> 00:04:21,360
- even inside a three year, there are weeks
+00:04:15,470 --> 00:04:17,910
+ different number and a different kind of
 
 119
-00:04:21,360 --> 00:04:21,840
- that ask for
+00:04:17,910 --> 00:04:19,680
+ year. Mistake three.
 
 120
-00:04:21,840 --> 00:04:24,970
- something different. So why do people get
+00:04:19,680 --> 00:04:21,660
+ Forgetting the weekday. It's why two
 
 121
-00:04:24,970 --> 00:04:29,050
- their personal year wrong? Three reasons.
+00:04:21,660 --> 00:04:23,440
+ people with the same Moolank and the
 
 122
-00:04:29,050 --> 00:04:30,000
- Mistake one.
+00:04:23,440 --> 00:04:24,320
+ same birth month can
 
 123
-00:04:30,000 --> 00:04:31,640
- Starting it on the first of January, your
+00:04:24,320 --> 00:04:25,870
+ still be in different years. Your
 
 124
-00:04:31,640 --> 00:04:33,480
- year turns on your birthday. If your
+00:04:25,870 --> 00:04:27,670
+ birthday moves through the week and your
 
 125
-00:04:33,480 --> 00:04:34,240
- birthday is in
+00:04:27,670 --> 00:04:28,640
+ year moves with it.
 
 126
-00:04:34,240 --> 00:04:36,020
- August, most of the calendar year still
+00:04:31,440 --> 00:04:33,760
+ Here's yours, step by step. Pause if you
 
 127
-00:04:36,020 --> 00:04:38,130
- belongs to your last personal year. Mistake
+00:04:33,760 --> 00:04:36,640
+ need to. Find your Moolank. Bring your
 
 128
-00:04:38,130 --> 00:04:39,840
- two. Adding the
+00:04:36,640 --> 00:04:37,440
+ birth month down
 
 129
-00:04:39,840 --> 00:04:41,840
- day, the month, and the new year. For the
+00:04:37,440 --> 00:04:39,780
+ to one digit. Look up the weekday of your
 
 130
-00:04:41,840 --> 00:04:44,160
- 14th of August, that gives 24, which is
+00:04:39,780 --> 00:04:43,360
+ 2027 birthday and its planet number. Add
 
 131
-00:04:44,160 --> 00:04:45,680
- six. In this
+00:04:43,360 --> 00:04:45,040
+ 27 and keep
 
 132
-00:04:45,680 --> 00:04:48,070
- method, it's a three. A different number
+00:04:45,040 --> 00:04:47,780
+ adding the digits until one is left. Or
 
 133
-00:04:48,070 --> 00:04:50,200
- and a different kind of year. Mistake
+00:04:47,780 --> 00:04:51,670
+ let the free calculator do it. Go to numevix.com/try
 
 134
-00:04:50,200 --> 00:04:51,120
- three. Forgetting
-
-135
-00:04:51,120 --> 00:04:53,170
- the weekday. It's why two people with the
-
-136
-00:04:53,170 --> 00:04:55,010
- same Moolank and the same birth month
-
-137
-00:04:55,010 --> 00:04:55,760
- can still be
-
-138
-00:04:55,760 --> 00:04:57,800
- in different years. Your birthday moves
-
-139
-00:04:57,800 --> 00:04:59,740
- through the week and your year moves with
-
-140
-00:04:59,740 --> 00:05:03,280
- it. Here's yours,
-
-141
-00:05:03,280 --> 00:05:05,800
- step by step. Pause if you need to. Find
-
-142
-00:05:05,800 --> 00:05:08,180
- your Moolank. Bring your birth month
-
-143
-00:05:08,180 --> 00:05:08,800
- down to one
-
-144
-00:05:08,800 --> 00:05:12,360
- digit. Look up the weekday of your 2027
-
-145
-00:05:12,360 --> 00:05:15,640
- birthday and its planet number. Add 27
-
-146
-00:05:15,640 --> 00:05:16,400
- and keep adding
-
-147
-00:05:16,400 --> 00:05:18,680
- the digits until one is left. Or let the
-
-148
-00:05:18,680 --> 00:05:21,840
- free calculator do it. Go to numevix.com/try
-
-149
-00:05:21,840 --> 00:05:23,360
+00:04:51,670 --> 00:04:51,840
  and
 
-150
-00:05:23,360 --> 00:05:25,970
+135
+00:04:51,840 --> 00:04:54,450
  type your date. Then comment your birth
 
-151
-00:05:25,970 --> 00:05:29,020
+136
+00:04:54,450 --> 00:04:57,500
  date below. Day, month, year. And tell me
 
-152
-00:05:29,020 --> 00:05:29,520
- which year
+137
+00:04:57,500 --> 00:04:58,160
+ which year you
 
-153
-00:05:29,520 --> 00:05:31,770
- you landed on. And if you want your whole
+138
+00:04:58,160 --> 00:04:59,990
+ landed on. And if you want your whole
 
-154
-00:05:31,770 --> 00:05:33,870
- year mapped out, all nine periods with
+139
+00:04:59,990 --> 00:05:02,050
+ year mapped out, month by month from your
 
-155
-00:05:33,870 --> 00:05:34,720
- their dates,
+140
+00:05:02,050 --> 00:05:02,720
+ birthday,
 
-156
-00:05:34,720 --> 00:05:37,000
+141
+00:05:02,720 --> 00:05:07,670
  the Annual Forecast does that. Use the
 
-157
-00:05:37,000 --> 00:05:44,080
+142
+00:05:07,670 --> 00:05:12,400
  code LIVE50 for 50% off.
 

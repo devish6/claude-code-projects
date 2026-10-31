@@ -27,7 +27,7 @@ run("-i", "assets/bed_loop.wav", "-i", "assets/vo_full.wav", "-filter_complex",
 S = {x["id"]: x for x in T["segments"]}
 cues = [{"f": f"{LIB}/sfx/Cinematic_whoosh_tra_take1.mp3", "t": c["card"][0], "name": "whoosh"} for c in T["chapters"] if c["card"]]
 cues += [{"f": f"{LIB}/sfx/Large_temple_bell_st_take2.mp3", "t": S[i]["start"] + fr * S[i]["dur"] + 0.2, "name": "bell"} for i, fr in (("c4d", .05), ("c4g", .45))]  # V87: the two worked answers
-cues += [{"f": f"{LIB}/sfx/Single_sheet_of_pape_take1.mp3", "t": S["c6b"]["start"] + .1 * S["c6b"]["dur"] + 0.2, "name": "paper"}]
+cues += [{"f": f"{LIB}/sfx/Single_sheet_of_pape_take1.mp3", "t": S["c7c"]["start"] + .1 * S["c7c"]["dur"] + 0.2, "name": "paper"}]
 for c in cues:
     c["out"] = f"assets/sfx_{c['name']}.wav"
     if not os.path.exists(c["out"]): run("-i", c["f"], "-af", "loudnorm=I=-24:TP=-3,aresample=48000", "-ac", "2", c["out"])

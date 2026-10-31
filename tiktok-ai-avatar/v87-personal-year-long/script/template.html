@@ -145,7 +145,6 @@
           assert(mine.mool === eng.moolank && mine.mr === eng.monthReduced && mine.wd === eng.weekday && mine.wp === eng.weekdayPlanet && mine.sum === eng.sum && mine.py === eng.py, k);
         }
         const AW = [1,4,8,2,0,2,7].reduce((a, b) => a + b, 0); assert(AW === N.AW.sum && red1(AW) === N.AW.n, "western");
-        const PER = N.A27.periods; assert(PER.reduce((a, p) => a + p.days, 0) === 360 && PER[0].n === A27.py && PER.every((p) => p.days === 8 * p.n), "periods");
         assert(red1(10) === 1, "october");
         const TITLE = { 1: "A year for beginning", 2: "A year for partnership", 3: "A year for growth and counsel", 4: "A year for careful groundwork",
           5: "A year for deals and connection", 6: "A year for relationships and care", 7: "A year for reflection", 8: "A year for discipline", 9: "A year for decisive action" };
@@ -162,7 +161,7 @@
         const plateAt = [ // [from segment id, plate]
           ["c1a", "hourglass_with_falling_sand_on_dark_1"], ["c2a", "open_window_with_a_white_lace_2"], ["c3a", "antique_brass_astrolabe_and_old_star_2"],
           ["c4a", "milky_way_over_rajasthan_desert_dunes_3"], ["c5a", "milky_way_over_rajasthan_desert_dunes_4"], ["c5b", PL.sun], ["c5c", PL.moon], ["c5d", PL.jup], ["c5e", PL.rahu],
-          ["c5f", PL.merc], ["c5g", PL.ven], ["c5h", PL.ketu], ["c5i", PL.sat], ["c5j", PL.mars], ["c6a", "hourglass_with_falling_sand_on_dark_2"],
+          ["c5f", PL.merc], ["c5g", PL.ven], ["c5h", PL.ketu], ["c5i", PL.sat], ["c5j", PL.mars],
           ["c7a", "chessboard_midgame_under_a_single_dramatic_2"], ["c8a", "rows_of_lit_clay_diyas_on_2"]];
         const segStart = (id) => (id === "c1a" ? 0 : seg[id].start - 0.2);
         const windows = plateAt.map(([id, p], i) => ({ p, a: segStart(id), b: i + 1 < plateAt.length ? segStart(plateAt[i + 1][0]) : DUR }));
@@ -179,7 +178,6 @@
           .map((s, i) => fill[i] === undefined ? `<div class="card slot"><div class="lab">${i + 1}</div><div class="txt dim">${s}</div></div>` : it(fill[i], `<div class="card slot${i === 3 ? " hot" : ""}"><div class="lab">${i + 1}</div><div class="txt">${s}</div></div>`)).join(`<div class="op big">+</div>`) + `</div>`;
         const yearScene = (k) => `<div class="planetL">${it(0, `<div class="num">${k}</div>`)}</div>
           <div class="planetR">${it(.04, `<div class="name">${PLANET[k]}</div>`)}${it(.12, `<div class="line">${TITLE[k]}</div>`)}${it(.4, `<div class="days">${FOCUS[k]}</div>`)}</div>`;
-        const bars = (fN) => { const W = 1500; return `<div class="bars">` + PER.map((p, i) => it(fN(i), `<div class="bar" style="width:${(p.days / 360) * W}px"><b>${p.n}</b><span>${p.days}d</span></div>`)).join("") + `</div>`; };
         const fmt = (iso) => { const [y, m, d] = iso.split("-").map(Number); return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]} ${y}`; };
 
         const S = {
@@ -214,10 +212,6 @@
                  ${it(.55, chip("Personal Year", B27.py, PLANET[B27.py]))}${it(.7, `<div class="h3">${TITLE[B27.py]} · from <span class="gold">29 Mar 2027</span></div>`)}</div>`,
           c5a: `<div class="center">${it(0, `<div class="kicker">The nine years</div>`)}<div class="row" style="flex-wrap:wrap;max-width:1650px;gap:20px 26px">${[1,2,3,4,5,6,7,8,9].map((k, i) => it(.1 + i * .08, `<span class="chip" style="font-size:42px;padding:14px 28px"><b style="font-size:62px">${k}</b>${PLANET[k]}</span>`)).join("")}</div></div>`,
           c5b: yearScene(1), c5c: yearScene(2), c5d: yearScene(3), c5e: yearScene(4), c5f: yearScene(5), c5g: yearScene(6), c5h: yearScene(7), c5i: yearScene(8), c5j: yearScene(9),
-          c6a: `<div class="center">${it(0, `<div class="kicker">Inside the year</div>`)}${it(.2, `<div class="h1">Nine smaller periods.</div>`)}</div>`,
-          c6b: `<div class="center">${it(0, `<div class="h2">First period = <span class="gold">your year's number</span></div>`)}${it(.45, `<div class="h2">Each lasts <span class="gold">8 days × its number</span></div>`)}</div>`,
-          c6c: `<div class="center">${it(0, `<div class="kicker">Example 1 · from ${fmt(PER[0].start)}</div>`)}${bars((i) => .08 + i * .07)}${it(.85, `<div class="h3">9 periods · <span class="gold">360 days</span></div>`)}</div>`,
-          c6d: `<div class="center">${it(.05, `<div class="h2">Even inside a ${A27.py} year,</div>`)}${it(.35, `<div class="h1 gold">some weeks ask for something different.</div>`)}</div>`,
           c7a: `<div class="center">${it(0, `<div class="h0"><span class="gold">3</span> mistakes</div>`)}</div>`,
           c7b: `<div class="center">${it(0, `<div class="kicker">Mistake 1 · starting on 1 January</div>`)}<div class="split">${it(.2, `<div class="half"><div class="lab strike">1 Jan</div><div class="txt dim">the calendar year</div></div>`)}${it(.4, `<div class="half"><div class="lab gold">Your birthday</div><div class="txt">your personal year</div></div>`)}</div>
                  ${it(.7, `<div class="p">August birthday? Most of the calendar year still belongs to last year's number.</div>`)}</div>`,
