@@ -146,3 +146,15 @@ tiktok-ai-avatar/v86-two-numbers-long/thumbnail/snap/
 !tiktok-ai-avatar/v86-two-numbers-long/YOUTUBE.md
 !tiktok-ai-avatar/v86-two-numbers-long/V86.srt
 tiktok-ai-avatar/v86-two-numbers-long/script/sfx_cues.json
+
+# V87 (YouTube long form, 4K): same whitelist as V86.
+tiktok-ai-avatar/v87-personal-year-long/*
+!tiktok-ai-avatar/v87-personal-year-long/script/
+!tiktok-ai-avatar/v87-personal-year-long/composition/
+tiktok-ai-avatar/v87-personal-year-long/composition/assets/
+!tiktok-ai-avatar/v87-personal-year-long/thumbnail/
+tiktok-ai-avatar/v87-personal-year-long/thumbnail/assets/
+tiktok-ai-avatar/v87-personal-year-long/thumbnail/snapshots/
+!tiktok-ai-avatar/v87-personal-year-long/YOUTUBE.md
+!tiktok-ai-avatar/v87-personal-year-long/V87.srt
+tiktok-ai-avatar/v87-personal-year-long/script/sfx_cues.json

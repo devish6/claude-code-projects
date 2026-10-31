@@ -1,0 +1,359 @@
+{
+ "A27": {
+  "year": 2027,
+  "yy": 27,
+  "moolank": 5,
+  "month": 8,
+  "monthReduced": 8,
+  "weekday": "Saturday",
+  "weekdayPlanet": 8,
+  "sum": 48,
+  "chain": [
+   48,
+   12,
+   3
+  ],
+  "py": 3,
+  "pyPlanet": "Jupiter",
+  "starts": "2027-08-14",
+  "periods": [
+   {
+    "n": 3,
+    "planet": "Jupiter",
+    "days": 24,
+    "start": "2027-08-14",
+    "end": "2027-09-06"
+   },
+   {
+    "n": 4,
+    "planet": "Rahu",
+    "days": 32,
+    "start": "2027-09-07",
+    "end": "2027-10-08"
+   },
+   {
+    "n": 5,
+    "planet": "Mercury",
+    "days": 40,
+    "start": "2027-10-09",
+    "end": "2027-11-17"
+   },
+   {
+    "n": 6,
+    "planet": "Venus",
+    "days": 48,
+    "start": "2027-11-18",
+    "end": "2028-01-04"
+   },
+   {
+    "n": 7,
+    "planet": "Ketu",
+    "days": 56,
+    "start": "2028-01-05",
+    "end": "2028-02-29"
+   },
+   {
+    "n": 8,
+    "planet": "Saturn",
+    "days": 64,
+    "start": "2028-03-01",
+    "end": "2028-05-03"
+   },
+   {
+    "n": 9,
+    "planet": "Mars",
+    "days": 72,
+    "start": "2028-05-04",
+    "end": "2028-07-14"
+   },
+   {
+    "n": 1,
+    "planet": "Sun",
+    "days": 8,
+    "start": "2028-07-15",
+    "end": "2028-07-22"
+   },
+   {
+    "n": 2,
+    "planet": "Moon",
+    "days": 16,
+    "start": "2028-07-23",
+    "end": "2028-08-07"
+   }
+  ]
+ },
+ "A26": {
+  "year": 2026,
+  "yy": 26,
+  "moolank": 5,
+  "month": 8,
+  "monthReduced": 8,
+  "weekday": "Friday",
+  "weekdayPlanet": 6,
+  "sum": 45,
+  "chain": [
+   45,
+   9
+  ],
+  "py": 9,
+  "pyPlanet": "Mars",
+  "starts": "2026-08-14",
+  "periods": [
+   {
+    "n": 9,
+    "planet": "Mars",
+    "days": 72,
+    "start": "2026-08-14",
+    "end": "2026-10-24"
+   },
+   {
+    "n": 1,
+    "planet": "Sun",
+    "days": 8,
+    "start": "2026-10-25",
+    "end": "2026-11-01"
+   },
+   {
+    "n": 2,
+    "planet": "Moon",
+    "days": 16,
+    "start": "2026-11-02",
+    "end": "2026-11-17"
+   },
+   {
+    "n": 3,
+    "planet": "Jupiter",
+    "days": 24,
+    "start": "2026-11-18",
+    "end": "2026-12-11"
+   },
+   {
+    "n": 4,
+    "planet": "Rahu",
+    "days": 32,
+    "start": "2026-12-12",
+    "end": "2027-01-12"
+   },
+   {
+    "n": 5,
+    "planet": "Mercury",
+    "days": 40,
+    "start": "2027-01-13",
+    "end": "2027-02-21"
+   },
+   {
+    "n": 6,
+    "planet": "Venus",
+    "days": 48,
+    "start": "2027-02-22",
+    "end": "2027-04-10"
+   },
+   {
+    "n": 7,
+    "planet": "Ketu",
+    "days": 56,
+    "start": "2027-04-11",
+    "end": "2027-06-05"
+   },
+   {
+    "n": 8,
+    "planet": "Saturn",
+    "days": 64,
+    "start": "2027-06-06",
+    "end": "2027-08-08"
+   }
+  ]
+ },
+ "B27": {
+  "year": 2027,
+  "yy": 27,
+  "moolank": 2,
+  "month": 3,
+  "monthReduced": 3,
+  "weekday": "Monday",
+  "weekdayPlanet": 2,
+  "sum": 34,
+  "chain": [
+   34,
+   7
+  ],
+  "py": 7,
+  "pyPlanet": "Ketu",
+  "starts": "2027-03-29",
+  "periods": [
+   {
+    "n": 7,
+    "planet": "Ketu",
+    "days": 56,
+    "start": "2027-03-29",
+    "end": "2027-05-23"
+   },
+   {
+    "n": 8,
+    "planet": "Saturn",
+    "days": 64,
+    "start": "2027-05-24",
+    "end": "2027-07-26"
+   },
+   {
+    "n": 9,
+    "planet": "Mars",
+    "days": 72,
+    "start": "2027-07-27",
+    "end": "2027-10-06"
+   },
+   {
+    "n": 1,
+    "planet": "Sun",
+    "days": 8,
+    "start": "2027-10-07",
+    "end": "2027-10-14"
+   },
+   {
+    "n": 2,
+    "planet": "Moon",
+    "days": 16,
+    "start": "2027-10-15",
+    "end": "2027-10-30"
+   },
+   {
+    "n": 3,
+    "planet": "Jupiter",
+    "days": 24,
+    "start": "2027-10-31",
+    "end": "2027-11-23"
+   },
+   {
+    "n": 4,
+    "planet": "Rahu",
+    "days": 32,
+    "start": "2027-11-24",
+    "end": "2027-12-25"
+   },
+   {
+    "n": 5,
+    "planet": "Mercury",
+    "days": 40,
+    "start": "2027-12-26",
+    "end": "2028-02-03"
+   },
+   {
+    "n": 6,
+    "planet": "Venus",
+    "days": 48,
+    "start": "2028-02-04",
+    "end": "2028-03-22"
+   }
+  ]
+ },
+ "B26": {
+  "year": 2026,
+  "yy": 26,
+  "moolank": 2,
+  "month": 3,
+  "monthReduced": 3,
+  "weekday": "Sunday",
+  "weekdayPlanet": 1,
+  "sum": 32,
+  "chain": [
+   32,
+   5
+  ],
+  "py": 5,
+  "pyPlanet": "Mercury",
+  "starts": "2026-03-29",
+  "periods": [
+   {
+    "n": 5,
+    "planet": "Mercury",
+    "days": 40,
+    "start": "2026-03-29",
+    "end": "2026-05-07"
+   },
+   {
+    "n": 6,
+    "planet": "Venus",
+    "days": 48,
+    "start": "2026-05-08",
+    "end": "2026-06-24"
+   },
+   {
+    "n": 7,
+    "planet": "Ketu",
+    "days": 56,
+    "start": "2026-06-25",
+    "end": "2026-08-19"
+   },
+   {
+    "n": 8,
+    "planet": "Saturn",
+    "days": 64,
+    "start": "2026-08-20",
+    "end": "2026-10-22"
+   },
+   {
+    "n": 9,
+    "planet": "Mars",
+    "days": 72,
+    "start": "2026-10-23",
+    "end": "2027-01-02"
+   },
+   {
+    "n": 1,
+    "planet": "Sun",
+    "days": 8,
+    "start": "2027-01-03",
+    "end": "2027-01-10"
+   },
+   {
+    "n": 2,
+    "planet": "Moon",
+    "days": 16,
+    "start": "2027-01-11",
+    "end": "2027-01-26"
+   },
+   {
+    "n": 3,
+    "planet": "Jupiter",
+    "days": 24,
+    "start": "2027-01-27",
+    "end": "2027-02-19"
+   },
+   {
+    "n": 4,
+    "planet": "Rahu",
+    "days": 32,
+    "start": "2027-02-20",
+    "end": "2027-03-23"
+   }
+  ]
+ },
+ "AW": {
+  "sum": 24,
+  "chain": [
+   24,
+   6
+  ],
+  "n": 6
+ },
+ "weekdayMap": {
+  "Sunday": 1,
+  "Monday": 2,
+  "Tuesday": 9,
+  "Wednesday": 5,
+  "Thursday": 3,
+  "Friday": 6,
+  "Saturday": 8
+ },
+ "planets": {
+  "1": "Sun",
+  "2": "Moon",
+  "3": "Jupiter",
+  "4": "Rahu",
+  "5": "Mercury",
+  "6": "Venus",
+  "7": "Ketu",
+  "8": "Saturn",
+  "9": "Mars"
+ }
+}

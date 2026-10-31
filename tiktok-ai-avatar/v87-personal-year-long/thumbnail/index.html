@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>V87 thumbnail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Manrope:wght@800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* V87 YouTube thumbnail, 1280x720: the myth (1 Jan) struck out, the year in gold, four words. */
+      body { margin: 0; background: #10142a; }
+      #root { position: relative; width: 1280px; height: 720px; overflow: hidden; background: #10142a; font-variant-numeric: lining-nums; }
+      #bg { position: absolute; right: 0; top: 0; width: 70%; height: 100%; object-fit: cover; opacity: .8; }
+      #shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,12,28,1) 30%, rgba(10,12,28,.55) 70%, rgba(10,12,28,.8) 100%); }
+      #jan { position: absolute; left: 66px; top: 52px; font-family: "Fraunces", serif; font-weight: 700; font-size: 120px; line-height: 1; color: #f4ecdc; opacity: .85; }
+      #jan::after { content: ""; position: absolute; left: -4%; right: -4%; top: 52%; height: 16px; background: #e0644a; transform: rotate(-8deg); border-radius: 6px; }
+      #year { position: absolute; left: 54px; top: 170px; font-family: "Fraunces", serif; font-weight: 700; font-size: 330px; line-height: 1; color: #e2b350; text-shadow: 0 12px 60px rgba(226,179,80,.35); }
+      #words { position: absolute; left: 66px; bottom: 60px; font-family: "Manrope", sans-serif; font-weight: 800; font-size: 76px; line-height: 1; color: #f4ecdc; letter-spacing: -.01em; white-space: nowrap; }
+      #words b { color: #e2b350; }
+      #tag { position: absolute; right: 50px; top: 46px; font-family: "Manrope", sans-serif; font-weight: 800; font-size: 30px; letter-spacing: .14em; color: rgba(244,236,220,.8); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="v87thumb" data-start="0" data-width="1280" data-height="720" data-duration="1">
+      <img id="bg" src="assets/hourglass_with_falling_sand_on_dark_1.jpg" />
+      <div id="shade"></div>
+      <div id="jan">1 Jan</div>
+      <div id="year">2027</div>
+      <div id="words">Starts on your <b>birthday</b></div>
+      <div id="tag">VEDIC NUMEROLOGY</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["v87thumb"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

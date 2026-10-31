@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=3840, height=2160" />
+    <title>V87 — Your Personal Year (YouTube long)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Real faces only — never a generic keyword (V68: ui-monospace became a sans). -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* ─────────────────────────────────────────────────────────────
+         V86 — the first LONG-FORM Numevix video (YouTube, 16:9, ~6:49).
+         "Your birth date holds two numbers, and most people calculate
+         at least one of them wrong." Moolank, Bhagyank, the nine
+         planets, the Vedic grid, three mistakes, yours in 30 seconds.
+
+         This file is the V1 picture layer only. Voice, bed, SFX and the
+         EffectCraft chapter cards are cut on top of it in FilmCraft.
+         Every scene is timed from the measured voice-over
+         (script/timeline.json) and every number is re-derived here and
+         asserted against the engine's output (script/numbers.json).
+         ───────────────────────────────────────────────────────────── */
+      :root { --ink: #10142a; --gold: #e2b350; --cream: #f4ecdc; --red: #e0644a; --dim: rgba(244,236,220,.55); }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--ink); }
+      /* TRUE 4K (owner 2026-10-30): the canvas is 3840x2160 and #canvas lays everything out in 1920x1080 units scaled 2x,
+         so text and vector graphics rasterise at full 4K sharpness. Keep authoring in 1920-unit coordinates. */
+      #root { position: relative; width: 3840px; height: 2160px; overflow: hidden; background: var(--ink); }
+      #canvas { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform: scale(2); transform-origin: 0 0; overflow: hidden; background: var(--ink);
+              font-family: "Manrope", sans-serif; color: var(--cream); font-variant-numeric: lining-nums; }
+      /* #plates is its own stacking context: plate z-index is per-window order and must never climb over the scrim (first snapshot did). */
+      #plates { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+      #scrim, #stage, #chap, #brand, #bar { z-index: 1; }
+      .plate { position: absolute; left: -96px; top: -54px; width: 2112px; height: 1188px; object-fit: cover; opacity: 0; transform-origin: 50% 50%; }
+      #scrim { position: absolute; inset: 0;
+               background: radial-gradient(1400px 900px at 50% 50%, rgba(10,12,28,.42), rgba(10,12,28,.8) 75%),
+                           linear-gradient(180deg, rgba(10,12,28,.35), rgba(10,12,28,.6)); }
+      #stage { position: absolute; inset: 0; }
+      .scene { position: absolute; inset: 0; display: none; }
+      .it { opacity: 0; }
+      .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 26px; padding: 0 140px; }
+      .kicker { font-weight: 800; font-size: 34px; letter-spacing: .22em; color: var(--gold); text-transform: uppercase; }
+      .h0 { font-family: "Fraunces", serif; font-weight: 700; font-size: 190px; line-height: .95; }
+      .h1 { font-family: "Fraunces", serif; font-weight: 700; font-size: 112px; line-height: 1.02; }
+      .h2 { font-family: "Fraunces", serif; font-weight: 500; font-size: 76px; line-height: 1.1; }
+      .h3 { font-weight: 700; font-size: 54px; line-height: 1.2; }
+      .p  { font-weight: 500; font-size: 46px; line-height: 1.3; color: var(--dim); }
+      .gold { color: var(--gold); } .red { color: var(--red); } .dim { color: var(--dim); }
+      .date { font-family: "Fraunces", serif; font-weight: 700; font-size: 128px; letter-spacing: .04em; white-space: nowrap; }
+      .date .x { color: rgba(244,236,220,.28); }
+      .chip { display: inline-flex; align-items: baseline; gap: 22px; padding: 22px 44px; border-radius: 22px;
+              background: rgba(226,179,80,.12); border: 3px solid rgba(226,179,80,.75); font-weight: 800; font-size: 56px; white-space: nowrap; }
+      .chip b { font-family: "Fraunces", serif; font-size: 92px; color: var(--gold); line-height: .9; }
+      .row { display: flex; gap: 60px; align-items: center; justify-content: center; }
+      .card { width: 620px; padding: 40px 46px; border-radius: 26px; background: rgba(16,20,42,.78); border: 2px solid rgba(244,236,220,.18); text-align: left; }
+      .card .lab { font-weight: 800; font-size: 32px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+      .card .big { font-family: "Fraunces", serif; font-weight: 700; font-size: 170px; line-height: 1; }
+      .card .txt { font-weight: 700; font-size: 46px; line-height: 1.25; }
+      .chain { font-family: "Fraunces", serif; font-weight: 700; font-size: 112px; white-space: nowrap; display: flex; gap: 34px; align-items: baseline; }
+      .chain .op { color: var(--dim); font-size: 84px; }
+      .list { display: flex; flex-direction: column; gap: 26px; align-items: flex-start; text-align: left; }
+      .list .li { font-weight: 700; font-size: 60px; display: flex; gap: 28px; align-items: center; white-space: nowrap; }
+      .list .n { width: 84px; height: 84px; border-radius: 50%; border: 3px solid var(--gold); color: var(--gold); display: flex; align-items: center; justify-content: center;
+                 font-family: "Fraunces", serif; font-size: 50px; flex: none; }
+      .list .li.off { color: rgba(244,236,220,.35); } .list .li.off .n { border-color: rgba(226,179,80,.35); color: rgba(226,179,80,.45); }
+      /* Vedic grid */
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .cell { position: relative; border-radius: 18px; background: rgba(16,20,42,.82); border: 3px solid rgba(244,236,220,.22); display: flex; align-items: center; justify-content: center; }
+      .cell .seat { position: absolute; left: 14px; top: 8px; font-weight: 800; font-size: 26px; color: rgba(226,179,80,.75); }
+      .cell .v { font-family: "Fraunces", serif; font-weight: 700; color: var(--cream); letter-spacing: .04em; }
+      .cell > .it { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .xwrap { position: absolute; inset: 0; }
+      .cell .pl { margin-top: 40px; text-align: center; font-weight: 800; font-size: 24px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+      .cell.miss { border-color: var(--red); background: rgba(224,100,74,.14); }
+      .cell.seatbig .v { color: var(--gold); }
+      .x-mark { position: absolute; inset: -10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--red); font-size: 560px; line-height: 1; }
+      .planetL { position: absolute; left: 150px; top: 0; bottom: 0; display: flex; align-items: center; }
+      .planetL .num { font-family: "Fraunces", serif; font-weight: 700; font-size: 520px; color: var(--gold); line-height: 1; text-shadow: 0 10px 60px rgba(0,0,0,.5); }
+      .planetR { position: absolute; left: 640px; right: 140px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+      .planetR .name { font-family: "Fraunces", serif; font-weight: 700; font-size: 150px; line-height: 1; }
+      .planetR .line { font-weight: 700; font-size: 58px; line-height: 1.22; }
+      .planetR .days { font-weight: 700; font-size: 38px; color: var(--dim); letter-spacing: .04em; }
+      .strike { position: relative; } .strike::after { content: ""; position: absolute; left: -6%; right: -6%; top: 52%; height: 8px; background: var(--red); border-radius: 4px; }
+      table.cmp { border-collapse: separate; border-spacing: 0 18px; font-weight: 700; font-size: 50px; }
+      table.cmp th { font-weight: 800; font-size: 32px; letter-spacing: .2em; text-transform: uppercase; padding: 0 40px; text-align: left; }
+      table.cmp td { padding: 22px 40px; background: rgba(16,20,42,.78); white-space: nowrap; text-align: left; }
+      table.cmp td:first-child { border-radius: 18px 0 0 18px; color: var(--dim); } table.cmp td:last-child { border-radius: 0 18px 18px 0; }
+      #chap { position: absolute; left: 70px; top: 52px; font-weight: 800; font-size: 26px; letter-spacing: .2em; text-transform: uppercase; color: rgba(244,236,220,.7); white-space: nowrap; }
+      #chap b { color: var(--gold); margin-right: 18px; }
+      #brand { position: absolute; right: 70px; top: 50px; font-weight: 800; font-size: 28px; letter-spacing: .06em; color: rgba(244,236,220,.7); }
+      #bar { position: absolute; left: 0; bottom: 0; height: 6px; width: 0; background: var(--gold); opacity: .85; }
+      .slot { width: 330px; padding: 26px 26px; min-height: 230px; } .slot .txt { font-size: 36px; } .slot.hot { border-color: var(--red); }
+      .op.big { font-family: "Fraunces", serif; font-size: 70px; color: var(--dim); }
+      .arc { display: flex; align-items: center; gap: 30px; font-weight: 800; font-size: 44px; } .arc i { display: block; width: 900px; height: 6px; background: linear-gradient(90deg, var(--gold), var(--red)); border-radius: 3px; }
+      .split { display: flex; gap: 50px; } .half { width: 720px; padding: 40px 46px; border-radius: 26px; background: rgba(16,20,42,.78); border: 2px solid rgba(244,236,220,.18); text-align: left; }
+      .half .lab { font-weight: 800; font-size: 34px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; } .half .txt { font-weight: 700; font-size: 48px; line-height: 1.3; } .half .dim { font-size: 34px; margin-top: 10px; }
+      .bars { display: flex; gap: 6px; align-items: flex-end; } .bar { height: 150px; border-radius: 12px; background: linear-gradient(180deg, rgba(226,179,80,.9), rgba(226,179,80,.45)); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--ink); overflow: hidden; }
+      .bar b { font-family: "Fraunces", serif; font-size: 52px; line-height: 1; } .bar span { font-weight: 800; font-size: 22px; }
+      .code { display: inline-flex; align-items: center; gap: 30px; padding: 22px 50px; border: 4px dashed var(--gold); border-radius: 24px; font-weight: 800; font-size: 44px; } .code b { font-family: "Fraunces", serif; font-size: 110px; color: var(--gold); letter-spacing: .06em; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="v87long"
+         data-start="0" data-width="3840" data-height="2160"
+         data-duration="__TOTAL__">
+      <div id="canvas">
+      <div id="plates"></div>
+      <div id="scrim"></div>
+      <div id="stage"></div>
+      <div id="chap"></div>
+      <div id="brand">numevix.com</div>
+      <div id="bar"></div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      (() => {
+        // Everything lives inside this IIFE: a global `top`/`name`/`status` collides with window.* and blanks the render (V76, V79).
+        const DATA = __DATA__;
+        const DUR = DATA.total;
+        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+        const ease = (x) => 1 - Math.pow(1 - x, 3);
+        const digits = (n) => String(n).split("").map(Number);
+        const digitSum = (n) => digits(n).reduce((a, b) => a + b, 0);
+        const chain = (n) => { const c = [n]; while (n > 9) { n = digitSum(n); c.push(n); } return c; };
+        const assert = (c, m) => { if (!c) throw new Error("ASSERT " + m); };
+        const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+        // ── numbers: re-derived here, asserted against the engine (numbers.json). V67 shipped a wrong Conductor.
+        const N = DATA.N, PLANET = ["", ...[1,2,3,4,5,6,7,8,9].map((k) => N.planets[k])];
+        assert(same(PLANET.slice(1), ["Sun","Moon","Jupiter","Rahu","Mercury","Venus","Ketu","Saturn","Mars"]), "planets");
+        const WD = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], WPN = [1,2,9,5,3,6,8];
+        assert(same(Object.fromEntries(WD.map((d, i) => [d, WPN[i]])), N.weekdayMap), "weekday map");
+        const red1 = (n) => chain(n).at(-1);
+        const py = (dd, mm, yyyy, year) => {   // engine computeAntardasha: yy + Moolank + month reduced + weekday planet of that year's birthday
+          const mool = red1(dd), mr = red1(mm), dow = new Date(Date.UTC(year, mm - 1, dd)).getUTCDay(), wp = WPN[dow];
+          const sum = (year % 100) + mool + mr + wp; return { mool, mr, wd: WD[dow], wp, sum, ch: chain(sum), py: red1(sum) };
+        };
+        const A27 = py(14, 8, 1996, 2027), A26 = py(14, 8, 1996, 2026), B27 = py(29, 3, 1990, 2027);
+        for (const [mine, eng, k] of [[A27, N.A27, "A27"], [A26, N.A26, "A26"], [B27, N.B27, "B27"]]) {
+          assert(mine.mool === eng.moolank && mine.mr === eng.monthReduced && mine.wd === eng.weekday && mine.wp === eng.weekdayPlanet && mine.sum === eng.sum && mine.py === eng.py, k);
+        }
+        const AW = [1,4,8,2,0,2,7].reduce((a, b) => a + b, 0); assert(AW === N.AW.sum && red1(AW) === N.AW.n, "western");
+        const PER = N.A27.periods; assert(PER.reduce((a, p) => a + p.days, 0) === 360 && PER[0].n === A27.py && PER.every((p) => p.days === 8 * p.n), "periods");
+        assert(red1(10) === 1, "october");
+        const TITLE = { 1: "A year for beginning", 2: "A year for partnership", 3: "A year for growth and counsel", 4: "A year for careful groundwork",
+          5: "A year for deals and connection", 6: "A year for relationships and care", 7: "A year for reflection", 8: "A year for discipline", 9: "A year for decisive action" };
+        const FOCUS = { 1: "Starting something of your own · taking the decision you've been circling", 2: "Building alongside others · trusting intuition over a rigid plan",
+          3: "Learning · teaching · speaking up clearly", 4: "Research and planning · a second opinion before big decisions", 5: "Negotiating · networking · sharpening money sense",
+          6: "Close relationships · creative work · caring for the people you love", 7: "Deep study · inner work · rest · trusting intuition",
+          8: "Finishing what you started · long-term planning · patience", 9: "Taking a stand · pushing a project through to the end" };
+
+        // ── plates per window (crossfaded 0.8s). Year scenes use their planet's plate.
+        const seg = Object.fromEntries(DATA.segs.map((s) => [s.id, s]));
+        const PL = { sun: "suns_corona_and_solar_flares_2", moon: "moon_close_up_detailed_craters_2", jup: "planet_jupiter_with_its_storm_2",
+          rahu: "swirling_purple_and_gold_nebula_in_3", merc: "geometric_stone_sundial_observatory_at_sunrise_2", ven: "planet_venus_glowing_pale_gold_2",
+          ketu: "swirling_purple_and_gold_nebula_in_4", sat: "planet_saturn_with_its_rings_2", mars: "planet_mars_realistic_red_surface_2" };
+        const plateAt = [ // [from segment id, plate]
+          ["c1a", "hourglass_with_falling_sand_on_dark_1"], ["c2a", "open_window_with_a_white_lace_2"], ["c3a", "antique_brass_astrolabe_and_old_star_2"],
+          ["c4a", "milky_way_over_rajasthan_desert_dunes_3"], ["c5a", "milky_way_over_rajasthan_desert_dunes_4"], ["c5b", PL.sun], ["c5c", PL.moon], ["c5d", PL.jup], ["c5e", PL.rahu],
+          ["c5f", PL.merc], ["c5g", PL.ven], ["c5h", PL.ketu], ["c5i", PL.sat], ["c5j", PL.mars], ["c6a", "hourglass_with_falling_sand_on_dark_2"],
+          ["c7a", "chessboard_midgame_under_a_single_dramatic_2"], ["c8a", "rows_of_lit_clay_diyas_on_2"]];
+        const segStart = (id) => (id === "c1a" ? 0 : seg[id].start - 0.2);
+        const windows = plateAt.map(([id, p], i) => ({ p, a: segStart(id), b: i + 1 < plateAt.length ? segStart(plateAt[i + 1][0]) : DUR }));
+        const plates = document.getElementById("plates");
+        const imgs = {};
+        for (const w of windows) if (!imgs[w.p]) { const im = document.createElement("img"); im.className = "plate"; im.src = `assets/${w.p}.jpg`; plates.appendChild(im); imgs[w.p] = im; }
+
+        // ── scene builders
+        const it = (d, html, cls = "") => `<div class="it ${cls}" data-f="${d}">${html}</div>`;
+        const itd = (d, html, cls = "") => `<div class="it ${cls}" data-d="${d}">${html}</div>`;
+        const chip = (lab, n, pl) => `<span class="chip">${lab} <b>${n}</b> ${pl}</span>`;
+        const dateHTML = (dd, mm, yy, hi) => `<span class="${hi.includes("d") ? "gold" : "x"}">${dd}</span> <span class="x">·</span> <span class="${hi.includes("m") ? "gold" : "x"}">${mm}</span> <span class="x">·</span> <span class="${hi.includes("y") ? "gold" : "x"}">${yy}</span>`;
+        const slots = (fill) => `<div class="row" style="gap:26px">` + ["Year (last two digits)", "Your Moolank", "Birth month → one digit", "Weekday planet of that birthday"]
+          .map((s, i) => fill[i] === undefined ? `<div class="card slot"><div class="lab">${i + 1}</div><div class="txt dim">${s}</div></div>` : it(fill[i], `<div class="card slot${i === 3 ? " hot" : ""}"><div class="lab">${i + 1}</div><div class="txt">${s}</div></div>`)).join(`<div class="op big">+</div>`) + `</div>`;
+        const yearScene = (k) => `<div class="planetL">${it(0, `<div class="num">${k}</div>`)}</div>
+          <div class="planetR">${it(.04, `<div class="name">${PLANET[k]}</div>`)}${it(.12, `<div class="line">${TITLE[k]}</div>`)}${it(.4, `<div class="days">${FOCUS[k]}</div>`)}</div>`;
+        const bars = (fN) => { const W = 1500; return `<div class="bars">` + PER.map((p, i) => it(fN(i), `<div class="bar" style="width:${(p.days / 360) * W}px"><b>${p.n}</b><span>${p.days}d</span></div>`)).join("") + `</div>`; };
+        const fmt = (iso) => { const [y, m, d] = iso.split("-").map(Number); return `${d} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m - 1]} ${y}`; };
+
+        const S = {
+          c1a: `<div class="center">${itd(-1, `<div class="kicker">Vedic numerology · lesson 2</div>`)}${itd(-1, `<div class="h1">Your <span class="gold">2027</span> doesn't start<br-x>on <span class="strike" style="display:inline-block;white-space:nowrap">1 January</span>.</div>`)}
+                 ${itd(-1, `<div class="h2">It starts on your <span class="gold">birthday</span>.</div>`)}</div>`,
+          c1b: `<div class="center"><div class="row">${it(.05, `<div class="card"><div class="lab">Day + month + year</div><div class="big strike">6</div><div class="txt dim">1 Jan → 31 Dec</div></div>`)}
+                 ${it(.4, `<div class="card"><div class="lab">Vedic method</div><div class="big gold">3</div><div class="txt dim">birthday → birthday</div></div>`)}</div>
+                 ${it(.72, `<div class="h3">Same person. Same year. A different number.</div>`)}</div>`,
+          c1c: `<div class="center"><div class="list">${["How your personal year is worked out", "What each of the nine years is for", "The mistakes to avoid", "Yours, for 2027"].map((s, i) => it([.04, .25, .5, .72][i], `<span class="n">${i + 1}</span><span>${s}</span>`, "li")).join("")}</div></div>`,
+          c2a: `<div class="center">${it(0, `<div class="kicker">Personal year</div>`)}${it(.12, `<div class="h1">One number. Twelve months.</div>`)}
+                 ${it(.5, `<div class="arc"><span>🎂 birthday</span><i></i><span>🎂 next birthday</span></div>`)}</div>`,
+          c2b: `<div class="center">${it(0, `<div class="h2">Not a prediction. <span class="gold">A purpose.</span></div>`)}<div class="row">${["When to start", "When to build", "When to slow down and think"].map((s, i) => it(.35 + i * .15, `<span class="chip" style="font-size:44px">${s}</span>`)).join("")}</div></div>`,
+          c2c: `<div class="center">${it(0, `<div class="kicker">From lesson 1</div>`)}${it(.2, chip("Moolank", "=", "the day you were born, to one digit"))}</div>`,
+          c3a: `<div class="center">${it(0, `<div class="kicker">Four ingredients</div>`)}${it(.25, slots([]))}</div>`,
+          c3b: `<div class="center">${slots([0])}${it(.3, `<div class="h2">2027 → <span class="gold">27</span></div>`)}</div>`,
+          c3c: `<div class="center">${slots([-1, 0])}</div>`,
+          c3d: `<div class="center">${slots([-1, -1, 0])}${it(.45, `<div class="h2">October = 10 → 1 + 0 = <span class="gold">${red1(10)}</span></div>`)}</div>`,
+          c3e: `<div class="center">${slots([-1, -1, -1, 0])}${it(.55, `<div class="h3 red">The one almost everyone misses.</div>`)}</div>`,
+          c3f: `<div class="center"><div class="row" style="flex-wrap:wrap;max-width:1700px;gap:20px 26px">${WD.map((d, i) => it(.04 + i * .12, `<span class="chip" style="font-size:42px;padding:14px 28px">${d} <b style="font-size:62px">${WPN[i]}</b> ${PLANET[WPN[i]]}</span>`)).join("")}</div></div>`,
+          c3g: `<div class="center"><div class="chain" style="font-size:84px">${it(.05, "27")}${it(.1, `<span class="op">+</span>`)}${it(.12, "Moolank")}${it(.17, `<span class="op">+</span>`)}${it(.19, "month")}${it(.24, `<span class="op">+</span>`)}${it(.26, `<span class="red">weekday</span>`)}</div>
+                 ${it(.55, `<div class="h2">→ keep adding digits → <span class="gold">one digit</span></div>`)}</div>`,
+          c4a: `<div class="center">${it(0, `<div class="kicker">Example 1</div>`)}${it(.15, `<div class="date">${dateHTML("14", "08", "1996", "d")}</div>`)}${it(.6, chip("Moolank", A27.mool, PLANET[A27.mool]))}</div>`,
+          c4b: `<div class="center"><div class="chain">${it(.05, "14 Aug 2027")}${it(.25, `<span class="op">→</span>`)}${it(.28, A27.wd)}${it(.5, `<span class="op">→</span>`)}${it(.53, `<span class="gold">${PLANET[A27.wp]} ${A27.wp}</span>`)}</div></div>`,
+          c4c: `<div class="center"><div class="chain">${it(.05, "27")}${it(.12, `<span class="op">+</span>`)}${it(.14, `${A27.mool}`)}${it(.2, `<span class="op">+</span>`)}${it(.22, `${A27.mr}`)}${it(.3, `<span class="op">+</span>`)}${it(.32, `<span class="red">${A27.wp}</span>`)}${it(.45, `<span class="op">=</span>`)}${it(.47, `${A27.ch[0]}`)}</div>
+                 <div class="chain">${it(.6, `${A27.ch[0]} → 4 + 8 = ${A27.ch[1]}`)}${it(.75, `<span class="op">→</span>`)}${it(.77, `1 + 2 = <span class="gold">${A27.py}</span>`)}</div></div>`,
+          c4d: `<div class="center">${it(0, chip("Personal Year", A27.py, PLANET[A27.py]))}${it(.25, `<div class="h2">${TITLE[A27.py]}</div>`)}${it(.55, `<div class="h3">from <span class="gold">14 Aug 2027</span> · not 1 Jan</div>`)}</div>`,
+          c4e: `<div class="center"><div class="split">${it(.05, `<div class="half"><div class="lab">1 Jan → 13 Aug 2027</div><div class="txt">26 + ${A26.mool} + ${A26.mr} + ${A26.wp} (${A26.wd}) = ${A26.sum} → <span class="gold">${A26.py} ${PLANET[A26.py]}</span></div><div class="dim">still the 2026 year</div></div>`)}
+                 ${it(.6, `<div class="half"><div class="lab">from 14 Aug 2027</div><div class="txt"><span class="gold">${A27.py} ${PLANET[A27.py]}</span></div><div class="dim">the 2027 year</div></div>`)}</div></div>`,
+          c4f: `<div class="center">${it(0, `<div class="kicker">Example 2</div>`)}${it(.08, `<div class="date">${dateHTML("29", "03", "1990", "dm")}</div>`)}
+                 <div class="row">${it(.3, chip("Moolank", B27.mool, ""))}${it(.42, chip("March", B27.mr, ""))}${it(.65, chip("29 Mar 2027", B27.wp, `${B27.wd} · ${PLANET[B27.wp]}`))}</div></div>`,
+          c4g: `<div class="center"><div class="chain">${it(.05, `27 + ${B27.mool} + ${B27.mr} + <span class="red">${B27.wp}</span> = ${B27.sum}`)}${it(.35, `<span class="op">→</span>`)}${it(.38, `3 + 4 = <span class="gold">${B27.py}</span>`)}</div>
+                 ${it(.55, chip("Personal Year", B27.py, PLANET[B27.py]))}${it(.7, `<div class="h3">${TITLE[B27.py]} · from <span class="gold">29 Mar 2027</span></div>`)}</div>`,
+          c5a: `<div class="center">${it(0, `<div class="kicker">The nine years</div>`)}<div class="row" style="flex-wrap:wrap;max-width:1650px;gap:20px 26px">${[1,2,3,4,5,6,7,8,9].map((k, i) => it(.1 + i * .08, `<span class="chip" style="font-size:42px;padding:14px 28px"><b style="font-size:62px">${k}</b>${PLANET[k]}</span>`)).join("")}</div></div>`,
+          c5b: yearScene(1), c5c: yearScene(2), c5d: yearScene(3), c5e: yearScene(4), c5f: yearScene(5), c5g: yearScene(6), c5h: yearScene(7), c5i: yearScene(8), c5j: yearScene(9),
+          c6a: `<div class="center">${it(0, `<div class="kicker">Inside the year</div>`)}${it(.2, `<div class="h1">Nine smaller periods.</div>`)}</div>`,
+          c6b: `<div class="center">${it(0, `<div class="h2">First period = <span class="gold">your year's number</span></div>`)}${it(.45, `<div class="h2">Each lasts <span class="gold">8 days × its number</span></div>`)}</div>`,
+          c6c: `<div class="center">${it(0, `<div class="kicker">Example 1 · from ${fmt(PER[0].start)}</div>`)}${bars((i) => .08 + i * .07)}${it(.85, `<div class="h3">9 periods · <span class="gold">360 days</span></div>`)}</div>`,
+          c6d: `<div class="center">${it(.05, `<div class="h2">Even inside a ${A27.py} year,</div>`)}${it(.35, `<div class="h1 gold">some weeks ask for something different.</div>`)}</div>`,
+          c7a: `<div class="center">${it(0, `<div class="h0"><span class="gold">3</span> mistakes</div>`)}</div>`,
+          c7b: `<div class="center">${it(0, `<div class="kicker">Mistake 1 · starting on 1 January</div>`)}<div class="split">${it(.2, `<div class="half"><div class="lab strike">1 Jan</div><div class="txt dim">the calendar year</div></div>`)}${it(.4, `<div class="half"><div class="lab gold">Your birthday</div><div class="txt">your personal year</div></div>`)}</div>
+                 ${it(.7, `<div class="p">August birthday? Most of the calendar year still belongs to last year's number.</div>`)}</div>`,
+          c7c: `<div class="center">${it(0, `<div class="kicker">Mistake 2 · day + month + new year</div>`)}<div class="chain" style="font-size:80px">${it(.15, `<span class="strike">1+4+8+2+0+2+7 = ${AW} → ${red1(AW)}</span>`)}</div>
+                 ${it(.5, `<div class="chain" style="font-size:80px">27 + ${A27.mool} + ${A27.mr} + ${A27.wp} → <span class="gold">${A27.py}</span></div>`)}${it(.75, `<div class="h3">A different number. A different kind of year.</div>`)}</div>`,
+          c7d: `<div class="center">${it(0, `<div class="kicker">Mistake 3 · forgetting the weekday</div>`)}<div class="split">${it(.2, `<div class="half"><div class="lab">2026 birthday</div><div class="txt">${A26.wd} → ${A26.wp}</div><div class="txt gold">year ${A26.py}</div></div>`)}${it(.35, `<div class="half"><div class="lab">2027 birthday</div><div class="txt">${A27.wd} → ${A27.wp}</div><div class="txt gold">year ${A27.py}</div></div>`)}</div>
+                 ${it(.7, `<div class="p">Your birthday moves through the week. Your year moves with it.</div>`)}</div>`,
+          c8a: `<div class="center">${it(0, `<div class="h1">Yours, for <span class="gold">2027</span>.</div>`)}${it(.45, `<div class="p">Pause if you need to.</div>`)}</div>`,
+          c8b: `<div class="center"><div class="list">${["Your Moolank", "Birth month → one digit", "Weekday of your 2027 birthday → its planet number", "27 + all three → keep adding to one digit"].map((s, i) => it([.03, .2, .4, .7][i], `<span class="n">${i + 1}</span><span>${s}</span>`, "li")).join("")}</div></div>`,
+          c8c: `<div class="center">${it(0, `<div class="kicker">Or let the free calculator do it</div>`)}${it(.15, `<div class="h0 gold" style="font-size:150px">numevix.com/try</div>`)}</div>`,
+          c8d: `<div class="center">${it(0, `<div class="kicker">Comment below</div>`)}${it(.12, `<div class="date">DD · MM · YYYY</div>`)}${it(.45, `<div class="h2">+ the year you landed on.</div>`)}</div>`,
+          c8e: `<div class="center">${it(0, `<div class="h2">Your whole year, mapped out.</div>`)}${it(.3, `<div class="h3">The Annual Forecast</div>`)}
+                 ${it(.55, `<div class="code"><span>code</span><b>LIVE50</b><span>50% off</span></div>`)}${it(.75, `<div class="h3 gold">numevix.com/try</div>`)}</div>`,
+        };
+
+        // ── scene windows: each segment owns the screen from just before it starts until the next one begins (cards cover the gaps).
+        const stage = document.getElementById("stage");
+        const order = DATA.segs.map((s) => s.id);
+        const scenes = order.map((id, i) => {
+          assert(S[id], "scene " + id);
+          const el = document.createElement("div"); el.className = "scene"; el.innerHTML = S[id].replace(/<br-x>/g, " ");
+          stage.appendChild(el);
+          const a = segStart(id), b = i + 1 < order.length ? segStart(order[i + 1]) : DUR + 1;
+          const items = [...el.querySelectorAll(".it")].map((n) => ({ n, d: n.dataset.d !== undefined ? +n.dataset.d : +n.dataset.f * seg[id].dur }));
+          el.querySelectorAll(".hide").forEach((n) => n.remove());
+          return { id, el, a, b, items: items.filter((x) => x.n.isConnected) };
+        });
+        const chapAt = (t) => { let c = DATA.chapters[0], k = 0; DATA.chapters.forEach((x, i) => { if (t >= x.start) { c = x; k = i; } }); return [c, k]; };
+        const chapEl = document.getElementById("chap"), bar = document.getElementById("bar");
+
+        function render(t) {
+          for (const w of windows) {
+            const im = imgs[w.p];
+            if (t >= w.a - 0.8 && t < w.b + 0.8) {
+              const fadeIn = w.a <= 0 ? 1 : clamp((t - w.a + 0.8) / 0.8, 0, 1);
+              const p = clamp((t - w.a) / Math.max(1, w.b - w.a), 0, 1);
+              im.style.opacity = String(fadeIn);
+              im.style.zIndex = String(Math.round(w.a));
+              im.style.transform = `scale(${1.0 + 0.07 * p}) translate(${(p - 0.5) * 30}px, ${(0.5 - p) * 16}px)`;
+            } else if (!windows.some((x) => x.p === w.p && t >= x.a - 0.8 && t < x.b + 0.8)) im.style.opacity = "0";
+          }
+          for (const s of scenes) {
+            const on = t >= s.a && t < s.b;
+            s.el.style.display = on ? "block" : "none";
+            if (!on) continue;
+            const local = t - s.a - (s.id === "c1a" ? 0 : 0.2);
+            const drift = 1 + 0.012 * clamp((t - s.a) / 10, 0, 1);
+            s.el.style.transform = `scale(${drift})`;
+            for (const x of s.items) {
+              const k = x.d < 0 ? 1 : ease(clamp((local - x.d) / 0.45, 0, 1));
+              x.n.style.opacity = String(k);
+              x.n.style.transform = `translateY(${(1 - k) * 26}px)`;
+            }
+          }
+          const [c, k] = chapAt(t);
+          chapEl.innerHTML = k === 0 ? "" : `<b>${String(k + 1).padStart(2, "0")}</b>${c.title}`;
+          bar.style.width = `${(t / DUR) * 100}%`;
+        }
+
+        const clock = { t: 0 };
+        const tl = gsap.timeline({ paused: true });
+        tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => render(clock.t) }, 0);
+        render(0);
+        if (document.fonts) document.fonts.ready.then(() => render(clock.t));
+        window.__timelines["v87long"] = tl;
+      })();
+    </script>
+  </body>
+</html>
