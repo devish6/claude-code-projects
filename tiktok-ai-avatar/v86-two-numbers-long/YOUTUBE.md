@@ -14,13 +14,13 @@ Comment your birth date (DD MM YYYY) and the two numbers you got.
 
 Chapters
 0:00 Two numbers, one date
-0:21 Moolank: the day you were born
-1:06 Bhagyank: the whole date
-1:42 The nine planets
-2:44 When your two numbers differ
-3:24 The Vedic grid
-4:43 Three common mistakes
-5:49 Do yours in 30 seconds
+0:19 Moolank: the day you were born
+1:00 Bhagyank: the whole date
+1:32 The nine planets
+2:27 When your two numbers differ
+3:03 The Vedic grid
+4:13 Three common mistakes
+5:12 Do yours in 30 seconds
 
 Your whole year ahead, read through your numbers: the Annual Forecast is on numevix.com.
 

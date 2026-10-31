@@ -1,628 +1,652 @@
 1
-00:00:00,000 --> 00:00:02,240
+00:00:00,000 --> 00:00:01,990
  Your birth date holds two numbers, and
 
 2
-00:00:02,240 --> 00:00:04,120
+00:00:01,990 --> 00:00:03,430
  most people calculate at least one of
 
 3
-00:00:04,120 --> 00:00:05,000
+00:00:03,430 --> 00:00:04,000
  them wrong.
 
 4
-00:00:05,000 --> 00:00:07,310
+00:00:04,800 --> 00:00:06,670
  Maybe you looked yours up once and got an
 
 5
-00:00:07,310 --> 00:00:10,230
- 11. Then another site gave you a 2 and
+00:00:06,670 --> 00:00:09,280
+ 11, then another site gave you a 2, and
 
 6
-00:00:10,230 --> 00:00:12,000
- you stopped trusting any of it.
+00:00:09,280 --> 00:00:09,680
+ you stop
 
 7
-00:00:12,000 --> 00:00:13,510
- In the next few minutes you'll learn both
+00:00:09,680 --> 00:00:11,550
+ trusting any of it. In the next few
 
 8
-00:00:13,510 --> 00:00:16,180
- numbers, the 9 planets behind them and
+00:00:11,550 --> 00:00:13,310
+ minutes you'll learn both numbers, the
 
 9
-00:00:16,180 --> 00:00:18,000
- the grid hidden inside your date.
+00:00:13,310 --> 00:00:13,920
+ nine planets
 
 10
-00:00:18,000 --> 00:00:20,240
- Then you'll work out your own in 30
+00:00:13,920 --> 00:00:15,800
+ behind them, and the grid hidden inside
 
 11
-00:00:20,240 --> 00:00:21,000
- seconds.
+00:00:15,800 --> 00:00:17,680
+ your date. Then you'll work out your own
 
 12
-00:00:25,000 --> 00:00:27,190
- In Vedic numerology, the first number is
+00:00:17,680 --> 00:00:18,720
+ in 30 seconds.
 
 13
-00:00:27,190 --> 00:00:29,320
- your Moolank. Moolank means root
+00:00:21,920 --> 00:00:23,010
+ In Vedic numerology, the first number is
 
 14
-00:00:29,320 --> 00:00:30,000
- number.
+00:00:23,010 --> 00:00:24,800
+ your Moolank.
 
 15
-00:00:30,000 --> 00:00:32,150
- It comes only from the day of the month
+00:00:25,360 --> 00:00:27,370
+ Moolank means root number. It comes only
 
 16
-00:00:32,150 --> 00:00:34,000
- you were born, nothing else.
+00:00:27,370 --> 00:00:29,270
+ from the day of the month you were born.
 
 17
-00:00:34,000 --> 00:00:37,440
- Take one example. Someone born on the 14th
+00:00:29,270 --> 00:00:30,160
+ Nothing else.
 
 18
-00:00:37,440 --> 00:00:39,000
- of August, 1996.
+00:00:30,160 --> 00:00:32,880
+ Take one example. Someone born on the 14th
 
 19
-00:00:39,000 --> 00:00:43,000
- The day is 14. Add its digits. 1 + 4 is 5.
+00:00:32,880 --> 00:00:36,690
+ of August 1996. The day is 14. At its
 
 20
-00:00:43,000 --> 00:00:45,000
- Moolank 5.
+00:00:36,690 --> 00:00:37,280
+ digits,
 
 21
-00:00:45,000 --> 00:00:47,120
- If you were born on a single digit day,
+00:00:37,280 --> 00:00:40,250
+ 1 plus 4 is 5. Moolank 5. If you were
 
 22
-00:00:47,120 --> 00:00:49,170
- like the 7th, that digit is already your
+00:00:40,250 --> 00:00:43,050
+ born on a single-digit day, like the 7th,
 
 23
-00:00:49,170 --> 00:00:50,000
- Moolank.
+00:00:43,050 --> 00:00:43,760
+ that digit is
 
 24
-00:00:50,000 --> 00:00:54,000
- If you were born on the 29th, 2 + 9 is 11.
+00:00:43,760 --> 00:00:46,280
+ already your Moolank. If you were born on
 
 25
-00:00:54,000 --> 00:00:57,200
- 11 still has two digits, so keep going. 1
+00:00:46,280 --> 00:00:49,700
+ the 29th, 2 plus 9 is 11. 11 still has
 
 26
-00:00:57,200 --> 00:01:00,000
- + 1 is 2. Moolank 2.
+00:00:49,700 --> 00:00:50,320
+ two digits,
 
 27
-00:01:00,000 --> 00:01:02,150
- Your Moolank is how you move through an
+00:00:50,320 --> 00:00:53,500
+ so keep going. 1 plus 1 is 2. Moolank 2.
 
 28
-00:01:02,150 --> 00:01:04,350
- ordinary day. It's the version of you
+00:00:53,500 --> 00:00:55,920
+ Your Moolank is how you move through an
 
 29
-00:01:04,350 --> 00:01:06,000
- that people meet first.
+00:00:55,920 --> 00:00:56,640
+ ordinary day.
 
 30
-00:01:10,000 --> 00:01:12,760
- The second number is your Bhagyank. Bhagyank
+00:00:57,280 --> 00:00:58,780
+ It's the version of you that people meet
 
 31
-00:01:12,760 --> 00:01:15,000
- means the number of fortune.
+00:00:58,780 --> 00:00:59,360
+ first.
 
 32
-00:01:15,000 --> 00:01:17,520
- This one uses the whole date. Day, month
+00:01:02,560 --> 00:01:04,780
+ The second number is your Bhagyank. Bhagyank
 
 33
-00:01:17,520 --> 00:01:20,000
- and year. Every single digit.
+00:01:04,780 --> 00:01:06,640
+ means the number of fortune.
 
 34
-00:01:20,000 --> 00:01:24,990
- For the 14th of August, 1996, that's 1, 4,
+00:01:07,200 --> 00:01:09,130
+ This one uses the whole date. Day, month,
 
 35
-00:01:24,990 --> 00:01:28,000
- 0, 8, 1, 9, 9, 6.
+00:01:09,130 --> 00:01:12,640
+ and year. Every single digit. For the 14th
 
 36
-00:01:28,000 --> 00:01:30,770
- Add them together and you get 38. 3 + 8
+00:01:12,640 --> 00:01:14,240
+ of August 1996,
 
 37
-00:01:30,770 --> 00:01:35,000
- is 11. 1 + 1 is 2. Bhagyank 2.
+00:01:14,240 --> 00:01:19,530
+ that's 1-4-0-8-1-9-9-6. Add them together
 
 38
-00:01:35,000 --> 00:01:37,760
- So your Moolank is how you act. Your Bhagyank
+00:01:19,530 --> 00:01:23,770
+ and you get 38. 3 plus 8 is 11. 1 plus 1
 
 39
-00:01:37,760 --> 00:01:39,590
- is the direction your life keeps pulling
+00:01:23,770 --> 00:01:24,480
+ is 2.
 
 40
-00:01:39,590 --> 00:01:42,000
- you, whether you planned it or not.
+00:01:24,480 --> 00:01:27,790
+ Bhagyank 2. So your Moolank is how you act.
 
 41
-00:01:46,000 --> 00:01:48,340
- Every number from 1 to 9 belongs to a
+00:01:27,790 --> 00:01:29,640
+ Your Bhagyank is the direction your life
 
 42
-00:01:48,340 --> 00:01:51,000
- planet. Here they are, one line each.
+00:01:29,640 --> 00:01:30,160
+ keeps pulling
 
 43
-00:01:51,000 --> 00:01:54,060
- 1 is the Sun. Leading and standing on
+00:01:30,160 --> 00:01:32,850
+ you, whether you planned it or not. Every
 
 44
-00:01:54,060 --> 00:01:55,000
- your own.
+00:01:32,850 --> 00:01:38,160
+ number from 1 to 9 belongs to a planet.
 
 45
-00:01:55,000 --> 00:01:58,760
- 2 is the Moon. Feeling, partnership and
+00:01:38,160 --> 00:01:39,040
+ Here they are,
 
 46
-00:01:58,760 --> 00:02:00,000
- quiet care.
+00:01:39,040 --> 00:01:42,150
+ one line each. 1 is the Sun, leading and
 
 47
-00:02:00,000 --> 00:02:04,020
- 3 is Jupiter. Wisdom, teaching and clear
+00:01:42,150 --> 00:01:45,120
+ standing on your own. 2 is the Moon,
 
 48
-00:02:04,020 --> 00:02:05,000
- values.
+00:01:45,120 --> 00:01:46,880
+ feeling, partnership,
 
 49
-00:02:05,000 --> 00:02:08,040
- 4 is Rahu. A sharp, restless mind that
+00:01:46,880 --> 00:01:49,740
+ and quiet care. 3 is Jupiter, wisdom,
 
 50
-00:02:08,040 --> 00:02:10,000
- does things its own way.
+00:01:49,740 --> 00:01:53,540
+ teaching, and clear values. 4 is Rahu, a
 
 51
-00:02:10,000 --> 00:02:13,950
- 5 is Mercury. Quick thinking, talking and
+00:01:53,540 --> 00:01:54,880
+ sharp restless
 
 52
-00:02:13,950 --> 00:02:15,000
- trading.
+00:01:54,880 --> 00:01:57,920
+ mind that does things its own way. 5 is
 
 53
-00:02:15,000 --> 00:02:17,820
- 6 is Venus. Love, beauty and looking
+00:01:57,920 --> 00:02:01,000
+ mercury, quick thinking, talking, and
 
 54
-00:02:17,820 --> 00:02:20,000
- after the people around you.
+00:02:01,000 --> 00:02:02,880
+ trading. 6 is venus,
 
 55
-00:02:20,000 --> 00:02:24,040
- 7 is Ketu. Depth, intuition and looking
+00:02:03,440 --> 00:02:06,000
+ love, beauty, and looking after the
 
 56
-00:02:24,040 --> 00:02:26,000
- under the surface.
+00:02:06,000 --> 00:02:08,880
+ people around you. 7 is Ketu, depth,
 
 57
-00:02:26,000 --> 00:02:28,690
- 8 is Saturn. Hard work, patience and
+00:02:08,880 --> 00:02:10,560
+ intuition, and looking under
 
 58
-00:02:28,690 --> 00:02:31,000
- results that come late but stay.
+00:02:10,560 --> 00:02:13,000
+ the surface. 8 is Saturn, hard work,
 
 59
-00:02:31,000 --> 00:02:34,330
- 9 is Mars. Courage, energy and standing
+00:02:13,000 --> 00:02:15,340
+ patience, and results that come late but
 
 60
-00:02:34,330 --> 00:02:36,000
- up for what's right.
+00:02:15,340 --> 00:02:17,520
+ stay. 9 is Mars,
 
 61
-00:02:36,000 --> 00:02:39,960
- So our example has Moolank 5, Mercury
+00:02:18,160 --> 00:02:20,120
+ courage, energy, and standing up for what's
 
 62
-00:02:39,960 --> 00:02:43,000
- and Bhagyank 2, the Moon.
+00:02:20,120 --> 00:02:24,160
+ right. So our example has Moolank 5,
 
 63
-00:02:46,000 --> 00:02:47,130
- Most people have two different numbers,
+00:02:24,160 --> 00:02:25,040
+ mercury,
 
 64
-00:02:47,130 --> 00:02:51,000
- and you can feel the gap between them.
+00:02:25,040 --> 00:02:28,980
+ and Bhagyank 2, the Moon. Most people have
 
 65
-00:02:51,000 --> 00:02:53,880
- Our example moves like Mercury. Fast,
+00:02:28,980 --> 00:02:32,480
+ two different numbers, and you can feel
 
 66
-00:02:53,880 --> 00:02:57,000
- talking, always working something out.
+00:02:32,480 --> 00:02:32,720
+ the gap
 
 67
-00:02:57,000 --> 00:02:58,850
- But life keeps steering them toward the
+00:02:32,720 --> 00:02:35,270
+ between them. Our example moves like
 
 68
-00:02:58,850 --> 00:03:00,930
- moon. Toward people, toward feelings,
+00:02:35,270 --> 00:02:38,110
+ mercury, fast, talking, always working
 
 69
-00:03:00,930 --> 00:03:03,000
- toward being the one everyone leans on.
+00:02:38,110 --> 00:02:39,360
+ something out.
 
 70
-00:03:03,000 --> 00:03:05,220
- It can feel like being two people. The
+00:02:39,360 --> 00:02:41,240
+ But life keeps steering them toward the
 
 71
-00:03:05,220 --> 00:03:07,490
- one who gets through a busy Tuesday, and
+00:02:41,240 --> 00:02:43,200
+ moon, toward people, toward feelings,
 
 72
-00:03:07,490 --> 00:03:10,000
- the one your life keeps asking you to be.
+00:02:43,200 --> 00:02:43,760
+ toward being the
 
 73
-00:03:10,000 --> 00:03:12,320
- Neither one is a mistake. The work is
+00:02:43,760 --> 00:02:45,890
+ one everyone leans on. It can feel like
 
 74
-00:03:12,320 --> 00:03:15,000
- knowing which one is in charge right now.
+00:02:45,890 --> 00:02:47,710
+ being two people, the one who gets
 
 75
-00:03:15,000 --> 00:03:17,350
- If your two numbers are the same, there's
+00:02:47,710 --> 00:02:49,440
+ through a busy Tuesday,
 
 76
-00:03:17,350 --> 00:03:19,270
- no gap. That one planet just shows up
+00:02:49,440 --> 00:02:51,520
+ and the one your life keeps asking you to
 
 77
-00:03:19,270 --> 00:03:20,000
- twice as strong.
+00:02:51,520 --> 00:02:53,920
+ be. Neither one is a mistake. The work is
 
 78
-00:03:20,000 --> 00:03:24,000
- In the easy parts, and in the hard ones.
+00:02:53,920 --> 00:02:54,160
+ knowing
 
 79
-00:03:27,000 --> 00:03:30,200
- Now the part most people never see. The
+00:02:54,160 --> 00:02:56,030
+ which one is in charge right now. If your
 
 80
-00:03:30,200 --> 00:03:31,000
- Vedic grid.
+00:02:56,030 --> 00:02:57,840
+ two numbers are the same, there's no gap.
 
 81
-00:03:31,000 --> 00:03:33,310
- It's a 3x3 box, and each of the nine
+00:02:57,840 --> 00:02:58,880
+ That one
 
 82
-00:03:33,310 --> 00:03:35,000
- numbers has its own seat.
+00:02:58,880 --> 00:03:00,760
+ planet just shows up twice as strong, in
 
 83
-00:03:35,000 --> 00:03:41,000
- Top row, 3, 1, 9. Middle row, 6, 7, 5.
+00:03:00,760 --> 00:03:03,830
+ the easy parts and in the hard ones. Now
 
 84
-00:03:41,000 --> 00:03:45,000
- Bottom row, 2, 8, 4.
+00:03:03,830 --> 00:03:06,640
+ the part most
 
 85
-00:03:45,000 --> 00:03:47,520
- To fill it, take the digits of your birth
+00:03:06,640 --> 00:03:09,260
+ people never see, the Vedic grid. It's
 
 86
-00:03:47,520 --> 00:03:49,610
- date, but use only the last two digits of
+00:03:09,260 --> 00:03:11,390
+ a three by three box, and each of the
 
 87
-00:03:49,610 --> 00:03:52,000
- the year, and skip every zero.
+00:03:11,390 --> 00:03:12,480
+ nine numbers has
 
 88
-00:03:52,000 --> 00:03:54,750
- Then add your Bhagyank. And if you were
+00:03:12,480 --> 00:03:16,250
+ its own seat. Top row, three, one, nine.
 
 89
-00:03:54,750 --> 00:03:57,000
- born on a two-digit day, like the 14th,
+00:03:16,250 --> 00:03:20,210
+ Middle row, six, seven, five. Bottom row,
 
 90
-00:03:57,000 --> 00:03:59,000
- add your Moolank too.
+00:03:20,210 --> 00:03:22,000
+ two, eight, four.
 
 91
-00:03:59,000 --> 00:04:02,000
- The 10th, 20th, and 30th don't count.
+00:03:22,000 --> 00:03:23,870
+ To fill it, take the digits of your birth
 
 92
-00:04:02,000 --> 00:04:07,000
- For our example, that's 1, 4, 8, 9, and 6.
+00:03:23,870 --> 00:03:25,600
+ date, but use only the last two digits of
 
 93
-00:04:07,000 --> 00:04:10,330
- Then Moolank 5, and Bhagyank 2. Each
+00:03:25,600 --> 00:03:26,000
+ the year,
 
 94
-00:04:10,330 --> 00:04:12,000
- digit takes its seat.
+00:03:26,000 --> 00:03:28,690
+ and skip every zero. Then add your Bhagyank.
 
 95
-00:04:12,000 --> 00:04:15,350
- Now look at what's empty. 3 and 7. Those
+00:03:28,690 --> 00:03:30,960
+ And if you were born on a two-digit day,
 
 96
-00:04:15,350 --> 00:04:17,000
- are the missing numbers.
+00:03:30,960 --> 00:03:33,180
+ like the 14th, add your Moolank too. The
 
 97
-00:04:17,000 --> 00:04:19,530
- A missing number is a planet with no
+00:03:33,180 --> 00:03:36,210
+ 10th, 20th, and 30th don't count. For our
 
 98
-00:04:19,530 --> 00:04:21,000
- place in your grid.
+00:03:36,210 --> 00:03:36,720
+ example,
 
 99
-00:04:21,000 --> 00:04:23,650
- Here, Jupiter and Ketu. It doesn't mean
+00:03:36,720 --> 00:03:39,410
+ that's one, four, eight, nine, and six.
 
 100
-00:04:23,650 --> 00:04:25,000
- something is wrong with you.
+00:03:39,410 --> 00:03:42,800
+ Then Moolank five, and Bhagyank two. Each
 
 101
-00:04:25,000 --> 00:04:28,000
- It means that quality isn't handed to you.
+00:03:42,800 --> 00:03:43,760
+ digit takes its seat.
 
 102
-00:04:28,000 --> 00:04:30,530
- You build it on purpose, usually later,
+00:03:44,480 --> 00:03:46,540
+ Now look at what's empty. Three and seven.
 
 103
-00:04:30,530 --> 00:04:32,000
- and often the hard way.
+00:03:46,540 --> 00:03:49,680
+ Those are the missing numbers. A missing
 
 104
-00:04:32,000 --> 00:04:34,270
- And a number that shows up twice gets
+00:03:49,680 --> 00:03:50,240
+ number is a
 
 105
-00:04:34,270 --> 00:04:35,000
- louder.
+00:03:50,240 --> 00:03:52,680
+ planet with no place in your grid. Here,
 
 106
-00:04:35,000 --> 00:04:38,020
- Someone born on the 29th of March, 1990,
+00:03:52,680 --> 00:03:54,950
+ Jupiter and Ketu. It doesn't mean
 
 107
-00:04:38,020 --> 00:04:40,460
- has two 2s and two 9s in their grid, and
+00:03:54,950 --> 00:03:55,840
+ something is wrong with
 
 108
-00:04:40,460 --> 00:04:43,000
- five empty seats.
+00:03:55,840 --> 00:03:58,410
+ you. It means that quality isn't handed
 
 109
-00:04:46,000 --> 00:04:49,000
- So why do so many people get this wrong?
+00:03:58,410 --> 00:04:01,070
+ to you. You build it on purpose, usually
 
 110
-00:04:49,000 --> 00:04:51,000
- Three mistakes.
+00:04:01,070 --> 00:04:02,160
+ later, and often
 
 111
-00:04:51,000 --> 00:04:53,530
- Mistake 1, keeping master numbers.
+00:04:02,160 --> 00:04:04,380
+ the hard way. And a number that shows up
 
 112
-00:04:53,530 --> 00:04:56,950
- Western numerology stops at 11, 22, or 33,
+00:04:04,380 --> 00:04:07,110
+ twice gets louder. Someone born on the 29th
 
 113
-00:04:56,950 --> 00:04:59,000
- and calls them master numbers.
+00:04:07,110 --> 00:04:07,600
+ of March,
 
 114
-00:04:59,000 --> 00:05:01,530
- Vedic numerology always goes down to one
+00:04:07,600 --> 00:04:10,150
+ 1990, has two twos and two nines in their
 
 115
-00:05:01,530 --> 00:05:04,070
- digit, because there are nine planets,
+00:04:10,150 --> 00:04:11,840
+ grid, and five empty seats.
 
 116
-00:05:04,070 --> 00:05:05,000
- not 33.
+00:04:15,200 --> 00:04:17,070
+ So why do so many people get this wrong?
 
 117
-00:05:05,000 --> 00:05:07,380
- Our example's 38 becomes 11, and a
+00:04:17,070 --> 00:04:20,880
+ Three mistakes. Mistake one. Keeping
 
 118
-00:05:07,380 --> 00:05:09,000
- Western site stops there.
+00:04:20,880 --> 00:04:21,680
+ master numbers.
 
 119
-00:05:09,000 --> 00:05:12,000
- Here, 11 becomes 2, the Moon.
+00:04:22,640 --> 00:04:26,240
+ Western numerology stops at 11, 22, or 33,
 
 120
-00:05:12,000 --> 00:05:16,000
- The 29th of March, 1990, adds up to 33.
+00:04:26,240 --> 00:04:28,960
+ and calls them master numbers. Vedic
 
 121
-00:05:16,000 --> 00:05:20,100
- Western says master 33. Vedic says 6,
+00:04:28,960 --> 00:04:29,600
+ numerology
 
 122
-00:05:20,100 --> 00:05:21,000
- Venus.
+00:04:29,600 --> 00:04:31,480
+ always goes down to one digit because
 
 123
-00:05:21,000 --> 00:05:24,000
- Mistake 2, the wrong grid.
+00:04:31,480 --> 00:04:33,840
+ there are nine planets, not 33. Our
 
 124
-00:05:24,000 --> 00:05:26,520
- Many apps use a different layout, with 4,
+00:04:33,840 --> 00:04:35,600
+ example's 38 becomes 11,
 
 125
-00:05:26,520 --> 00:05:28,000
- 9, 2 along the top.
+00:04:35,600 --> 00:04:38,090
+ and a Western site stops there. Here, 11
 
 126
-00:05:28,000 --> 00:05:30,520
- Same nine numbers, different seats, so
+00:04:38,090 --> 00:04:41,280
+ becomes 2, the Moon. The 29th of March,
 
 127
-00:05:30,520 --> 00:05:33,000
- every pattern you read from it shifts.
+00:04:41,280 --> 00:04:43,120
+ 1990, adds up to 33.
 
 128
-00:05:33,000 --> 00:05:37,000
- The Vedic grid starts 3, 1, 9.
+00:04:43,680 --> 00:04:46,690
+ Western says master 33. Vedic says six,
 
 129
-00:05:37,000 --> 00:05:39,420
- Mistake 3, putting the whole year in the
+00:04:46,690 --> 00:04:51,310
+ Venus. Mistake two. The wrong grid. Many
 
 130
-00:05:39,420 --> 00:05:40,000
- grid.
+00:04:51,310 --> 00:04:51,760
+ apps use a
 
 131
-00:05:40,000 --> 00:05:42,820
- The 19 or the 20 belongs in your Bhagyank,
+00:04:51,760 --> 00:04:53,980
+ different layout, with four, nine, two
 
 132
-00:05:42,820 --> 00:05:44,000
- not in your grid.
+00:04:53,980 --> 00:04:55,780
+ along the top. Same nine numbers,
 
 133
-00:05:44,000 --> 00:05:46,750
- Put it in the grid, and you get a 1, a 9,
+00:04:55,780 --> 00:04:57,280
+ different seats, so every
 
 134
-00:05:46,750 --> 00:05:49,000
- or a 2 that isn't really yours.
+00:04:57,280 --> 00:04:59,850
+ pattern you read from it shifts. The Vedic
 
 135
-00:05:52,000 --> 00:05:54,000
- Here's yours, in 30 seconds.
+00:04:59,850 --> 00:05:02,230
+ grid starts three, one, nine. Mistake
 
 136
-00:05:54,000 --> 00:05:56,000
- Pause if you need to.
+00:05:02,230 --> 00:05:02,880
+ three.
 
 137
-00:05:56,000 --> 00:05:59,080
- 1. Take your birth day and add its digits
+00:05:03,440 --> 00:05:04,940
+ Putting the whole year in the grid. The
 
 138
-00:05:59,080 --> 00:06:01,000
- until one digit is left.
+00:05:04,940 --> 00:05:07,680
+ 19 or the 20 belongs in your Bhagyank, not
 
 139
-00:06:01,000 --> 00:06:02,000
- That's your Moolank.
+00:05:07,680 --> 00:05:08,160
+ in your grid.
 
 140
-00:06:02,000 --> 00:06:04,680
- 2. Add every digit of your full date, and
+00:05:08,800 --> 00:05:10,080
+ Put it in the grid, and you get a one, a
 
 141
-00:06:04,680 --> 00:06:07,000
- keep going until one digit is left.
+00:05:10,080 --> 00:05:12,240
+ nine, or a two that isn't really yours.
 
 142
-00:06:07,000 --> 00:06:10,990
- Don't stop at 11, 22, or 33. That's your
+00:05:15,040 --> 00:05:17,480
+ Here's yours in 30 seconds. Pause if you
 
 143
-00:06:10,990 --> 00:06:12,000
- Bhagyank.
+00:05:17,480 --> 00:05:21,360
+ need to. One. Take your birth day and add
 
 144
-00:06:12,000 --> 00:06:15,000
- 3. Find both planets on the list.
+00:05:21,360 --> 00:05:23,950
+ its digits until one digit is left. That's
 
 145
-00:06:15,000 --> 00:06:18,230
- 4. Draw the grid and see which seats stay
+00:05:23,950 --> 00:05:26,560
+ your Moolank. Two. Add every digit of
 
 146
-00:06:18,230 --> 00:06:19,000
- empty.
+00:05:26,560 --> 00:05:27,520
+ your full date
 
 147
-00:06:19,000 --> 00:06:21,000
- Or skip the arithmetic.
+00:05:27,520 --> 00:05:29,740
+ and keep going until one digit is left.
 
 148
-00:06:21,000 --> 00:06:24,000
- Go to numevix.com/try.
+00:05:29,740 --> 00:05:33,110
+ Don't stop at 11, 22, or 33. That's your
 
 149
-00:06:24,000 --> 00:06:26,150
- Type your date, and the free calculator
+00:05:33,110 --> 00:05:33,520
+ Bhagyank.
 
 150
-00:06:26,150 --> 00:06:28,000
- does all of it, grid included.
+00:05:34,240 --> 00:05:36,480
+ Three. Find both planets on the list.
 
 151
-00:06:28,000 --> 00:06:30,550
- Then comment your birth date below, day,
+00:05:36,480 --> 00:05:39,280
+ Four. Draw the grid and see which seats
 
 152
-00:06:30,550 --> 00:06:34,000
- month, year, and the two numbers you got.
+00:05:39,280 --> 00:05:39,840
+ stay empty,
 
 153
-00:06:34,000 --> 00:06:36,270
- Let's see how many of you were handed an
+00:05:40,400 --> 00:05:44,160
+ or skip the arithmetic. Go to numevix.com/try,
 
 154
-00:06:36,270 --> 00:06:37,000
- 11.
+00:05:44,160 --> 00:05:47,050
+ type your date, and the free calculator
 
 155
-00:06:37,000 --> 00:06:39,120
- And if you want your whole year ahead,
+00:05:47,050 --> 00:05:47,360
+ does all
 
 156
-00:06:39,120 --> 00:06:40,000
- read through your numbers.
+00:05:47,360 --> 00:05:49,810
+ of it, grid included. Then comment your
 
 157
-00:06:40,000 --> 00:06:42,000
- The annual forecast is on the site.
+00:05:49,810 --> 00:05:52,470
+ birthdate below. Day, month, year, and
+
+158
+00:05:52,470 --> 00:05:53,200
+ the two numbers you
+
+159
+00:05:53,200 --> 00:05:55,120
+ got. Let's see how many of you were
+
+160
+00:05:55,120 --> 00:05:57,570
+ handed an 11. And if you want your whole
+
+161
+00:05:57,570 --> 00:05:58,240
+ year ahead,
+
+162
+00:05:58,240 --> 00:06:03,190
+ read through your numbers. The annual
+
+163
+00:06:03,190 --> 00:06:06,400
+ forecast is on the site.
 

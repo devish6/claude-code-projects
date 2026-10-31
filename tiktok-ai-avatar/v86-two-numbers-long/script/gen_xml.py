@@ -32,7 +32,7 @@ def clip(path, kind, start, length, src_in=0, level=None, name=None):
             f"{file_el(path, kind)}{st}{lvl}</clipitem>")
 track = lambda items: "<track>" + "".join(items) + "<enabled>TRUE</enabled><locked>FALSE</locked></track>"
 
-v1 = [clip("graphics/V86-v1.mp4", "video", 0, TOTAL, name="V86 picture (Hyperframes)")]
+v1 = [clip("graphics/V86-v1-fx.mp4", "video", 0, TOTAL, name="V86 picture (Hyperframes + EffectCraft FX)")]
 v2 = []
 for i, c in enumerate(T["chapters"]):
     if c["card"]:
@@ -42,7 +42,7 @@ a1, prev = [], -1
 for s in T["segments"]:
     p = f"vo/norm/{s['id']}.wav"; a = max(fr(s["start"]), prev); n = math.floor(dur(p) * FPS)
     a1.append(clip(p, "audio", a, n, name=f"VO {s['id']}")); prev = a + n
-a2 = [clip("assets/bed_ducked.wav", "audio", 0, min(TOTAL, math.floor(dur("assets/bed_ducked.wav") * FPS)), name="Bed Glass_Cosmos (ducked)")]
+a2 = [clip("assets/bed_ducked.wav", "audio", 0, min(TOTAL, math.floor(dur("assets/bed_ducked.wav") * FPS)), name="Bed Chasing_the_Sunshine (ducked)")]
 a3 = []
 for c in sorted(CUES, key=lambda c: c["t"]):
     n = math.floor(dur(c["out"]) * FPS) - 1

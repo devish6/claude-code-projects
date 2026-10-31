@@ -13,14 +13,14 @@ for i, s in enumerate(T["segments"]):
 n = len(T["segments"])
 run(*ins, "-filter_complex", ";".join(f) + ";" + "".join(f"[a{i}]" for i in range(n)) + f"amix=inputs={n}:normalize=0,apad,atrim=0:{total}[o]", "-map", "[o]", "-ar", "48000", "-ac", "1", "assets/vo_full.wav")
 # bed: Glass_Cosmos looped with 2s crossfades, to length, then ducked by the VO
-bed = f"{LIB}/music/Glass_Cosmos.mp3"; k = 16
+bed = f"{LIB}/music/Chasing_the_Sunshine.mp3"; k = 16  # owner 10-30: slightly upbeat (was Glass_Cosmos)
 ins = sum([["-i", bed] for _ in range(k)], [])
 chain, last = [], "[0]"
 for i in range(1, k):
     chain.append(f"{last}[{i}]acrossfade=d=2:c1=tri:c2=tri[x{i}]"); last = f"[x{i}]"
 run(*ins, "-filter_complex", ";".join(chain) + f";{last}atrim=0:{total},afade=t=out:st={total-3}:d=3,aresample=48000[o]", "-map", "[o]", "-ac", "2", "assets/bed_loop.wav")
 run("-i", "assets/bed_loop.wav", "-i", "assets/vo_full.wav", "-filter_complex",
-    "[0]loudnorm=I=-20:TP=-3,aresample=48000[b];[1]aresample=48000,asplit=1[k];[b][k]sidechaincompress=threshold=0.015:ratio=3:attack=30:release=600:makeup=1[o]",
+    "[0]loudnorm=I=-22:TP=-3,aresample=48000[b];[1]aresample=48000,asplit=1[k];[b][k]sidechaincompress=threshold=0.015:ratio=3:attack=30:release=600:makeup=1[o]",
     "-map", "[o]", "-ar", "48000", "-ac", "2", "assets/bed_ducked.wav")
 # SFX cues (seconds on the master timeline)
 S = {x["id"]: x for x in T["segments"]}

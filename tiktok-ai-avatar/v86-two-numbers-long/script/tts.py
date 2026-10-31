@@ -2,7 +2,8 @@
 import json, sys, subprocess, pathlib
 here = pathlib.Path(__file__).parent
 segs = json.load(open(here / "segments.json"))
-SAY = {"Bhagyank": "Bhaagyaank"}  # Chatterbox says "banyan" otherwise
+SAY = {"Bhagyank": "Bhaagyaank",  # Chatterbox says "banyan" otherwise
+       "Moolank": "Moolahnk", "Vedic": "Vaydhick"}  # owner picked sample C (10-30): not "mool-enk" / "ve-dick"
 want = set(sys.argv[1:])
 for s in segs:
     if want and s["id"] not in want: continue
